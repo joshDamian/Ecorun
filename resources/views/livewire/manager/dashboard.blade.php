@@ -1,3 +1,5 @@
 <div>
-    {{-- Care about people's approval and you will be their prisoner. --}}
+    @cannot('manage-enterprise')
+    @livewire('manager.not-a-manager')
+    @endcannot
 </div>
