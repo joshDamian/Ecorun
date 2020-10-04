@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
 
-class ActiveActionSwitch extends Component
+class ActionSwitch extends Component
 {
     public $actions = [
         'orders' => [
@@ -44,11 +44,14 @@ class ActiveActionSwitch extends Component
     public function switchAction($action)
     {
         $this->activeAction = $this->actions[$action];
-        $this->emit('activeActionSwitch', $this->activeAction);
+        $this->emit(
+            'dashboard_actionSwitch',
+            $this->activeAction
+        );
     }
 
     public function render()
     {
-        return view('livewire.dashboard.active-action-switch');
+        return view('livewire.dashboard.action-switch');
     }
 }

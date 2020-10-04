@@ -4,10 +4,10 @@ namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
 
-class ActiveView extends Component
+class ActionView extends Component
 {
     protected $listeners = [
-        'activeActionSwitch'
+        'dashboard_actionSwitch'
     ];
 
     public $activeView;
@@ -20,13 +20,13 @@ class ActiveView extends Component
         ];
     }
 
-    public function activeActionSwitch($action)
+    public function dashboard_actionSwitch($action)
     {
         $this->activeView = $action;
     }
 
     public function render()
     {
-        return view('livewire.dashboard.active-view');
+        return view('livewire.dashboard.action-view');
     }
 }
