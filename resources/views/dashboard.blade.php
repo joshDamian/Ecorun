@@ -10,7 +10,7 @@
                 @livewire('dashboard.action-switch')
             </div>
             <div class="sm:col-span-5">
-                <div class="bg-white overflow-hidden shadow-xl">
+                <div class="overflow-hidden sm:shadow-xl">
                     @livewire('dashboard.action-view')
                 </div>
             </div>

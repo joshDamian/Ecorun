@@ -1,4 +1,4 @@
-<div>
+<div class="pt-4 sm:pt-0">
     <x-jet-form-section submit="createEnterprise">
         <x-slot name="title">
             {{ __('Enterprise Creation') }}

@@ -6,11 +6,11 @@
     @endcannot
 
     @can('manage-enterprise')
-    <div class="grid grid-cols-1">
-        <div class="py-4 bg-white px-4">
+    <div class="grid grid-cols-1 sm:gap-0 gap-4">
+        <div class="sm:py-4 sm:px-4">
             @livewire('manager.landing-page.action-switch')
         </div>
-        <div class="py-4 bg-cool-gray-200 px-4">
+        <div class="sm:py-4 sm:px-4 bg-cool-gray-200">
             @livewire('manager.landing-page.action-view')
         </div>
     </div>

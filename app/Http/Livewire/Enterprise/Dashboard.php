@@ -9,16 +9,15 @@ class Dashboard extends Component
 {
     public $enterprise;
     protected $listeners = [
-        'displayEnterpriseDashboard'
+        'displayDashboard',
     ];
 
-    public function displayEnterpriseDashboard(Enterprise $enterprise)
-    {
+    public function displayDashboard(Enterprise $enterprise) {
         $this->enterprise = $enterprise;
+        $this->emit('displayReady');
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.enterprise.dashboard');
     }
 }

@@ -7,24 +7,19 @@ use Livewire\Component;
 class ManageEnterprises extends Component
 {
     public $listShow;
-    public $enterpriseShow;
     protected $listeners = [
-        'displayEnterpriseDashboard'
+        'displayReady'
     ];
 
-    public function displayEnterpriseDashboard()
-    {
+    public function displayReady() {
         $this->listShow = null;
-        $this->enterpriseShow = true;
     }
 
-    public function mount()
-    {
+    public function mount() {
         $this->listShow = true;
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.manager.manage-enterprises');
     }
 }

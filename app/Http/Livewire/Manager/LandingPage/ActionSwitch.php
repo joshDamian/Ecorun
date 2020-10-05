@@ -14,21 +14,19 @@ class ActionSwitch extends Component
     ];
 
     public $activeClass =
-    "inline-block border cursor-pointer rounded-md py-1 px-3 border-blue-700 bg-blue-700 hover:bg-blue-900 text-white";
+    "inline-block border cursor-pointer sm:rounded-md rounded-full py-1 px-3 border-blue-700 bg-blue-700 hover:bg-blue-900 text-white";
 
     public $inActiveClass =
-    "inline-block border cursor-pointer rounded-md py-1 px-3 border-blue-700 hover:border-blue-700 hover:text-white text-blue-500 hover:bg-blue-700";
+    "inline-block border cursor-pointer sm:rounded-md rounded-full py-1 px-3 border-blue-700 hover:border-blue-700 hover:text-white text-blue-500 hover:bg-blue-700";
 
 
     public $activeAction;
 
-    public function mount()
-    {
+    public function mount() {
         $this->activeAction = "manage enterprises";
     }
 
-    public function switchAction($action)
-    {
+    public function switchAction($action) {
         $this->activeAction = $action;
         $this->emit(
             'manager_landingPage_actionSwitch',
@@ -36,8 +34,7 @@ class ActionSwitch extends Component
         );
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.manager.landing-page.action-switch');
     }
 }
