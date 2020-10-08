@@ -1,4 +1,7 @@
 <div>
+    @if($product)
+    @livewire('create-new-attribute', ['product' => $productReady])
+    @else
     <x-jet-form-section submit="create">
         <x-slot name="title">
             {{ __('Add Product') }}
@@ -9,6 +12,48 @@
         </x-slot>
 
         <x-slot name="form">
+            <!-- Photos -->
+            <div x-data="{isUploading: false, progress: 0, photos: []}" x-on:livewire-upload-start="isUploading = true"
+                x-on:livewire-upload-finish="isUploading = false" x-on:livewire-upload-error="isUploading = false"
+                x-on:livewire-upload-progress="progress = $event.detail.progress"
+                x-init="@this.on('saved', () => { setTimeout( () => { photosPreview = null; }, 1000); })"
+                class="col-span-8 sm:col-span-6">
+
+                <!-- Profile Photo File Input -->
+                <input type="file" class="hidden" wire:model="photos" multiple x-ref="photos" x-on:change="
+                    const files = $refs.photos.files;
+                    photos = [];
+                    for(var i = 0; i < files.length; i++) {
+                        photos[i] = {'url': URL.createObjectURL(files[i])}
+                    }
+
+                    console.log(files.length);
+                    " />
+
+                <x-jet-label for="photos" value="{{ __('Product Photos') }}" />
+
+                <!-- Product Photos Preview -->
+                <div class="mt-2" x-show.transition="photos.length > 0">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <template x-for="photo in photos">
+                            <div
+                                x-bind:style="'width: 100%; height: 150px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="mt-2" x-show.transition="isUploading">
+                        <progress max="100" x-bind:value="progress"></progress>
+                    </div>
+                </div>
+
+                <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photos.click();">
+                    {{ __('Select Photos For Your Product') }}
+                </x-jet-secondary-button>
+                <x-jet-input-error for="photos.*" class="mt-2" />
+            </div>
+
+
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="name" value="{{ __('Product Name') }}" />
@@ -49,8 +94,9 @@
             </x-jet-action-message>
 
             <x-jet-button wire:loading.attr="disabled">
-                {{ __('Save') }}
+                {{ __('Add') }}
             </x-jet-button>
         </x-slot>
     </x-jet-form-section>
+    @endif
 </div>
