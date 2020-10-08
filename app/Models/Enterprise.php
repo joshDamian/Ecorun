@@ -11,8 +11,10 @@ class Enterprise extends Model
         'name',
     ];
     protected $with = [
-        'products'
+        'products',
+        'enterpriseable'
     ];
+    
     use HasFactory;
 
     public function manager()
@@ -28,7 +30,7 @@ class Enterprise extends Model
     public function coverPhoto()
     {
         $cover_photo = $this->gallery()->whereLabel('cover_photo')->first();
-        return  ($cover_photo) ? $cover_photo->image_url : null;
+        return ($cover_photo) ? $cover_photo->image_url : null;
     }
 
     public function isStore()
@@ -49,5 +51,15 @@ class Enterprise extends Model
     public function gallery()
     {
         return $this->morphMany('App\Models\Image', 'imageable');
+    }
+
+    public function team()
+    {
+        return $this->hasOne(Team::class);
+    }
+
+    public function offline_locations()
+    {
+        return $this->hasMany(EnterpriseOfflineLocation::class);
     }
 }

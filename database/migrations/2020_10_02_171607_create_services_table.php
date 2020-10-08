@@ -18,7 +18,7 @@ class CreateServicesTable extends Migration
             function (Blueprint $table) {
                 $table->id();
                 $table->text('description');
-                $table->json('working_days');
+
                 $table->timestamps();
             }
         );

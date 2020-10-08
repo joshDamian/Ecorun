@@ -22,4 +22,11 @@ class Manager extends Model
     {
         return $this->hasMany(Enterprise::class);
     }
+
+    public function revoke()
+    {
+        $this->enterprises()->revoke();
+
+        $this->delete();
+    }
 }

@@ -14,9 +14,6 @@ class Team extends JetstreamTeam
      *
      * @var array
      */
-    protected $casts = [
-        'personal_team' => 'boolean',
-    ];
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +22,6 @@ class Team extends JetstreamTeam
      */
     protected $fillable = [
         'name',
-        'personal_team',
     ];
 
     /**
@@ -38,4 +34,9 @@ class Team extends JetstreamTeam
         'updated' => TeamUpdated::class,
         'deleted' => TeamDeleted::class,
     ];
+
+    public function enterprise()
+    {
+        return $this->belongsTo(Enterprise::class);
+    }
 }

@@ -4,18 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    protected $casts = [
-        'attributes' => 'array'
+    use SoftDeletes;
+    protected $with = [
+        'attributes'
     ];
+
+    protected $casts = [
+        'is_published' => 'boolean'
+    ];
+
     protected $fillable = [
         'name',
         'description',
-        'attributes',
-        'price'
+        'price',
+        'available_stock'
     ];
+
     use HasFactory;
 
     public function enterprise()
@@ -31,5 +39,10 @@ class Product extends Model
     public function gallery()
     {
         return $this->morphMany('App\Models\Image', 'imageable');
+    }
+
+    public function attributes()
+    {
+        return $this->hasMany(ProductAttribute::class);
     }
 }

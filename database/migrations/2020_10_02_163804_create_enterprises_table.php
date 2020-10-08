@@ -15,9 +15,12 @@ class CreateEnterprisesTable extends Migration
     {
         Schema::create('enterprises', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('manager_id')->constrained()
+            $table->foreignId('manager_id')
+                ->index()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->string('enterpriseable_type')->nullable();
+            $table->integer('enterpriseable_id')->nullable();
             $table->string('name')->unique();
             $table->timestamps();
         });

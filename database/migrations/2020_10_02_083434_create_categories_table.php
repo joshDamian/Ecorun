@@ -18,10 +18,14 @@ class CreateCategoriesTable extends Migration
             function (Blueprint $table) {
                 $table->string('title');
                 $table->primary('title');
-                $table->string('parent_title')->nullable();
+                $table->string('parent_title')
+                    ->index()
+                    ->nullable();
                 $table->foreign('parent_title')
                     ->references('title')
-                    ->on('categories');
+                    ->on('categories')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
                 $table->timestamps();
             }
         );

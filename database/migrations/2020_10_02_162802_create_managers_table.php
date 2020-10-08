@@ -17,7 +17,8 @@ class CreateManagersTable extends Migration
             'managers',
             function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('user_id')->constrained()
+                $table->foreignId('user_id')
+                    ->index()
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
                 $table->timestamps();

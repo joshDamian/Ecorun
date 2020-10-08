@@ -17,18 +17,22 @@ class CreateProductsTable extends Migration
             'products',
             function (Blueprint $table) {
                 $table->id();
-                $table->string('category_title')->nullable();
-                $table->json('attributes');
+                $table->softDeletes();
+                $table->string('category_title')
+                    ->index()
+                    ->nullable();
                 $table->string('name');
                 $table->integer('price');
                 $table->text('description');
                 $table->foreign('category_title')
                     ->references('title')
-                    ->on('categories');
-
+                    ->on('categories')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
+                $table->boolean('is_published')->default(false);
                 $table->foreignId('enterprise_id')
                     ->nullable()
-                    ->constrained()
+                    ->index()
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
                 $table->timestamps();

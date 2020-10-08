@@ -4,24 +4,15 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    <div class="sm:px-6 lg:px-8 sm:py-6 lg:py-8 py-4 px-4">
-        <div class="grid sm:py-4 sm:px-4  grid-cols-1 sm:grid-cols-6 gap-4">
-            <div class="sm:col-span-1">
-                @livewire('dashboard.action-switch')
-            </div>
-            <div class="sm:col-span-5">
-                <div class="overflow-hidden sm:shadow-xl">
-                    @livewire('dashboard.action-view')
-                </div>
-            </div>
-        </div>
-    </div>
-    @push('scripts')
-    <script>
-        Livewire.on('dashboard_actionSwitch', (id) => {
-            console.log(id);
-        })
+    <div class="sm:px-6 bg-gray-200 lg:px-8 sm:py-6 lg:py-8 py-4 px-4">
+        @cannot('reference-enterprise')
+        @livewire('enterprise.create-new-enterprise')
+        @endcannot
 
-    </script>
-    @endpush
+        @can('reference-enterprise')
+        {{-- @cannot('manage-enterprise', Auth::user()->isManager->enterprises->first()) --}}
+        @livewire('product.create-new-product', ['enterprise' => Auth::user()->isManager->enterprises()->find(2)])
+        {{-- @endcannot --}}
+        @endcan
+    </div>
 </x-app-layout>

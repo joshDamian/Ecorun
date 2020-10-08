@@ -11,19 +11,19 @@ class Service extends Model
 
     protected $fillable = [
         'description',
-        'working_days',
     ];
 
     protected $with = [
-        'enterprise'
-    ];
-
-    protected $casts = [
-        'working_days' => 'array'
+        'working_days'
     ];
 
     public function enterprise()
     {
         return $this->morphOne('App\Models\Enterprise', 'enterpriseable');
+    }
+
+    public function working_days()
+    {
+        return $this->hasMany(ServiceWorkingDay::class);
     }
 }
