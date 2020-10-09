@@ -11,7 +11,8 @@
 
         @can('reference-enterprise')
         {{-- @cannot('manage-enterprise', Auth::user()->isManager->enterprises->first()) --}}
-        @livewire('product.create-new-product', ['enterprise' => Auth::user()->isManager->enterprises()->find(2)])
+        @livewire('product.manage-images', ['product' => Auth::user()->isManager->enterprises()->find(2)->products->first()])
+        {{-- @livewire('product.create-new-product', ['enterprise' => Auth::user()->isManager->enterprises()->find(2)]) --}}
         {{-- @endcannot --}}
         @endcan
     </div>

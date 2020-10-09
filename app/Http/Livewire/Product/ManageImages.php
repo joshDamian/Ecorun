@@ -19,9 +19,14 @@ class ManageImages extends Component
         ],
     ];
 
-    public function deletImage($image) {
-        Storage::disk('public')->delete($product->gallery()->find($image)->image_url);
+    protected $listeners = [
+        'refresh' => '$refresh'
+    ];
+
+    public function deleteImage($image) {
+        Storage::disk('public')->delete($this->product->gallery()->find($image)->image_url);
         $this->product->gallery()->find($image)->delete();
+        $this->emitSelf('refresh');
     }
 
     public function saveImages() {
