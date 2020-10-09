@@ -1,6 +1,6 @@
 <div>
     @if($product)
-    <x-product.update-product :product="$product" />
+    @livewire('product.publish-product', ['product' => $product])
     @else
     <x-jet-form-section submit="create">
         <x-slot name="title">
@@ -19,7 +19,7 @@
                 x-init="@this.on('saved', () => { setTimeout( () => { photosPreview = null; }, 1000); })"
                 class="col-span-12 md:col-span-8 sm:col-span-6">
 
-                <!-- Profile Photo File Input -->
+                <!-- Product Photos File Input -->
                 <input type="file" class="hidden" wire:model="photos" multiple x-ref="photos" x-on:change="
                 const files = $refs.photos.files;
                 photos = [];
@@ -53,6 +53,61 @@
                 <x-jet-input-error for="photos.*" class="mt-2" />
             </div>
 
+            <div class="col-span-12 md:col-span-8 sm:col-span-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Category -->
+                    <div>
+                        <x-jet-label for="category" value="{{ __('Category Groups') }}" />
+                        <div class="relative mt-1">
+                            <select wire:model="activeCategory"
+                                class="block appearance-none w-full bg-gray-700 border border-gray-700 text-white py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-green-700 focus:border-green-700"
+                                id="grid-state">
+                                @if(!$activeCategory) <option selected>Select A Category Group</option> @endif
+                                @foreach($categories as $category)
+                                <option value="{{ $category->title }}">{{ $category->title }}</option>
+                                @endforeach
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20">
+                                    <path
+                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-Category -->
+                    @if($activeCategory)
+                    <div>
+                        <x-jet-label for="sub-category" value="{{ __('Product Category') }}" />
+                        <div class="relative mt-1">
+                            <select wire:model="product_category"
+                                class="block appearance-none w-full bg-gray-700 border border-gray-700 text-white py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-green-700 focus:border-green-700"
+                                id="grid-state">
+                                @if(!$product_category) <option selected value=''>Select A Category</option> @endif
+                                @forelse(App\Models\Category::without('products')->find($activeCategory)->sub_categories
+                                as $category)
+                                <option value="{{ $category->title }}">{{ $category->title }}</option>
+                                @empty
+                                <option>no sub-categories</option>
+                                @endforelse
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20">
+                                    <path
+                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <x-jet-input-error for="product_category" class="mt-2" />
+                    </div>
+                    @endif
+                </div>
+            </div>
 
             <!-- Name -->
             <div class="col-span-12 md:col-span-3 sm:col-span-4">

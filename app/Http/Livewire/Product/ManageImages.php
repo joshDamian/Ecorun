@@ -5,9 +5,12 @@ namespace App\Http\Livewire\Product;
 use Livewire\Component;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use Livewire\WithFileUploads;
 
 class ManageImages extends Component
 {
+    use WithFileUploads;
     public Product $product;
     public $photos = [];
 
@@ -23,13 +26,15 @@ class ManageImages extends Component
         'refresh' => '$refresh'
     ];
 
-    public function deleteImage($image) {
+    public function deleteImage($image)
+    {
         Storage::disk('public')->delete($this->product->gallery()->find($image)->image_url);
         $this->product->gallery()->find($image)->delete();
         $this->emitSelf('refresh');
     }
 
-    public function saveImages() {
+    public function saveImages()
+    {
         $this->validate();
 
         foreach ($this->photos as $photo) {
@@ -42,9 +47,12 @@ class ManageImages extends Component
                 'label' => 'product_image'
             ]);
         }
+
+        $this->emitSelf('refresh');
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.product.manage-images');
     }
 }

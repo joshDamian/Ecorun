@@ -9,38 +9,41 @@ class EditProduct extends Component
 {
     public Product $product;
     protected $rules = [
-        'name' => [
+        'product.name' => [
             'required',
             'min:4',
             'string'
         ],
-        'description' => [
+        'product.description' => [
             'required',
             'min:20'
         ],
-        'available_stock' => [
+        'product.available_stock' => [
             'required',
             'int',
             'min:1'
         ],
-        'price' => [
+        'product.price' => [
             'required',
             'int',
             'min:1'
         ]
     ];
 
-    public function save() {
+    public function save()
+    {
         $this->validate();
 
         $this->product->save();
     }
 
-    public function updated($propertyName) {
+    public function updated($propertyName)
+    {
         $this->validateOnly($propertyName);
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.product.edit-product');
     }
 }

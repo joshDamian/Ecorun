@@ -1,40 +1,80 @@
-<div>
-    <div x-data="{add_photos: null, photos: []}">
-        <div class="text-right mb-4">
-            <x-jet-button x-on:click=" ; add_photos = true" class="bg-blue-900">
-                {{ __('add photos') }}
-            </x-jet-button>
-        </div>
-        <div>
-            <div class="mt-2" x-show.transition="photos.length > 0">
-                <div class="grid grid-cols-2 sm:grid-cols-3 sm:gap-4 gap-2">
-                    <template x-for="photo in photos">
-                        <div
-                            x-bind:style="'width: 100%; height: 150px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
+<div x-data="{photos: [], isUploading: false, progress: 0}" x-on:livewire-upload-start="isUploading = true"
+    x-on:livewire-upload-finish="isUploading = false" x-on:livewire-upload-error="isUploading = false"
+    x-on:livewire-upload-progress="progress = $event.detail.progress"
+    x-init="@this.on('refresh', () => { photos = [] })">
+    <x-jet-form-section submit="saveImages">
+        <x-slot name="title">
+            {{ __('Product Gallery') }}
+        </x-slot>
+
+        <x-slot name="description">
+            {{ __('Add and remove photos from Product\'s gallery') }}
+        </x-slot>
+
+        <x-slot name="form">
+            <div class="col-span-12">
+                <div class="text-right mb-4">
+                    <x-jet-secondary-button style="color: white;" x-on:click.prevent="$refs.photos.click();"
+                        class="bg-blue-900 border border-blue-900">
+                        {{ __('add photos') }}
+                    </x-jet-secondary-button>
+                    <!-- Profile Photo File Input -->
+                    <input type="file" class="hidden" wire:model="photos" multiple x-ref="photos" x-on:change="
+                        const files = $refs.photos.files;
+                        photos = [];
+                        for(var i = 0; i < files.length; i++) {
+                        photos[i] = {'url': URL.createObjectURL(files[i])}
+                        }
+
+                        console.log(files.length);
+                    " />
+
+                    <!-- Photos Preview -->
+                    <div>
+                        <div class="mt-2" x-show.transition="photos.length > 0">
+                            <div class="grid grid-cols-2 sm:grid-cols-3 sm:gap-4 gap-2">
+                                <template x-for="photo in photos">
+                                    <div
+                                        x-bind:style="'width: 100%; height: 150px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
+                                    </div>
+                                </template>
+                            </div>
+
+                            <div class="mt-2" x-show.transition="isUploading">
+                                <progress max="100" x-bind:value="progress"></progress>
+                            </div>
                         </div>
-                    </template>
+                    </div>
+                    <x-jet-input-error for="photos.*" class="mt-2" />
                 </div>
 
-                <div class="mt-2" x-show.transition="isUploading">
-                    <progress max="100" x-bind:value="progress"></progress>
+                <div x-show.transtion="photos.length < 1"
+                    class="grid col-span-12 grid-cols-2 sm:grid-cols-3 sm:gap-4 gap-2">
+                    @foreach($product->gallery as $image)
+                    <div class="">
+                        <img class="w-100 h-100" src="/storage/{{$image->image_url}}" />
+                        <div class="bg-black py-2 text-right px-2">
+                            <x-jet-secondary-button style="color: white;" class="border border-red-700 bg-red-700"
+                                wire:click="deleteImage('{{ $image->id }}')">
+                                <i class="fa fa-trash"></i>
+                                </x-secondary-jet-button>
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
             </div>
-        </div>
+        </x-slot>
 
-        <x-jet-input-error for="photos.*" class="mt-2" />
+        <x-slot name="actions">
+            <div x-show.transtion="photos.length > 0">
+                <x-jet-action-message class="mr-3" on="added">
+                    {{ __('Added.') }}
+                </x-jet-action-message>
 
-    </div>
-    <div x-show.transtion="! add_photos" class="grid grid-cols-2 sm:grid-cols-3 sm:gap-4 gap-2">
-        @foreach($product->gallery as $image)
-        <div class="">
-            <img class="w-100 h-100" src="/storage/{{$image->image_url}}" />
-            <div class="bg-black py-2 text-right px-2">
-                <x-jet-button wire:click="deleteImage('{{ $image->id }}')">
-                    <i class="fa fa-trash"></i>
+                <x-jet-button wire:loading.attr="disabled">
+                    {{ __('Add') }}
                 </x-jet-button>
             </div>
-        </div>
-        @endforeach
-    </div>
-</div>
+        </x-slot>
+    </x-jet-form-section>
 </div>

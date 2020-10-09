@@ -21,27 +21,35 @@ class CreateNewAttribute extends Component
         'value' => 'required'
     ];
 
-    public function create() {
+    public function create()
+    {
         $this->validate();
         if (is_array(explode(",", $this->value))) {
             $this->value = explode(",", $this->value);
         }
-        $product->attributes()->create([
+        $this->product->attributes()->create([
             'name' => $this->name,
             'value' => $this->value
         ]);
         $this->ready = null;
+        $this->name = null;
+        $this->value = null;
+
+        $this->emit('modifiedAttributes');
     }
 
-    public function add() {
+    public function add()
+    {
         $this->ready = true;
     }
 
-    public function updated($propertyName) {
+    public function updated($propertyName)
+    {
         $this->validateOnly($propertyName);
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.product-attributes.create-new-attribute');
     }
 }
