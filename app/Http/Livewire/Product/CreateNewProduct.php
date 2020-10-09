@@ -20,23 +20,43 @@ class CreateNewProduct extends Component
     public $product;
 
     protected $rules = [
-        'photos.*' => ['required', 'image', 'max:4096'],
-        'name' => ['required', 'min:4', 'string'],
-        'description' => ['required', 'min:20'],
-        'available_stock' => ['required', 'int', 'min:1'],
-        'price' => ['required', 'int', 'min:1']
+        'photos.*' => [
+            'required',
+            'image',
+            'max:4096'
+        ],
+        'name' => [
+            'required',
+            'min:4',
+            'string'
+        ],
+        'description' => [
+            'required',
+            'min:20'
+        ],
+        'available_stock' => [
+            'required',
+            'int',
+            'min:1'
+        ],
+        'price' => [
+            'required',
+            'int',
+            'min:1'
+        ]
     ];
 
-    public function create()
-    {
+    public function create() {
         $this->validate();
 
-        $this->product = $this->enterprise()
-            ->products()
-            ->create([
-                'name' => $this->name,
-                'description' => $this->discription,
-            ]);
+        $this->product = $this->enterprise
+        ->products()
+        ->create([
+            'name' => $this->name,
+            'description' => $this->description,
+            'price' => $this->price,
+            'available_stock' => $this->available_stock
+        ]);
 
         foreach ($this->photos as $photo) {
             $photo_path = $photo->store('product-photos', 'public');
@@ -50,20 +70,17 @@ class CreateNewProduct extends Component
         }
     }
 
-    public function updated($propertyName)
-    {
+    public function updated($propertyName) {
         $this->validateOnly($propertyName);
     }
 
-    public function updatedPhoto()
-    {
+    public function updatedPhoto() {
         $this->validate([
             'photos.*' => ['required', 'image', 'max:3072']
         ]);
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.product.create-new-product');
     }
 }
