@@ -82,13 +82,6 @@ class CreateNewProduct extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function updatedPhoto()
-    {
-        $this->validate([
-            'photos.*' => ['required', 'image', 'max:3072']
-        ]);
-    }
-
     public function mount() 
     {
         $this->categories = Category::without('products')->where('parent_title', null)->orderBy('title', 'ASC')->get();

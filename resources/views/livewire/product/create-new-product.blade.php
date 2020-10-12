@@ -118,10 +118,26 @@
             </div>
 
             <!-- Price -->
-            <div class="col-span-6 sm:col-span-4 md:col-span-3">
-                <x-jet-label for="price" value="{{ __('Product Price') }}" />
-                <x-jet-input id="price" type="number" class="mt-1 block w-full" placeholder="product price"
-                    wire:model="price" autocomplete="price" />
+            <div x-data class="col-span-6 sm:col-span-4 md:col-span-3">
+                <x-jet-label for="price" value="{{ __('Product Price') }}" /> (<span x-ref="pricewatch"></span>)
+                <div class="relative">
+
+                    <div class="absolute flex border border-transparent left-0 top-0 h-full w-10">
+                        <div
+                            class="flex items-center justify-center rounded-tl rounded-bl z-10 bg-gray-100 text-gray-600 text-lg h-full w-full">
+                            &#8358;
+                        </div>
+                    </div>
+
+                    <x-jet-input x-ref="price" x-on:change="
+                    var numberFormat = new Intl.NumberFormat('en-US');
+                    var number = $refs.price.value;
+                     $refs.pricewatch.innerText = numberFormat.format(number);
+                    
+                    " id="price" type="number" class="relative mt-1 block w-full py-2 pr-2 pl-12"
+                        placeholder="product price" wire:model="price" autocomplete="price" />
+                </div>
+
                 <x-jet-input-error for="price" class="mt-2" />
             </div>
 

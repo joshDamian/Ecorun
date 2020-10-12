@@ -45,4 +45,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductAttribute::class);
     }
+
+    public function displayImage()
+    {
+        return $this->gallery->first()->image_url;
+    }
 }
