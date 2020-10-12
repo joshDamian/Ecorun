@@ -39,7 +39,7 @@
                 x-on:livewire-upload-progress="progress = $event.detail.progress"
                 x-init="@this.on('saved', () => { setTimeout( () => { photoPreview = null; }, 1000); })"
                 class="col-span-6 sm:col-span-4">
-                
+
                 <!-- Profile Photo File Input -->
                 <input type="file" class="hidden" wire:model="photo" x-ref="photo" x-on:change="
                     photoName = $refs.photo.files[0].name;
@@ -54,7 +54,7 @@
 
                 <!-- Current Cover Photo -->
                 <div class="mt-2" x-show.transition="! photoPreview">
-                    <x-manager.enterprise-preview :enterprise="$enterprise" />
+                    <x-enterprise.enterprise-preview :enterprise="$enterprise" />
                 </div>
 
                 <!-- New Cover Photo Preview -->

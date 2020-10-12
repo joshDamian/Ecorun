@@ -27,7 +27,8 @@ class CreateNewEnterprise extends Component
         $team = $this->createTeam();
 
         $this->emitSelf('created');
-        return dd($enterprise->team()->save($team));
+        $this->emit('newEnterprise');
+        return $enterprise->team()->save($team);
     }
 
     protected function createTeam()
