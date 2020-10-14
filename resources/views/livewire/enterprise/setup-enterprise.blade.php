@@ -1,9 +1,9 @@
 <div>
-    <div class="mb-4">
+    <div class="mb-4 sm:pt-0 pt-4">
         <div class="grid mt-4 mb-4 gap-4 sm:grid-cols-12">
             <div class="sm:col-span-4">
                 <p class="mb-2 font-bold text-md">
-                    What kind of enterprise is {{ $enterprise->name }} ?
+                    What kind of business is {{ $enterprise->name }} ?
                 </p>
                 <div x-data="{show: null}" x-init="() => { setTimeout(() => { show = true; }, 1000); }">
                     <p x-show="! show" x-on:click="show = true" class="text-green-700 cursor-pointer text-md">
@@ -26,7 +26,7 @@
                                 </p>
                                 <p class="text-sm">
                                     <p>
-                                        An ecorun enterprise can either be a Service provider or an Online store.
+                                        An ecorun business can either be a Service provider or an Online store.
                                     </p>
                                     <p>
                                         Your selection determines how your enterprise is categorized.

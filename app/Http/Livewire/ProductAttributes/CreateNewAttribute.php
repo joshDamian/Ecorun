@@ -4,36 +4,43 @@ namespace App\Http\Livewire\ProductAttributes;
 
 use Livewire\Component;
 use App\Models\Product;
+use Illuminate\Validation\Rule;
 
 class CreateNewAttribute extends Component
 {
     public Product $product;
 
     public $name;
-    public $value;
+    public $value = [];
     public $ready;
 
-    protected $rules = [
-        'name' => [
-            'required',
-            'min:3'
-        ],
-        'value' => 'required'
-    ];
+    protected $rules = [];
 
     public function create()
     {
-        $this->validate();
-        if (is_array(explode(",", $this->value))) {
-            $this->value = explode(",", $this->value);
+        $this->validate([
+            'name' => [
+                'required',
+                'min:3',
+                Rule::unique('product_attributes', 'name')->where(function ($query) {
+                    return $query->where('product_id', $this->product->id);
+                })
+            ],
+            'value' => 'required'
+        ]);
+
+        $this->value = explode(',', $this->value);
+
+        foreach ($this->value as $key => $value) {
+            $this->value[$key] = trim($value);
         }
+
         $this->product->attributes()->create([
             'name' => $this->name,
             'value' => $this->value
         ]);
-        $this->ready = null;
-        $this->name = null;
-        $this->value = null;
+
+        $this->nevermind();
 
         $this->emit('modifiedAttributes');
     }
@@ -43,9 +50,27 @@ class CreateNewAttribute extends Component
         $this->ready = true;
     }
 
+    public function nevermind()
+    {
+        $this->ready = null;
+        $this->name = null;
+        $this->value = null;
+
+        return true;
+    }
+
     public function updated($propertyName)
     {
-        $this->validateOnly($propertyName);
+        $this->validateOnly($propertyName, [
+            'name' => [
+                'required',
+                'min:3',
+                Rule::unique('product_attributes', 'name')->where(function ($query) {
+                    return $query->where('product_id', $this->product->id);
+                })
+            ],
+            'value' => 'required'
+        ]);
     }
 
     public function render()

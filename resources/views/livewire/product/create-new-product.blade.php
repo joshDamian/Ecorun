@@ -1,6 +1,6 @@
 <div>
     @if($product)
-    @livewire('product.publish-product', ['product' => $product])
+    @livewire('product.modify-product-data', ['product' => $product])
     @else
     <x-jet-form-section submit="create">
         <x-slot name="title">
@@ -13,31 +13,32 @@
 
         <x-slot name="form">
             <!-- Photos -->
-            <div x-data="{isUploading: false, progress: 0, photos: []}" x-on:livewire-upload-start="isUploading = true"
-                x-on:livewire-upload-finish="isUploading = false" x-on:livewire-upload-error="isUploading = false"
+            <div x-data="{isUploading: false, progress: 0, photosArray: []}"
+                x-on:livewire-upload-start="isUploading = true" x-on:livewire-upload-finish="isUploading = false"
+                x-on:livewire-upload-error="isUploading = false"
                 x-on:livewire-upload-progress="progress = $event.detail.progress"
-                x-init="@this.on('saved', () => { setTimeout( () => { photosPreview = null; }, 1000); })"
                 class="col-span-12 md:col-span-8 sm:col-span-6">
 
                 <!-- Product Photos File Input -->
                 <input type="file" class="hidden" wire:model="photos" multiple x-ref="photos" x-on:change="
-                const files = $refs.photos.files;
-                photos = [];
-                for(var i = 0; i < files.length; i++) {
-                photos[i] = {'url': URL.createObjectURL(files[i])}
-                }
-
-                console.log(files.length);
-                " />
+                                const files = $refs.photos.files;
+                                photosArray = [];
+                                for(var i = 0; i < files.length; i++) {
+                                photosArray[i] = {'url': URL.createObjectURL(files[i])}
+                                }
+                
+                                console.log(files.length);
+                                " />
 
                 <x-jet-label for="photos" value="{{ __('Product Photos') }}" />
 
                 <!-- Product Photos Preview -->
-                <div class="mt-2" x-show.transition="photos.length > 0">
-                    <div class="grid grid-cols-2 sm:grid-cols-3 sm:gap-4 gap-2">
-                        <template x-for="photo in photos">
+                <div class="mt-2" x-show.transition="photosArray.length > 0">
+                    <div
+                        class="grid @if(count($photos) < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-3 sm:gap-4 gap-2">
+                        <template x-for="photo in photosArray">
                             <div
-                                x-bind:style="'width: 100%; height: 150px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
+                                x-bind:style="'width: 100%; height: 200px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
                             </div>
                         </template>
                     </div>
@@ -118,23 +119,18 @@
             </div>
 
             <!-- Price -->
-            <div x-data class="col-span-6 sm:col-span-4 md:col-span-3">
+            <div x-data class="relative col-span-6 sm:col-span-4 md:col-span-3">
                 <x-jet-label for="price" value="{{ __('Product Price') }}" /> (<span x-ref="pricewatch"></span>)
                 <div class="relative">
 
-                    <div class="absolute flex border border-transparent left-0 top-0 h-full w-10">
+                    <div class="absolute hidden sm:flex border border-transparent left-0 top-0 h-full w-10">
                         <div
                             class="flex items-center justify-center rounded-tl rounded-bl z-10 bg-gray-100 text-gray-600 text-lg h-full w-full">
                             &#8358;
                         </div>
                     </div>
 
-                    <x-jet-input x-ref="price" x-on:change="
-                    var numberFormat = new Intl.NumberFormat('en-US');
-                    var number = $refs.price.value;
-                     $refs.pricewatch.innerText = numberFormat.format(number);
-                    
-                    " id="price" type="number" class="relative mt-1 block w-full py-2 pr-2 pl-12"
+                    <x-jet-input id="price" type="number" class="relative mt-1 block w-full sm:py-2 sm:pr-2 sm:pl-12"
                         placeholder="product price" wire:model="price" autocomplete="price" />
                 </div>
 
@@ -152,11 +148,10 @@
             <!-- Description -->
             <div class="col-span-12 md:col-span-3 sm:col-span-4">
                 <x-jet-label for="description" value="{{ __('Product Description') }}" />
-                <textarea placeholder="product description" rows="5" class="form-input mt-1 block w-full"
+                <textarea placeholder="product description" rows="3" class="form-input mt-1 block w-full"
                     wire:model="description" autocomplete="description"></textarea>
                 <x-jet-input-error for="description" class="mt-2" />
             </div>
-
         </x-slot>
 
         <x-slot name="actions">

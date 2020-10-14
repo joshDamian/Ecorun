@@ -36,7 +36,7 @@
             <!-- Description -->
             <div class="col-span-12 md:col-span-3 sm:col-span-4">
                 <x-jet-label for="description" value="{{ __('Product Description') }}" />
-                <textarea placeholder="product description" rows="5" class="form-input mt-1 block w-full"
+                <textarea placeholder="product description" rows="3" class="form-input mt-1 block w-full"
                     wire:model="product.description" autocomplete="description"></textarea>
                 <x-jet-input-error for="product.description" class="mt-2" />
             </div>

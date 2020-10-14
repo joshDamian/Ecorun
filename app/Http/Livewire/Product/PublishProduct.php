@@ -15,6 +15,12 @@ class PublishProduct extends Component
         $this->product->save();
     }
 
+    public function unpublish()
+    {
+        $this->product->is_published = false;
+        $this->product->save();
+    }
+
     public function render()
     {
         return view('livewire.product.publish-product');

@@ -52,16 +52,60 @@
             <div class="flex w-full pt-2 content-center justify-between md:w-1/3 md:justify-end">
                 <ul class="list-reset flex justify-between flex-1 md:flex-none items-center">
                     <li class="flex-1 md:flex-none md:mr-3">
-                        <a class="inline-block py-2 px-4 text-white no-underline" href="#">Active</a>
+                        <a class="inline-block py-2 px-4 @if(request()->routeIs('dashboard')) text-green-300 @else text-gray-600 hover:text-gray-200 hover:text-underline @endif no-underline"
+                            href="/dashboard">Dashboard</a>
                     </li>
-                    <li class="flex-1 md:flex-none md:mr-3">
-                        <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4"
-                            href="#">link</a>
+
+                    @can('own-enterprise')
+                    <li class="mr-6 md:flex-none md:mr-6">
+                        <x-jet-dropdown align="top">
+                            <x-slot name="trigger">
+                                <div class="cursor-pointer text-white select-none">
+                                    {{ __('manager actions') }}&nbsp;
+                                    <i :class="open ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
+                                </div>
+                            </x-slot>
+                            <x-slot name="content">
+                                <div class="bg-gray-900 text-white mt-3 p-3 overflow-auto">
+                                    <div x-data="{ show_enterprises: false }">
+                                        <a @click="show_enterprises = ! show_enterprises"
+                                            class="p-2 hover:bg-gray-800 cursor-pointer text-white text-sm no-underline hover:no-underline block">
+                                            <span class="truncate">manage businesses</span>
+                                            &nbsp;<i
+                                                :class="show_enterprises ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
+                                        </a>
+                                        <div x-show="show_enterprises">
+                                            @foreach (Auth::user()->isManager->enterprises()->orderBy('name',
+                                            'ASC')->get() as $enterprise)
+                                            <a href="{{ route('enterprise-dashboard', ['enterprise' => $enterprise->id]) }}"
+                                                class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block">
+                                                {{ $enterprise->name }}
+                                            </a>
+                                            @if(!$loop->last)
+                                            <div class="border border-gray-800"></div>
+                                            @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    {{-- <div class="border border-gray-800"></div>
+                                    <a href="#"
+                                        class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i
+                                            class="fa fa-user-tie fa-fw"></i> Manager Account</a>
+                                    <div class="border border-gray-800"></div>
+                                    <a href="#"
+                                        class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i
+                                            class="fas fa-sign-out-alt fa-fw"></i> Log Out</a> --}}
+                                </div>
+                            </x-slot>
+                        </x-jet-dropdown>
                     </li>
+                    @endcan
+
                     <li class="flex-1 md:flex-none md:mr-3">
                         <div class="relative inline-block">
                             <button onclick="toggleDD('myDropdown')" class="drop-button text-white focus:outline-none">
-                                <span class="pr-2"><i class="em em-robot_face"></i></span> Hi, {{ Auth::user()->name }}
+                                {{ Auth::user()->name }}
                                 <svg class="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20">
                                     <path
@@ -74,13 +118,15 @@
                                 <a href="/user/profile"
                                     class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i
                                         class="fa fa-user fa-fw"></i> Profile</a>
-                                <a href="#"
-                                    class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i
-                                        class="fa fa-cog fa-fw"></i> Settings</a>
                                 <div class="border border-gray-800"></div>
-                                <a href="#"
-                                    class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i
-                                        class="fas fa-sign-out-alt fa-fw"></i> Log Out</a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+
+                                    <x-jet-dropdown-link href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                            this.closest('form').submit();">
+                                        <i class="fas fa-sign-out-alt fa-fw"></i> {{ __('Logout') }}
+                                    </x-jet-dropdown-link>
+                                </form>
                             </div>
                         </div>
                     </li>
@@ -113,7 +159,7 @@
             }
         }
         // Close the dropdown menu if the user clicks outside of it
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (!event.target.matches('.drop-button') && !event.target.matches('.drop-search')) {
                 var dropdowns = document.getElementsByClassName("dropdownlist");
                 for (var i = 0; i < dropdowns.length; i++) {
@@ -124,6 +170,7 @@
                 }
             }
         }
+
     </script>
     @stack('modals')
 

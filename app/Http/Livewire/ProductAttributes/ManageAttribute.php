@@ -2,25 +2,37 @@
 
 namespace App\Http\Livewire\ProductAttributes;
 
-use App\Models\Product;
 use App\Models\ProductAttribute;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class ManageAttribute extends Component
 {
     public ProductAttribute $attribute;
 
+    public $current_name;
+
     protected $rules = [
         'attribute.name' => [
             'required',
-            'min:3'
+            'min:3',
         ],
         'attribute.value' => 'required'
     ];
 
     public function edit()
     {
-        $this->validate();
+        $this->current_name  = ProductAttribute::find($this->attribute->id)->name;
+        $this->validate([
+            'attribute.name' => [
+                'required',
+                'min:3',
+                ($this->attribute->name !== $this->current_name) ? Rule::unique('product_attributes', 'name')->where(function ($query) {
+                    return $query->where('product_id', $this->attribute->product_id);
+                }) : ''
+            ],
+            'attribute.value' => 'required'
+        ]);
 
         $this->attribute->save();
 
@@ -34,9 +46,19 @@ class ManageAttribute extends Component
         $this->emit('modifiedAttributes');
     }
 
-    public function update($propertyName)
+    public function updated($propertyName)
     {
-        $this->validateOnly($propertyName);
+        $this->current_name  = ProductAttribute::find($this->attribute->id)->name;
+        $this->validateOnly($propertyName, [
+            'attribute.name' => [
+                'required',
+                'min:3',
+                ($this->attribute->name !== $this->current_name) ? Rule::unique('product_attributes', 'name')->where(function ($query) {
+                    return $query->where('product_id', $this->attribute->product_id);
+                }) : null
+            ],
+            'attribute.value' => 'required'
+        ]);
     }
 
     public function render()

@@ -36,12 +36,13 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $this->active_action = $this->actions['orders'];
+        $this->active_action = $this->actions['manager account'];
     }
 
     public function switchAction($key)
     {
         $this->active_action = $this->actions[$key];
+        $this->emit('actionSwitch');
     }
 
     public function render()

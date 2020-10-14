@@ -22,7 +22,7 @@ class ManageEnterprise extends Component
             'color' => 'purple-500'
         ],
 
-        'update business info' => [
+        'update' => [
             'title' => 'update business info',
             'icon' => 'fas fa-edit',
             'color' => 'red-500'
@@ -40,18 +40,30 @@ class ManageEnterprise extends Component
             'color' => 'teal-500'
         ],
 
+        'team' => [
+            'title' => 'management team',
+            'icon' => 'fas fa-users',
+            'color' => 'yellow-500'
+        ],
+
+
     ];
 
     public $active_action;
 
+    protected $listeners = [
+        'setupDone' => '$refresh'
+    ];
+
     public function mount()
     {
-        $this->active_action = $this->actions['add product'];
+        $this->active_action = $this->actions['products'];
     }
 
     public function switchAction($key)
     {
         $this->active_action = $this->actions[$key];
+        $this->emit('actionSwitch');
     }
 
     public function render()

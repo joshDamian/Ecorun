@@ -25,17 +25,19 @@ class EditEnterprise extends Component
             'min:4',
             'unique:enterprises,name'
         ],
+
+        'photo' => [
+            'sometimes',
+            'required',
+            'image',
+            'max:3072'
+            /** 3MB Max */
+        ]
     ];
 
     public function saveProfile()
     {
-        $this->validate([
-            'photo' => [
-                ($this->photo) ? 'image' : '',
-                'max:3072'
-                /** 3MB Max */
-            ]
-        ]);
+        $this->validate();
 
         if ($this->photo) {
             $photo_path = $this->photo->store('entreprise-cover-photos', 'public');
@@ -80,7 +82,7 @@ class EditEnterprise extends Component
             'enterprise.name' => [
                 'required',
                 'min:4',
-                'unique:enterprises,name' 
+                'unique:enterprises,name'
             ],
         ]);
     }

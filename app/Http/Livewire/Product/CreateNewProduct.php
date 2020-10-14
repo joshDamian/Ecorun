@@ -27,8 +27,9 @@ class CreateNewProduct extends Component
         'photos.*' => [
             'required',
             'image',
-            'max:4096'
+            'max:7168'
         ],
+
         'name' => [
             'required',
             'min:4',
@@ -57,13 +58,13 @@ class CreateNewProduct extends Component
         $this->product = $this->enterprise
             ->products()
             ->create([
-                'name' => $this->name,
+                'name' => ucwords(strtolower($this->name)),
                 'description' => $this->description,
                 'price' => $this->price,
                 'available_stock' => $this->available_stock
             ]);
 
-            Category::find($this->product_category)->products()->save($this->product);
+        Category::find($this->product_category)->products()->save($this->product);
 
         foreach ($this->photos as $photo) {
             $photo_path = $photo->store('product-photos', 'public');
@@ -82,10 +83,10 @@ class CreateNewProduct extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function mount() 
+    public function mount()
     {
         $this->categories = Category::without('products')->where('parent_title', null)->orderBy('title', 'ASC')->get();
-    }  
+    }
 
     public function render()
     {
