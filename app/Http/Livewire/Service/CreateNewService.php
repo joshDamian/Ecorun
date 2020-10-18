@@ -25,6 +25,8 @@ class CreateNewService extends Component
         ]);
 
         $service->enterprise()->save($this->enterprise);
+
+        $this->emit('setupDone');
     }
 
     public function updated($propertyName)

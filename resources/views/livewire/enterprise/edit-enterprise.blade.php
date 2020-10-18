@@ -54,7 +54,15 @@
 
                 <!-- Current Cover Photo -->
                 <div class="mt-2" x-show.transition="! photoPreview">
-                    <x-enterprise.enterprise-preview :enterprise="$enterprise" />
+                    @if ($enterprise->coverPhoto())
+                    <div
+                        style="height: 220px; width: 100%; background-image: url('/storage/{{ $enterprise->coverPhoto() }}'); background-position: center center; background-size: cover;">
+                    </div>
+                    @else
+                    <div class="flex items-center bg-white py-3 px-3 justify-center">
+                        <i style="font-size: 8rem;" class="fa text-blue-600 fa-store-alt"></i>
+                    </div>
+                    @endif
                 </div>
 
                 <!-- New Cover Photo Preview -->

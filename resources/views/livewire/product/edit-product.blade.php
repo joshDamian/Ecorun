@@ -27,7 +27,14 @@
 
             <!-- Available Stock -->
             <div class="col-span-6 sm:col-span-4 md:col-span-3">
-                <x-jet-label for="available_stock" value="{{ __('Available Stock') }}" />
+                <x-jet-label for="category">
+                    {{__('Available Stock')}}
+                    @if ($product->enterprise->isService())
+                    <span class="text-green-400">
+                        {{__(' (optional) ')}}
+                    </span>
+                    @endif
+                </x-jet-label>
                 <x-jet-input id="available_stock" placeholder="available stock" type="number" class="mt-1 block w-full"
                     wire:model="product.available_stock" autocomplete="available_stock" />
                 <x-jet-input-error for="product.available_stock" class="mt-2" />
@@ -36,7 +43,7 @@
             <!-- Description -->
             <div class="col-span-12 md:col-span-3 sm:col-span-4">
                 <x-jet-label for="description" value="{{ __('Product Description') }}" />
-                <textarea placeholder="product description" rows="5" class="form-input mt-1 block w-full"
+                <textarea placeholder="product description" rows="3" class="form-input mt-1 block w-full"
                     wire:model="product.description" autocomplete="description"></textarea>
                 <x-jet-input-error for="product.description" class="mt-2" />
             </div>

@@ -13,6 +13,14 @@ class PublishProduct extends Component
     {
         $this->product->is_published = true;
         $this->product->save();
+        $this->emit('publishingEffect');
+    }
+
+    public function unpublish()
+    {
+        $this->product->is_published = false;
+        $this->product->save();
+        $this->emit('publishingEffect');
     }
 
     public function render()

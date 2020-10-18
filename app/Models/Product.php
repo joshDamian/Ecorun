@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
+    use Searchable;
     use SoftDeletes;
     protected $with = [
         'attributes'
@@ -23,6 +25,16 @@ class Product extends Model
         'price',
         'available_stock'
     ];
+
+    /* public function toSearchableArray()
+    {
+        $array = [
+            'name' => $this->name,
+
+        ];
+
+        return $array;
+    }*/
 
     use HasFactory;
 
@@ -49,5 +61,10 @@ class Product extends Model
     public function displayImage()
     {
         return $this->gallery->first()->image_url;
+    }
+
+    public function price()
+    {
+        return "<span>&#8358; </span>" . number_format($this->price, 2);
     }
 }

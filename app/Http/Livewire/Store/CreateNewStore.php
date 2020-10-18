@@ -25,6 +25,8 @@ class CreateNewStore extends Component
         ]);
 
         $store->enterprise()->save($this->enterprise);
+
+        $this->emit('setupDone');
     }
 
     public function updated($propertyName)

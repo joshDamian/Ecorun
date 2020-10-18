@@ -23,47 +23,51 @@ class CreateNewProduct extends Component
     public $activeCategory;
     public $product_category;
 
-    protected $rules = [
-        'photos.*' => [
-            'required',
-            'image',
-            'max:4096'
-        ],
-        'name' => [
-            'required',
-            'min:4',
-            'string'
-        ],
-        'description' => [
-            'required',
-            'min:20'
-        ],
-        'available_stock' => [
-            'required',
-            'int',
-            'min:1'
-        ],
-        'price' => [
-            'required',
-            'int',
-            'min:1'
-        ],
-        'product_category' => 'required'
-    ];
+    protected $rules = [];
 
     public function create()
     {
-        $this->validate();
+        $this->validate([
+            'photos.*' => [
+                'required',
+                'image',
+                'max:7168'
+            ],
+
+            'name' => [
+                'required',
+                'min:4',
+                'string'
+            ],
+            'description' => [
+                'required',
+                'min:20'
+            ],
+
+            'available_stock' => ($this->enterprise->isStore() || $this->available_stock || $this->available_stock === "0") ? [
+                'required',
+                'int',
+                'min:1'
+            ] : '',
+
+            'price' => [
+                'required',
+                'int',
+                'min:1'
+            ],
+            'product_category' => ($this->enterprise->isStore()) ? ['required'] : '',
+        ]);
+
         $this->product = $this->enterprise
             ->products()
             ->create([
-                'name' => $this->name,
+                'name' => ucwords(strtolower($this->name)),
                 'description' => $this->description,
                 'price' => $this->price,
                 'available_stock' => $this->available_stock
             ]);
 
-            Category::find($this->product_category)->products()->save($this->product);
+        Category::find($this->product_category)->products()->save($this->product);
 
         foreach ($this->photos as $photo) {
             $photo_path = $photo->store('product-photos', 'public');
@@ -79,13 +83,42 @@ class CreateNewProduct extends Component
 
     public function updated($propertyName)
     {
-        $this->validateOnly($propertyName);
+        $this->validateOnly($propertyName, [
+            'photos.*' => [
+                'required',
+                'image',
+                'max:7168'
+            ],
+
+            'name' => [
+                'required',
+                'min:4',
+                'string'
+            ],
+            'description' => [
+                'required',
+                'min:20'
+            ],
+
+            'available_stock' => ($this->enterprise->isStore() || $this->available_stock || $this->available_stock === "0") ? [
+                'required',
+                'int',
+                'min:1'
+            ] : '',
+
+            'price' => [
+                'required',
+                'int',
+                'min:1'
+            ],
+            'product_category' => ($this->enterprise->isStore()) ? ['required'] : '',
+        ]);
     }
 
-    public function mount() 
+    public function mount()
     {
         $this->categories = Category::without('products')->where('parent_title', null)->orderBy('title', 'ASC')->get();
-    }  
+    }
 
     public function render()
     {

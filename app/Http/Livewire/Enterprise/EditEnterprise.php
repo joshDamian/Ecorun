@@ -25,16 +25,29 @@ class EditEnterprise extends Component
             'min:4',
             'unique:enterprises,name'
         ],
+
+        'photo' => [
+            'sometimes',
+            'required',
+            'image',
+            'max:3072'
+            /** 3MB Max */
+        ]
     ];
 
     public function saveProfile()
     {
+        $current_name = Enterprise::find($this->enterprise->id)->name;
         $this->validate([
-            'photo' => [
-                ($this->photo) ? 'image' : '',
-                'max:3072'
-                /** 3MB Max */
-            ]
+            'enterprise.name' => ($this->enterprise->name !== $current_name) ? [
+                'required',
+                'min:4',
+                'unique:enterprises,name'
+            ] :
+                [
+                    'required',
+                    'min:4',
+                ]
         ]);
 
         if ($this->photo) {
@@ -76,12 +89,17 @@ class EditEnterprise extends Component
 
     public function updated($propertyName)
     {
+        $current_name = Enterprise::find($this->enterprise->id)->name;
         $this->validateOnly($propertyName, [
-            'enterprise.name' => [
+            'enterprise.name' => ($this->enterprise->name !== $current_name) ? [
                 'required',
                 'min:4',
-                'unique:enterprises,name' 
-            ],
+                'unique:enterprises,name'
+            ] :
+                [
+                    'required',
+                    'min:4',
+                ],
         ]);
     }
 
