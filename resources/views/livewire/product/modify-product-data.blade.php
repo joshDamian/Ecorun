@@ -1,4 +1,4 @@
-<div x-data x-init="() => { window.location = '#'; }">
+<div x-data x-init="() => { window.scrollTo(0, 0); }">
     <div class="grid grid-cols-1 gap-4">
         <div>
             @livewire('product.manage-images', ['product' => $product])

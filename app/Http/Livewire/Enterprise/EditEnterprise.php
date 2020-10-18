@@ -37,7 +37,18 @@ class EditEnterprise extends Component
 
     public function saveProfile()
     {
-        $this->validate();
+        $current_name = Enterprise::find($this->enterprise->id)->name;
+        $this->validate([
+            'enterprise.name' => ($this->enterprise->name !== $current_name) ? [
+                'required',
+                'min:4',
+                'unique:enterprises,name'
+            ] :
+                [
+                    'required',
+                    'min:4',
+                ]
+        ]);
 
         if ($this->photo) {
             $photo_path = $this->photo->store('entreprise-cover-photos', 'public');
@@ -78,12 +89,17 @@ class EditEnterprise extends Component
 
     public function updated($propertyName)
     {
+        $current_name = Enterprise::find($this->enterprise->id)->name;
         $this->validateOnly($propertyName, [
-            'enterprise.name' => [
+            'enterprise.name' => ($this->enterprise->name !== $current_name) ? [
                 'required',
                 'min:4',
                 'unique:enterprises,name'
-            ],
+            ] :
+                [
+                    'required',
+                    'min:4',
+                ],
         ]);
     }
 

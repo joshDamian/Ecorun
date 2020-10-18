@@ -1,4 +1,4 @@
-<div>
+<div x-data x-init="() => { window.scrollTo(0, 0); }">
     <div class="">
         <div>
             @livewire('enterprise.edit-enterprise', ['enterprise' => $enterprise])

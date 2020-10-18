@@ -55,15 +55,15 @@ class ManageEnterprise extends Component
         'setupDone' => '$refresh'
     ];
 
-    public function mount()
+    public function mount($active_action = null)
     {
-        $this->active_action = $this->actions['products'];
+        $this->active_action = ($active_action) ? $this->actions[$active_action] : $this->actions['products'];
     }
 
     public function switchAction($key)
     {
         $this->active_action = $this->actions[$key];
-        $this->emit('actionSwitch');
+        $this->emit('actionSwitch', $key);
     }
 
     public function render()

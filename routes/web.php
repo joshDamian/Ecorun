@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\Enterprise\ManageEnterprise;
+use App\Http\Livewire\UserComponents\Home;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,9 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', Home::class);
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
@@ -27,6 +27,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/manager-dashboard', function () {
             return view('/manager-dashboard');
         })->name('manager-dashboard');
-        Route::get('/e-prises/{enterprise}', ManageEnterprise::class)->name('enterprise-dashboard');
+
+        Route::get('/my-bss/{enterprise}/&view={active_action?}', ManageEnterprise::class)
+            ->middleware('can:update-enterprise,enterprise')
+            ->name('enterprise.dashboard');
     });
 });
+
+Route::get('/prod/{name}_{product}', [ProductController::class, 'show'])
+    ->name('product.show');

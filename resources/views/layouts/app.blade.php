@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/webfonts.css') }}">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 
+    @stack('styles')
     @livewireStyles
 
     <!-- Scripts -->
@@ -29,30 +30,17 @@
 
         <div class="flex flex-wrap items-center">
             <div class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white">
-                <a href="#">
-                    <span class="text-xl pl-2"><i class="em em-grinning"></i></span>
+                <a href="/">
+                    <span class="text-xl pl-2"><i class="fa fa-home"></i></span>
                 </a>
             </div>
-
-            <div class="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2">
-                <span class="relative w-full">
-                    <input type="search" placeholder="Search"
-                        class="w-full bg-gray-800 text-sm text-white transition border border-transparent focus:outline-none focus:border-gray-700 rounded py-1 px-2 pl-10 appearance-none leading-normal">
-                    <div class="absolute search-icon" style="top: .5rem; left: .8rem;">
-                        <svg class="fill-current pointer-events-none text-white w-4 h-4"
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path
-                                d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z">
-                            </path>
-                        </svg>
-                    </div>
-                </span>
-            </div>
+            @livewire('search-request-receptor')
 
             <div class="flex w-full pt-2 content-center justify-between md:w-1/3 md:justify-end">
-                <ul class="list-reset flex justify-between flex-1 md:flex-none items-center">
+                <ul class="list-reset flex @auth justify-between @endauth  flex-1 md:flex-none items-center">
+                    @auth
                     <li class="flex-1 md:flex-none md:mr-3">
-                        <a class="inline-block py-2 px-4 @if(request()->routeIs('dashboard')) text-green-300 @else text-gray-600 hover:text-gray-200 hover:text-underline @endif no-underline"
+                        <a class="inline-block py-2 px-4 @if(request()->routeIs('dashboard')) sm:bg-green-900 text-green-400 sm:text-white @else  text-white  bg-gray-900 @endif  hover:bg-green-900 shadow rounded-md no-underline"
                             href="/dashboard">Dashboard</a>
                     </li>
 
@@ -75,10 +63,12 @@
                                                 :class="show_enterprises ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
                                         </a>
                                         <div x-show="show_enterprises">
+
                                             @foreach (Auth::user()->isManager->enterprises()->orderBy('name',
                                             'ASC')->get() as $enterprise)
-                                            <a href="{{ route('enterprise-dashboard', ['enterprise' => $enterprise->id]) }}"
-                                                class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block">
+                                            <a href="{{ route('enterprise.dashboard', ['enterprise' => $enterprise->id, 'active_action' => 'products']) }}"
+                                                class="p-2 hover:bg-gray-800
+                                                text-white text-sm no-underline hover:no-underline block">
                                                 {{ $enterprise->name }}
                                             </a>
                                             @if(!$loop->last)
@@ -130,6 +120,24 @@
                             </div>
                         </div>
                     </li>
+                    @endauth
+                    @guest
+                    <li class="sm:flex-1 ml-4 pb-1 sm:ml-0 md:flex-none md:mr-3">
+                        <a href="{{ route('login') }}">
+                            <x-jet-button class="bg-green-700 hover:bg-pink-700">
+                                {{ __('Login') }}
+                            </x-jet-button>
+                        </a>
+                    </li>
+
+                    <li class="sm:flex-1 ml-4 pb-1 sm:ml-0 md:flex-none md:mr-3">
+                        <a href="{{ route('register') }}">
+                            <x-jet-button class="bg-blue-700 hover:bg-purple-700">
+                                {{ __('Register') }}
+                            </x-jet-button>
+                        </a>
+                    </li>
+                    @endguest
                 </ul>
             </div>
         </div>

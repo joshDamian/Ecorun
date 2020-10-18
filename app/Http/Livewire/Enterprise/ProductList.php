@@ -14,6 +14,10 @@ class ProductList extends Component
     public $enterprise;
     public $active_product;
 
+    protected $listeners = [
+        'viewAll'
+    ];
+
     public function switchActiveProduct(Product $product)
     {
         $this->active_product = $product;

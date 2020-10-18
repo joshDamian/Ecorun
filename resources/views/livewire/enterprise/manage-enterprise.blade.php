@@ -1,9 +1,7 @@
 <div>
     @can('manage-enterprise', $enterprise)
     <div class="flex flex-col md:flex-row">
-
         <div class="bg-gray-900 shadow-lg h-16 fixed bottom-0 mt-12 md:relative md:h-screen z-10 w-full md:w-48">
-
             <div
                 class="md:mt-12 md:w-48 md:fixed md:left-0 md:top-0 content-center md:content-start text-left justify-between">
                 <ul
@@ -36,8 +34,12 @@
 
         <div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
             <div class="bg-blue-900 p-2 shadow text-xl text-white">
-                <h3 class="font-bold pl-2 truncate">{{ $enterprise->name . ' | ' . ucfirst($active_action['title']) }}
+                <h3 class="font-bold pl-2 truncate">
+                    {{ $enterprise->name . ' | ' . ucfirst($active_action['title']) }}
                 </h3>
+            </div>
+            <div style="width: 100%;" wire:loading>
+                <x-loader />
             </div>
 
             <div class="py-4 sm:px-4">
@@ -92,8 +94,15 @@
 </div>
 @push('scripts')
 <script>
-    Livewire.on('actionSwitch', () => {
-        window.location = '#';
+    Livewire.on('actionSwitch', (action) => {
+        var state = {
+            id: "100"
+        };
+        window.history.replaceState(
+            state,
+            action,
+            '&view=' + action
+        );
     })
 
 </script>

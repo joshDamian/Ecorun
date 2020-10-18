@@ -29,7 +29,7 @@
                                         An ecorun business can either be a Service provider or an Online store.
                                     </p>
                                     <p>
-                                        Your selection determines how your enterprise is categorized.
+                                        Your selection determines how your business is categorized.
                                     </p>
                                 </p>
                                 <p class="mt-2 text-right cursor-pointer text-red-700" x-on:click="show = false">
@@ -65,7 +65,6 @@
         @livewire('store.create-new-store', ['enterprise' => $enterprise])
         @break
         @default
-
         @break
         @endswitch
 

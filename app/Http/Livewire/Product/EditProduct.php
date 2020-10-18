@@ -32,14 +32,54 @@ class EditProduct extends Component
 
     public function save()
     {
-        $this->validate();
+        $this->validate([
+            'product.name' => [
+                'required',
+                'min:4',
+                'string'
+            ],
+            'product.description' => [
+                'required',
+                'min:20'
+            ],
+            'product.price' => [
+                'required',
+                'int',
+                'min:1'
+            ],
+            'product.available_stock' => ($this->product->enterprise->isStore() || $this->available_stock || $this->available_stock === "0") ? [
+                'required',
+                'int',
+                'min:1'
+            ] : '',
+        ]);
 
         $this->product->save();
     }
 
     public function updated($propertyName)
     {
-        $this->validateOnly($propertyName);
+        $this->validateOnly($propertyName, [
+            'product.name' => [
+                'required',
+                'min:4',
+                'string'
+            ],
+            'product.description' => [
+                'required',
+                'min:20'
+            ],
+            'product.price' => [
+                'required',
+                'int',
+                'min:1'
+            ],
+            'product.available_stock' => ($this->product->enterprise->isStore() || $this->available_stock || $this->available_stock === "0") ? [
+                'required',
+                'int',
+                'min:1'
+            ] : '',
+        ]);
     }
 
     public function render()
