@@ -14,14 +14,13 @@ class SearchProducts extends Component
         'search'
     ];
 
-    public function search($query)
-    {
+    public function search($query) {
+        $this->results = [];
         $this->query = $query;
         $this->results = Product::search($this->query)->where('is_published', true)->take(7)->get();
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.product.search-products');
     }
 }

@@ -28,7 +28,7 @@
     <!--Nav-->
     <nav class="bg-gray-900 pt-2 md:pt-1 pb-1 px-1 mt-0 h-auto fixed w-full z-20 top-0">
 
-        <div class="flex flex-wrap items-center">
+        <div class="flex flex-wrap relative items-center">
             <div class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white">
                 <a href="/">
                     <span class="text-xl pl-2"><i class="fa fa-home"></i></span>
@@ -39,8 +39,8 @@
             <div class="flex w-full pt-2 content-center justify-between md:w-1/3 md:justify-end">
                 <ul class="list-reset flex @auth justify-between @endauth  flex-1 md:flex-none items-center">
                     @auth
-                    <li class="flex-1 md:flex-none md:mr-3">
-                        <a class="inline-block py-2 px-4 @if(request()->routeIs('dashboard')) sm:bg-green-900 text-green-400 sm:text-white @else  text-white  bg-gray-900 @endif  hover:bg-green-900 shadow rounded-md no-underline"
+                    <li class="flex-1 flex-grow md:flex-none md:mr-3">
+                        <a class="inline-block py-2 pl-3 pr-4 @if(request()->routeIs('dashboard')) sm:bg-green-900 text-green-400 sm:text-white @else  text-white  bg-gray-900 @endif  hover:bg-green-900 shadow rounded-md no-underline"
                             href="/dashboard">Dashboard</a>
                     </li>
 
@@ -104,7 +104,7 @@
                             <div id="myDropdown"
                                 class="dropdownlist absolute bg-gray-900 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
                                 <input type="text" class="drop-search p-2 text-gray-600" placeholder="Search.."
-                                    id="myInput" onkeyup="filterDD('myDropdown','myInput')">
+                                id="myInput" onkeyup="filterDD('myDropdown','myInput')">
                                 <a href="/user/profile"
                                     class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i
                                         class="fa fa-user fa-fw"></i> Profile</a>
@@ -113,7 +113,7 @@
                                     @csrf
 
                                     <x-jet-dropdown-link href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                            this.closest('form').submit();">
+                                        this.closest('form').submit();">
                                         <i class="fas fa-sign-out-alt fa-fw"></i> {{ __('Logout') }}
                                     </x-jet-dropdown-link>
                                 </form>
@@ -153,7 +153,12 @@
         }
         /*Filter dropdown options*/
         function filterDD(myDropMenu, myDropMenuSearch) {
-            var input, filter, ul, li, a, i;
+            var input,
+            filter,
+            ul,
+            li,
+            a,
+            i;
             input = document.getElementById(myDropMenuSearch);
             filter = input.value.toUpperCase();
             div = document.getElementById(myDropMenu);

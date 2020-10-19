@@ -1,6 +1,6 @@
 <x-app-layout>
     <div>
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto bg-gray-800 py-14 sm:px-6 lg:px-8">
             @livewire('profile.update-profile-information-form')
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))

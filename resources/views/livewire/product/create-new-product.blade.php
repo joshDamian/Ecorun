@@ -1,6 +1,9 @@
 <div>
+    <div style="width: 100%;" wire:loading>
+        <x-loader />
+    </div>
     @if($product)
-    <div class="py-4 px-4 text-right">
+    <div class="pb-4 px-4 text-right">
         <x-jet-button @click="window.location = window.location" class="bg-pink-600">
             {{ __('Add Another') }}
         </x-jet-button>
@@ -27,14 +30,14 @@
 
                     <!-- Product Photos File Input -->
                     <input type="file" class="hidden" wire:model="photos" multiple x-ref="photos" x-on:change="
-                                const files = $refs.photos.files;
-                                photosArray = [];
-                                for(var i = 0; i < files.length; i++) {
-                                photosArray[i] = {'url': URL.createObjectURL(files[i])}
-                                }
-                
-                                console.log(files.length);
-                                " />
+                    const files = $refs.photos.files;
+                    photosArray = [];
+                    for(var i = 0; i < files.length; i++) {
+                    photosArray[i] = {'url': URL.createObjectURL(files[i])}
+                    }
+
+                    console.log(files.length);
+                    " />
 
                     <x-jet-label for="photos" value="{{ __('Product Photos') }}" />
 
@@ -187,7 +190,7 @@
                     {{ __('Added.') }}
                 </x-jet-action-message>
 
-                <x-jet-button wire:loading.attr="disabled">
+                <x-jet-button @click="window.scrollTo(0, 0);" wire:loading.attr="disabled">
                     {{ __('Add') }}
                 </x-jet-button>
             </x-slot>

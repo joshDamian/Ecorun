@@ -1,12 +1,13 @@
 <div>
-    <div class="sm:pt-6 bg-gray-800 pt-14 px-4 mt-12 md:mt-2 pb-4 md:pb-5">
+    <div class="sm:pt-6 bg-gray-800 pt-13 px-4 mt-12 md:mt-2 pb-4 md:pb-5">
         <div class="grid grid-cols-1 gap-4">
             <!-- Billboard -->
             {{-- <div>
                 <div class="bg-white py-4 flex justify-center shadow items-center">
                     <i style="font-size: 10rem;" class="fas text-blue-800 fa-clipboard-list"></i>
                 </div>
-            </div> --}}
+            </div>
+            --}}
 
             <!-- Store Products -->
             <div>
