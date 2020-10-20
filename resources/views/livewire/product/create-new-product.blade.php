@@ -63,7 +63,7 @@
                     <x-jet-input-error for="photos.*" class="mt-2" />
                 </div>
 
-                <div class="col-span-12 md:col-span-8 sm:col-span-6">
+                <div class="col-span-12 md:col-span-6 sm:col-span-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <!-- Category -->
                         <div>
@@ -77,9 +77,10 @@
                             </x-jet-label>
                             <div class="relative mt-1">
                                 <select wire:model="activeCategory"
-                                    class="block appearance-none w-full bg-gray-700 border border-gray-700 text-white py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-green-700 focus:border-green-700"
+                                    class="block appearance-none w-full bg-blue-900 border border-blue-900 text-white py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-gray-900 focus:border-gray-900"
                                     id="grid-state">
-                                    @if(!$activeCategory) <option selected>Select A Category Group</option> @endif
+                                    @if(!$activeCategory) <option value='' selected>Select A Category Group</option>
+                                    @endif
                                     @foreach($categories as $category)
                                     <option value="{{ $category->title }}">{{ $category->title }}</option>
                                     @endforeach
@@ -108,9 +109,9 @@
                             </x-jet-label>
                             <div class="relative mt-1">
                                 <select wire:model="product_category"
-                                    class="block appearance-none w-full bg-gray-700 border border-gray-700 text-white py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-green-700 focus:border-green-700"
+                                    class="block appearance-none w-full bg-blue-900 border border-blue-900 text-white py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-gray-900 focus:border-gray-900"
                                     id="grid-state">
-                                    @if(!$product_category) <option selected value=''>Select A Category</option> @endif
+                                    @if(!$product_category) <option value=''>Select A Category</option> @endif
                                     @forelse(App\Models\Category::without('products')->find($activeCategory)->sub_categories
                                     as $category)
                                     <option value="{{ $category->title }}">{{ $category->title }}</option>
@@ -198,3 +199,11 @@
     </div>
     @endif
 </div>
+@push('scripts')
+<script>
+    document.addEventListener('livewire:load', function () {
+
+    })
+
+</script>
+@endpush

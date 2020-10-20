@@ -1,12 +1,12 @@
 @props(['products'])
-<div class="grid grid-cols-2 sm:gap-4 gap-2 sm:grid-cols-3 md:grid-cols-6">
+<div class="grid grid-cols-2 sm:gap-3 md:gap-3 gap-3 sm:grid-cols-3 md:grid-cols-6">
     @foreach($products as $product)
     <a href="{{ route('product.show', ['product' => $product->id, 'name' => $product->name]) }}">
         <div class="bg-white shadow cursor-pointer">
             <div class="flex justify-center">
-                <img src="/storage/{{ $product->displayImage() }}" width="200" height="200" />
+                <img src="/storage/{{ $product->displayImage() }}" width="202" height="202" />
             </div>
-            <div class="text-center py-2 px-2">
+            <div class="text-center pb-2 pt-2">
                 <div class="truncate">
                     {{ $product->name }}
                 </div>
@@ -19,7 +19,7 @@
     @endforeach
 </div>
 @if($products->links()->paginator->hasPages())
-<div class="mt-2">
+<div class="mt-2 text-white">
     {{ $products->links() }}
 </div>
 @endif

@@ -2,14 +2,16 @@
     <div class="mb-2 font-bold text-lg">
         @if ($enterprises->count() < 2) {{ __('My Business') }} @else {{ __('My Businesses') }} @endif </div> <div
             class="bg-white 
-    @if ($enterprises->count() < 2)
-       sm:grid grid-cols-2
+    @if ($enterprises->count() < 2 && $enterprises->count() > 0)
+       sm:grid grid-cols-2 bg-gray-400
+    @elseif($enterprises->count() < 1)
+    flex justify-center
     @else
-        grid gap-2 sm:gap-4 grid-cols-2 sm:grid-cols-3
+        grid gap-2 sm:gap-2 grid-cols-2 sm:grid-cols-3
     @endif
     ">
             @forelse ($enterprises as $enterprise)
-            <a class="block"
+            <a class="block shadow"
                 href="{{ route('enterprise.dashboard', ['enterprise' => $enterprise->id, 'active_action' => 'products']) }}">
                 <x-enterprise.enterprise-preview :enterprise="$enterprise" />
                 <div style="width: 100%;"

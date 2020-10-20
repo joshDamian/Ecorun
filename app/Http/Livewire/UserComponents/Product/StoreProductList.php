@@ -18,7 +18,7 @@ class StoreProductList extends Component
         }
 
         return view('livewire.user-components.product.store-product-list', [
-            'store_products' => Product::whereIn('enterprise_id', $stores_enterprise_id)->where('is_published', true)->latest()->paginate(10)
+            'store_products' => Product::whereIn('enterprise_id', $stores_enterprise_id)->where('is_published', true)->latest()->paginate(12)
         ]);
     }
 }
