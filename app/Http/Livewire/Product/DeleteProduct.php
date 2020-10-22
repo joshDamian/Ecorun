@@ -24,7 +24,7 @@ class DeleteProduct extends Component
 
         $this->product->forceDelete();
 
-        redirect()->to("/e-prises/{$enterprise_id}/products");
+        redirect()->to("/my-bss/{$enterprise_id}/products");
     }
 
     public function confirmDeleteProduct()

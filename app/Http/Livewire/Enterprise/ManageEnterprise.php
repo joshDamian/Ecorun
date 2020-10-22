@@ -57,7 +57,7 @@ class ManageEnterprise extends Component
 
     public function mount($active_action = null)
     {
-        $this->active_action = ($active_action) ? $this->actions[$active_action] : $this->actions['products'];
+        $this->active_action = ($active_action) ? $this->actions[$active_action] : $this->actions['update'];
     }
 
     public function switchAction($key)

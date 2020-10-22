@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\Enterprise\ManageEnterprise;
@@ -24,11 +25,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
 
     Route::middleware(['can:own-enterprise'])->group(function () {
-        Route::get('/manager-dashboard', function () {
-            return view('/manager-dashboard');
-        })->name('manager-dashboard');
-
-        Route::get('/my-bss/{enterprise}/&view={active_action?}', ManageEnterprise::class)
+        Route::get('/my-bss/{enterprise}/{active_action?}/', ManageEnterprise::class)
             ->middleware('can:update-enterprise,enterprise')
             ->name('enterprise.dashboard');
     });
@@ -36,3 +33,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 Route::get('/prod/{name}_{product}', [ProductController::class, 'show'])
     ->name('product.show');
+
+Route::get('/categories', [CategoryController::class, 'index'])
+    ->name('category.index');
+Route::get('categories/{category}', [CategoryController::class, 'show'])
+    ->name('category.show');

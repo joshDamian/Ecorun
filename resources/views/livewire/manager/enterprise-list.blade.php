@@ -6,13 +6,13 @@
             </div>
         </div>
         <div class="sm:col-span-8">
-            <div class="bg-white rounded-lg 
+            <div class="bg-white 
         @if ($enterprises->count() < 2 && $enterprises->count() > 0)
             sm:grid grid-cols-2 bg-gray-400
         @elseif($enterprises->count() < 1)
             flex justify-center
         @else
-            grid gap-2 sm:gap-3 grid-cols-2 sm:grid-cols-3
+            grid gap-2 sm:gap-2 grid-cols-2 sm:grid-cols-3
         @endif        
     ">
                 @forelse ($enterprises as $enterprise)

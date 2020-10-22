@@ -9,7 +9,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"> --}}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -45,8 +45,7 @@
                 <ul class="list-reset flex @auth justify-between @endauth  flex-1 md:flex-none items-center">
                     @auth
                     <li class="flex-1 flex-grow md:flex-none md:mr-3">
-                        <a class="inline-block py-2 pl-3 pr-4 @if(request()->routeIs('dashboard')) sm:bg-green-900 text-green-400 sm:text-white @else  text-white  bg-gray-900 @endif  hover:bg-green-900 shadow rounded-md no-underline"
-                            href="/dashboard">Dashboard</a>
+                        <a class="inline-block py-2 pl-3 pr-4 @if(request()->routeIs('dashboard')) sm:bg-green-900 text-green-400 sm:text-white @else  text-white  bg-gray-900 @endif  hover:bg-green-900 shadow rounded-md no-underline" href="/dashboard">Dashboard</a>
                     </li>
 
                     @can('own-enterprise')
@@ -61,18 +60,15 @@
                             <x-slot name="content">
                                 <div class="bg-gray-900 text-white mt-3 p-3 overflow-auto">
                                     <div x-data="{ show_enterprises: false }">
-                                        <a @click="show_enterprises = ! show_enterprises"
-                                            class="p-2 hover:bg-gray-800 cursor-pointer text-white text-sm no-underline hover:no-underline block">
+                                        <a @click="show_enterprises = ! show_enterprises" class="p-2 hover:bg-gray-800 cursor-pointer text-white text-sm no-underline hover:no-underline block">
                                             <span class="truncate">manage businesses</span>
-                                            &nbsp;<i
-                                                :class="show_enterprises ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
+                                            &nbsp;<i :class="show_enterprises ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
                                         </a>
                                         <div x-show="show_enterprises">
 
                                             @foreach (Auth::user()->isManager->enterprises()->orderBy('name',
                                             'ASC')->get() as $enterprise)
-                                            <a href="{{ route('enterprise.dashboard', ['enterprise' => $enterprise->id, 'active_action' => 'products']) }}"
-                                                class="p-2 hover:bg-gray-800
+                                            <a href="{{ route('enterprise.dashboard', ['enterprise' => $enterprise->id, 'active_action' => 'products']) }}" class="p-2 hover:bg-gray-800
                                                 text-white text-sm no-underline hover:no-underline block">
                                                 {{ $enterprise->name }}
                                             </a>
@@ -101,18 +97,12 @@
                         <div class="relative inline-block">
                             <button onclick="toggleDD('myDropdown')" class="drop-button text-white focus:outline-none">
                                 {{ Auth::user()->name }}
-                                <svg class="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                <svg class="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                 </svg></button>
-                            <div id="myDropdown"
-                                class="dropdownlist absolute bg-gray-900 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
-                                <input type="text" class="drop-search p-2 text-gray-600" placeholder="Search.."
-                                    id="myInput" onkeyup="filterDD('myDropdown','myInput')">
-                                <a href="/user/profile"
-                                    class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i
-                                        class="fa fa-user fa-fw"></i> Profile</a>
+                            <div id="myDropdown" class="dropdownlist absolute bg-gray-900 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
+                                <input type="text" class="drop-search p-2 text-gray-600" placeholder="Search.." id="myInput" onkeyup="filterDD('myDropdown','myInput')">
+                                <a href="/user/profile" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-user fa-fw"></i> Profile</a>
                                 <div class="border border-gray-800"></div>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -158,12 +148,12 @@
         }
         /*Filter dropdown options*/
         function filterDD(myDropMenu, myDropMenuSearch) {
-            var input,
-                filter,
-                ul,
-                li,
-                a,
-                i;
+            var input
+                , filter
+                , ul
+                , li
+                , a
+                , i;
             input = document.getElementById(myDropMenuSearch);
             filter = input.value.toUpperCase();
             div = document.getElementById(myDropMenu);
@@ -177,7 +167,7 @@
             }
         }
         // Close the dropdown menu if the user clicks outside of it
-        window.onclick = function (event) {
+        window.onclick = function(event) {
             if (!event.target.matches('.drop-button') && !event.target.matches('.drop-search')) {
                 var dropdowns = document.getElementsByClassName("dropdownlist");
                 for (var i = 0; i < dropdowns.length; i++) {

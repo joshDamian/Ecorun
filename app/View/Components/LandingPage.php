@@ -4,10 +4,10 @@ namespace App\View\Components;
 
 use App\Models\Category;
 use Illuminate\View\Component;
+use Illuminate\Support\Str;
 
 class LandingPage extends Component
 {
-    public $categories;
     /**
      * Create a new component instance.
      *
@@ -15,7 +15,7 @@ class LandingPage extends Component
      */
     public function __construct()
     {
-        $this->categories = Category::without('products')->where('parent_title', null)->get();
+        //
     }
 
     /**

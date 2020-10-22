@@ -112,7 +112,7 @@
                                     class="block appearance-none w-full bg-blue-900 border border-blue-900 text-white py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-gray-900 focus:border-gray-900"
                                     id="grid-state">
                                     @if(!$product_category) <option value=''>Select A Category</option> @endif
-                                    @forelse(App\Models\Category::without('products')->find($activeCategory)->sub_categories
+                                    @forelse(App\Models\Category::without('products')->find($activeCategory)->children
                                     as $category)
                                     <option value="{{ $category->title }}">{{ $category->title }}</option>
                                     @empty

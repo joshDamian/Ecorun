@@ -19,7 +19,8 @@ class Category extends Model
     protected $with = [
         'products',
     ];
-    public function sub_categories()
+
+    public function children()
     {
         return $this->hasMany(Category::class, 'parent_title');
     }
@@ -27,5 +28,10 @@ class Category extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function isParent()
+    {
+        return $this->children->count() > 0;
     }
 }

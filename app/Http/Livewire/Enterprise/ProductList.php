@@ -31,7 +31,7 @@ class ProductList extends Component
     public function render()
     {
         return view('livewire.enterprise.product-list', [
-            'products' => Auth::user()->isManager->enterprises->find($this->enterprise)->products()->latest()->paginate(10)
+            'products' => Auth::user()->isManager->enterprises->find($this->enterprise)->products()->latest()->paginate(12)
         ]);
     }
 }
