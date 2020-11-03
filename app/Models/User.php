@@ -68,6 +68,16 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    public function view_history()
+    {
+        return $this->hasMany(RecentlyViewed::class);
+    }
+
     public function revokeManager()
     {
         return $this->isManager->revoke();

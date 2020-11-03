@@ -17,7 +17,8 @@ class ManageAttribute extends Component
             'required',
             'min:3',
         ],
-        'attribute.value' => 'required'
+        'attribute.value' => 'required',
+        'attribute.is_specific' => ''
     ];
 
     public function edit()
@@ -33,6 +34,8 @@ class ManageAttribute extends Component
             ],
             'attribute.value' => 'required'
         ]);
+
+        $this->attribute->value = (is_array($this->attribute->value)) ? $this->attribute->value : explode(',', $this->attribute->value);
 
         $this->attribute->save();
 

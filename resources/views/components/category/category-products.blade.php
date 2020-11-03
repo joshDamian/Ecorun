@@ -1,5 +1,5 @@
 <div>
-    <a href="{{ route('category.show', ['category' => $category->title]) }}">
+    <a href="{{ route('category.show', ['slug' => $category->data_slug('title')]) }}">
         <div class="mb-2 text-blue-700">
             {{ ucwords($category->title) }}
         </div>
@@ -11,7 +11,7 @@
     @else
     @if($category->products->count() > 6)
     <div class="mt-2 text-right">
-        <a href="{{ route('category.show', ['category' => $category->title]) }}">
+        <a href="{{ route('category.show', ['slug' => $category->data_slug('title')]) }}">
             <x-jet-button class="bg-blue-700">
                 {{ __('see more') }}
             </x-jet-button>

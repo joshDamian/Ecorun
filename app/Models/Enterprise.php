@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\StringManipulations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +15,9 @@ class Enterprise extends Model
         'products',
         'enterpriseable'
     ];
-    
+
+    use StringManipulations;
+
     use HasFactory;
 
     public function manager()
@@ -61,5 +64,12 @@ class Enterprise extends Model
     public function offline_locations()
     {
         return $this->hasMany(EnterpriseOfflineLocation::class);
+    }
+
+    public function slugData()
+    {
+        return [
+            'name' => $this->name,
+        ];
     }
 }

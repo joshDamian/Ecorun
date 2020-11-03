@@ -39,7 +39,7 @@ class ManageImages extends Component
 
         foreach ($this->photos as $photo) {
             $photo_path = $photo->store('product-photos', 'public');
-            $photo = Image::make(public_path("/storage/{$photo_path}"))->fit(1024, 1024);
+            $photo = Image::make(public_path("/storage/{$photo_path}"))->fit(1600, 1600);
             $photo->save();
 
             $this->product->gallery()->create([

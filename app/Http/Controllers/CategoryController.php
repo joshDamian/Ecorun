@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -14,7 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::without('products')->where('parent_title', '!=', null)->get();
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -44,8 +46,10 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($slug)
     {
+        $real_title = str_replace('-', ' ', $slug);
+        $category = Category::findOrFail($real_title);
         return view('categories.show', compact('category'));
     }
 

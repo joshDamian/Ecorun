@@ -47,7 +47,7 @@
             @empty
             <div>
                 <div class="flex justify-center">
-                    <i style="font-size: 8rem;" class="fas text-blue-700 fa-battery-empty"></i>
+                    <i style="font-size: 8rem;" class="fas text-blue-700 fa-shopping-bag"></i>
                 </div>
                 <div class="text-center py-4 px-4 text-blue-700 text-lg font-bold">
                     nothing here, add a product

@@ -55,6 +55,7 @@ class EditProduct extends Component
         ]);
 
         $this->product->save();
+        $this->emitSelf('saved');
     }
 
     public function updated($propertyName)

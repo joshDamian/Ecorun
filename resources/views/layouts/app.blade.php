@@ -45,7 +45,7 @@
                 <ul class="list-reset flex @auth justify-between @endauth  flex-1 md:flex-none items-center">
                     @auth
                     <li class="flex-1 flex-grow md:flex-none md:mr-3">
-                        <a class="inline-block py-2 pl-3 pr-4 @if(request()->routeIs('dashboard')) sm:bg-green-900 text-green-400 sm:text-white @else  text-white  bg-gray-900 @endif  hover:bg-green-900 shadow rounded-md no-underline" href="/dashboard">Dashboard</a>
+                        <a class="inline-block py-2 pl-3 pr-4 @if(request()->routeIs('dashboard')) sm:bg-green-900 text-green-400 sm:text-white @else  text-white  bg-gray-900 @endif  hover:bg-green-900 rounded-md no-underline" href="/dashboard">Dashboard</a>
                     </li>
 
                     @can('own-enterprise')
@@ -53,7 +53,7 @@
                         <x-jet-dropdown align="top">
                             <x-slot name="trigger">
                                 <div class="cursor-pointer text-white select-none">
-                                    {{ __('manager actions') }}&nbsp;
+                                    {{ __('manager account') }}&nbsp;
                                     <i :class="open ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
                                 </div>
                             </x-slot>
@@ -65,10 +65,9 @@
                                             &nbsp;<i :class="show_enterprises ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
                                         </a>
                                         <div x-show="show_enterprises">
-
                                             @foreach (Auth::user()->isManager->enterprises()->orderBy('name',
                                             'ASC')->get() as $enterprise)
-                                            <a href="{{ route('enterprise.dashboard', ['enterprise' => $enterprise->id, 'active_action' => 'products']) }}" class="p-2 hover:bg-gray-800
+                                            <a href="{{ route('enterprise.dashboard', ['enterprise' => $enterprise->id, 'slug' => $enterprise->data_slug('name')]) }}" class="p-2 hover:bg-gray-800
                                                 text-white text-sm no-underline hover:no-underline block">
                                                 {{ $enterprise->name }}
                                             </a>
@@ -139,6 +138,7 @@
 
     </nav>
     <main>
+        @livewire('session-transport', key('session_transport'))
         {{ $slot }}
     </main>
     <script>

@@ -18,7 +18,4 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-
-    # replace spaces by - in between
-    RewriteRule ^([^\s%20]*)(?:\s|%20)+(.*)$ $1-$2 [L,R]
 </IfModule>

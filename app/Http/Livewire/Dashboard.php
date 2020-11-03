@@ -34,15 +34,17 @@ class Dashboard extends Component
 
     public $active_action;
 
-    public function mount()
+    public function mount($active_action = null)
     {
-        $this->active_action = $this->actions['manager account'];
+        $this->active_action = ($active_action) ?
+            ((array_key_exists($active_action, $this->actions)) ? $this->actions[$active_action] : $this->actions['orders'])
+            : $this->actions['orders'];
     }
 
     public function switchAction($key)
     {
         $this->active_action = $this->actions[$key];
-        $this->emit('actionSwitch');
+        $this->emit('actionSwitch', $key);
     }
 
     public function render()

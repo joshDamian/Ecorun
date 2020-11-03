@@ -2,9 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Models\Category;
 use Illuminate\View\Component;
-use Illuminate\Support\Str;
 
 class LandingPage extends Component
 {

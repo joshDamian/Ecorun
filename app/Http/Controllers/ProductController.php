@@ -44,9 +44,14 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($name, Product $product)
+    public function show($slug, Product $product, Request $request)
     {
-        return view('products.show', compact('product'));
+        if ($slug === $product->data_slug('name')) {
+            $product->bootstrap();
+            return view('products.show', compact('product'));
+        } else {
+            return redirect()->route('product.show', ['slug' => $product->data_slug('name'), 'product' => $product]);
+        }
     }
 
     /**

@@ -13,7 +13,8 @@ class DeleteProduct extends Component
 
     public function delete()
     {
-        $enterprise_id = $this->product->enterprise_id;
+        $enterprise = $this->product->enterprise;
+
         $this->product->attributes()->delete();
 
         foreach ($this->product->gallery as $image) {
@@ -24,7 +25,7 @@ class DeleteProduct extends Component
 
         $this->product->forceDelete();
 
-        redirect()->to("/my-bss/{$enterprise_id}/products");
+        redirect()->to("/my-bss/{$enterprise->data_slug('name')}/+id={$enterprise->id}/products");
     }
 
     public function confirmDeleteProduct()

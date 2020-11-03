@@ -13,6 +13,7 @@ class CreateNewAttribute extends Component
     public $name;
     public $value = [];
     public $ready;
+    public $is_specific = false;
 
     protected $rules = [];
 
@@ -31,13 +32,10 @@ class CreateNewAttribute extends Component
 
         $this->value = explode(',', $this->value);
 
-        foreach ($this->value as $key => $value) {
-            $this->value[$key] = trim($value);
-        }
-
         $this->product->attributes()->create([
             'name' => $this->name,
-            'value' => $this->value
+            'value' => $this->value,
+            'is_specific' => $this->is_specific
         ]);
 
         $this->nevermind();

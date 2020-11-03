@@ -8,9 +8,9 @@
                 @livewire('user-components.product.store-product-list')
             </div>
 
-            <div>
+            {{-- <div>
                 @livewire('user-components.product.service-product-list')
-            </div>
+            </div> --}}
         </div>
     </x-landing-page>
 </div>

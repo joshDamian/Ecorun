@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\StringManipulations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -10,6 +11,7 @@ class Category extends Model
 {
     use HasFactory;
     use Searchable;
+    use StringManipulations;
 
     protected $fillable = [
         'title'
@@ -33,5 +35,12 @@ class Category extends Model
     public function isParent()
     {
         return $this->children->count() > 0;
+    }
+
+    public function slugData()
+    {
+        return [
+            'title' => $this->title,
+        ];
     }
 }

@@ -1,14 +1,14 @@
 <div>
-    <div class="grid sm:gap-6 grid-cols-1 gap-3 sm:grid-cols-12">
+    <div class="grid sm:gap-6 grid-cols-1 gap-2 sm:grid-cols-12">
         <div class="sm:col-span-4">
             <div class="font-medium text-lg">
                 <span>@if ($enterprises->count() < 2) {{ __('My Business') }} @else {{ __('My Businesses') }} @endif </span>
             </div>
         </div>
         <div class="sm:col-span-8">
-            <div class="bg-white 
+            <div class=" 
         @if ($enterprises->count() < 2 && $enterprises->count() > 0)
-            sm:grid grid-cols-2 bg-gray-400
+            sm:grid grid-cols-2 
         @elseif($enterprises->count() < 1)
             flex justify-center
         @else
@@ -16,7 +16,7 @@
         @endif        
     ">
                 @forelse ($enterprises as $enterprise)
-                <a class="block shadow" href="{{ route('enterprise.dashboard', ['enterprise' => $enterprise->id, 'active_action' => 'products']) }}">
+                <a class="block shadow" href="{{ route('enterprise.dashboard', ['enterprise' => $enterprise->id, 'slug' => $enterprise->data_slug('name')]) }}">
                     <x-enterprise.enterprise-preview :enterprise="$enterprise" />
                     <div style="width: 100%;" class="py-2 px-2 bg-gray-900 truncate text-center text-md font-semibold text-white">
                         {{ $enterprise->name }}
