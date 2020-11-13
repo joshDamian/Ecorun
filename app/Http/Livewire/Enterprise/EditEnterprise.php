@@ -51,9 +51,8 @@ class EditEnterprise extends Component
         ]);
 
         if ($this->photo) {
-            $photo_path = $this->photo->store('entreprise-cover-photos', 'public');
-            /*$cover_photo = Image::make(public_path("/storage/{$photo_path}"))->fit(640, 320);
-            $cover_photo->save();*/
+            $this->enterprise->updateProfilePhoto($this->photo);
+            /* $photo_path = $this->photo->store('enterprise-cover-photos', 'public');
 
             if ($this->enterprise->coverPhoto()) {
                 Storage::disk('public')->delete($this->enterprise->coverPhoto());
@@ -65,7 +64,7 @@ class EditEnterprise extends Component
                     'label' => 'cover_photo',
                     'image_url' => $photo_path
                 ]);
-            }
+            } */
         }
 
         $this->enterprise->name = ucwords($this->enterprise->name);
@@ -76,14 +75,15 @@ class EditEnterprise extends Component
 
     public function deleteCoverPhoto()
     {
-        if ($this->enterprise->coverPhoto()) {
-            Storage::disk('public')->delete($this->enterprise->coverPhoto());
+        if ($this->enterprise->profile_photo_path) {
+            $this->enterprise->deleteProfilePhoto();
+            /* Storage::disk('public')->delete($this->enterprise->coverPhoto());
             $this->enterprise->gallery()
                 ->where('label', 'cover_photo')
                 ->delete();
 
             $this->emitSelf('saved');
-            $this->emit('enterprise_updated');
+            $this->emit('enterprise_updated'); */
         }
     }
 

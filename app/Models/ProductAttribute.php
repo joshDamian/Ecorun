@@ -27,7 +27,8 @@ class ProductAttribute extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function canBeSingular() {
+    public function canBeSingular()
+    {
         return [
             'name' => $this->name
         ];

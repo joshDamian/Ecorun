@@ -11,6 +11,9 @@ class GuestCartView extends Component
     use WithPagination;
 
     public $cart_items;
+    protected $listeners = [
+        'modifiedCart' => '$refresh'
+    ];
 
     public function render()
     {

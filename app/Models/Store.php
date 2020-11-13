@@ -9,10 +9,6 @@ class Store extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'description'
-    ];
-
     public function enterprise()
     {
         return $this->morphOne('App\Models\Enterprise', 'enterpriseable');

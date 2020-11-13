@@ -28,6 +28,10 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+    protected $with = [
+        //'following'
+    ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -78,8 +82,29 @@ class User extends Authenticatable
         return $this->hasMany(RecentlyViewed::class);
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            $user->profile()->create([
+                'description' => "I am {$user->name}, I'm a newbie and i hope to make new friends very soon.",
+            ]);
+        });
+    }
+
     public function revokeManager()
     {
         return $this->isManager->revoke();
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany(Profile::class);
+    }
+
+    public function profile()
+    {
+        return $this->morphOne('App\Models\Profile', 'profileable');
     }
 }

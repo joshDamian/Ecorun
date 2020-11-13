@@ -1,12 +1,12 @@
 <x-jet-form-section submit="updatePassword">
     <x-slot name="title">
-        <div class="text-white">
+        <div class="">
             {{ __('Update Password') }}
         </div>
     </x-slot>
 
     <x-slot name="description">
-        <div class="text-gray-400">
+        <div class="text-gray-600">
             {{ __('Ensure your account is using a long, random password to stay secure.') }}
         </div>
     </x-slot>

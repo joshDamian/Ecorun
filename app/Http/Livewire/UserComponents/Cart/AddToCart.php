@@ -17,13 +17,13 @@ class AddToCart extends Component
         'modifiedCart' => '$refresh'
     ];
 
-
     protected $rules = [
         'quantity' => ['required', 'min:1', 'int']
     ];
 
     public function mount(Product $product)
     {
+        $this->quantity = 1;
         $this->product = $product;
 
         $indicated_specs = $this->product->indicatedSpecs();

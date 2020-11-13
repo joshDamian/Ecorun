@@ -11,9 +11,6 @@
                     <i class="fa fa-trash"></i>
                 </x-jet-secondary-button>
             </div>
-            <x-jet-action-message class="mr-3" on="updated">
-                {{ __('updated.') }}
-            </x-jet-action-message>
 
             <x-jet-button class="bg-green-700" wire:loading.attr="disabled">
                 <i class="fa fa-edit"></i>

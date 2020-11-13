@@ -6,7 +6,6 @@ use App\Traits\StringManipulations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Session\SessionManager;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 
@@ -17,7 +16,7 @@ class Product extends Model
     use StringManipulations;
 
     protected $with = [
-        'attributes'
+        'attributes',
     ];
 
     protected $casts = [
@@ -73,9 +72,9 @@ class Product extends Model
         return $this->gallery->first()->image_url;
     }
 
-    public function price()
+    public function price($quantity = null)
     {
-        return "<span>&#8358; </span>" . number_format($this->price, 2);
+        return "<span>&#8358; </span>" . number_format(($quantity) ? $this->price * $quantity : $this->price, 2);
     }
 
     public function slugData()
@@ -88,12 +87,17 @@ class Product extends Model
     public function bootstrap()
     {
         if (Auth::user()) {
-            (Auth::user()->view_history->whereIn('product_id', [$this->id])->count() > 0) ? true  :
+            $existing = Auth::user()->view_history()->where('product_id', $this->id)->get()->first();
+            if ($existing) {
+                $existing->updated_at = time();
+                $existing->save();
+            } else {
                 $this->view_history()->save(
                     Auth::user()->view_history()->save(
                         new RecentlyViewed()
                     )
                 );
+            }
         } else {
             $product_view_history = session()->get('product_view_history', []);
             (!in_array($this->id, $product_view_history)) ? session()->push("product_view_history", $this->id) : true;

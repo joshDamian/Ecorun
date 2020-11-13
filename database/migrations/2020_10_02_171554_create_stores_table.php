@@ -17,7 +17,6 @@ class CreateStoresTable extends Migration
             'stores',
             function (Blueprint $table) {
                 $table->id();
-                $table->text('description');
                 $table->timestamps();
             }
         );

@@ -10,10 +10,10 @@
     </div>
 </div>
 @else
-<div class="flex bg-gray-300 overflow-x-scroll md:overflow-x-hidden md:grid md:grid-cols-6 md:gap-3">
+<div class="flex overflow-x-scroll md:overflow-x-hidden md:grid md:grid-cols-6 md:gap-3">
     @foreach($products as $product)
     <div class="flex-shrink-0 md:mr-0 @if(!$loop->last) mr-2 @endif">
-        <x-product.product-preview-card imagebox="180" :product="$product" />
+        <x-product.product-preview-card imagebox="185" :product="$product" />
     </div>
     @endforeach
 </div>

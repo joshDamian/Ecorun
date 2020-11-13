@@ -1,6 +1,5 @@
 <div>
     <x-jet-form-section submit="saveProfile">
-        @can('manage-enterprise', $enterprise)
         @if ($enterprise->isStore())
         <x-slot name="title">
             {{ __('Store Profile') }}
@@ -18,27 +17,10 @@
             {{ __('Edit your service\'s name and cover photo.') }}
         </x-slot>
         @endif
-        @endcan
-
-        @cannot('manage-enterprise', $enterprise)
-        <x-slot name="title">
-            {{ __('Enterprise Profile') }}
-        </x-slot>
-
-        <x-slot name="description">
-            {{ __('Edit your enterprise\'s name and cover photo.') }}
-        </x-slot>
-        @endcannot
 
         <x-slot name="form">
-
             <!-- Photo -->
-            <div x-data="{photoPreview: null, photoName: null, isUploading: false, progress: 0}"
-                x-on:livewire-upload-start="isUploading = true" x-on:livewire-upload-finish="isUploading = false"
-                x-on:livewire-upload-error="isUploading = false"
-                x-on:livewire-upload-progress="progress = $event.detail.progress"
-                x-init="@this.on('saved', () => { setTimeout( () => { photoPreview = null; }, 1000); })"
-                class="col-span-6 sm:col-span-4">
+            <div x-data="{photoPreview: null, photoName: null, isUploading: false, progress: 0}" x-on:livewire-upload-start="isUploading = true" x-on:livewire-upload-finish="isUploading = false" x-on:livewire-upload-error="isUploading = false" x-on:livewire-upload-progress="progress = $event.detail.progress" x-init="@this.on('saved', () => { setTimeout( () => { photoPreview = null; }, 1000); })" class="col-span-6 sm:col-span-4">
 
                 <!-- Profile Photo File Input -->
                 <input type="file" class="hidden" wire:model="photo" x-ref="photo" x-on:change="
@@ -54,64 +36,42 @@
 
                 <!-- Current Cover Photo -->
                 <div class="mt-2" x-show.transition="! photoPreview">
-                    @if ($enterprise->coverPhoto())
-                    <div
-                        style="height: 220px; width: 100%; background-image: url('/storage/{{ $enterprise->coverPhoto() }}'); background-position: center center; background-size: cover;">
+                    <div style="height: 220px; width: 100%; background-image: url('{{ $enterprise->profile_photo_url }}'); background-position: center center; background-size: cover;">
                     </div>
-                    @else
-                    <div class="flex items-center bg-white py-3 px-3 justify-center">
-                        <i style="font-size: 8rem;" class="fa text-blue-600 fa-store-alt"></i>
-                    </div>
-                    @endif
                 </div>
 
                 <!-- New Cover Photo Preview -->
                 <div class="mt-2" x-show.transition="photoPreview">
-                    <div
-                        x-bind:style="'width: 100%; height: 200px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
+                    <div x-bind:style="'width: 100%; height: 200px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
                     </div>
                     <div class="mt-2" x-show.transition="isUploading">
                         <progress max="100" x-bind:value="progress"></progress>
                     </div>
                 </div>
 
-                <x-jet-secondary-button class="mt-2 mr-2" type="button"
-                    x-on:click.prevent="$refs.photo.click(); photoPreview = null">
+                <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click(); photoPreview = null">
                     {{ __('Select A New Cover Photo') }}
                 </x-jet-secondary-button>
                 <x-jet-input-error for="photo" class="mt-2" />
             </div>
 
             <!-- Name -->
-            @can('manage-enterprise', $enterprise)
             @if ($enterprise->isStore())
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="name" value="{{ __('Store Name') }}" />
-                <x-jet-input id="name" placeholder="store name" type="text" wire:model="enterprise.name"
-                    class="mt-1 block w-full" autocomplete="name" />
+                <x-jet-input id="name" placeholder="store name" type="text" wire:model="enterprise.name" class="mt-1 block w-full" autocomplete="name" />
                 <x-jet-input-error for="enterprise.name" class="mt-2" />
             </div>
             @else
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="name" value="{{ __('Service Name') }}" />
-                <x-jet-input id="name" placeholder="service name" type="text" wire:model="enterprise.name"
-                    class="mt-1 block w-full" autocomplete="name" />
+                <x-jet-input id="name" placeholder="service name" type="text" wire:model="enterprise.name" class="mt-1 block w-full" autocomplete="name" />
                 <x-jet-input-error for="enterprise.name" class="mt-2" />
             </div>
             @endif
-            @endcan
-
-            @cannot('manage-enterprise', $enterprise)
-            <div class="col-span-6 sm:col-span-4">
-                <x-jet-label for="name" value="{{ __('Enterprise Name') }}" />
-                <x-jet-input id="name" placeholder="enterprise name" type="text" wire:model="enterprise.name"
-                    class="mt-1 block w-full" autocomplete="name" />
-                <x-jet-input-error for="enterprise.name" class="mt-2" />
-            </div>
-            @endcannot
 
             <!-- Remove Cover Photo -->
-            @if($enterprise->coverPhoto())
+            @if($enterprise->profile_photo_path)
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-secondary-button wire:click="deleteCoverPhoto">
                     {{ __('Remove Cover Photo') }}

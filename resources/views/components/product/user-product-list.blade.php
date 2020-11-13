@@ -10,7 +10,7 @@
         </div>
 
         @elseif($maximum)
-        <div class="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-3 md:grid-cols-6">
+        <div class="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-3 md:grid-cols-4">
             @foreach($products as $product)
             <div>
                 <x-product.product-preview-card :product="$product" />

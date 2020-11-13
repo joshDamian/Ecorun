@@ -168,7 +168,7 @@
                     {{ __('Added.') }}
                 </x-jet-action-message>
 
-                <x-jet-button @click="window.scrollTo(0, 0);" wire:loading.attr="disabled">
+                <x-jet-button @click=" window.scrollTo(0, 0); " wire:loading.attr="disabled">
                     {{ __('Add') }}
                 </x-jet-button>
             </x-slot>

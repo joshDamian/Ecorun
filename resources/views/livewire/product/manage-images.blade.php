@@ -28,7 +28,7 @@
                     <!-- Photos Preview -->
                     <div>
                         <div class="mt-2" x-show.transition="photos.length > 0">
-                            <div class="grid @if(count($photos) < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-3 sm:gap-2 gap-2">
+                            <div class="grid @if(count($photos) < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-4 sm:gap-2 gap-2">
                                 <template x-for="photo in photos">
                                     <div x-bind:style="'width: 100%; height: 200px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
                                     </div>
@@ -43,7 +43,7 @@
                     <x-jet-input-error for="photos.*" class="mt-2" />
                 </div>
 
-                <div x-show.transtion="photos.length < 1" class="grid col-span-12 @if($product->gallery->count() < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-3 sm:gap-2 gap-2">
+                <div x-show.transtion="photos.length < 1" class="grid col-span-12 @if($product->gallery->count() < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-4 sm:gap-2 gap-2">
                     @foreach($product->gallery as $image)
                     <div class="">
                         <img class="w-100 h-100" src="/storage/{{$image->image_url}}" />

@@ -5,16 +5,29 @@ namespace App\Models;
 use App\Traits\StringManipulations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Jetstream\HasProfilePhoto;
 
 class Enterprise extends Model
 {
+    use HasProfilePhoto;
+
     protected $fillable = [
         'name',
     ];
     protected $with = [
         'products',
-        'enterpriseable'
+        //'enterpriseable',
+        //'profile'
     ];
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'profile_photo_url',
+    ];
+
 
     use StringManipulations;
 
@@ -30,11 +43,16 @@ class Enterprise extends Model
         return $this->morphTo();
     }
 
-    public function coverPhoto()
+    public function profile()
+    {
+        return $this->morphOne('App\Models\Profile', 'profileable');
+    }
+
+    /* public function coverPhoto()
     {
         $cover_photo = $this->gallery()->whereLabel('cover_photo')->first();
         return ($cover_photo) ? $cover_photo->image_url : null;
-    }
+    } */
 
     public function isStore()
     {

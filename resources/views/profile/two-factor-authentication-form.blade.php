@@ -1,12 +1,12 @@
 <x-jet-action-section>
     <x-slot name="title">
-        <div class="text-white">
+        <div class="">
             {{ __('Two Factor Authentication') }}
         </div>
     </x-slot>
 
     <x-slot name="description">
-        <div class="text-gray-400">
+        <div class="text-gray-600">
             {{ __('Add additional security to your account using two factor authentication.') }}
         </div>
     </x-slot>

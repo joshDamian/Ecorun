@@ -10,7 +10,7 @@ class Manager extends Model
     use HasFactory;
     protected $with = [
         'enterprises',
-        'user'
+        //'user'
     ];
 
     public function user()

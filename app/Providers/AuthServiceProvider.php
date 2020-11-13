@@ -40,7 +40,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('manage-enterprise', function ($user, Enterprise $enterprise) {
-            return $enterprise->enterpriseable !== null;
+            return $enterprise->profile !== null;
          });
 
         Gate::define('reference-enterprise', function ($user) {

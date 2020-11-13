@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Http\Livewire\Store;
+namespace App\Http\Livewire\Profile;
 
-use App\Models\Enterprise;
-use App\Models\Store;
 use Livewire\Component;
 
-class CreateNewStore extends Component
+class CreateNewProfile extends Component
 {
-    public Enterprise $enterprise;
-
     public $description;
+    public $profileable;
 
     protected $rules = [
         'description' => ['required', 'min:20']
@@ -19,14 +16,10 @@ class CreateNewStore extends Component
     public function create()
     {
         $this->validate();
-
-        $store = Store::create([
+        $this->profileable->profile()->create([
             'description' => $this->description
         ]);
-
-        $store->enterprise()->save($this->enterprise);
-
-        $this->emit('setupDone');
+        $this->emitSelf('saved');
     }
 
     public function updated($propertyName)
@@ -36,6 +29,6 @@ class CreateNewStore extends Component
 
     public function render()
     {
-        return view('livewire.store.create-new-store');
+        return view('livewire.profile.create-new-profile');
     }
 }

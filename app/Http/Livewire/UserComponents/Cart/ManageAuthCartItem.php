@@ -16,7 +16,7 @@ class ManageAuthCartItem extends Component
     public function update()
     {
         $this->validate();
-        $this->emitSelf('updated');
+        $this->emit('modifiedCart');
     }
 
     public function messages()

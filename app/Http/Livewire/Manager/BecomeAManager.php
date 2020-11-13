@@ -11,8 +11,7 @@ class BecomeAManager extends Component
     public function activate()
     {
         Auth::user()->isManager()->save(new Manager());
-        $this->emit('newManager');
-        
+        return $this->emit('newManager');
     }
 
     public function render()

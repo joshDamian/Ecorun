@@ -9,10 +9,6 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'description',
-    ];
-
     protected $with = [
         'working_days'
     ];
