@@ -8,7 +8,8 @@ use App\Http\Livewire\Enterprise\ManageEnterprise;
 use App\Http\Livewire\UserComponents\Cart\ViewCart;
 use App\Http\Livewire\UserComponents\Home;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +22,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', Home::class)->name('home');
+Route::view('/', 'landing-page');
+
+Route::get('/timeline/me/', function () {
+    $profile = Auth::user()->profile;
+    return view('timeline.show', compact('profile'));
+})->name('timeline.me');
+
+Route::get('/timeline/{slug}/{profile}/{active_view?}', [ProfileController::class, 'show'])->name('timeline.show');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard/{active_action?}/', Dashboard::class)->name('dashboard');
-
     Route::middleware(['can:own-enterprise'])->group(function () {
         Route::get('/my-bss/{slug}/id={enterprise}/{active_action?}/', ManageEnterprise::class)
             ->middleware('can:update-enterprise,enterprise')

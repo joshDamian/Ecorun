@@ -14,7 +14,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/webfonts.css') }}">
-    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+    <link href="https://afeld.github.io/emoji-css/emo7ji.css" rel="stylesheet">
     <style>
         [x-cloak] {
             display: none;
@@ -27,6 +27,7 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
 <body class="font-sans leading-normal bg-gray-200 tracking-normal">
@@ -35,13 +36,13 @@
         <x-navbar />
 
         <div class="md:flex md:px-12 md:pt-12 justify-center justify-items-center">
-            <div x-show="active_item" class="md:w-1/4 md:fixed absolute w-full bg-white md:bg-transparent md:p-0 md:pr-2 md:left-12">
-                <div class="h-screen">
+            <div x-show="active_item" class="md:w-1/4 fixed top-12 md:top-24 w-full bg-white md:bg-transparent md:p-0 md:-mt-0.5 md:pr-2 md:left-12">
+                <div class="h-screen overflow-y-auto">
                     <x-nav-content />
                 </div>
             </div>
 
-            <div class="w-full md:ml-80 md:pl-2 flex-1">
+            <div class="w-full md:ml-80 md:pl-2 sm:p-2 md:p-0 flex-1">
                 <div>
                     @livewire('session-transport', key('session_transport'))
                 </div>

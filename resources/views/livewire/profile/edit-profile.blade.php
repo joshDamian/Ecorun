@@ -6,7 +6,7 @@
             <x-jet-input-error for="profile.description" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6">
+        <div class="flex items-center justify-end md:rounded-b-lg  px-4 py-3 bg-gray-50 text-right sm:px-6">
             <x-jet-action-message class="mr-3" on="saved">
                 {{ __('Saved.') }}
             </x-jet-action-message>

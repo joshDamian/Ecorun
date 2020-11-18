@@ -30,7 +30,7 @@ class EditEnterprise extends Component
             'sometimes',
             'required',
             'image',
-            'max:3072'
+            'max:5120'
             /** 3MB Max */
         ]
     ];

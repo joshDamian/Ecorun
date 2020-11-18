@@ -1,5 +1,5 @@
 <nav class="shadow sticky top-0 w-full bg-blue-800 text-white">
-    <div class="select-none items-baseline overflow-x-scroll md:overflow-x-hidden flex">
+    <div class="select-none items-baseline overflow-x-auto flex">
         <div class="text-gray-400 md:w-80 text-xl px-2 py-2 font-extrabold">
             <a href="/">
                 Logo
@@ -22,6 +22,7 @@
                     <i class="fas text-xl fa-shopping-bag"></i> <span class="hidden sm:inline">Shop</span>
                 </div>
 
+                @auth
                 <div class="px-2 py-2 flex-shrink-0 sm:cursor-pointer md:px-4 text-xl hover:text-blue-500">
                     <i class="fas fa-comments"></i>
                     <sup class="sm:hidden">
@@ -59,6 +60,7 @@
                         </span>
                     </sup>
                 </div>
+                @endauth
 
                 <div @click=" active_item = 'blog' " :class="(active_item === 'blog') ? 'text-blue-500' : ''" class="px-2 py-2 flex-shrink-0 text-xl sm:cursor-pointer md:px-4 hover:text-blue-500">
                     <i class="fas fa-blog"></i> Blog

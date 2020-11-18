@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\StringManipulations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,6 +19,7 @@ class User extends Authenticatable
     use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use StringManipulations;
 
     /**
      * The attributes that are mass assignable.
@@ -80,6 +82,13 @@ class User extends Authenticatable
     public function view_history()
     {
         return $this->hasMany(RecentlyViewed::class);
+    }
+
+    public function slugData()
+    {
+        return [
+            'name' => $this->name,
+        ];
     }
 
     protected static function boot()

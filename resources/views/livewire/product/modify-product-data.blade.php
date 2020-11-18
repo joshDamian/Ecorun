@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="mt-4 float-right text-right">
+    <div class="mt-4 float-right mb-4 text-right">
         <div class="flex">
             <div class="mr-4">
                 @livewire('product.delete-product', ['product' => $product])

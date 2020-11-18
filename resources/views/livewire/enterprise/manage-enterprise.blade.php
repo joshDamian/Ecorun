@@ -124,22 +124,11 @@
     document.addEventListener('livewire:load', function() {
 
         setTimeout(() => {
-            modifyUrl("/my-bss/{{ $enterprise->data_slug('name') }}/id={{ $enterprise->id }}/{{ array_keys($actions, $active_action)[0] }}")
+            window.modifyUrl("/my-bss/{{ $enterprise->data_slug('name') }}/id={{ $enterprise->id }}/{{ array_keys($actions, $active_action)[0] }}")
         }, 10);
 
-        function modifyUrl(url) {
-            var state = {
-                id: "100"
-            };
-            window.history.replaceState(
-                state
-                , url
-                , url
-            );
-        }
-
         Livewire.on('actionSwitch', (action) => {
-            modifyUrl(action)
+            window.modifyUrl(action)
         })
     })
 

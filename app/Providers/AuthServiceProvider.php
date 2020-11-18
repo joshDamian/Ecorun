@@ -6,6 +6,7 @@ use App\Models\Enterprise;
 use App\Models\Product;
 use App\Models\Team;
 use App\Policies\ProductPolicy;
+use App\Policies\ProfilePolicy;
 use App\Policies\TeamPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -20,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Team::class => TeamPolicy::class,
         Product::class => ProductPolicy::class,
+        ProfilePolicy::class => Profile::class
     ];
 
     /**
@@ -41,7 +43,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('manage-enterprise', function ($user, Enterprise $enterprise) {
             return $enterprise->profile !== null;
-         });
+        });
 
         Gate::define('reference-enterprise', function ($user) {
             return $user->isManager->enterprises->count() > 0;

@@ -19343,6 +19343,13 @@ module.exports = function(module) {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+window.modifyUrl = function (url) {
+  var state = {
+    id: "100"
+  };
+  window.history.replaceState(state, url, url);
+};
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -19395,9 +19402,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/ecorun/Documents/web projects/php/laravel/ecorun-current/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /home/ecorun/Documents/web projects/php/laravel/ecorun-current/resources/sass/webfonts.scss */"./resources/sass/webfonts.scss");
-module.exports = __webpack_require__(/*! /home/ecorun/Documents/web projects/php/laravel/ecorun-current/resources/css/app.css */"./resources/css/app.css");
+__webpack_require__(/*! /home/ecorun/Documents/web-projects/php/laravel/ecorun-current/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /home/ecorun/Documents/web-projects/php/laravel/ecorun-current/resources/sass/webfonts.scss */"./resources/sass/webfonts.scss");
+module.exports = __webpack_require__(/*! /home/ecorun/Documents/web-projects/php/laravel/ecorun-current/resources/css/app.css */"./resources/css/app.css");
 
 
 /***/ })
