@@ -31,10 +31,10 @@
 </head>
 
 <body class="font-sans leading-normal tracking-normal">
-    @guest
+
     <nav class="bg-white sticky top-0 border-b-4 border-blue-800">
         <div x-data="{ visible: null }" x-cloak>
-            <ul class="flex p-2">
+            <ul class="flex px-3 py-2">
                 <li class="font-bold text-xl flex-1 text-blue-800">Logo</li>
                 <li class="text-right">
                     <div x-show.transition="visible" class="flex flex-wrap">
@@ -45,7 +45,7 @@
                         </a>
 
                         <a href="/register">
-                            <x-jet-button class="bg-green-700">
+                            <x-jet-button class="bg-green-500">
                                 Signup
                             </x-jet-button>
                         </a>
@@ -59,19 +59,19 @@
         <div class="bg-gray-200">
             <div class="grid grid-cols-1 sm:p-3 md:p-10 sm:grid-cols-2">
                 <div class="">
-                    <h3 class="text-3xl font-medium text-gray-800 px-3 py-2">
-                        Connect with people, buy products and build social business networks.
+                    <h3 class="text-3xl font-medium text-gray-800 px-3 sm:px-0 sm:py-0 py-2">
+                        Connect with people, buy products, build and manage businesses.
                     </h3>
 
-                    <div class="flex px-3 mb-4 flex-wrap">
+                    <div class="flex px-3 sm:px-0 mb-4 flex-wrap">
                         <a class="mr-4" href="/login">
-                            <x-jet-button class="bg-blue-800">
+                            <x-jet-button class="bg-blue-700">
                                 Login
                             </x-jet-button>
                         </a>
 
                         <a href="/register">
-                            <x-jet-button class="bg-green-700">
+                            <x-jet-button class="bg-green-500">
                                 Signup
                             </x-jet-button>
                         </a>
@@ -80,25 +80,35 @@
 
                 <div class="p-3 grid grid-cols-3 gap-1">
                     <div>
-                        <div class="flex justify-center items-center p-2 bg-white bg-opacity-75">
-                            <i style="font-size: 3rem;" class="fas text-blue-800 fa-user-friends"></i>
+                        <div class="flex justify-center items-center">
+                            <span class="fa-stack fa-2x">
+                                <i class="fas fa-circle text-green-500 fa-stack-2x"></i>
+                                <i class="fas fa-stack-1x text-white fa-user-friends"></i>
+                            </span>
                         </div>
-                        <div class="bg-blue-800 text-white text-center">social</div>
+                        <div class="text-center font-semibold text-green-500">connect</div>
                     </div>
 
                     <div>
-                        <div class="flex justify-center items-center p-2 bg-white bg-opacity-75">
-                            <span style="font-size: 2rem;" class="text-blue-800 font-semibold">&#8358;</span>
+                        <div class="flex justify-center items-center">
+                            <span class="fa-stack fa-2x">
+                                <i class="fas fa-circle text-blue-700 fa-stack-2x"></i>
+                                <span class="fa-stack-1x text-white font-semibold">&#8358;</span>
+                            </span>
                         </div>
 
-                        <div class="bg-blue-800 text-white text-center">business</div>
+                        <div class="text-center font-semibold text-blue-700">buy</div>
                     </div>
 
                     <div>
-                        <div class="flex justify-center items-center p-2 bg-white bg-opacity-75">
-                            <i style="font-size: 3rem;" class="fas text-blue-800 fa-network-wired"></i>
+                        <div class="flex justify-center items-center">
+                            <span class="fa-stack fa-2x">
+                                <i class="fas fa-circle text-blue-800 fa-stack-2x"></i>
+                                <i class="fas fa-stack-1x text-white fa-warehouse"></i>
+                            </span>
                         </div>
-                        <div class="bg-blue-800 text-white text-center">network</div>
+
+                        <div class="text-center font-semibold text-blue-800">build</div>
                     </div>
                 </div>
             </div>
@@ -111,71 +121,14 @@
                 </div>
 
                 <div class="p-3 border-gray-300 sm:border text-gray-600">
-                    <h3 class="text-lg text-center font-semibold text-blue-800">
+                    <h3 class="text-xl font-semibold text-green-500">
                         <i class="fas fa-user-friends"></i> &nbsp; Connect
                     </h3>
-
-                    <div class="flex justify-center">
-                        <div>
-                            {{-- <div class="py-2">
-                                <ul class="list-disc">
-                                    <li></li>
-                                    <li></li>
-                                    <li></li>
-                                    <li></li>
-                                </ul>
-                            </div> --}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white sm:bg-transparent">
-                <div class="p-3 sm:p-0">
-                    <img class="w-full" src="/storage/app-images/shop.png" />
-                </div>
-
-                <div class="p-3 border-gray-300 sm:border text-gray-600">
-                    <h3 class="text-lg text-center font-semibold text-blue-800">
-                        <span class="font-bold">&#8358;</span> &nbsp; Buy
-                    </h3>
-
-                    <div class="flex justify-center">
-                        <div>
-                            {{-- <div class="py-2">
-                                <ul class="list-disc">
-                                    <li></li>
-                                    <li></li>
-                                    <li></li>
-                                    <li></li>
-                                </ul>
-                            </div> --}}
-
-                            <div>
-                                <x-jet-button class="bg-blue-800 w-100 mt-2">
-                                    visit shop
-                                </x-jet-button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="bg-white sm:bg-transparent">
-                <div class="p-3 sm:p-0">
-                    <img class="w-full" src="/storage/app-images/online-community_6.jpeg" />
-                </div>
-
-                <div class="p-3 border-gray-300 text-gray-600 sm:border">
-                    <h3 class="text-lg font-semibold text-center text-blue-800">
-                        <i class="fas fa-network-wired"></i> &nbsp; Build a social business network
-                    </h3>
-                    <div class="flex justify-center px-4 py-2">
-                        <ul class="list-disc text-blue-800">
+                    <div class="px-5 py-2">
+                        <ul class="list-disc text-green-500">
                             <li>
                                 <span class="text-gray-700">
-                                    Build a virtual presence for your business.
+                                    Build an online presence for your business.
                                 </span>
                             </li>
 
@@ -190,26 +143,100 @@
                                     Interact with your customers.
                                 </span>
                             </li>
+                        </ul>
+                    </div>
 
+                    <div>
+                        <a href="/register">
+                            <x-jet-button class="bg-green-500 w-100 mt-2">
+                                <i class="fas fa-plus"></i> &nbsp; join the community
+                            </x-jet-button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white sm:bg-transparent">
+                <div class="p-3 sm:p-0">
+                    <img class="w-full" src="/storage/app-images/shop.png" />
+                </div>
+
+                <div class="p-3 border-gray-300 sm:border text-gray-600">
+                    <h3 class="text-xl font-semibold text-blue-700">
+                        <span class="font-bold">&#8358;</span> &nbsp; Buy
+                    </h3>
+                    <div class="px-5 py-2">
+                        <ul class="list-disc text-blue-700">
                             <li>
                                 <span class="text-gray-700">
-                                    L
+                                    Build an online presence for your business.
                                 </span>
                             </li>
 
                             <li>
                                 <span class="text-gray-700">
-                                    D
+                                    Unite fun and business.
+                                </span>
+                            </li>
+
+                            <li>
+                                <span class="text-gray-700">
+                                    Interact with your customers.
                                 </span>
                             </li>
                         </ul>
                     </div>
+
+                    <div>
+                        <a href="/shop">
+                            <x-jet-button class="bg-blue-700 w-100 mt-2">
+                                <i class="fas fa-shopping-bag"></i> &nbsp; shop
+                            </x-jet-button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white sm:bg-transparent">
+                <div class="p-3 sm:p-0">
+                    <img class="w-full" src="/storage/app-images/remote-business-manager.jpg" />
                 </div>
 
+                <div class="p-3 border-gray-300 text-gray-600 sm:border">
+                    <h3 class="text-xl font-semibold text-blue-800">
+                        <i class="fas fa-warehouse"></i> &nbsp; Build and manage businesses
+                    </h3>
+                    <div class="px-5 py-2">
+                        <ul class="list-disc text-blue-800">
+                            <li>
+                                <span class="text-gray-700">
+                                    Build an online presence for your business.
+                                </span>
+                            </li>
+
+                            <li>
+                                <span class="text-gray-700">
+                                    Unite fun and business.
+                                </span>
+                            </li>
+
+                            <li>
+                                <span class="text-gray-700">
+                                    Interact with your customers.
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <x-jet-button class="bg-blue-800 w-100 mt-2">
+                            <i class="fas fa-business-time"></i> &nbsp; build a business
+                        </x-jet-button>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
-    @endguest
 
     @stack('modals')
 
