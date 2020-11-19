@@ -24,11 +24,6 @@ use Illuminate\Support\Facades\Auth;
 
 Route::view('/', 'landing-page');
 
-Route::get('/timeline/me/', function () {
-    $profile = Auth::user()->profile;
-    return view('timeline.show', compact('profile'));
-})->name('timeline.me');
-
 Route::get('/timeline/{slug}/{profile}/{active_view?}', [ProfileController::class, 'show'])->name('timeline.show');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -38,6 +33,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             ->middleware('can:update-enterprise,enterprise')
             ->name('enterprise.dashboard');
     });
+
+    Route::get('/timeline/me/', function () {
+        $profile = Auth::user()->profile;
+        return view('timeline.show', compact('profile'));
+    })->name('timeline.me');
 });
 
 Route::get('/browsing-history', [RecentlyViewedController::class, 'index'])
