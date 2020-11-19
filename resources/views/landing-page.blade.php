@@ -46,7 +46,7 @@
                             </a>
 
                             <a href="/register">
-                                <x-jet-button class="bg-green-500">
+                                <x-jet-button class="bg-blue-600">
                                     Signup
                                 </x-jet-button>
                             </a>
@@ -69,14 +69,14 @@
                         </h3>
 
                         <div class="flex px-3 sm:px-0 mb-4 flex-wrap">
-                            <a class="mr-4" href="/login">
-                                <x-jet-button class="bg-blue-700">
+                            <a class="mr-4 sm:mr-6" href="/login">
+                                <x-jet-button class="bg-blue-600">
                                     Login
                                 </x-jet-button>
                             </a>
 
                             <a href="/register">
-                                <x-jet-button class="bg-green-500">
+                                <x-jet-button class="bg-blue-800">
                                     Signup
                                 </x-jet-button>
                             </a>
@@ -85,21 +85,21 @@
 
                     <div class="p-3 md:p-6 justify-center flex items-center">
                         <div class="flex uppercase">
-                            <div class="text-2xl md:text-3xl font-semibold text-green-500">
-                                <span class="mr-4">connect</span>
-                                <span class="mr-4">
-                                    <i class="fas fa-spin fa-sync"></i>
+                            <div class="text-xl md:text-3xl font-semibold text-blue-800">
+                                <span class="mr-3">connect</span>
+                                <span class="mr-3">
+                                    <i class="fas text-blue-800 fa-exchange-alt"></i>
                                 </span>
                             </div>
 
-                            <div class="text-2xl md:text-3xl font-semibold text-blue-700">
-                                <span class="mr-4">buy</span>
-                                <span class="mr-4">
-                                   <i class="fas fa-spin fa-sync"></i>
+                            <div class="text-xl md:text-3xl font-semibold text-blue-600">
+                                <span class="mr-3">buy</span>
+                                <span class="mr-3">
+                                   <i class="fas text-blue-800 fa-exchange-alt"></i>
                                 </span>
                             </div>
 
-                            <div class="text-2xl md:text-3xl font-semibold text-blue-800">
+                            <div class="text-xl md:text-3xl font-semibold text-blue-800">
                                 <span>build</span>
                             </div>
                         </div>
@@ -111,17 +111,17 @@
                 <div class="bg-white sm:bg-transparent">
                     <div class="p-2 flex justify-center">
                         <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle text-green-500 fa-stack-2x"></i>
+                            <i class="fas fa-circle text-blue-800 fa-stack-2x"></i>
                             <i class="fa-stack-1x text-white fas fa-user-friends"></i>
                         </span>
                     </div>
 
-                    <div class="p-3 border-gray-300 sm:border text-gray-600">
-                        <h3 class="text-xl font-semibold text-green-500">
+                    <div class="p-3 border-gray-400 sm:rounded-lg sm:border text-gray-600">
+                        <h3 class="text-xl font-semibold text-blue-800">
                             Connect
                         </h3>
                         <div class="px-5 py-2">
-                            <ul class="list-disc text-green-500">
+                            <ul class="list-disc text-blue-800">
                                 <li>
                                     <span class="text-gray-700">
                                         Build an online presence for your business.
@@ -144,7 +144,7 @@
 
                         <div>
                             <a href="/register">
-                                <x-jet-button class="bg-green-500 w-100 mt-2">
+                                <x-jet-button class="bg-blue-800 w-100 mt-2">
                                     <i class="fas fa-plus"></i> &nbsp; join the community
                                 </x-jet-button>
                             </a>
@@ -155,17 +155,17 @@
                 <div class="bg-white sm:bg-transparent">
                     <div class="p-2 flex justify-center">
                         <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle text-blue-700 fa-stack-2x"></i>
+                            <i class="fas fa-circle text-blue-600 fa-stack-2x"></i>
                             <span class="fa-stack-1x text-white font-semibold">&#8358;</span>
                         </span>
                     </div>
 
-                    <div class="p-3 border-gray-300 sm:border text-gray-600">
-                        <h3 class="text-xl font-semibold text-blue-700">
+                    <div class="p-3 border-gray-400 sm:rounded-lg sm:border text-gray-600">
+                        <h3 class="text-xl font-semibold text-blue-600">
                             Buy
                         </h3>
                         <div class="px-5 py-2">
-                            <ul class="list-disc text-blue-700">
+                            <ul class="list-disc text-blue-600">
                                 <li>
                                     <span class="text-gray-700">
                                         Build an online presence for your business.
@@ -188,7 +188,7 @@
 
                         <div>
                             <a href="/shop">
-                                <x-jet-button class="bg-blue-700 w-100 mt-2">
+                                <x-jet-button class="bg-blue-600 w-100 mt-2">
                                     <i class="fas fa-shopping-bag"></i> &nbsp; shop
                                 </x-jet-button>
                             </a>
@@ -204,7 +204,7 @@
                         </span>
                     </div>
 
-                    <div class="p-3 border-gray-300 text-gray-600 sm:border">
+                    <div class="p-3  border-gray-400 sm:rounded-lg text-gray-600 sm:border">
                         <h3 class="text-xl font-semibold text-blue-800">
                             Build and manage businesses
                         </h3>
