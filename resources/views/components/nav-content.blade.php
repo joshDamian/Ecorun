@@ -18,11 +18,12 @@
 
         <div class="py-3 border-b text-center hover:border-black md:cursor-pointer border-gray-300">
             Trousers
-        </div> --}}
+        </div>
+        --}}
     </div>
 
     <div x-show="active_item === 'user'" class="font-light nav-content">
-        <div class="flex border-gray-400 border bg-white flex-wrap items-center md:rounded-t-lg px-2 py-2 shadow">
+        <div class="flex border-gray-200 border bg-white flex-wrap items-center md:rounded-t-lg px-2 py-2 shadow">
             @if($profileImage)
             <div style="background-image: url('{{ $profileImage }}'); background-size: cover; background-position: center center;" class="w-16 rounded-full mr-3 h-16">
             </div>
@@ -53,25 +54,25 @@
 
         @auth
         <a href="{{ route('timeline.me') }}">
-            <div class="py-3 border text-center @if(request()->routeIs('timeline.me')) border-blue-800 @else border-gray-400 @endif bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer">
+            <div class="py-3 border text-center @if(request()->routeIs('timeline.me')) border-blue-800 @else border-gray-200 @endif bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer">
                 <i class="fa fa-clipboard-list"></i> Timeline
             </div>
         </a>
         @endauth
 
         @auth
-        <div class="py-3 border text-center  bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer border-gray-400">
+        <div class="py-3 border text-center  bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer border-gray-200">
             <i class="fa fa-clipboard-check"></i> Orders
         </div>
         @endauth
 
-        <div class="py-3 border text-center  bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer border-gray-400">
+        <div class="py-3 border text-center  bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer border-gray-200">
             <i class="fa fa-shopping-cart"></i> Cart
         </div>
 
         @auth
         <a href="/user/profile">
-            <div class="py-3 border text-center @if(request()->routeIs('profile.show')) border-blue-800 @else border-gray-400 @endif bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer">
+            <div class="py-3 border text-center @if(request()->routeIs('profile.show')) border-blue-800 @else border-gray-200 @endif bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer">
                 <i class="fa fa-user"></i> Profile
             </div>
         </a>
@@ -79,12 +80,12 @@
 
         @guest
         <a href="/login">
-            <div class="py-3 border text-center  bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer border-gray-400">
+            <div class="py-3 border text-center  bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer border-gray-200">
                 <i class="fa fa-sign-in-alt"></i> Login
             </div>
         </a>
         <a href="/register">
-            <div class="py-3 border text-center  bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer border-gray-400">
+            <div class="py-3 border text-center  bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer border-gray-200">
                 <i class="fa fa-registered"></i> Signup
             </div>
         </a>
@@ -94,14 +95,14 @@
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                    this.closest('form').submit();">
-                <div class="py-3 border  bg-gray-100 text-center font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer border-gray-400">
+                this.closest('form').submit();">
+                <div class="py-3 border  bg-gray-100 text-center font-medium text-lg text-blue-800 hover:border-blue-800 md:cursor-pointer border-gray-200">
                     <i class="fa fa-sign-out-alt"></i> Logout
                 </div>
             </a>
         </form>
 
-        <div class="py-3 border  bg-gray-100 text-center font-medium text-lg text-blue-800 hover:border-blue-800 md:rounded-b-lg md:cursor-pointer border-gray-400">
+        <div class="py-3 border  bg-gray-100 text-center font-medium text-lg text-blue-800 hover:border-blue-800 md:rounded-b-lg md:cursor-pointer border-gray-200">
             <span class="font-bold">&#8358;</span> Auction Sales
         </div>
 
