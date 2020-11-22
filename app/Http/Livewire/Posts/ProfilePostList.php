@@ -21,13 +21,13 @@ class ProfilePostList extends Component
     {
         return view('livewire.posts.profile-post-list', [
             'posts' => $this->readyToLoad ?
-                Cache::remember(
+                /* Cache::remember(
                     'posts.' . $this->profile->id,
                     now()->addSeconds(2),
                     function () {
                         return Post::without('profile.followers')->whereIn('profile_id', $this->profile->profileable->following->pluck('id'))->latest()->get();
                     }
-                )  : []
+                ) */ Post::without('profile.followers')->whereIn('profile_id', $this->profile->profileable->following->pluck('id'))->latest()->get() : []
         ]);
     }
 }
