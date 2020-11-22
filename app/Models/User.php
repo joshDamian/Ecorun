@@ -99,6 +99,7 @@ class User extends Authenticatable
             $user->profile()->create([
                 'description' => "I am {$user->name}, I'm a newbie and i hope to make new friends very soon.",
             ]);
+            $user->following()->save($user->profile);
         });
     }
 

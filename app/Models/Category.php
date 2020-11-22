@@ -17,6 +17,13 @@ class Category extends Model
         'title'
     ];
     protected $primaryKey = "title";
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
     public $incrementing = false;
     protected $with = [
         'products',

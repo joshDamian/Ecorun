@@ -25,7 +25,7 @@
                 <div x-data="{isUploading: false, progress: 0, photosArray: []}" x-on:livewire-upload-start="isUploading = true" x-on:livewire-upload-finish="isUploading = false" x-on:livewire-upload-error="isUploading = false" x-on:livewire-upload-progress="progress = $event.detail.progress" class="col-span-12 md:col-span-8 sm:col-span-6">
 
                     <!-- Product Photos File Input -->
-                    <input type="file" class="hidden" wire:model="photos" multiple x-ref="photos" x-on:change="
+                    <input type="file" class="hidden" accept="image/*" wire:model="photos" multiple x-ref="photos" x-on:change="
                     const files = $refs.photos.files;
                     photosArray = [];
                     for(var i = 0; i < files.length; i++) {

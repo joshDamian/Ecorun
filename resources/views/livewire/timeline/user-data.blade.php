@@ -14,14 +14,9 @@
     </div>
     <div class="my-2 md:my-3">
         @switch($active_view['title'])
-        @case('products')
-        <div>
-            <x-product.user-product-list :products="$enterprise->products()->latest()->get()" />
-        </div>
-        @break
         @case('posts')
         <div>
-            @livewire('posts.profile-post-list', ['profile' => $enterprise->profile])
+            @livewire('posts.profile-post-list', ['profile' => $user->profile])
         </div>
         @break
         @default
@@ -30,10 +25,19 @@
     </div>
 </div>
 @push('scripts')
+@if(request()->routeIs('timeline.show'))
 <script>
     document.addEventListener('livewire:load', function() {
-        window.modifyUrl("/timeline/{{ $enterprise->data_slug('name') }}/{{ $enterprise->profile->id }}/{{ array_keys($views, $active_view)[0] }}")
+        window.modifyUrl("/timeline/{{ $user->data_slug('name') }}/{{ $user->profile->id }}/{{ array_keys($views, $active_view)[0] }}")
     })
 
 </script>
+@else
+<script>
+    document.addEventListener('livewire:load', function() {
+        window.modifyUrl("/timeline.me/{{ array_keys($views, $active_view)[0] }}")
+    })
+
+</script>
+@endif
 @endpush

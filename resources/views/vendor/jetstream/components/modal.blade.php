@@ -30,7 +30,7 @@ switch ($maxWidth ?? '2xl') {
         x-show="show"
         x-on:close.stop="show = false"
         x-on:keydown.escape.window="show = false"
-        class="fixed overflow-y-scroll top-0 inset-x-0 sm:py-4 pt-0 px-0 z-50 sm:px-0 sm:flex sm:items-top sm:justify-center"
+        class="fixed overflow-y-auto top-0 inset-x-0 sm:py-4 pt-0 px-0 z-50 sm:px-0 sm:flex sm:items-top sm:justify-center"
         style="display: none; max-height: 100vh;">
     <div x-show="show" class="fixed inset-0 transform transition-all" x-on:click="show = false" x-transition:enter="ease-out duration-300"
                     x-transition:enter-start="opacity-0"

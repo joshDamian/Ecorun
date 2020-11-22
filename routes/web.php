@@ -22,28 +22,32 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::view('/', 'landing-page');
+Route::get('/', function () {
+    return (Auth::user()) ? view('auth-landing-page') : view('guest-landing-page');
+});
+
+//Route::view('/', (dd(Auth::user())) ? 'auth-landing-page' : 'guest-landing-page');
 
 Route::get('/timeline/{slug}/{profile}/{active_view?}', [ProfileController::class, 'show'])->name('timeline.show');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard/{active_action?}/', Dashboard::class)->name('dashboard');
     Route::middleware(['can:own-enterprise'])->group(function () {
-        Route::get('/my-bss/{slug}/id={enterprise}/{active_action?}/', ManageEnterprise::class)
+        Route::get('/my-bss/{slug}/{enterprise}/{active_action?}/', ManageEnterprise::class)
             ->middleware('can:update-enterprise,enterprise')
             ->name('enterprise.dashboard');
     });
 
-    Route::get('/timeline/me/', function () {
+    Route::get('/timeline.me/{active_view?}/', function ($active_view = null) {
         $profile = Auth::user()->profile;
-        return view('timeline.show', compact('profile'));
+        return view('timeline.show', compact('profile', 'active_view'));
     })->name('timeline.me');
 });
 
 Route::get('/browsing-history', [RecentlyViewedController::class, 'index'])
     ->name('view-history.index');
 
-Route::get('/shop/{slug}/id={product}', [ProductController::class, 'show'])
+Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
     ->name('product.show');
 
 Route::get('/categories', [CategoryController::class, 'index'])

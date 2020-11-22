@@ -23,7 +23,7 @@
             <div x-data="{photoPreview: null, photoName: null, isUploading: false, progress: 0}" x-on:livewire-upload-start="isUploading = true" x-on:livewire-upload-finish="isUploading = false" x-on:livewire-upload-error="isUploading = false" x-on:livewire-upload-progress="progress = $event.detail.progress" x-init="@this.on('saved', () => { setTimeout( () => { photoPreview = null; }, 1000); })" class="col-span-6 sm:col-span-4">
 
                 <!-- Profile Photo File Input -->
-                <input type="file" class="hidden" wire:model="photo" x-ref="photo" x-on:change="
+                <input type="file" class="hidden" accept="image/*" wire:model="photo" x-ref="photo" x-on:change="
                     photoName = $refs.photo.files[0].name;
                     const reader = new FileReader();
                     reader.onload = (e) => {

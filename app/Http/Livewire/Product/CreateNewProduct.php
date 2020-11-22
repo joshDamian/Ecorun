@@ -29,16 +29,18 @@ class CreateNewProduct extends Component
     {
         $this->validate([
             'photos.*' => [
-                'required',
                 'image',
                 'max:7168'
             ],
+
+            'photos' => 'required',
 
             'name' => [
                 'required',
                 'min:4',
                 'string'
             ],
+
             'description' => [
                 'required',
                 'min:20'
@@ -55,6 +57,7 @@ class CreateNewProduct extends Component
                 'int',
                 'min:1'
             ],
+            
             'product_category' => ($this->enterprise->isStore()) ? ['required'] : '',
         ]);
 

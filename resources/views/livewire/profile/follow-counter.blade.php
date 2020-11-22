@@ -1,11 +1,11 @@
 <div>
     <div class="flex font-hairline flex-wrap">
         <span class="mr-3">
-        <span class="font-normal">{{ $following }}</span> Following
+            <span class="font-semibold">{{ $following }}</span> <span class="text-gray-600">Following</span>
         </span>
 
         <span>
-        <span class="font-normal">{{ $followers }}</span> Followers
+            <span class="font-semibold">{{ $followers }}</span> <span class="text-gray-600">Followers</span>
         </span>
     </div>
 </div>
