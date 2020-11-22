@@ -23,7 +23,7 @@ class ProfilePostList extends Component
             'posts' => $this->readyToLoad ?
                 Cache::remember(
                     'posts.' . $this->profile->id,
-                    now()->addSeconds(30),
+                    now()->addSeconds(2),
                     function () {
                         return Post::without('profile.followers')->whereIn('profile_id', $this->profile->profileable->following->pluck('id'))->latest()->get();
                     }
