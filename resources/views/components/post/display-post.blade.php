@@ -1,7 +1,7 @@
 @props(['post', 'image_count' => $post->gallery->count() ])
 <div>
     <div class="bg-gray-100 sm:shadow">
-        <div class="p-2 sm:px-5 sm:py-3 sm:p-0 border-b border-gray-200">
+        <div class="p-2 sm:px-5 sm:py-3 sm:p-0 border-b flex justify-between border-gray-200">
             <a class="block" href="{{ route('timeline.show', ['profile' => $post->profile->id, 'slug' => $post->profile->profileable->data_slug('name')]) }}">
                 <div class="flex items-center">
                     <div style="background-image: url('{{ $post->profile->profile_image() }}'); background-size: cover; background-position: center center;" class="w-12 rounded-full mr-3 h-12">
@@ -14,6 +14,9 @@
                     </div>
                 </div>
             </a>
+            <div>
+                <i wire:click="triggerOptions({{$post->id}})" class="fa fa-ellipsis-h text-black"></i>
+            </div>
         </div>
 
         @if($post->content)

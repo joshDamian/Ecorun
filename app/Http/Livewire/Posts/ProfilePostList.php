@@ -10,18 +10,23 @@ use Illuminate\Support\Facades\Cache;
 class ProfilePostList extends Component
 {
     public Profile $profile;
+    public $activePost;
+    public $displayOptions;
     public $readyToLoad = false;
 
-    public function loadPosts()
-    {
+    public function loadPosts() {
         $this->readyToLoad = true;
     }
 
-    public function render()
-    {
+    public function triggerOptions(Post $post) {
+        $this->activePost = $post;
+        return $this->displayOptions = true;
+    }
+
+    public function render() {
         return view('livewire.posts.profile-post-list', [
             'posts' => $this->readyToLoad ?
-                /* Cache::remember(
+            /* Cache::remember(
                     'posts.' . $this->profile->id,
                     now()->addSeconds(2),
                     function () {
