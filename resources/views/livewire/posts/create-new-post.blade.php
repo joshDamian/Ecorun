@@ -22,7 +22,9 @@
                 <div class="flex justify-between mb-1 items-baseline">
                     <x-jet-label class="font-semibold text-lg mr-4" value="Post" />
                     @error('content' ?? 'photos')
-                    <div class="text-red-700">please add something!</div>
+                    <div class="text-red-700">
+                        please add something!
+                    </div>
                     @enderror
                 </div>
                 <textarea rows="4" wire:model.defer="content" placeholder="say something" class="form-textarea w-full"></textarea>
@@ -45,7 +47,7 @@
 
                 <div class="mt-2 flex justify-end">
                     <div class="mr-3">
-                        <x-jet-secondary-button wire:click="done" class="bg-red-700">
+                        <x-jet-secondary-button wire:click="done" class="bg-blue-800">
                             <span class="text-white">cancel</span>
                         </x-jet-secondary-button>
                     </div>
