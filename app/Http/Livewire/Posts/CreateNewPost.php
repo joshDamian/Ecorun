@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Posts;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Intervention\Image\Facades\Image;
 
 class CreateNewPost extends Component
 {
@@ -13,6 +14,7 @@ class CreateNewPost extends Component
     public $profile;
     public $photos = [];
     public $content;
+    public $view;
     public $empty;
     public $ready;
 
@@ -29,10 +31,14 @@ class CreateNewPost extends Component
             'visibility' => 'public'
         ]);
 
-        if (count($this->photos) > 0) {
+        if (count($this->photos) >  0) {
             foreach ($this->photos as $photo) {
+                $photo_path = $photo->store('post-photos', 'public');
+                $photo = Image::make(public_path("/storage/{$photo_path}"))->fit(1400, 1400);
+                $photo->save();
+
                 $post->gallery()->create([
-                    'image_url' => $photo->store('post-photos', 'public'),
+                    'image_url' => $photo_path,
                     'label' => 'post_photo'
                 ]);
             }

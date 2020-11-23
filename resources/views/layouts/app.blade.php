@@ -30,7 +30,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
-<body class="font-sans leading-normal bg-gray-200 tracking-normal">
+<body class="font-sans leading-relaxed bg-gray-200 tracking-normal">
     <div x-data="nav_data()" x-init="init_nav()" x-cloak>
         <!--Nav-->
         <x-navbar />

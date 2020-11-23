@@ -15,7 +15,7 @@
                 </div>
             </a>
             <div>
-                <i wire:click="triggerOptions({{$post->id}})" class="fa fa-ellipsis-h text-black"></i>
+                <i wire:click="triggerOptions({{$post->id}})" class="fas fa-chevron-down cursor-pointer text-blue-700"></i>
             </div>
         </div>
 
@@ -26,12 +26,12 @@
         @endif
 
         @if($image_count > 0)
-        <div class="@if($image_count > 1) grid grid-cols-2 gap-2 @endif bg-white">
+        <div class="@if($image_count > 1) grid grid-cols-2 gap-1 @endif bg-white">
             <div>
                 <img src="/storage/{{ $post->gallery->first()->image_url }}" />
             </div>
             @if($image_count > 1 )
-            <div class="grid gap-2 @if($image_count > 1 && $image_count < 4) grid-cols-1 @else grid-cols-2 @endif">
+            <div class="grid gap-1 @if($image_count > 1 && $image_count < 4) grid-cols-1 @else grid-cols-2 @endif">
                 @foreach($post->gallery as $key => $image)
                 @continue($image->is($post->gallery->first()))
                 @if($image_count > 2)

@@ -1,4 +1,4 @@
-<div wire:init="loadPosts" wire:poll.500ms>
+<div wire:init="loadPosts" wire:poll.1000ms>
     <div class="grid grid-cols-1 gap-2 md:gap-4">
         @foreach($posts as $post)
         <div>

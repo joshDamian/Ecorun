@@ -9,7 +9,7 @@
             @else
             <div class="w-full h-64 sm:rounded-md" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
             @endif
-            <div class="p-2 bg-gray-100 sm:rounded-md sm:shadow-sm mt-2 md:mt-3">
+            <div class="sm:rounded-md mt-2 p-2 md:p-0 md:mt-3">
                 <div class="flex justify-between items-center">
                     <div class="mr-3 text-blue-800 text-xl font-semibold">
                         {{ $profile->name() }}
@@ -32,14 +32,17 @@
         </div>
     </div>
 
-    @if($profile->isEnterprise())
-    <div>
-        @livewire('timeline.enterprise-data', ['enterprise' => $profile->profileable, 'active_view' => $active_view])
+    <div class="md:mt-1">
+        @if($profile->isEnterprise())
+        <div>
+            @livewire('timeline.enterprise-data', ['enterprise' => $profile->profileable, 'active_view' => $active_view])
+        </div>
+
+        @elseif($profile->isUSer())
+        <div>
+            @livewire('timeline.user-data', ['user' => $profile->profileable, 'active_view' => $active_view])
+        </div>
+        @endif
     </div>
 
-    @elseif($profile->isUSer())
-    <div>
-        @livewire('timeline.user-data', ['user' => $profile->profileable, 'active_view' => $active_view])
-    </div>
-    @endif
 </x-app-layout>

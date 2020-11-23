@@ -18,7 +18,7 @@
                 @forelse ($enterprises as $enterprise)
                 <a class="block shadow-d" href="{{ route('enterprise.dashboard', ['enterprise' => $enterprise->id, 'slug' => $enterprise->data_slug('name')]) }}">
                     <x-enterprise.enterprise-preview :enterprise="$enterprise" />
-                    <div style="width: 100%;" class="py-2 px-2 bg-gray-900 truncate text-center text-md font-semibold text-white">
+                    <div style="width: 100%;" class="py-2 px-2 bg-blue-900 truncate text-center text-md font-semibold text-white">
                         {{ $enterprise->name }}
                     </div>
                 </a>

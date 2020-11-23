@@ -94,7 +94,7 @@
     document.addEventListener('livewire:load', function() {
 
         setTimeout(() => {
-            modifyUrl("/dashboard/{{ array_keys($actions, $active_action)[0] }}")
+            modifyUrl("/account.me/{{ array_keys($actions, $active_action)[0] }}")
         }, 10);
 
         function modifyUrl(url) {

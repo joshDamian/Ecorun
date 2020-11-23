@@ -124,7 +124,7 @@
     document.addEventListener('livewire:load', function() {
 
         setTimeout(() => {
-            window.modifyUrl("/my-bss/{{ $enterprise->data_slug('name') }}/id={{ $enterprise->id }}/{{ array_keys($actions, $active_action)[0] }}")
+            window.modifyUrl("/business/{{ $enterprise->data_slug('name') }}/{{ $enterprise->id }}/{{ array_keys($actions, $active_action)[0] }}")
         }, 10);
 
         Livewire.on('actionSwitch', (action) => {

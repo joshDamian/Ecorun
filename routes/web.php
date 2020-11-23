@@ -31,9 +31,9 @@ Route::get('/', function () {
 Route::get('/timeline/{slug}/{profile}/{active_view?}', [ProfileController::class, 'show'])->name('timeline.show');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/dashboard/{active_action?}/', Dashboard::class)->name('dashboard');
+    Route::get('/account.me/{active_action?}/', Dashboard::class)->name('dashboard');
     Route::middleware(['can:own-enterprise'])->group(function () {
-        Route::get('/my-bss/{slug}/{enterprise}/{active_action?}/', ManageEnterprise::class)
+        Route::get('/business/{slug}/{enterprise}/{active_action?}/', ManageEnterprise::class)
             ->middleware('can:update-enterprise,enterprise')
             ->name('enterprise.dashboard');
     });
@@ -52,7 +52,7 @@ Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
 
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('category.index');
-Route::get('categories/{slug}', [CategoryController::class, 'show'])
+Route::get('category/{slug}', [CategoryController::class, 'show'])
     ->name('category.show');
 
 Route::get('/cart', ViewCart::class);

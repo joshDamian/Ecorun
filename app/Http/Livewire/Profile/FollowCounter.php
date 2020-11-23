@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Profile;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class FollowCounter extends Component
 {
@@ -20,8 +21,15 @@ class FollowCounter extends Component
 
     public function count()
     {
-        $this->following = Auth::user()->following->count();
-        $this->followers = Auth::user()->profile->followers->count();
+        $self_following = Cache::rememberForever("self_following_" . Auth::user()->id, function () {
+            return Auth::user()->following->contains(Auth::user()->profile->id);
+        });
+
+        $following_count = Auth::user()->following->count();
+        $followers_count = Auth::user()->profile->followers->count();
+
+        $this->following = $self_following ? ($following_count - 1) : $following_count;
+        $this->followers = $self_following ? ($followers_count - 1) : $followers_count;
     }
 
     public function render()

@@ -19,7 +19,7 @@ class Dashboard extends Component
             'color' => 'purple-500'
         ],
 
-        'manager account' => [
+        'manager-account' => [
             'title' => 'manager account',
             'icon' => 'fas fa-user-tie',
             'color' => 'blue-600'
@@ -38,7 +38,7 @@ class Dashboard extends Component
     {
         $this->active_action = ($active_action) ?
             ((array_key_exists($active_action, $this->actions)) ? $this->actions[$active_action] : $this->actions['orders'])
-            : $this->actions['manager account'];
+            : $this->actions['manager-account'];
     }
 
     public function switchAction($key)

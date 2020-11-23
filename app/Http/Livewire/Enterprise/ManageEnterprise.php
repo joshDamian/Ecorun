@@ -10,7 +10,7 @@ class ManageEnterprise extends Component
     public Enterprise $enterprise;
 
     public $actions = [
-        'add product' => [
+        'add-product' => [
             'title' => 'add product',
             'icon' => 'fas fa-plus-circle',
             'color' => 'green-500'
@@ -58,7 +58,7 @@ class ManageEnterprise extends Component
     public function mount($active_action = null)
     {
         $this->active_action = ($active_action) ?
-            ((array_key_exists($active_action, $this->actions)) ? $this->actions[$active_action] : $this->actions['add product'])
+            ((array_key_exists($active_action, $this->actions)) ? $this->actions[$active_action] : $this->actions['add-product'])
             : $this->actions['update'];
     }
 
