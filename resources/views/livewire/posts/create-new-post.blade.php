@@ -1,5 +1,5 @@
 <div>
-    <div class="p-2 sm:p-0 @if($view === 'landing-page') flex sm:px-5 sm:py-2 items-center justify-between @else sm:py-2 @endif @if($ready) border-b @endif border-gray-200">
+    <div class="p-2 sm:p-0 @if($view === 'landing-page') flex sm:px-5 sm:py-3 items-center justify-between @else sm:py-1 @endif @if($ready) border-b @endif border-gray-200">
         @if($view === 'landing-page')
         <div class="flex items-center">
             <div style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center;" class="w-14 rounded-full mr-3 h-14">
@@ -15,7 +15,7 @@
     </div>
     @if($ready)
     <form wire:submit.prevent="create">
-        <div x-data class="p-2 @if($view === 'landing-page') sm:px-5 sm:py-3 @else sm:py-2 @endif sm:p-0">
+        <div x-data class="p-2 @if($view === 'landing-page') sm:px-5 sm:py-3 @else sm:py-1 @endif sm:p-0">
 
             <div>
                 <div class="flex text-blue-600 justify-center" style="width: 100%;" wire:loading>

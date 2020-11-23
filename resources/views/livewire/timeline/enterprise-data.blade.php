@@ -16,7 +16,7 @@
         @switch($active_view['title'])
         @case('products')
         <div>
-            <x-product.user-product-list :products="$enterprise->products()->latest()->get()" />
+            <x-product.user-product-list :products="$enterprise->products()->where('is_published', true)->latest()->get()" />
         </div>
         @break
         @case('posts')

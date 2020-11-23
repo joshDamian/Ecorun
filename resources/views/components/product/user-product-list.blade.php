@@ -1,10 +1,10 @@
 @props(['products', 'minimum' => ($products->count() < 3), 'maximum'=> ($products->count() >= 3)])
     <div>
         @if($minimum)
-        <div class="flex flex-wrap md:py-3 items-center justify-center">
+        <div class="flex md:py-2 px-2 md:px-0 items-center justify-center">
             @foreach($products as $product)
-            <div class="@if(!$loop->last) mr-3 @endif">
-                <x-product.product-preview-card :product="$product" imagebox="200" />
+            <div class="@if(!$loop->last) mr-2 @endif">
+                <x-product.product-preview-card :product="$product" imagebox="180" />
             </div>
             @endforeach
         </div>
