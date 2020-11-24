@@ -1,5 +1,5 @@
 <div>
-    <div class="grid grid-cols-1 sm:grid-cols-2">
+    <div class="grid grid-cols-1">
         <div class="mt-2 mx-2 md:mx-0 md:mt-3">
             <ul class="flex overflow-x-auto">
                 @foreach($views as $key => $view)
@@ -20,12 +20,25 @@
         </div>
         @break
         @case('posts')
+        @can('update-enterprise', $enterprise->id)
         <div class="mb-2 md:mb-3">
             @livewire('posts.create-new-post', ['profile' => $enterprise->profile, 'view' => 'timeline'])
         </div>
+        @endcan
 
         <div>
             @livewire('posts.profile-post-list', ['profile' => $enterprise->profile, 'view' => 'timeline'])
+        </div>
+        @break
+
+        @case('about')
+        <div class="bg-gray-100  sm:shadow-sm sm:rounded-md">
+            <p class="text-lg border-b p-2 font-medium border-gray-300 text-gray-600">
+                About {{ $enterprise->profile->name() }}
+            </p>
+            <p class="text-gray-700 p-2 text-md">
+                {{ $enterprise->profile->description }}
+            </p>
         </div>
         @break
         @default

@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Image extends Model
+class Like extends Model
 {
-    protected $with = [
-        //'imageable'
-    ];
-
-    protected $fillable = [
-        'image_url',
-        'label'
-    ];
     use HasFactory;
 
-    public function imageable()
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
+
+    public function likeable()
     {
         return $this->morphTo();
     }

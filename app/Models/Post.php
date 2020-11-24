@@ -9,14 +9,30 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $with = [
+        'likes',
+        'comments',
+        'gallery'
+    ];
+
     protected $fillable = [
         'content',
         'visibility'
     ];
 
+    public function comments()
+    {
+        return $this->morphMany('App\Models\Comment', 'commentable');
+    }
+
     public function gallery()
     {
         return $this->morphMany('App\Models\Image', 'imageable');
+    }
+
+    public function likes()
+    {
+        return $this->morphMany('App\Models\Like', 'likeable');
     }
 
     public function profile()

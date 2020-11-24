@@ -17,6 +17,11 @@ class UserData extends Component
         'gallery' => [
             'title' => 'gallery',
             'icon' => 'fas fa-images'
+        ],
+
+        'about' => [
+            'title' => 'about',
+            'icon' => 'fas fa-user'
         ]
     ];
 

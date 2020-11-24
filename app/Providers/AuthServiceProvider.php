@@ -38,7 +38,11 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('update-enterprise', function ($user, $enterprise) {
-            return $user->isManager->id === Enterprise::find($enterprise)->manager_id;
+            if ($user->isManager === null) {
+                return false;
+            } else {
+                return $user->isManager->id === Enterprise::find($enterprise)->manager_id;
+            }
         });
 
         Gate::define('manage-enterprise', function ($user, Enterprise $enterprise) {

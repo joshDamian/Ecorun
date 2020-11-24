@@ -22,7 +22,12 @@ class EnterpriseData extends Component
         'gallery' => [
             'title' => 'gallery',
             'icon' => 'fas fa-images'
-        ]
+        ],
+
+        'about' => [
+            'title' => 'about',
+            'icon' => 'fas fa-warehouse'
+        ],
     ];
 
     public function mount($active_view = null)

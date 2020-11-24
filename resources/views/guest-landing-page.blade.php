@@ -135,7 +135,13 @@
 
                                 <li>
                                     <span class="text-gray-700">
-                                        Join & initiate interesting conversations.
+                                        Join interesting conversations.
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <span class="text-gray-700">
+                                        Share photos and videos.
                                     </span>
                                 </li>
                             </ul>

@@ -77,7 +77,7 @@
                             <i :class="show_description ? 'fa-minus-circle' : 'fa-plus-circle'" class="fas"></i>
                         </span>
                     </div>
-                    <div x-show.transition="show_description" class="p-2">
+                    <div x-show="show_description" class="p-2">
                         <div class="w-full break-words h-full">
                             <p>
                                 {{ $product->description }}
@@ -95,7 +95,7 @@
                             <i :class="show_specs ? 'fa-minus-circle' : 'fa-plus-circle'" class="fas"></i>
                         </span>
                     </div>
-                    <div x-show.transition="show_specs" class="p-2">
+                    <div x-show="show_specs" class="p-2">
                         <div class="w-full break-words h-full">
                             <p>
                                 {{ $product->description }}

@@ -1,4 +1,4 @@
-@props(['post', 'image_count' => $post->gallery->count() ])
+@props(['post', 'image_count' => $post->gallery->count(), 'like_count' => $post->likes->count() ])
 <div>
     <div class="bg-gray-100 sm:shadow">
         <div class="p-2 sm:px-5 sm:py-3 sm:p-0 border-b flex justify-between border-gray-200">
@@ -53,5 +53,23 @@
             @endif
         </div>
         @endif
+
+        <div class="p-2 border-t border-gray-200 grid grid-cols-3 gap-2 sm:gap-4 sm:px-5 sm:py-3 sm:p-0">
+            <div class="bg-gray-200 p-2 flex justify-center rounded">
+                <div class="text-xl">
+                    <i wire:click="like({{ $post->id }})" class="fas fa-heart cursor-pointer @if($post->likes->pluck('profile')->contains(Auth::user()->profile)) text-red-700 @else text-blue-700 @endif"></i> {{ $like_count > 0 ? $like_count : __('') }}
+                </div>
+            </div>
+
+            <div class="bg-gray-200 p-2 flex justify-center rounded">
+                <div>
+                    <i class="fas fa-comment text-xl cursor-pointer text-blue-700"></i>
+                </div>
+            </div>
+
+            <div class="bg-gray-200 flex justify-center p-2 rounded">
+                <i class="fas fa-share-square cursor-pointer text-xl text-blue-700"></i>
+            </div>
+        </div>
     </div>
 </div>

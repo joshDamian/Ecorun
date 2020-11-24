@@ -1,9 +1,11 @@
 <x-app-layout>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
-        <div class="">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-3">
+        <div class="sm:col-span-2">
             @if ($profile->isUser())
-            <div class="flex p-4 bg-gray-100 sm:shadow-sm sm:rounded-md justify-center">
-                <div class="w-44 h-44 rounded-full" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+            <div class="flex pt-4 md:pt-0 justify-center">
+                <div class="p-1 bg-blue-600 bg-opacity-50 rounded-full shadow-md">
+                    <div class="w-44 h-44 md:h-64 md:w-64 rounded-full" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+                    </div>
                 </div>
             </div>
             @else
@@ -20,29 +22,18 @@
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="md:mt-1">
+                @if($profile->isEnterprise())
+                <div>
+                    @livewire('timeline.enterprise-data', ['enterprise' => $profile->profileable, 'active_view' => $active_view])
+                </div>
 
-        <div class="bg-gray-100  sm:shadow-sm sm:rounded-md">
-            <p class="text-lg border-b p-2 font-medium border-gray-300 text-gray-600">
-                About {{ $profile->name() }}
-            </p>
-            <p class="text-gray-700 p-2 text-md">
-                {{ $profile->description }}
-            </p>
+                @elseif($profile->isUSer())
+                <div>
+                    @livewire('timeline.user-data', ['user' => $profile->profileable, 'active_view' => $active_view])
+                </div>
+                @endif
+            </div>
         </div>
     </div>
-
-    <div class="md:mt-1">
-        @if($profile->isEnterprise())
-        <div>
-            @livewire('timeline.enterprise-data', ['enterprise' => $profile->profileable, 'active_view' => $active_view])
-        </div>
-
-        @elseif($profile->isUSer())
-        <div>
-            @livewire('timeline.user-data', ['user' => $profile->profileable, 'active_view' => $active_view])
-        </div>
-        @endif
-    </div>
-
 </x-app-layout>

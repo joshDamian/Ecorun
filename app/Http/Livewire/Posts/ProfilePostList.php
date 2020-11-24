@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\Posts;
 
+use App\Models\Like;
 use App\Models\Post;
 use Livewire\Component;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 
 class ProfilePostList extends Component
 {
@@ -24,6 +26,20 @@ class ProfilePostList extends Component
     {
         $this->activePost = $post;
         return $this->displayOptions = true;
+    }
+
+    public function like(Post $post)
+    {
+        $user = Auth::user();
+        $like_profiles = $post->likes->pluck('profile');
+
+        if ($like_profiles->contains($user->profile)) {
+            return  $post->likes()->where('profile_id', $user->profile->id)->delete();
+        } else {
+            $like = new Like();
+            $like->profile_id = $user->profile->id;
+            return $post->likes()->save($like);
+        }
     }
 
     public function render()
