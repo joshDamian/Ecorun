@@ -38,7 +38,7 @@
 
             <div class="grid grid-cols-1 gap-1">
                 <div class="text-left">
-                    <div class="font-semibold text-lg">
+                    <div class="font-semibold text-blue-800 text-lg">
                         {{ $name }}
                     </div>
 

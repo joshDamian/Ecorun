@@ -35,17 +35,17 @@
                 @foreach($post->gallery as $key => $image)
                 @continue($image->is($post->gallery->first()))
                 @if($image_count > 2)
-                @break($key === 4)
+                @break($key === 6)
                 <div style="background-image: url('/storage/{{ $image->image_url }}'); background-size: cover; background-position: center center;" class="h-full w-full">
                 </div>
                 @else
                 <img src="/storage/{{ $image->image_url }}" />
                 @endif
                 @endforeach
-                @if($image_count > 4)
+                @if($image_count > 6)
                 <div class="bg-black flex justify-center items-center">
                     <div class="text-white">
-                        <i class="fas text-2xl fa-plus"></i> &nbsp; <span class="text-2xl font-bold">{{ $image_count - 4 }}</span>
+                        <i class="fas text-2xl fa-plus"></i> &nbsp; <span class="text-2xl font-bold">{{ $image_count - 6 }}</span>
                     </div>
                 </div>
                 @endif
