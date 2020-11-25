@@ -7,7 +7,7 @@
         @endforeach
     </div>
     <div>
-        <x-jet-confirmation-modal wire:model="displayOptions">
+        <x-jet-dialog-modal wire:model="displayOptions">
             <x-slot name="title">
             </x-slot>
 
@@ -20,6 +20,6 @@
             <x-slot name="footer">
 
             </x-slot>
-        </x-jet-confirmation-modal>
+        </x-jet-dialog-modal>
     </div>
 </div>

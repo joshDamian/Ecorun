@@ -18,8 +18,7 @@ class CreateNewPost extends Component
     public $empty;
     public $ready;
 
-    public function create()
-    {
+    public function create() {
         $this->validate([
             'content' => Rule::requiredIf(count($this->photos) === 0),
             'photos' => Rule::requiredIf(empty(trim($this->content))),
@@ -31,7 +30,7 @@ class CreateNewPost extends Component
             'visibility' => 'public'
         ]);
 
-        if (count($this->photos) >  0) {
+        if (count($this->photos) > 0) {
             foreach ($this->photos as $photo) {
                 $photo_path = $photo->store('post-photos', 'public');
                 $photo = Image::make(public_path("/storage/{$photo_path}"))->fit(1400, 1400, function ($constraint) {
@@ -49,28 +48,24 @@ class CreateNewPost extends Component
         return $this->done();
     }
 
-    public function done()
-    {
+    public function done() {
+        $this->ready = null;
         $this->photos = [];
         $this->content = null;
-        $this->ready = null;
         return $this->resetErrorBag();
     }
 
-    public function updatedPhotos()
-    {
+    public function updatedPhotos() {
         $this->validate([
             'photos.*' => ['image', 'max:5120']
         ]);
     }
 
-    public function ready()
-    {
+    public function ready() {
         $this->ready = true;
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.posts.create-new-post');
     }
 }

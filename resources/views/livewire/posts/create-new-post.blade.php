@@ -8,9 +8,9 @@
         </div>
         @endif
         <div>
-            <x-jet-button wire:click="ready" class="bg-blue-700">
+            <x-jet-secondary-button wire:click="ready" class="text-blue-700">
                 <i class="fas fa-plus"></i> &nbsp; New post
-            </x-jet-button>
+            </x-jet-secondary-button>
         </div>
     </div>
     @if($ready)
@@ -22,7 +22,7 @@
                     <div class="text-center text-xl">
                         loading &nbsp; <i class="fas fa-spin fa-spinner"></i>
                     </div>
-                   {{--  <x-loader /> --}}
+                    {{--  <x-loader /> --}}
                 </div>
 
                 <div class="flex justify-between mb-1 items-baseline">
@@ -33,7 +33,7 @@
                     </div>
                     @enderror
                 </div>
-                <textarea autofocus rows="5" wire:model.defer="content" placeholder="say something" class="form-textarea w-full"></textarea>
+                <textarea rows="5" wire:model.defer="content" placeholder="say something" class="form-textarea w-full"></textarea>
 
                 <div class="mt-2">
                     <input class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple>

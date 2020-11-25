@@ -2,16 +2,14 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-3">
         <div class="sm:col-span-2">
             @if ($profile->isUser())
-            <div class="flex pt-4 md:pt-0 justify-center">
-                <div class="p-1 bg-blue-600 bg-opacity-50 rounded-full shadow-md">
-                    <div class="w-44 h-44 md:h-64 md:w-64 rounded-full" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
-                    </div>
+            <div class="flex p-4 bg-gray-100 justify-center">
+                <div class="w-44 h-44 md:h-64 md:w-64 rounded-full" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
                 </div>
             </div>
             @else
             <div class="w-full h-64 sm:rounded-md" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
             @endif
-            <div class="sm:rounded-md mt-2 p-2 md:p-0 md:mt-3">
+            <div class="bg-gray-100 border-t-2 border-gray-200 px-4 py-4 md:px-4">
                 <div class="flex justify-between items-center">
                     <div class="mr-3 text-blue-800 text-xl font-semibold">
                         {{ $profile->name() }}

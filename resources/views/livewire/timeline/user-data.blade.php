@@ -1,22 +1,22 @@
 <div>
     <div class="grid grid-cols-1">
-        <div class="mt-2 mx-2 md:mx-0 md:mt-3">
+        <div class="bg-gray-100">
             <ul class="flex overflow-x-auto">
                 @foreach($views as $key => $view)
-                <li onclick=" window.modifyUrl('{{ $key }}') " wire:click="switchView('{{ $key }}')" class="text-center @if($view === $active_view) text-blue-800 bg-white @else border text-gray-800 @endif 
-                      hover:bg-white hover:text-blue-800 hover:border-transparent flex-shrink-0 flex-grow md:cursor-pointer 
-                        @if($loop->first) sm:rounded-l-md @endif @if($loop->last) sm:rounded-r-md @endif text-lg py-2 px-3">
+                <li onclick=" window.modifyUrl('{{ $key }}') " wire:click="switchView('{{ $key }}')" class="text-center @if($view === $active_view) text-blue-800 bg-white @else text-gray-800 @endif
+                    hover:bg-white hover:text-blue-800 hover:border-transparent flex-shrink-0 flex-grow md:cursor-pointer
+                    text-lg py-3 px-3">
                     <i class="{{ $view['icon'] }}"></i> &nbsp; {{ ucwords($key) }}
                 </li>
                 @endforeach
             </ul>
         </div>
     </div>
-    <div class="my-2 md:my-3">
+    <div class="mt-2 md:mt-3">
         @switch($active_view['title'])
         @case('posts')
         @can('update', $user->profile)
-        <div class="mb-2 md:mb-3">
+        <div class="mb-2 ml-2 md:ml-0 md:mb-3">
             @livewire('posts.create-new-post', ['profile' => $user->profile, 'view' => 'timeline'])
         </div>
         @endcan
