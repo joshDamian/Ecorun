@@ -28,20 +28,6 @@ class ProfilePostList extends Component
         return $this->displayOptions = true;
     }
 
-    public function like(Post $post)
-    {
-        $user = Auth::user();
-        $like_profiles = $post->likes->pluck('profile');
-
-        if ($like_profiles->contains($user->profile)) {
-            return  $post->likes()->where('profile_id', $user->profile->id)->delete();
-        } else {
-            $like = new Like();
-            $like->profile_id = $user->profile->id;
-            return $post->likes()->save($like);
-        }
-    }
-
     public function render()
     {
         return view('livewire.posts.profile-post-list', [

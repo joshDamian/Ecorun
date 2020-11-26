@@ -7,7 +7,7 @@
                 </div>
             </div>
             @else
-            <div class="w-full h-64 sm:rounded-md" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
+            <div class="w-full h-64" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
             @endif
             <div class="bg-gray-100 border-t-2 border-gray-200 px-4 py-4 md:px-4">
                 <div class="flex justify-between items-center">

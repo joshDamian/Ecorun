@@ -12,7 +12,7 @@
             </ul>
         </div>
     </div>
-    <div class="mt-2 md:mt-3">
+    <div class="mt-2 md:mt-3 md:mb-3">
         @switch($active_view['title'])
         @case('posts')
         @can('update', $user->profile)
@@ -26,7 +26,7 @@
         </div>
         @break
         @case('about')
-        <div class="bg-gray-100  sm:shadow-sm sm:rounded-md">
+        <div class="bg-gray-100  sm:shadow-sm">
             <p class="text-lg border-b p-2 font-medium border-gray-300 text-gray-600">
                 About {{ $user->profile->name() }}
             </p>

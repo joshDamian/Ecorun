@@ -9,7 +9,7 @@
                         <div class="p-2 md:p-0 md:mr-2 flex flex-row md:flex-col">
                             @foreach($product->gallery as $image)
                             <div style="max-height: 80px; max-width: 80px;" class="@if(!$loop->last) mr-2 md:mb-2 md:mr-0 @endif md:shadow-lg">
-                                <img class="cursor-pointer max-h-full max-w-full" @click=" activeImage = '{{ $image->image_url }}' " :class="('{{ $image->image_url }}' === activeImage) ? 'border-2 border-blue-800' : ''" src="/storage/{{ $image->image_url }}" />
+                                <img class="cursor-pointer md:rounded-md max-h-full max-w-full" @click=" activeImage = '{{ $image->image_url }}' " :class="('{{ $image->image_url }}' === activeImage) ? 'border-2 border-blue-800' : ''" src="/storage/{{ $image->image_url }}" />
                             </div>
                             @endforeach
                         </div>

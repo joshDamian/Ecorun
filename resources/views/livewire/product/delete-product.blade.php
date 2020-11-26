@@ -1,5 +1,5 @@
 <div>
-    <x-jet-dialog-modal wire:model="confirm">
+    <x-jet-confirmation-modal wire:model="confirm">
         <x-slot name="title">
             <div class="text-left">
                 {{ __('Delete Product') }}
@@ -23,7 +23,7 @@
                 </x-jet-danger-button>
             </div>
         </x-slot>
-    </x-jet-dialog-modal>
+    </x-jet-confirmation-modal>
     <x-jet-danger-button wire:click="confirmDeleteProduct">
         {{ __('Delete') }}
     </x-jet-danger-button>

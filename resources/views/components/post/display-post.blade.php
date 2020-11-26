@@ -57,27 +57,10 @@
         </div>
         @endif
 
-        @auth
-        <div class="p-2 border-t border-gray-200 grid grid-cols-3 gap-2 sm:gap-4 sm:px-5 sm:py-3 sm:p-0">
-            <div class="bg-gray-200 p-2 flex justify-center items-center rounded">
-                <div class="text-xl">
-                    <i wire:click="like({{ $post->id }})" class="fas fa-heart md:cursor-pointer @if($post->likes->pluck('profile')->contains(Auth::user()->profile)) text-red-700 @else text-blue-700 @endif"></i>
-                    <span class="text-gray-700 text-md ">
-                        {{ $like_count > 0 ? $like_count : __('') }}
-                    </span>
-                </div>
-            </div>
-
-            <div class="bg-gray-200 p-2 flex justify-center items-center rounded">
-                <div>
-                    <i class="fas fa-comment text-xl cursor-pointer text-blue-700"></i>
-                </div>
-            </div>
-
-            <div class="bg-gray-200 flex items-center justify-center p-2 rounded">
-                <i class="fas fa-share-square cursor-pointer text-xl text-blue-700"></i>
-            </div>
+        <div>
+            @auth
+            @livewire('posts.post-actions', ['post' => $post], key(md5('post_actions'.$post->id)))
+            @endauth
         </div>
-        @endauth
     </div>
 </div>
