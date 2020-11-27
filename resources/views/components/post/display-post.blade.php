@@ -59,7 +59,7 @@
 
         <div>
             @auth
-            @livewire('posts.post-actions', ['post' => $post], key(md5('post_actions'.$post->id)))
+            @livewire('posts.post-actions', ['postId' => $post->id], key(md5('post_actions'.$post->id)))
             @endauth
         </div>
     </div>

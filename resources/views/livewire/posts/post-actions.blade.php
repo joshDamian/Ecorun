@@ -1,8 +1,8 @@
-<div wire:poll.1000ms class="p-2 border-t border-gray-200 grid grid-cols-3 gap-2 sm:gap-4 sm:px-5 sm:py-3 sm:p-0">
+<div wire:poll class="p-2 border-t border-gray-200 grid grid-cols-3 gap-2 sm:gap-4 sm:px-5 sm:py-3 sm:p-0">
 
     <div class="bg-gray-200 p-2 flex justify-center items-center rounded-full">
-        <div class="text-xl">
-            <i wire:click="like({{ $post->id }})" :class="{{ $liked }} ? 'text-red-700' : 'text-blue-700'" class="fas fa-heart md:cursor-pointer @if($liked) text-red-700 @else text-blue-700 @endif"></i>
+        <div x-data="{ liked: '{{ $this->liked() }}' }" class="text-xl">
+            <i @click=" (liked === '1') ? liked = null : liked = '1' " :class="(liked === '1') ? 'text-red-700' : 'text-blue-700'" wire:click="like({{ $this->post->id }})" class="fas fa-heart md:cursor-pointer"></i>
             <span class="text-gray-700 text-md ">
                 {{ $like_count > 0 ? $like_count : __('') }}
             </span>
