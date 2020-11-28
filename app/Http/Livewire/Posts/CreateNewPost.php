@@ -33,7 +33,8 @@ class CreateNewPost extends Component
         if (count($this->photos) > 0) {
             foreach ($this->photos as $photo) {
                 $photo_path = $photo->store('post-photos', 'public');
-                $photo = Image::make(public_path("/storage/{$photo_path}"))->fit(1400, 1400, function ($constraint) {
+                $photo = Image::make(public_path("/storage/{$photo_path}"))
+                ->fit(1400, 1400, function ($constraint) {
                     $constraint->upsize();
                 });
                 $photo->save();
