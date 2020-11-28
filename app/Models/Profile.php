@@ -32,6 +32,11 @@ class Profile extends Model
         return $this->profileable instanceof Enterprise;
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function isUser()
     {
         return $this->profileable instanceof User;

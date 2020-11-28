@@ -2,4 +2,4 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@import 'animate.css/animate.css';
+@import 'animate.css/animate.compat.css';

@@ -31,6 +31,7 @@ Route::get('/', function () {
 Route::get('/timeline/{slug}/{profile}/{active_view?}', [ProfileController::class, 'show'])->name('timeline.show');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    //Route::post('/livewire/message/profile.follow');
     Route::get('/account.me/{active_action?}/', Dashboard::class)->name('dashboard');
     Route::middleware(['can:own-enterprise'])->group(function () {
         Route::get('/business/{slug}/{enterprise}/{active_action?}/', ManageEnterprise::class)

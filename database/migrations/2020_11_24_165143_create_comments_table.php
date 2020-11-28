@@ -18,7 +18,7 @@ class CreateCommentsTable extends Migration
             $table->foreignId('profile_id')
                 ->index()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('cascade')->nullable();
             $table->string('commentable_type');
             $table->integer('commentable_id');
             $table->string('title')->nullable();

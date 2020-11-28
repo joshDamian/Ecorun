@@ -24,8 +24,8 @@
 
     <div x-show="active_item === 'user'" class="font-light nav-content">
         <div class="flex border-gray-200 border bg-white flex-wrap items-center md:rounded-t-lg px-2 py-2 shadow">
-            @if($profileImage)
-            <div style="background-image: url('{{ $profileImage }}'); background-size: cover; background-position: center center;" class="w-16 rounded-full mr-3 h-16">
+            @if($user->profile_photo_url ?? false)
+            <div style="background-image: url('{{ $user->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-16 rounded-full mr-3 h-16">
             </div>
             @else
             <div>
@@ -39,11 +39,11 @@
             <div class="grid grid-cols-1 gap-1">
                 <div class="text-left">
                     <div class="font-semibold text-blue-800 text-lg">
-                        {{ $name }}
+                        {{ $user->name ?? __('Guest') }}
                     </div>
 
                     <div class="font-hairline text-gray-600">
-                        {{ $email }}
+                        {{ $user->email ?? __('') }}
                     </div>
                 </div>
                 @auth
@@ -53,8 +53,8 @@
         </div>
 
         @auth
-        <a href="{{ route('timeline.me') }}">
-            <div class="py-3 border px-4 tracking-wider text-left @if(request()->routeIs('timeline.me')) border-blue-700 @else border-gray-200 @endif bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-700 md:cursor-pointer">
+        <a href="{{ route('timeline.show', ['profile' => $user->profile->id, 'slug' => $user->data_slug('name')]) }}">
+            <div class="py-3 border px-4 tracking-wider text-left @if(request()->routeIs('timeline.show') && explode('/', request()->getRequestUri())[3] == $user->profile->id)) border-blue-700 @else border-gray-200 @endif bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-700 md:cursor-pointer">
                 <i class="fa fa-clipboard-list"></i> Timeline
             </div>
         </a>

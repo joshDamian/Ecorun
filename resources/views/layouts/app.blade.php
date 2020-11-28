@@ -14,7 +14,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/webfonts.css') }}">
-    <link href="https://afeld.github.io/emoji-css/emo7ji.css" rel="stylesheet">
+    <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
     <style>
         [x-cloak] {
             display: none;

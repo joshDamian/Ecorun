@@ -11,7 +11,8 @@ class PostActions extends Component
 {
     public $user;
     public $postId;
-
+    public $commentsReady = false;
+    
     public function mount()
     {
         $this->user = Auth::user();

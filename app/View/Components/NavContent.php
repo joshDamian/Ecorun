@@ -7,9 +7,8 @@ use Illuminate\View\Component;
 
 class NavContent extends Component
 {
-    public $name;
-    public $email;
-    public $profileImage;
+    public $user;
+
     /**
      * Create a new component instance.
      *
@@ -17,15 +16,7 @@ class NavContent extends Component
      */
     public function __construct()
     {
-        if (Auth::user()) {
-            $this->name = ucwords(Auth::user()->name);
-            $this->email = Auth::user()->email;
-            $this->profileImage = Auth::user()->profile_photo_url;
-        } else {
-            $this->name = 'Guest';
-            $this->email = '';
-            $this->profileImage = '';
-        }
+        $this->user = Auth::user();
     }
 
     /**
