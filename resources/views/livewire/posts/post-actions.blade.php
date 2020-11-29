@@ -1,6 +1,6 @@
 <div wire:poll class="">
     <div class="p-2 border-t  @if($commentsReady) border-b @endif border-gray-200 grid grid-cols-3 gap-2 sm:gap-4 sm:px-5 sm:py-3 sm:p-0">
-        <div x-data="{ liked: '{{ $this->liked() }}', clicked: null }" :class="{ 'border border-red-700': liked, 'animate__animated animate__bounce': clicked}" class="p-2 bg-gray-200 flex justify-center items-center rounded-full">
+        <div x-data="{ liked: '{{ $this->liked() }}', clicked: null }" :class="{ 'border border-red-700': liked, 'animate__animated animate__bounce': clicked }" class="p-2 bg-gray-200 flex justify-center items-center rounded-full">
             <div class="text-xl">
                 <i @click=" 
                     (liked === '1') ? liked = null : liked = '1';
@@ -17,7 +17,7 @@
 
         <div class="bg-gray-200 p-2 flex justify-center items-center rounded-full">
             <div>
-                <i wire:click="$toggle('commentsReady')" class="fas fa-comment text-xl cursor-pointer text-blue-700"></i>
+                <i wire:click="displayComments" class="fas fa-comment text-xl cursor-pointer text-blue-700"></i>
             </div>
         </div>
 

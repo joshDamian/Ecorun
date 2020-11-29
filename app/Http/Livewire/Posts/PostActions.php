@@ -12,7 +12,7 @@ class PostActions extends Component
     public $user;
     public $postId;
     public $commentsReady = false;
-    
+
     public function mount()
     {
         $this->user = Auth::user();
@@ -37,6 +37,11 @@ class PostActions extends Component
     public function liked()
     {
         return $this->post->likes->pluck('profile')->contains($this->user->profile);
+    }
+
+    public function displayComments()
+    {
+        $this->commentsReady = !$this->commentsReady;
     }
 
     public function render()

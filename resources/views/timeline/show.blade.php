@@ -3,7 +3,7 @@
         <div class="sm:col-span-2">
             @if ($profile->isUser())
             <div class="flex p-4 bg-gray-100 justify-center">
-                <div class="w-44 h-44 md:h-64 md:w-64 rounded-full" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+                <div class="w-44 h-44 md:h-60 md:w-60 rounded-full" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
                 </div>
             </div>
             @else

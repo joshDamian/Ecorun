@@ -1,7 +1,7 @@
 <div>
     <div class="p-2 sm:px-5 sm:py-3 sm:p-0">
         <x-jet-secondary-button class="text-blue-700" wire:click="ready">
-            add comment
+            <i class="fas fa-plus"></i> &nbsp; add comment
         </x-jet-secondary-button>
     </div>
 
@@ -44,14 +44,14 @@
 
                 <div class="mt-2 flex justify-end">
                     <div class="mr-3">
-                        <x-jet-secondary-button wire:click="done" class="bg-blue-800">
-                            <span class="text-white">cancel</span>
+                        <x-jet-secondary-button wire:click="done" class="text-red-700 font-semibold">
+                            cancel
                         </x-jet-secondary-button>
                     </div>
 
                     <div>
                         <x-jet-button class="bg-blue-600">
-                            <i class="fas fa-save"></i> &nbsp;comment
+                            <i wire:loading="create" class="fas fa-spin font-black fa-spinner"></i> &nbsp;comment
                         </x-jet-button>
                     </div>
                 </div>
