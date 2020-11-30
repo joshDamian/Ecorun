@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 trait StringManipulations
 {
-    public function data_slug(string $key = null)
+    public function data_slug(string $key = null): string
     {
         if ($key) {
             $result = Str::of($this->slugData()[$key])->slug('-')->__toString();
@@ -21,11 +21,11 @@ trait StringManipulations
         return $result;
     }
 
-    public function singular(string $key = null)
+    public function singular(string $key = null): string
     {
         if ($key) {
             $result =
-                Str::of($this->canBeSingular()[$key])->singular()->__toString();
+            Str::of($this->canBeSingular()[$key])->singular()->__toString();
         } else {
             $result = [];
 
