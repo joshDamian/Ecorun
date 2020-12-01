@@ -35,8 +35,8 @@ class Team extends JetstreamTeam
         'deleted' => TeamDeleted::class,
     ];
 
-    public function enterprise()
+    public function business()
     {
-        return $this->belongsTo(Enterprise::class);
+        return $this->belongsTo(Business::class);
     }
 }

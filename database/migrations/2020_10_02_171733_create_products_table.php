@@ -30,7 +30,7 @@ class CreateProductsTable extends Migration
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
                 $table->boolean('is_published')->default(false);
-                $table->foreignId('enterprise_id')
+                $table->foreignId('business_id')
                     ->nullable()
                     ->index()
                     ->onDelete('cascade')

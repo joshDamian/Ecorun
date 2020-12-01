@@ -54,8 +54,8 @@ class ProfilePolicy
      */
     public function update(User $user, Profile $profile)
     {
-        if ($profile->isEnterprise()) {
-            return false;
+        if ($profile->isBusiness()) {
+            return ($user->isManager) ? $user->isManager->id === $profile->profileable->manager_id : false;
         } else {
             return $user->id === $profile->profileable->id;
         }

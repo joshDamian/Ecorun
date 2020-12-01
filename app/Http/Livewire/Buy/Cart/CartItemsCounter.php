@@ -8,6 +8,7 @@ use Livewire\Component;
 class CartItemsCounter extends Component
 {
     public $count;
+    private $user;
 
     protected $listeners = [
         'modifiedCart' => 'count'
@@ -15,12 +16,13 @@ class CartItemsCounter extends Component
 
     public function count()
     {
-        $this->count = (Auth::user()) ? Auth::user()->cart->count() : count(session()->get('guest_cart', []));
+        $this->count = ($this->user) ? $this->user->cart->count() : count(session()->get('guest_cart', []));
     }
 
     public function mount()
     {
-        $this->count = (Auth::user()) ? Auth::user()->cart->count() : count(session()->get('guest_cart', []));
+        $this->user = Auth::user();
+        return $this->count();
     }
 
     public function render()

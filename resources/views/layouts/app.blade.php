@@ -26,25 +26,25 @@
     @livewireStyles
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
-<body class="font-sans leading-relaxed bg-gray-200 tracking-normal">
+<body class="font-sans leading-relaxed tracking-normal bg-gray-200">
     <div x-data="nav_data()" x-init="init_nav()" x-cloak>
         <!--Nav-->
         <x-navbar />
 
-        <div class="md:flex md:px-12 md:pt-12 justify-center justify-items-center">
+        <div class="justify-center md:flex md:px-12 md:pt-12 justify-items-center">
             <div x-show="active_item" class="md:w-1/4 fixed top-12 md:top-24 w-full bg-white md:bg-transparent md:p-0 md:-mt-0.5 md:pr-2 md:left-12">
                 <div class="h-screen overflow-y-auto">
                     <x-nav-content />
                 </div>
             </div>
 
-            <div class="w-full md:ml-80 md:pl-2 sm:p-2 md:p-0 flex-1">
+            <div class="flex-1 w-full md:ml-80 md:pl-2 sm:p-2 md:p-0">
                 <div>
-                    @livewire('session-transport', key('session_transport'))
+                    @livewire('general.session.session-transport', key('session_transport'))
                 </div>
                 <main class="w-full">
                     {{ $slot }}

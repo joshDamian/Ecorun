@@ -3,12 +3,12 @@
         <x-loader />
     </div>
     @if($product)
-    <div class="pb-4 px-4 text-right">
+    <div class="px-4 pb-4 text-right">
         <x-jet-button @click="window.location = window.location" class="bg-pink-600">
             {{ __('Add Another') }}
         </x-jet-button>
     </div>
-    @livewire('product.modify-product-data', ['product' => $product])
+    @livewire('build-and-manage.product.product-dashboard', ['product' => $product])
     @else
     <div x-data x-init="() => { window.scrollTo(0, 0); }">
         <x-jet-form-section submit="create">
@@ -57,27 +57,27 @@
                 </div>
 
                 <div class="col-span-12 md:col-span-6 sm:col-span-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <!-- Category -->
                         <div>
                             <x-jet-label for="category">
                                 {{__('Category Groups')}}
-                                @if ($enterprise->isService())
+                                @if ($business->isService())
                                 <span class="text-green-400">
                                     {{__(' (optional) ')}}
                                 </span>
                                 @endif
                             </x-jet-label>
                             <div class="relative mt-1">
-                                <select wire:model="activeCategory" class="block appearance-none w-full bg-blue-900 border border-blue-900 text-white py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-gray-900 focus:border-gray-900" id="grid-state">
+                                <select wire:model="activeCategory" class="block w-full px-4 py-3 pr-8 leading-tight text-white bg-blue-900 border border-blue-900 rounded appearance-none focus:outline-none focus:bg-gray-900 focus:border-gray-900" id="grid-state">
                                     @if(!$activeCategory) <option value='' selected>Select A Category Group</option>
                                     @endif
                                     @foreach($categories as $category)
                                     <option value="{{ $category->title }}">{{ $category->title }}</option>
                                     @endforeach
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <div class="absolute inset-y-0 right-0 flex items-center px-2 text-white pointer-events-none">
+                                    <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                         <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                     </svg>
                                 </div>
@@ -89,14 +89,14 @@
                         <div>
                             <x-jet-label for="category">
                                 {{__('Product Category')}}
-                                @if ($enterprise->isService())
+                                @if ($business->isService())
                                 <span class="text-green-400">
                                     {{__(' (optional) ')}}
                                 </span>
                                 @endif
                             </x-jet-label>
                             <div class="relative mt-1">
-                                <select wire:model.defer="product_category" class="block appearance-none w-full bg-blue-900 border border-blue-900 text-white py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-gray-900 focus:border-gray-900" id="grid-state">
+                                <select wire:model.defer="product_category" class="block w-full px-4 py-3 pr-8 leading-tight text-white bg-blue-900 border border-blue-900 rounded appearance-none focus:outline-none focus:bg-gray-900 focus:border-gray-900" id="grid-state">
                                     @if(!$product_category) <option value=''>Select A Category</option> @endif
                                     @forelse(App\Models\Category::without('products')->find($activeCategory)->children
                                     as $category)
@@ -105,8 +105,8 @@
                                     <option>no sub-categories</option>
                                     @endforelse
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <div class="absolute inset-y-0 right-0 flex items-center px-2 text-white pointer-events-none">
+                                    <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                         <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                     </svg>
                                 </div>
@@ -120,7 +120,7 @@
                 <!-- Name -->
                 <div class="col-span-12 md:col-span-3 sm:col-span-4">
                     <x-jet-label for="name" value="{{ __('Product Name') }}" />
-                    <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="name" placeholder="product name" autocomplete="name" />
+                    <x-jet-input id="name" type="text" class="block w-full mt-1" wire:model.defer="name" placeholder="product name" autocomplete="name" />
                     <x-jet-input-error for="name" class="mt-2" />
                 </div>
 
@@ -129,13 +129,13 @@
                     <x-jet-label for="price" value="{{ __('Product Price') }}" /> (<span x-ref="pricewatch"></span>)
                     <div class="relative">
 
-                        <div class="absolute hidden sm:flex border border-transparent left-0 top-0 h-full w-10">
-                            <div class="flex items-center justify-center rounded-tl rounded-bl z-10 bg-gray-100 text-gray-600 text-lg h-full w-full">
+                        <div class="absolute top-0 left-0 hidden w-10 h-full border border-transparent sm:flex">
+                            <div class="z-10 flex items-center justify-center w-full h-full text-lg text-gray-600 bg-gray-100 rounded-tl rounded-bl">
                                 &#8358;
                             </div>
                         </div>
 
-                        <x-jet-input id="price" type="number" class="relative mt-1 block w-full sm:py-2 sm:pr-2 sm:pl-12" placeholder="product price" wire:model.defer="price" autocomplete="price" />
+                        <x-jet-input id="price" type="number" class="relative block w-full mt-1 sm:py-2 sm:pr-2 sm:pl-12" placeholder="product price" wire:model.defer="price" autocomplete="price" />
                     </div>
 
                     <x-jet-input-error for="price" class="mt-2" />
@@ -145,20 +145,20 @@
                 <div class="col-span-6 sm:col-span-4 md:col-span-3">
                     <x-jet-label for="category">
                         {{__('Available Stock')}}
-                        @if ($enterprise->isService())
+                        @if ($business->isService())
                         <span class="text-green-400">
                             {{__(' (optional) ')}}
                         </span>
                         @endif
                     </x-jet-label>
-                    <x-jet-input id="available_stock" placeholder="available stock" type="number" class="mt-1 block w-full" wire:model.defer="available_stock" autocomplete="available_stock" />
+                    <x-jet-input id="available_stock" placeholder="available stock" type="number" class="block w-full mt-1" wire:model.defer="available_stock" autocomplete="available_stock" />
                     <x-jet-input-error for="available_stock" class="mt-2" />
                 </div>
 
                 <!-- Description -->
                 <div class="col-span-12 md:col-span-3 sm:col-span-4">
                     <x-jet-label for="description" value="{{ __('Product Description') }}" />
-                    <textarea placeholder="product description" rows="3" class="form-input mt-1 block w-full" wire:model.defer="description" autocomplete="description"></textarea>
+                    <textarea placeholder="product description" rows="3" class="block w-full mt-1 form-input" wire:model.defer="description" autocomplete="description"></textarea>
                     <x-jet-input-error for="description" class="mt-2" />
                 </div>
             </x-slot>

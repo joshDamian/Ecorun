@@ -13,9 +13,9 @@ class Service extends Model
         'working_days'
     ];
 
-    public function enterprise()
+    public function business()
     {
-        return $this->morphOne('App\Models\Enterprise', 'enterpriseable');
+        return $this->morphOne('App\Models\Business', 'businessable');
     }
 
     public function working_days()

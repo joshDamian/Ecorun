@@ -16,7 +16,7 @@ class Product extends Model
     use StringManipulations;
 
     protected $with = [
-        'attributes',
+        'specifications',
     ];
 
     protected $casts = [
@@ -32,9 +32,9 @@ class Product extends Model
 
     use HasFactory;
 
-    public function enterprise()
+    public function business()
     {
-        return $this->belongsTo(Enterprise::class);
+        return $this->belongsTo(Business::class);
     }
 
     public function category()
@@ -47,14 +47,14 @@ class Product extends Model
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 
-    public function attributes()
+    public function specifications()
     {
-        return $this->hasMany(ProductAttribute::class);
+        return $this->hasMany(ProductSpecification::class)->orderBy('name', 'ASC');
     }
 
     public function indicatedSpecs()
     {
-        return $this->attributes()->where('is_specific', true)->orderBy('name', 'ASC')->get();
+        return $this->specifications()->where('is_specific', true)->get();
     }
 
     public function cart_instances()

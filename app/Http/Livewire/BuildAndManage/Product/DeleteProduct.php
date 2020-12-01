@@ -12,9 +12,9 @@ class DeleteProduct extends Component
     public $confirm;
 
     public function delete() {
-        $enterprise = $this->product->enterprise;
+        $business = $this->product->business;
 
-        $this->product->attributes()->delete();
+        $this->product->specifications()->delete();
 
         foreach ($this->product->gallery as $image) {
             Storage::disk('public')->delete($image->image_url);
@@ -24,7 +24,7 @@ class DeleteProduct extends Component
 
         $this->product->forceDelete();
 
-        redirect()->to("/business/{$enterprise->data_slug('name')}/{$enterprise->id}/products");
+        redirect()->to("/business/{$business->data_slug('name')}/{$business->id}/products");
     }
 
     public function confirmDeleteProduct() {

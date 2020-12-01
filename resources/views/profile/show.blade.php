@@ -1,6 +1,6 @@
 <x-app-layout>
     <div>
-        <div class="max-w-7xl mx-auto pt-4 md:pt-0 pb-4">
+        <div class="pt-4 pb-4 mx-auto max-w-7xl md:pt-0">
             @livewire('profile.update-profile-information-form')
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
@@ -22,7 +22,7 @@
             <x-jet-section-border />
 
             <div class="mt-10 sm:mt-0">
-                @livewire('profile.manage-user-profile')
+                @livewire('connect.profile.manage-user-profile')
             </div>
 
             <x-jet-section-border />

@@ -1,8 +1,8 @@
-<div class="pt-4 md:pt-0 pb-4">
+<div class="pt-4 pb-4 md:pt-0">
     <div class="mb-6">
-        @livewire('enterprise.edit-enterprise', ['enterprise' => $enterprise])
+        @livewire('build-and-manage.business.edit-business', ['business' => $business])
     </div>
     <div class="">
-        @livewire('profile.manage-enterprise-profile', ['enterprise' => $enterprise], key($enterprise->id))
+        @livewire('profile.manage-enterprise-profile', ['business' => $business], key($business->id))
     </div>
 </div>

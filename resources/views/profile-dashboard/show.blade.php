@@ -1,17 +1,19 @@
 <x-app-layout>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-3">
+    <div class="grid grid-cols-1 gap-2 sm:grid-cols-3 md:gap-3">
         <div class="sm:col-span-2">
             @if ($profile->isUser())
-            <div class="flex p-4 bg-gray-100 justify-center">
-                <div class="w-44 h-44 md:h-60 md:w-60 rounded-full" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+            <div class="flex justify-center p-4 bg-gray-100">
+                <div class="rounded-full w-44 h-44 md:h-60 md:w-60" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
                 </div>
             </div>
+            
             @else
             <div class="w-full h-64" style="background-image: url('{{ $profile->profile_image() }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
             @endif
-            <div class="bg-gray-100 border-t-2 border-gray-200 px-4 py-4 md:px-4">
-                <div class="flex justify-between items-center">
-                    <div class="mr-3 text-blue-800 text-xl font-semibold">
+            
+            <div class="px-4 py-4 bg-gray-100 border-t-2 border-gray-200 md:px-4">
+                <div class="flex items-center justify-between">
+                    <div class="mr-3 text-xl font-semibold text-blue-800">
                         {{ $profile->name() }}
                     </div>
 
@@ -20,10 +22,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="md:mt-1">
-                @if($profile->isEnterprise())
+                @if($profile->isBusiness())
                 <div>
-                    @livewire('connect.profile-dashboard.business-profile-data', ['enterprise' => $profile->profileable, 'active_view' => $active_view])
+                    @livewire('connect.profile-dashboard.business-profile-data', ['business' => $profile->profileable, 'active_view' => $active_view])
                 </div>
 
                 @elseif($profile->isUSer())

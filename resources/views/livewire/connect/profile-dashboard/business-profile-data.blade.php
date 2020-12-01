@@ -16,28 +16,28 @@
         @switch($active_view['title'])
         @case('products')
         <div class="mb-2">
-            <x-product.user-product-list :products="$enterprise->products()->where('is_published', true)->latest()->get()" />
+            <x-product.user-product-list :products="$business->products()->where('is_published', true)->latest()->get()" />
         </div>
         @break
         @case('posts')
-        @can('update-enterprise', $enterprise->id)
+        @can('update-business', $business->id)
         <div class="mb-2 ml-2 md:ml-0 md:mb-3">
-            @livewire('posts.create-new-post', ['profile' => $enterprise->profile, 'view' => 'timeline'])
+            @livewire('posts.create-new-post', ['profile' => $business->profile, 'view' => 'timeline'])
         </div>
         @endcan
 
         <div>
-            @livewire('posts.profile-post-list', ['profile' => $enterprise->profile, 'view' => 'timeline'])
+            @livewire('posts.profile-post-list', ['profile' => $business->profile, 'view' => 'timeline'])
         </div>
         @break
 
         @case('about')
-        <div class="bg-gray-100  sm:shadow-sm">
-            <p class="text-lg border-b p-2 font-medium border-gray-300 text-gray-600">
-                About {{ $enterprise->profile->name() }}
+        <div class="bg-gray-100 sm:shadow-sm">
+            <p class="p-2 text-lg font-medium text-gray-600 border-b border-gray-300">
+                About {{ $business->profile->name() }}
             </p>
-            <p class="text-gray-700 p-2 text-md">
-                {{ $enterprise->profile->description }}
+            <p class="p-2 text-gray-700 text-md">
+                {{ $business->profile->description }}
             </p>
         </div>
         @break
@@ -49,7 +49,7 @@
 @push('scripts')
 <script>
     document.addEventListener('livewire:load', function() {
-        window.modifyUrl("/timeline/{{ $enterprise->data_slug('name') }}/{{ $enterprise->profile->id }}/{{ array_keys($views, $active_view)[0] }}")
+        window.modifyUrl("/timeline/{{ $business->data_slug('name') }}/{{ $business->profile->id }}/{{ array_keys($views, $active_view)[0] }}")
     })
 
 </script>

@@ -3,16 +3,14 @@
 namespace App\Http\Livewire\BuildAndManage\Business;
 
 use Livewire\Component;
-use App\Models\Enterprise;
+use App\Models\Business;
 use Livewire\WithFileUploads;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
 
 class EditBusiness extends Component
 {
     use WithFileUploads;
 
-    public Enterprise $enterprise;
+    public Business $business;
     public $photo;
 
     protected $listeners = [
@@ -20,10 +18,10 @@ class EditBusiness extends Component
     ];
 
     protected $rules = [
-        'enterprise.name' => [
+        'business.name' => [
             'required',
             'min:4',
-            'unique:enterprises,name'
+            'unique:businesses,name'
         ],
 
         'photo' => [
@@ -37,12 +35,12 @@ class EditBusiness extends Component
 
     public function saveProfile()
     {
-        $current_name = Enterprise::find($this->enterprise->id)->name;
+        $current_name = Business::find($this->business->id)->name;
         $this->validate([
-            'enterprise.name' => ($this->enterprise->name !== $current_name) ? [
+            'business.name' => ($this->business->name !== $current_name) ? [
                 'required',
                 'min:4',
-                'unique:enterprises,name'
+                'unique:businesses,name'
             ] :
                 [
                     'required',
@@ -51,50 +49,32 @@ class EditBusiness extends Component
         ]);
 
         if ($this->photo) {
-            $this->enterprise->updateProfilePhoto($this->photo);
-            /* $photo_path = $this->photo->store('enterprise-cover-photos', 'public');
-
-            if ($this->enterprise->coverPhoto()) {
-                Storage::disk('public')->delete($this->enterprise->coverPhoto());
-                $this->enterprise->gallery()
-                    ->where('label', 'cover_photo')
-                    ->update(['image_url' => $photo_path]);
-            } else {
-                $this->enterprise->gallery()->create([
-                    'label' => 'cover_photo',
-                    'image_url' => $photo_path
-                ]);
-            } */
+            $this->business->updateProfilePhoto($this->photo);
         }
 
-        $this->enterprise->name = ucwords($this->enterprise->name);
-        $this->enterprise->save();
+        $this->business->name = ucwords($this->business->name);
+        $this->business->save();
         $this->emitSelf('saved');
-        $this->emit('enterprise_updated');
+        $this->emit('business_updated');
     }
 
     public function deleteCoverPhoto()
     {
-        if ($this->enterprise->profile_photo_path) {
-            $this->enterprise->deleteProfilePhoto();
-            /* Storage::disk('public')->delete($this->enterprise->coverPhoto());
-            $this->enterprise->gallery()
-                ->where('label', 'cover_photo')
-                ->delete();
-
+        if ($this->business->profile_photo_path) {
+            $this->business->deleteProfilePhoto();
             $this->emitSelf('saved');
-            $this->emit('enterprise_updated'); */
+            $this->emit('business_updated');
         }
     }
 
     public function updated($propertyName)
     {
-        $current_name = Enterprise::find($this->enterprise->id)->name;
+        $current_name = Business::find($this->business->id)->name;
         $this->validateOnly($propertyName, [
-            'enterprise.name' => ($this->enterprise->name !== $current_name) ? [
+            'business.name' => ($this->business->name !== $current_name) ? [
                 'required',
                 'min:4',
-                'unique:enterprises,name'
+                'unique:businesses,name'
             ] :
                 [
                     'required',

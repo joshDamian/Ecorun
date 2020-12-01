@@ -11,12 +11,17 @@ class BusinessProductList extends Component
 {
     use WithPagination;
 
-    public $enterprise;
+    public $business;
     public $active_product;
 
     protected $listeners = [
         'viewAll'
     ];
+
+    public function mount(Product $active_product = null)
+    {
+        return $this->switchActiveProduct($active_product);
+    }
 
     public function switchActiveProduct(Product $product)
     {
@@ -31,7 +36,7 @@ class BusinessProductList extends Component
     public function render()
     {
         return view('livewire.build-and-manage.business.business-product-list', [
-            'products' => Auth::user()->isManager->enterprises->find($this->enterprise)->products()->latest()->paginate(12)
+            'products' => Auth::user()->isManager->businesses->find($this->business)->products()->latest()->paginate(12)
         ]);
     }
 }

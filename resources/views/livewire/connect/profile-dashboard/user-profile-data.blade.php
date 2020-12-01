@@ -16,7 +16,7 @@
         @switch($active_view['title'])
         @case('posts')
         @can('update', $user->profile)
-        <div class="mb-2 ml-2 md:ml-0 md:mb-3">
+        <div class="mb-2 md:mb-3">
             @livewire('connect.post.create-new-post', ['profile' => $user->profile, 'view' => 'timeline'])
         </div>
         @endcan
@@ -26,11 +26,11 @@
         </div>
         @break
         @case('about')
-        <div class="bg-gray-100  sm:shadow-sm">
-            <p class="text-lg border-b p-2 font-medium border-gray-300 text-gray-600">
+        <div class="bg-gray-100 sm:shadow-sm">
+            <p class="p-2 text-lg font-medium text-gray-600 border-b border-gray-300">
                 About {{ $user->profile->name() }}
             </p>
-            <p class="text-gray-700 p-2 text-md">
+            <p class="p-2 text-gray-700 text-md">
                 {{ $user->profile->description }}
             </p>
         </div>
@@ -41,19 +41,11 @@
     </div>
 </div>
 @push('scripts')
-@if(request()->routeIs('timeline.show'))
+
 <script>
     document.addEventListener('livewire:load', function() {
-        window.modifyUrl("/timeline/{{ $user->data_slug('name') }}/{{ $user->profile->id }}/{{ array_keys($views, $active_view)[0] }}")
+        window.modifyUrl("/profile-dashboard/{{ $user->data_slug('name') }}/{{ $user->profile->id }}/{{ array_keys($views, $active_view)[0] }}")
     })
 
 </script>
-@else
-<script>
-    document.addEventListener('livewire:load', function() {
-        window.modifyUrl("/timeline.me/{{ array_keys($views, $active_view)[0] }}")
-    })
-
-</script>
-@endif
 @endpush

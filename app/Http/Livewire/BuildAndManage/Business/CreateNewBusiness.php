@@ -6,7 +6,7 @@ use App\Models\Service;
 use App\Models\Store;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Enterprise;
+use App\Models\Business;
 
 class CreateNewBusiness extends Component
 {
@@ -14,7 +14,7 @@ class CreateNewBusiness extends Component
     public $type;
 
     protected $rules = [
-        'name' => ['required', 'unique:enterprises', 'min:4', 'max:255'],
+        'name' => ['required', 'unique:businesss', 'min:4', 'max:255'],
         'type' => 'required'
     ];
 
@@ -25,34 +25,34 @@ class CreateNewBusiness extends Component
 
         $this->name = ucwords($this->name);
 
-        $enterprise = Auth::user()->isManager
-            ->enterprises()->create([
+        $business = Auth::user()->isManager
+            ->businesses()->create([
                 'name' => $this->name
             ]);
 
-        if ($enterprise) {
-            $this->assignType($enterprise);
+        if ($business) {
+            $this->assignType($business);
             $team = $this->createTeam();
 
-            if ($enterprise->enterpriseable) {
-                $this->create_profile($enterprise);
+            if ($business->businessable) {
+                $this->create_profile($business);
             }
         }
 
         $this->emitSelf('created');
-        $this->emit('newEnterprise');
-        return $enterprise->team()->save($team);
+        $this->emit('newBusiness');
+        return $business->team()->save($team);
     }
 
-    protected function create_profile(Enterprise $enterprise)
+    protected function create_profile(Business $business)
     {
-        if ($enterprise->isStore()) {
-            $enterprise->profile()->create([
-                'description' => "{$enterprise->name} sells quality products, we look forward to satisfying your purchase needs."
+        if ($business->isStore()) {
+            $business->profile()->create([
+                'description' => "{$business->name} sells quality products, we look forward to satisfying your purchase needs."
             ]);
-        } elseif ($enterprise->isService()) {
-            $enterprise->profile()->create([
-                'description' => "{$enterprise->name} offers quality services, we look forward to making you happy."
+        } elseif ($business->isService()) {
+            $business->profile()->create([
+                'description' => "{$business->name} offers quality services, we look forward to making you happy."
             ]);
         }
     }
@@ -66,16 +66,16 @@ class CreateNewBusiness extends Component
         ]);
     }
 
-    protected function assignType(Enterprise $enterprise)
+    protected function assignType(Business $business)
     {
         switch ($this->type) {
             case 'service':
                 $service = Service::create([]);
-                $service->enterprise()->save($enterprise);
+                $service->business()->save($business);
                 break;
             case 'store':
                 $store = Store::create([]);
-                $store->enterprise()->save($enterprise);
+                $store->business()->save($business);
                 break;
             default:
                 break;

@@ -22,7 +22,7 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->morphMany('App\Models\Comment', 'commentable')->latest();
+        return $this->morphMany('App\Models\Feedback', 'feedbackable')->latest();
     }
 
     public function gallery()

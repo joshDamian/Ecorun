@@ -1,6 +1,6 @@
 <div>
     <x-jet-form-section submit="saveProfile">
-        @if ($enterprise->isStore())
+        @if ($business->isStore())
         <x-slot name="title">
             {{ __('Store Profile') }}
         </x-slot>
@@ -36,7 +36,7 @@
 
                 <!-- Current Cover Photo -->
                 <div class="mt-2" x-show.transition="! photoPreview">
-                    <div style="height: 220px; width: 100%; background-image: url('{{ $enterprise->profile_photo_url }}'); background-position: center center; background-size: cover;">
+                    <div style="height: 220px; width: 100%; background-image: url('{{ $business->profile_photo_url }}'); background-position: center center; background-size: cover;">
                     </div>
                 </div>
 
@@ -56,22 +56,22 @@
             </div>
 
             <!-- Name -->
-            @if ($enterprise->isStore())
+            @if ($business->isStore())
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="name" value="{{ __('Store Name') }}" />
-                <x-jet-input id="name" placeholder="store name" type="text" wire:model="enterprise.name" class="mt-1 block w-full" autocomplete="name" />
-                <x-jet-input-error for="enterprise.name" class="mt-2" />
+                <x-jet-input id="name" placeholder="store name" type="text" wire:model="business.name" class="block w-full mt-1" autocomplete="name" />
+                <x-jet-input-error for="business.name" class="mt-2" />
             </div>
             @else
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="name" value="{{ __('Service Name') }}" />
-                <x-jet-input id="name" placeholder="service name" type="text" wire:model="enterprise.name" class="mt-1 block w-full" autocomplete="name" />
-                <x-jet-input-error for="enterprise.name" class="mt-2" />
+                <x-jet-input id="name" placeholder="service name" type="text" wire:model="business.name" class="block w-full mt-1" autocomplete="name" />
+                <x-jet-input-error for="business.name" class="mt-2" />
             </div>
             @endif
 
             <!-- Remove Cover Photo -->
-            @if($enterprise->profile_photo_path)
+            @if($business->profile_photo_path)
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-secondary-button wire:click="deleteCoverPhoto">
                     {{ __('Remove Cover Photo') }}

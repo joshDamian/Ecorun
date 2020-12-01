@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\BuildAndManage\Product;
 
 use App\Models\Category;
-use App\Models\Enterprise;
+use App\Models\Business;
 use Intervention\Image\Facades\Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -12,7 +12,7 @@ class CreateNewProduct extends Component
 {
     use WithFileUploads;
 
-    public Enterprise $enterprise;
+    public Business $business;
     public $name;
     public $price;
     public $description;
@@ -46,7 +46,7 @@ class CreateNewProduct extends Component
                 'min:20'
             ],
 
-            'available_stock' => ($this->enterprise->isStore() || $this->available_stock || $this->available_stock === "0") ? [
+            'available_stock' => ($this->business->isStore() || $this->available_stock || $this->available_stock === "0") ? [
                 'required',
                 'int',
                 'min:1'
@@ -58,10 +58,10 @@ class CreateNewProduct extends Component
                 'min:1'
             ],
             
-            'product_category' => ($this->enterprise->isStore()) ? ['required'] : '',
+            'product_category' => ($this->business->isStore()) ? ['required'] : '',
         ]);
 
-        $this->product = $this->enterprise
+        $this->product = $this->business
             ->products()
             ->create([
                 'name' => ucwords(strtolower($this->name)),
@@ -103,7 +103,7 @@ class CreateNewProduct extends Component
                 'min:20'
             ],
 
-            'available_stock' => ($this->enterprise->isStore() || $this->available_stock || $this->available_stock === "0") ? [
+            'available_stock' => ($this->business->isStore() || $this->available_stock || $this->available_stock === "0") ? [
                 'required',
                 'int',
                 'min:1'
@@ -114,7 +114,7 @@ class CreateNewProduct extends Component
                 'int',
                 'min:1'
             ],
-            'product_category' => ($this->enterprise->isStore()) ? ['required'] : '',
+            'product_category' => ($this->business->isStore()) ? ['required'] : '',
         ]);
     }
 

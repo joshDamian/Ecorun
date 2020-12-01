@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class BusinessProfileData extends Component
 {
-    public  $enterprise;
+    public $business;
     public $active_view;
     public $views = [
         'products' => [

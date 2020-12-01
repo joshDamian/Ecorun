@@ -8,13 +8,15 @@ use Livewire\Component;
 class ManagerBusinessList extends Component
 {
     protected $listeners = [
-        'newEnterprise' => '$refresh'
+        'newBusiness' => '$refresh'
     ];
 
     public function render()
     {
+        $businesses = Auth::user()->isManager->businesses;
         return view('livewire.build-and-manage.manager.manager-business-list', [
-            'enterprises' => Auth::user()->isManager->enterprises
+            'businesses' => $businesses,
+            'businesses_count' => $businesses->count()
         ]);
     }
 }

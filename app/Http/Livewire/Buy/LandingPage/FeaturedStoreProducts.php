@@ -10,15 +10,10 @@ class FeaturedStoreProducts extends Component
 {
     public function render()
     {
-        $stores = Store::all();
-        $stores_enterprise_id = [];
-
-        foreach ($stores as $store) {
-            array_push($stores_enterprise_id, $store->enterprise->id);
-        }
+        $stores = Store::all()->pluck('business.id');
 
         return view('livewire.buy.landing-page.featured-store-products', [
-            'store_products' => Product::whereIn('enterprise_id', $stores_enterprise_id)->where('is_published', true)->latest()->paginate(8)
+            'store_products' => Product::whereIn('business_id', $stores)->where('is_published', true)->latest()->paginate(8)
         ]);
     }
 }

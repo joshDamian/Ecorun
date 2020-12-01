@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\BuildAndManage\Business;
 
-use App\Models\Enterprise;
+use App\Models\Business;
 use Livewire\Component;
 
 class SetupBusiness extends Component
 {
-    public Enterprise $enterprise;
+    public Business $business;
     public $type;
 
     public function render()

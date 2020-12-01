@@ -27,14 +27,14 @@ class Profile extends Model
         return $this->morphTo();
     }
 
-    public function isEnterprise()
+    public function isBusiness()
     {
-        return $this->profileable instanceof Enterprise;
+        return $this->profileable instanceof Business;
     }
 
-    public function comments()
+    public function feedbacks()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Feedback::class);
     }
 
     public function isUser()

@@ -9,8 +9,8 @@ class Store extends Model
 {
     use HasFactory;
 
-    public function enterprise()
+    public function business()
     {
-        return $this->morphOne('App\Models\Enterprise', 'enterpriseable');
+        return $this->morphOne('App\Models\Business', 'businessable');
     }
 }

@@ -9,7 +9,7 @@ class Manager extends Model
 {
     use HasFactory;
     protected $with = [
-        'enterprises',
+        'businesses',
         //'user'
     ];
 
@@ -18,14 +18,14 @@ class Manager extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function enterprises()
+    public function businesses()
     {
-        return $this->hasMany(Enterprise::class);
+        return $this->hasMany(Business::class);
     }
 
     public function revoke()
     {
-        $this->enterprises()->revoke();
+        $this->businesses()->revoke();
 
         $this->delete();
     }
