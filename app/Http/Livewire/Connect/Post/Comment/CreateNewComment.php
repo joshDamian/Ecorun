@@ -15,11 +15,11 @@ class CreateNewComment extends Component
     {
         $this->defaultContentValidation();
 
-        $comment = $this->post->comments()->create([
+        $comment = $this->profile->feedbacks()->create([
             'content' => trim($this->content) ?? ''
         ]);
 
-        $this->profile->feedbacks()->save($comment);
+        $this->post->comments()->save($comment);
 
         $this->uploadPhotos('comment-photos', $comment, 'comment_photo', array(1400, 1400));
 

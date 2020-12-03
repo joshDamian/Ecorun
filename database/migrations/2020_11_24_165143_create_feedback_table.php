@@ -19,8 +19,8 @@ class CreateFeedbackTable extends Migration
                 ->index()
                 ->onUpdate('cascade')
                 ->onDelete('cascade')->nullable();
-            $table->string('feedbackable_type');
-            $table->integer('feedbackable_id');
+            $table->string('feedbackable_type')->nullable();
+            $table->integer('feedbackable_id')->nullable();
             $table->string('title')->nullable();
             $table->text('content');
             $table->timestamps();

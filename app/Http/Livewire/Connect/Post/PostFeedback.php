@@ -14,11 +14,13 @@ class PostFeedback extends Component
     use HasComments;
 
     public $postId;
+    public $view;
 
     public function mount()
     {
         $this->profile = Auth::user()->profile;
         $this->likeable = $this->post;
+        $this->commentsReady = ($this->view === 'post.show') ? true : null;
     }
 
     public function getPostProperty()

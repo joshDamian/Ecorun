@@ -2,7 +2,7 @@
 <div>
     <div class="bg-gray-100 sm:shadow">
         <div class="flex justify-between p-2 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
-            <a class="block" href="{{ route('profile-dashboard', ['profile' => $post->profile->id, 'slug' => $post->profile->profileable->data_slug('name')]) }}">
+            <a class="block" href="{{ route('profile.visit', ['profile' => $post->profile->id, 'slug' => $post->profile->profileable->data_slug('name')]) }}">
                 <div class="flex items-center">
                     <div style="background-image: url('{{ $post->profile->profile_image() }}'); background-size: cover; background-position: center center;" class="w-12 h-12 mr-3 rounded-full">
                     </div>
@@ -56,11 +56,5 @@
             @endif
         </div>
         @endif
-
-        <div>
-            @auth
-            @livewire('connect.post.post-feedback', ['postId' => $post->id], key(md5('post_actions'.$post->id)))
-            @endauth
-        </div>
     </div>
 </div>

@@ -49,7 +49,7 @@
 @push('scripts')
 <script>
     document.addEventListener('livewire:load', function() {
-        window.modifyUrl("/timeline/{{ $business->data_slug('name') }}/{{ $business->profile->id }}/{{ array_keys($views, $active_view)[0] }}")
+        window.modifyUrl("/profile/{{ $business->data_slug('name') }}/{{ $business->profile->id }}/visit/{{ array_keys($views, $active_view)[0] }}")
     })
 
 </script>

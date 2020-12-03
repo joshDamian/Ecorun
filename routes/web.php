@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecentlyViewedController;
 use App\Http\Livewire\General\User\UserDashboard;
@@ -26,27 +28,32 @@ Route::get('/', function () {
     return (Auth::user()) ? view('auth-landing-page') : view('guest-landing-page');
 });
 
-Route::get('/profile-dashboard/{slug}/{profile}/{active_view?}', [ProfileController::class, 'show'])->name('profile-dashboard');
+Route::get('/profile/{slug}/{profile}/visit/{active_view?}', [ProfileController::class, 'show'])->name('profile.visit');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    //Route::post('/livewire/message/profile.follow');
+    Route::get('/profile/{slug}/{profile}/follow', function ($slug, $profile) {
+        return redirect("/profile/{$slug}/{$profile}/");
+    });
+
     Route::get('/account.me/{active_action?}/', UserDashboard::class)->name('dashboard');
     Route::middleware(['can:own-enterprise'])->group(function () {
         Route::get('/business/{slug}/{enterprise}/{active_action?}/', BusinessDashboard::class)
-        ->middleware('can:update-enterprise,enterprise')
-        ->name('enterprise.dashboard');
+            ->middleware('can:update-enterprise,enterprise')
+            ->name('enterprise.dashboard');
     });
+
+    Route::get('/post/{post}', [PostController::class, 'show'])->name('post.show');
 });
 
 Route::get('/browsing-history', [RecentlyViewedController::class, 'index'])
-->name('view-history.index');
+    ->name('view-history.index');
 
 Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
-->name('product.show');
+    ->name('product.show');
 
 Route::get('/categories', [CategoryController::class, 'index'])
-->name('category.index');
+    ->name('category.index');
 Route::get('category/{slug}', [CategoryController::class, 'show'])
-->name('category.show');
+    ->name('category.show');
 
 //Route::get('/cart', ViewCart::class);

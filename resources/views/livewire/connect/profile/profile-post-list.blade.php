@@ -3,6 +3,11 @@
         @foreach($posts as $post)
         <div>
             <x-connect.post.display-post :post="$post" />
+            <div class="bg-gray-100 border border-gray-300">
+                @auth
+                @livewire('connect.post.post-feedback', ['postId' => $post->id, 'view' => 'post.index'], key(md5('post_actions'.$post->id)))
+                @endauth
+            </div>
         </div>
         @endforeach
     </div>

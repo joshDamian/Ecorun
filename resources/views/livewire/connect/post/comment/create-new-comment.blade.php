@@ -1,63 +1,22 @@
 <div>
-    <div class="p-2 sm:px-5 sm:py-3 sm:p-0">
-        <x-jet-secondary-button class="text-blue-700" wire:click="ready">
-            <i class="fas fa-plus"></i> &nbsp; add comment
-        </x-jet-secondary-button>
-    </div>
-
-    @if($ready)
-    <form wire:submit.prevent="create">
-        <div x-data class="p-2 sm:px-5 sm:py-3 sm:p-0">
-            <div>
-                <div class="flex text-blue-600 justify-center" style="width: 100%;" wire:loading>
-                    <div class="text-center text-xl">
-                        loading &nbsp; <i class="fas fa-spin fa-spinner"></i>
-                    </div>
-                    {{-- <x-loader /> --}}
+    <div class="">
+        <div class="p-2 sm:px-5 sm:py-3 sm:p-0">
+            <div class="flex items-start">
+                <div style="background-image: url('{{ Auth::user()->profile->profile_image() }}'); background-size: cover; background-position: center center;" class="w-12 h-12 mr-3 rounded-full">
                 </div>
-
-                <div class="flex justify-between mb-1 items-baseline">
-                    <x-jet-label class="font-semibold text-lg mr-4" value="Comment" />
-                    @error('content' ?? 'photos')
-                    <div class="text-red-700">
-                        please add something!
-                    </div>
-                    @enderror
-                </div>
-                <textarea rows="4" wire:model.defer="content" placeholder="say something" class="form-textarea rounded-md w-full"></textarea>
-
-                <div class="mt-2">
-                    <input class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple>
-                    <span @click=" $refs.photos.click() " class="text-blue-800 cursor-pointer font-semibold">
-                        <i class="fas fa-images"></i> &nbsp;Photos (Max 5MB)
-                    </span>
-                    @if($photos)
-                    <div class="mt-2 grid gap-2 grid-cols-3">
-                        @foreach($photos as $photo)
-                        <div style="background-image: url('{{ $photo->temporaryUrl() }}'); background-size: cover; background-position: center center;" class="h-20 sm:h-40 w-full">
-                        </div>
-                        @endforeach
-                    </div>
+                <div class="flex-1">
+                    @if($ready)
+                    <x-connect.content.create-new-content :photos="$photos" type="comment" />
+                    @else
+                    <input wire:focus="ready" placeholder="add a comment" class="w-full px-3 py-2 bg-white rounded-full form-input">
                     @endif
-                    <x-jet-input-error for="photos.*" class="mt-1" />
-                </div>
-
-                <div class="mt-2 flex justify-end">
-                    <div class="mr-3">
-                        <x-jet-secondary-button wire:click="done" class="text-red-700 font-semibold">
-                            cancel
-                        </x-jet-secondary-button>
-                    </div>
-
-                    <div>
-                        <x-jet-button class="bg-blue-600">
-                            <i wire:loading="create" class="fas fa-spin font-black fa-spinner"></i> &nbsp;comment
-                        </x-jet-button>
-                    </div>
                 </div>
             </div>
+            {{-- <x-jet-secondary-button class="text-blue-700" wire:click="ready">
+                <i class="fas fa-plus"></i> &nbsp; <span class="lowercase">add a comment</span>
+            </x-jet-secondary-button> --}}
         </div>
-    </form>
-    @endif
 
+
+    </div>
 </div>

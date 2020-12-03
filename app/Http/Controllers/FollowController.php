@@ -9,13 +9,15 @@ class FollowController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth');
     }
 
     public function store(Profile $profile, Request $request)
     {
-        if (!$request->user()->can('update', $profile)) {
-            $request->user()->following()->toggle($profile);
+        if ($request->user()) {
+            if (!$request->user()->can('update', $profile)) {
+                $request->user()->following()->toggle($profile);
+            }
         }
     }
 }
