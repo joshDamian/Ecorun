@@ -1,7 +1,7 @@
 @props(['photos', 'type'])
 <div>
     <form wire:submit.prevent="create">
-        <div x-data class="{{ $attributes->whereStartsWith('class')->first() }}">
+        <div x-data>
             <div>
                 <div class="flex justify-center text-blue-600" style="width: 100%;" wire:loading>
                     <div class="text-xl text-center">
@@ -11,14 +11,14 @@
                 </div>
 
                 <div class="flex items-baseline justify-between mb-2">
-                    <x-jet-label class="mr-5 text-lg font-semibold" value="{{ ucwords($type) }}" />
+                    <x-jet-label class="mr-5 text-lg font-semibold" value="{{ $type }}" />
                     @error('content' ?? 'photos')
                     <div class="text-red-700">
                         please add something!
                     </div>
                     @enderror
                 </div>
-                <textarea rows="3" wire:model.defer="content" placeholder="say something" class="w-full rounded-md form-textarea"></textarea>
+                <textarea autofocus  rows="3" wire:model.defer="content" placeholder="say something" class="w-full rounded-md form-textarea"></textarea>
 
                 <div class="mt-3">
                     <input class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple>

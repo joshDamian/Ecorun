@@ -28,6 +28,6 @@ trait HasLikes
 
     public function liked(): bool
     {
-        return $this->likeable->likes->pluck('profile')->contains($this->profile);
+        return $this->likeable->likes->pluck('profile.id')->contains($this->profile->id);
     }
 }

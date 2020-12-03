@@ -72,7 +72,7 @@
 
         @auth
         <a href="/user/profile/edit">
-            <div class="py-3 border-b-2 px-4 tracking-wider text-left @if(request()->routeIs('profile.edit')) border-blue-700 @else border-gray-200 @endif bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-700 md:cursor-pointer">
+            <div class="py-3 border-b-2 px-4 tracking-wider text-left @if(request()->routeIs('profile.show')) border-blue-700 @else border-gray-200 @endif bg-gray-100 font-medium text-lg text-blue-800 hover:border-blue-700 md:cursor-pointer">
                 <i class="fa fa-user-edit"></i> Edit Profile
             </div>
         </a>

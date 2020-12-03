@@ -1,7 +1,7 @@
 <div>
     <div class="">
         <div class="p-2 sm:px-5 sm:py-3 sm:p-0">
-            <div class="flex items-start">
+            <div class="flex @if(!$ready) items-center @else items-start @endif">
                 <div style="background-image: url('{{ Auth::user()->profile->profile_image() }}'); background-size: cover; background-position: center center;" class="w-12 h-12 mr-3 rounded-full">
                 </div>
                 <div class="flex-1">
