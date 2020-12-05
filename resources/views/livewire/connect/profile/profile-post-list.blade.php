@@ -1,5 +1,5 @@
 <div wire:init="loadPosts" wire:poll.1000ms>
-    <div class="grid grid-cols-1 gap-2 md:gap-4">
+    <div class="grid grid-cols-1 gap-3 md:gap-4">
         @foreach($posts as $post)
         <div>
             <x-connect.post.display-post :post="$post" />

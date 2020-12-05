@@ -4,7 +4,7 @@
     <div class="@if(!$loop->last) mb-2 md:mb-4 @endif">
         <div class="flex">
             <div class="mr-2 sm:mr-4">
-                <div style="background-image: url('{{ $comment->profile->profile_image() }}'); background-size: cover; background-position: center center;" class="w-12 h-12 mr-3 rounded-full">
+                <div style="background-image: url('{{ $comment->profile->profile_image() }}'); background-size: cover; background-position: center center;" class="w-12 h-12 mr-3 border-blue-700 border-t-2 border-b-2 rounded-full">
                 </div>
             </div>
             <div>
@@ -13,7 +13,9 @@
                     {{ $comment->content }}
                 </div>
                 <div class="flex mt-1">
-                    <p>{{ $comment->created_at->diffForHumans(null, true, true) }}</p>
+                    <p>
+                        {{ $comment->created_at->diffForHumans(null, true, true) }}
+                    </p>
                 </div>
             </div>
         </div>

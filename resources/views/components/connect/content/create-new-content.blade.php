@@ -18,7 +18,7 @@
                     </div>
                     @enderror
                 </div>
-                <textarea autofocus  rows="3" wire:model.defer="content" placeholder="say something" class="w-full rounded-md form-textarea"></textarea>
+                <textarea autofocus rows="3" wire:model.defer="content" placeholder="say something" class="w-full rounded-md form-textarea"></textarea>
 
                 <div class="mt-3">
                     <input class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple>
@@ -28,7 +28,7 @@
                     @if($photos)
                     <div class="grid grid-cols-3 gap-2 mt-3">
                         @foreach($photos as $photo)
-                        <div style="background-image: url('{{ $photo->temporaryUrl() }}'); background-size: cover; background-position: center center;" class="w-full h-21 sm:h-44">
+                        <div style="background-image: url('{{ $photo->temporaryUrl() }}'); background-size: cover; background-position: center center;" class="w-full h-20 sm:h-44">
                         </div>
                         @endforeach
                     </div>

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Enterprise;
+use App\Models\Business;
 use App\Models\Product;
 use App\Models\Team;
 use App\Policies\ProductPolicy;
@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Gate;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * The policy mappings for the application.
-     *
-     * @var array
-     */
+    * The policy mappings for the application.
+    *
+    * @var array
+    */
     protected $policies = [
         Team::class => TeamPolicy::class,
         Product::class => ProductPolicy::class,
@@ -25,32 +25,35 @@ class AuthServiceProvider extends ServiceProvider
     ];
 
     /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
+    * Register any authentication / authorization services.
+    *
+    * @return void
+    */
+    public function boot() {
         $this->registerPolicies();
 
-        Gate::define('own-enterprise', function ($user) {
+        Gate::define('own-businesses', function ($user) {
             return $user->isManager !== null;
         });
 
-        Gate::define('update-enterprise', function ($user, $enterprise) {
+        Gate::define('update-business', function ($user, $business) {
             if ($user->isManager === null) {
                 return false;
             } else {
-                return $user->isManager->id === Enterprise::find($enterprise)->manager_id;
+                return $user->isManager->id === Business::find($business)->manager_id;
             }
         });
 
-        Gate::define('manage-enterprise', function ($user, Enterprise $enterprise) {
-            return $enterprise->profile !== null;
-        });
+        Gate::define('manage-business',
+            function ($user, Business $business) {
+                return $business->profile !== null;
+            }
+        );
 
-        Gate::define('reference-enterprise', function ($user) {
-            return $user->isManager->enterprises->count() > 0;
-        });
+        Gate::define('reference-businesses',
+            function ($user) {
+                return $user->isManager->businesses->count() > 0;
+            }
+        );
     }
 }

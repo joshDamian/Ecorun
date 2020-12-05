@@ -1,10 +1,10 @@
 @props(['post', 'image_count' => $post->gallery->count(), 'like_count' => $post->likes->count() ])
 <div>
     <div class="bg-gray-100 sm:shadow">
-        <div class="flex justify-between p-2 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
+        <div class="flex justify-between py-3 px-2 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
             <a class="block" href="{{ route('profile.visit', ['profile' => $post->profile->id, 'slug' => $post->profile->profileable->data_slug('name')]) }}">
                 <div class="flex items-center">
-                    <div style="background-image: url('{{ $post->profile->profile_image() }}'); background-size: cover; background-position: center center;" class="w-12 h-12 mr-3 rounded-full">
+                    <div style="background-image: url('{{ $post->profile->profile_image() }}'); background-size: cover; background-position: center center;" class="w-12 h-12 mr-3 border-blue-700 border-t-2 border-b-2 rounded-full">
                     </div>
                     <div>
                         <span class="font-medium text-blue-700 text-md">{{ $post->profile->name() }}</span>

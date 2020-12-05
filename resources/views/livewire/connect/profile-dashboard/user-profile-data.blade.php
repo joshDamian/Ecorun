@@ -5,7 +5,7 @@
                 @foreach($views as $key => $view)
                 <li onclick=" window.modifyUrl('{{ $key }}') " wire:click="switchView('{{ $key }}')" class="text-center @if($view === $active_view) text-blue-800 bg-white @else text-gray-800 @endif
                     hover:bg-white hover:text-blue-800 hover:border-transparent flex-shrink-0 flex-grow md:cursor-pointer
-                    text-lg py-3 px-3">
+                    text-lg py-3 select-none px-3">
                     <i class="{{ $view['icon'] }}"></i> &nbsp; {{ ucwords($key) }}
                 </li>
                 @endforeach

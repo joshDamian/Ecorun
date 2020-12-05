@@ -32,28 +32,28 @@ Route::get('/profile/{slug}/{profile}/visit/{active_view?}', [ProfileController:
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/profile/{slug}/{profile}/follow', function ($slug, $profile) {
-        return redirect("/profile/{$slug}/{$profile}/");
+        return redirect("/profile/{$slug}/{$profile}/visit");
     });
 
     Route::get('/account.me/{active_action?}/', UserDashboard::class)->name('dashboard');
-    Route::middleware(['can:own-enterprise'])->group(function () {
-        Route::get('/business/{slug}/{enterprise}/{active_action?}/', BusinessDashboard::class)
-            ->middleware('can:update-enterprise,enterprise')
-            ->name('enterprise.dashboard');
+    Route::middleware(['can:own-businesses'])->group(function () {
+        Route::get('/business/{slug}/{business}/{active_action?}/', BusinessDashboard::class)
+        ->middleware('can:update-business,business')
+        ->name('business.dashboard');
     });
 
     Route::get('/post/{post}', [PostController::class, 'show'])->name('post.show');
 });
 
 Route::get('/browsing-history', [RecentlyViewedController::class, 'index'])
-    ->name('view-history.index');
+->name('view-history.index');
 
 Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
-    ->name('product.show');
+->name('product.show');
 
 Route::get('/categories', [CategoryController::class, 'index'])
-    ->name('category.index');
+->name('category.index');
 Route::get('category/{slug}', [CategoryController::class, 'show'])
-    ->name('category.show');
+->name('category.show');
 
 //Route::get('/cart', ViewCart::class);

@@ -4,7 +4,7 @@
     </div>
 
     <div x-show="active_item === 'categories'" class="font-light text-black nav-content">
-        {{-- <div class= px-4 tracking-wider"text-left font-medium text-lg rounded-lg p-2 shadow border border-gray-400">
+        {{-- <div class=px-4 tracking-wider"text-left font-medium text-lg rounded-lg p-2 shadow border border-gray-400">
             Shop By Categories
         </div>
 
@@ -25,7 +25,7 @@
     <div x-show="active_item === 'user'" class="font-light nav-content">
         <div class="flex flex-wrap items-center px-2 py-2 bg-white border border-gray-200 shadow md:rounded-t-lg">
             @if($user->profile_photo_url ?? false)
-            <div style="background-image: url('{{ $user->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-16 h-16 mr-3 rounded-full">
+            <div style="background-image: url('{{ $user->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-16 h-16 mr-3 border-blue-700 border-t-2 border-b-2 rounded-full">
             </div>
             @else
             <div>

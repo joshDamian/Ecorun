@@ -56,7 +56,7 @@
         </nav>
 
         <main>
-            <div class="bg-gray-200">
+            <div class="bg-gray-100">
                 <div class="grid grid-cols-1 sm:p-3 md:p-10 md:grid-cols-2">
                     <div class="">
                         <h3 class="text-2xl sm:text-3xl font-semibold text-gray-800 px-3 sm:px-0 sm:pb-3 sm:py-0 py-2">
@@ -106,7 +106,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 bg-gray-100 sm:p-3 gap-2 sm:gap-3 md:gap-9 md:p-9">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 bg-gray-100 sm:p-3 gap-3 sm:gap-3 md:gap-9 md:p-9">
                 <div class="bg-white sm:bg-transparent">
                     <div class="p-2 flex justify-center">
                         <span class="fa-stack fa-3x">
@@ -206,7 +206,7 @@
                     <div class="p-2 flex justify-center">
                         <span class="fa-stack fa-3x">
                             <i class="fas fa-circle text-blue-800 fa-stack-2x"></i>
-                            <i class="fa-stack-1x text-white fas fa-warehouse"></i>
+                            <i class="fa-stack-1x text-white fas fa-store-alt"></i>
                         </span>
                     </div>
 

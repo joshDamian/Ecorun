@@ -4,7 +4,7 @@
             @livewire('build-and-manage.business.edit-business', ['business' => $business])
         </div>
         <div class="mt-6">
-            @livewire('profile.manage-business-profile', ['business' => $business])
+            @livewire('connect.profile.manage-business-profile', ['business' => $business])
         </div>
     </div>
 </div>

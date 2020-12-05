@@ -1,6 +1,6 @@
 <div wire:poll class="">
-    <div class="p-2 border-t  @if($commentsReady) border-b @endif border-gray-200 grid grid-cols-3 gap-2 sm:gap-4 sm:px-5 sm:py-3 sm:p-0">
-        <div x-data="{ liked: '{{ $this->liked() }}', clicked: null }" :class="{ 'border border-red-700': liked, 'animate__animated animate__bounce': clicked }" class="flex items-center justify-center p-2 bg-white rounded-full">
+    <div class="px-3 py-4 border-t  @if($commentsReady) border-b @endif border-gray-200 grid grid-cols-3 gap-3 sm:gap-4 sm:px-5 sm:py-3 sm:p-0">
+        <div x-data="{ liked: '{{ $this->liked() }}', clicked: null }" :class="{ 'border-t-2 border-b-2 border-red-700': liked, 'animate__animated animate__bounce': clicked }" class="flex items-center justify-center px-2 py-1 bg-white rounded-full">
             <div class="text-xl">
                 <i @click=" liked = (liked === '1') ? null : '1';" :class="(liked === '1') ? 'text-red-700' : 'text-blue-700'" wire:click="like" class="fas fa-heart md:cursor-pointer"></i>
 
@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <div class="flex items-center justify-center p-2 bg-white rounded-full">
+        <div class="flex items-center justify-center px-2 py-1 bg-white rounded-full">
             <div>
                 @if($view === 'post.show')
                 <i wire:click="displayComments" class="text-xl text-blue-700 cursor-pointer fas fa-comment"></i>
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="flex items-center justify-center p-2 bg-white rounded-full">
+        <div class="flex items-center justify-center px-2 py-1 bg-white rounded-full">
             <i class="text-xl text-blue-700 cursor-pointer fas fa-share-alt"></i>
         </div>
     </div>

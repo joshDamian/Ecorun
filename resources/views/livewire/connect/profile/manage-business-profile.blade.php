@@ -11,11 +11,11 @@
         <div class="sm:col-span-4">
             @if($business->profile)
             <div>
-                @livewire('profile.edit-profile', ['profile' => $business->profile])
+                @livewire('connect.profile.edit-profile', ['profile' => $business->profile])
             </div>
             @else
             <div>
-                @livewire('profile.create-new-profile', ['profileable' => $business])
+                @livewire('connect.profile.create-new-profile', ['profileable' => $business])
             </div>
             @endif
         </div>

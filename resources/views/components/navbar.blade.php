@@ -1,8 +1,8 @@
 <nav class="shadow sticky top-0 w-full bg-blue-800 text-white">
     <div class="select-none items-baseline overflow-x-auto flex">
-        <div class="text-gray-400 @guest flex-1 @endguest md:w-80 text-xl px-2 py-2 font-extrabold">
+        <div class="text-gray-200 @guest flex-1 @endguest md:w-80 text-xl px-2 py-2 font-extrabold">
             <a href="/">
-                Logo
+                {{ config('app.name') }}
             </a>
         </div>
 

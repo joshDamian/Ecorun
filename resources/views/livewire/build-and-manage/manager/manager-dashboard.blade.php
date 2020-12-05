@@ -1,6 +1,6 @@
 <div>
     <div>
-        @can('own-enterprise')
+        @can('own-businesses')
         <div wire:key="manager_dashboard" x-data="{ show_create: null, show_list: null }" x-init="() => { show_list = true }" class="py-4 md:py-2 md:pb-4">
             <!-- switcher -->
             <div class="flex mx-2 mb-4 sm:mx-4">
@@ -40,7 +40,7 @@
     </div>
 
     <div>
-        @cannot('own-business')
+        @cannot('own-businesses')
         <div>
             @livewire('build-and-manage.manager.become-a-manager')
         </div>
