@@ -12,15 +12,15 @@
         </div>
 
         <div>
-            @livewire('product.modify-product-data', ['product' => $active_product])
+            @livewire('build-and-manage.product.product-dashboard', ['product' => $active_product])
         </div>
 
         @else
-        <div x-data x-init="() => { window.scrollTo(0, 0); }" :class="({{ $products->count() < 2 }}) ? 'flex justify-center items-center' : 'grid gap-1 grid-cols-2 sm:grid-cols-3 md:grid-cols-6'" class="px-2 sm:px-0 ">
+        <div x-data x-init="() => { window.scrollTo(0, 0); }" :class="({{ !$products->count() < 2 }}) ? 'flex justify-center items-center' : 'grid gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-6'" class="px-2 sm:px-0">
             @forelse ($products as $product)
             <div wire:click="switchActiveProduct('{{ $product->id }}')" class="px-3 py-3 bg-white shadow cursor-pointer">
                 <div class="flex items-center justify-center">
-                    <img src="/storage/{{ $product->displayImage() }}" width="110" height="110" />
+                    <img src="/storage/{{ $product->displayImage() }}" width="150" height="150" />
                 </div>
 
                 <div class="pt-2 text-center">

@@ -16,6 +16,7 @@ class EditProfile extends Component
     {
         $this->validate();
         $this->profile->save();
+        $this->emitSelf('saved');
     }
 
     public function render()

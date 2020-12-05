@@ -16,7 +16,7 @@
             </div>
 
             <div class="sm:col-span-4">
-                @livewire('build-and-manage.product-specifications.create-new-specification', ['product' => $product])
+                @livewire('build-and-manage.product-specification.create-new-specification', ['product' => $product])
             </div>
         </div>
     </div>

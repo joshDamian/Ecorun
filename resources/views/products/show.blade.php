@@ -97,9 +97,25 @@
                     </div>
                     <div x-show="show_specs" class="p-2">
                         <div class="w-full h-full break-words">
-                            <p>
-                                {{ $product->description }}
-                            </p>
+                            @if($product->specifications->count() > 0)
+                            <div class="grid grid-cols-1 gap-2 md:gap-3 md:grid-cols-3">
+                                @foreach($product->specifications as $specification)
+                                <div class="bg-gray-100 shadow">
+                                    <h3 class="px-3 py-2 text-xl font-semibold text-blue-700 border border-gray-200 rounded-t-sm">
+                                        {{ $specification->name }}
+                                    </h3>
+
+                                    <table class="table border-collapse rounded-b-sm">
+                                        <tr>
+                                            @foreach($specification->value as $key => $value)
+                                            <td class="px-3 py-2 text-lg font-medium text-center border border-gray-200">{{ $value }}</td>
+                                            @endforeach
+                                        </tr>
+                                    </table>
+                                </div>
+                                @endforeach
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -112,10 +128,10 @@
     <script>
         function product_data() {
             return {
-                activeImage: null,
-                show_description: null,
-                show_specs: null,
-                init_product() {
+                activeImage: null
+                , show_description: null
+                , show_specs: null
+                , init_product() {
                     this.activeImage = '{{ $product->displayImage() }}';
                 }
             }

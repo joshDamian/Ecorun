@@ -17,7 +17,7 @@ class CreateNewSpecification extends Component
 
     protected $rules = [];
 
-    public function create():\Livewire\Event
+    public function create(): \Livewire\Event
     {
         $this->validate([
             'name' => [
@@ -35,7 +35,7 @@ class CreateNewSpecification extends Component
         $this->product->specifications()->create([
             'name' => $this->name,
             'value' => $this->value,
-            'is_specific' => $this->is_specific
+            'is_specific' => ($this->is_specific) ? $this->is_specific : false,
         ]);
 
         $this->nevermind();
@@ -43,12 +43,12 @@ class CreateNewSpecification extends Component
         return $this->emit('modifiedSpecifications');
     }
 
-    public function add():void
+    public function add(): void
     {
         $this->ready = true;
     }
 
-    public function nevermind():void
+    public function nevermind(): void
     {
         $this->ready = null;
         $this->name = null;
@@ -57,7 +57,7 @@ class CreateNewSpecification extends Component
         return;
     }
 
-    public function updated($propertyName):void
+    public function updated($propertyName): void
     {
         $this->validateOnly($propertyName, [
             'name' => [

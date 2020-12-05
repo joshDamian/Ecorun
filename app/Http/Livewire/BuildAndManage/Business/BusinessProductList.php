@@ -18,14 +18,14 @@ class BusinessProductList extends Component
         'viewAll'
     ];
 
-    public function mount(Product $active_product = null)
+    public function mount($active_product = null)
     {
-        return $this->switchActiveProduct($active_product);
+        return ($active_product) ?  $this->switchActiveProduct($active_product) : true;
     }
 
-    public function switchActiveProduct(Product $product)
+    public function switchActiveProduct($product)
     {
-        $this->active_product = $product;
+        return $this->active_product = Product::findOrFail($product);
     }
 
     public function viewAll()
