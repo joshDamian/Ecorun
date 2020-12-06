@@ -17,6 +17,9 @@ class CreateProfilesTable extends Migration
             $table->id();
             $table->string('profileable_type');
             $table->integer('profileable_id');
+            $table->string('name')->nullable();
+            $table->string('eco_tag')->unique()->nullable();
+            $table->text('profile_photo_path')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

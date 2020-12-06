@@ -28,7 +28,7 @@
         @case('about')
         <div class="bg-gray-100 sm:shadow-sm">
             <p class="p-2 text-lg font-medium text-gray-600 border-b border-gray-300">
-                About {{ $user->profile->name() }}
+                About {{ $user->profile->name }}
             </p>
             <p class="p-2 text-gray-700 text-md">
                 {{ $user->profile->description }}
@@ -44,7 +44,7 @@
 
 <script>
     document.addEventListener('livewire:load', function() {
-        window.modifyUrl("/profile/{{ $user->data_slug('name') }}/{{ $user->profile->id }}/visit/{{ array_keys($views, $active_view)[0] }}")
+        window.modifyUrl("/profile/{{ $user->profile->data_slug('name') }}/{{ $user->profile->id }}/visit/{{ array_keys($views, $active_view)[0] }}")
     })
 
 </script>

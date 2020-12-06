@@ -2,34 +2,20 @@
 
 namespace App\Models;
 
-use App\Traits\StringManipulations;
+use App\Traits\HasProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Jetstream\HasProfilePhoto;
 
 class Business extends Model
 {
-    use HasProfilePhoto;
-    use SoftDeletes;
 
-    protected $fillable = [
-        'name',
-    ];
+    use SoftDeletes;
+    use HasProfile;
+
     protected $with = [
         'products',
     ];
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'profile_photo_url',
-    ];
-
-
-    use StringManipulations;
 
     use HasFactory;
 
@@ -41,11 +27,6 @@ class Business extends Model
     public function businessable()
     {
         return $this->morphTo();
-    }
-
-    public function profile()
-    {
-        return $this->morphOne('App\Models\Profile', 'profileable');
     }
 
     public function isStore()
@@ -76,12 +57,5 @@ class Business extends Model
     public function locations()
     {
         return $this->morphMany('App\Models\Location', 'locateable');
-    }
-
-    public function slugData()
-    {
-        return [
-            'name' => $this->name,
-        ];
     }
 }

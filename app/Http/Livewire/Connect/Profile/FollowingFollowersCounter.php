@@ -21,12 +21,12 @@ class FollowingFollowersCounter extends Component
 
     public function count()
     {
-        $self_following = Cache::rememberForever("self_following_" . Auth::user()->id, function () {
-            return Auth::user()->following->contains(Auth::user()->profile->id);
+        $self_following = Cache::rememberForever("self_following_" . Auth::user()->currentProfile->id, function () {
+            return Auth::user()->currentProfile->following->contains(Auth::user()->currentProfile->id);
         });
 
-        $following_count = Auth::user()->following->count();
-        $followers_count = Auth::user()->profile->followers->count();
+        $following_count = Auth::user()->currentProfile->following->count();
+        $followers_count = Auth::user()->currentProfile->followers->count();
 
         $this->following = $self_following ? ($following_count - 1) : $following_count;
         $this->followers = $self_following ? ($followers_count - 1) : $followers_count;

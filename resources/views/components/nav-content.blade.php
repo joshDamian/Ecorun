@@ -23,9 +23,9 @@
     </div>
 
     <div x-show="active_item === 'user'" class="font-light nav-content">
-        <div class="flex flex-wrap items-center px-2 py-2 bg-white border border-gray-200 shadow md:rounded-t-lg">
-            @if($user->profile_photo_url ?? false)
-            <div style="background-image: url('{{ $user->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-16 h-16 mr-3 border-blue-700 border-t-2 border-b-2 rounded-full">
+        <div class="flex flex-wrap items-center px-4 py-3 bg-white border border-gray-200 shadow md:rounded-t-lg">
+            @if($user->currentProfile->profile_photo_url ?? false)
+            <div style="background-image: url('{{ $user->currentProfile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-16 h-16 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
             </div>
             @else
             <div>
@@ -39,11 +39,11 @@
             <div class="grid grid-cols-1 gap-1">
                 <div class="text-left">
                     <div class="text-lg font-semibold text-blue-800">
-                        {{ $user->name ?? __('Guest') }}
+                        {{ $user->currentProfile->name ?? __('Guest') }}
                     </div>
 
                     <div class="font-hairline text-gray-600">
-                        {{ $user->email ?? __('') }}
+                        {{ $user->currentProfile->eco_tag ?? __('') }}
                     </div>
                 </div>
                 @auth
@@ -53,8 +53,8 @@
         </div>
 
         @auth
-        <a href="{{ route('profile.visit', ['profile' => $user->profile->id, 'slug' => $user->data_slug('name')]) }}">
-            <div class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('profile.visit') && explode('/', request()->getRequestUri())[3] == $user->profile->id)) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-lg text-blue-800 md:cursor-pointer">
+        <a href="{{ route('profile.visit', ['profile' => $user->currentProfile->id, 'slug' => $user->currentProfile->data_slug('name')]) }}">
+            <div class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('profile.visit') && explode('/', request()->getRequestUri())[3] == $user->currentProfile->id)) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-lg text-blue-800 md:cursor-pointer">
                 <i class="fa fa-user"></i> Profile
             </div>
         </a>

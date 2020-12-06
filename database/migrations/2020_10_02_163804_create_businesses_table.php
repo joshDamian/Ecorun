@@ -22,7 +22,6 @@ class CreateBusinessesTable extends Migration
                 ->onDelete('cascade');
             $table->string('businessable_type')->nullable();
             $table->integer('businessable_id')->nullable();
-            $table->string('name')->unique();
             $table->timestamps();
         });
     }

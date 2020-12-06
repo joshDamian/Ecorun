@@ -38,7 +38,7 @@ class ProfilePostList extends Component
                     function () {
                         return Post::without('profile.followers')->whereIn('profile_id', $this->profile->profileable->following->pluck('id'))->latest()->get();
                     }
-                ) */ Post::without('profile.followers')->whereIn('profile_id', ($this->profile->isUser() && $this->view === 'landing-page') ? $this->profile->profileable->following->pluck('id') : [$this->profile->id])->latest()->get() : []
+                ) */ Post::without('profile.followers')->whereIn('profile_id', ($this->view === 'landing-page') ? $this->profile->following->pluck('id') : [$this->profile->id])->latest()->get() : []
         ]);
     }
 }

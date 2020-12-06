@@ -21,7 +21,7 @@ class FollowProfile extends Component
     public function isFollowing()
     {
         if (Auth::user()) {
-            return Auth::user()->following()->where('profile_id', $this->profile->id)->get()->first() !== null;
+            return Auth::user()->currentProfile->following()->where('profile_id', $this->profile->id)->get()->first() !== null;
         } else {
             return false;
         }

@@ -7,32 +7,33 @@ use App\Models\Store;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Business;
+use Illuminate\Validation\Rule;
+use App\Traits\StringManipulations;
 
 class CreateNewBusiness extends Component
 {
+    use StringManipulations;
+
     public $name;
     public $type;
 
-    protected $rules = [
-        'name' => [
-            'required',
-            'unique:businesses',
-            'min:4',
-            'max:255'
-        ],
-        'type' => 'required'
-    ];
-
-    public function create() {
+    public function create()
+    {
         $this->name = trim($this->name);
-        $this->validate();
+        $this->validate([
+            'name' => [
+                Rule::unique('profiles', 'name')->where(function ($query) {
+                    return $query->where('profileable_type', 'App\Models\Business');
+                }),
+                'min:4', 'max:255'
+            ],
+            'type' => 'required'
+        ]);
 
         $this->name = ucwords($this->name);
 
         $business = Auth::user()->isManager
-        ->businesses()->create([
-            'name' => $this->name
-        ]);
+            ->businesses()->save(new Business());
 
         if ($business) {
             $this->assignType($business);
@@ -48,27 +49,44 @@ class CreateNewBusiness extends Component
         return $business->team()->save($team);
     }
 
-    protected function create_profile(Business $business) {
+    protected function create_profile(Business $business)
+    {
+        $name_slug = $this->data_slug('name');
+
         if ($business->isStore()) {
             $business->profile()->create([
-                'description' => "{$business->name} sells quality products, we look forward to satisfying your purchase needs."
+                'name' => $this->name,
+                'eco_tag' => "{$name_slug}@ecorun",
+                'description' => "{$this->name} sells quality products, we look forward to satisfying your purchase needs."
             ]);
         } elseif ($business->isService()) {
             $business->profile()->create([
-                'description' => "{$business->name} offers quality services, we look forward to making you happy."
+                'name' => $this->name,
+                'eco_tag' => "{$name_slug}@ecorun",
+                'description' => "{$this->name} offers quality services, we look forward to making you happy."
             ]);
         }
+
+        $business->profile->following()->save($business->profile);
     }
 
+    public function slugData()
+    {
+        return [
+            'name' => $this->name,
+        ];
+    }
 
-    protected function createTeam() {
+    protected function createTeam()
+    {
         $user = Auth::user();
         return $user->ownedTeams()->create([
             'name' => $this->name . "'s Team",
         ]);
     }
 
-    protected function assignType(Business $business) {
+    protected function assignType(Business $business)
+    {
         switch ($this->type) {
             case 'service':
                 $service = Service::create([]);
@@ -83,12 +101,25 @@ class CreateNewBusiness extends Component
         }
     }
 
-    public function updated($propertyName) {
-        //$this->name = trim($this->name);
-        $this->validateOnly($propertyName);
+    public function updated($propertyName)
+    {
+        $this->validateOnly(
+            $propertyName,
+            [
+                'name' => [
+                    Rule::unique('profiles', 'name')->where(function ($query) {
+                        return $query->where('profileable_type', 'App\Models\Business');
+                    }),
+                    'min:4', 'max:255'
+                ],
+
+                'type' => 'required'
+            ]
+        );
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.build-and-manage.business.create-new-business');
     }
 }

@@ -67,9 +67,9 @@
             </div>
 
             <!-- expansible description  & specifications -->
-            <div class="grid grid-cols-1 gap-0 bg-gray-100 md:bg-transparent md:mb-3 md:mt-3">
+            <div class="grid grid-cols-1 gap-0 bg-gray-100 md:mb-3 md:mt-3">
                 <div>
-                    <div id="description" @click=" show_description = ! show_description; (show_description) ? window.location = '#description' : true " class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl md:px-1">
+                    <div id="description" @click=" show_description = ! show_description; (show_description) ? window.location = '#description' : true " class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl md:px-3">
                         <span>
                             description
                         </span>
@@ -77,7 +77,7 @@
                             <i :class="show_description ? 'fa-minus-circle' : 'fa-plus-circle'" class="fas"></i>
                         </span>
                     </div>
-                    <div x-show="show_description" class="p-3">
+                    <div x-show="show_description" class="px-3 pt-0 pb-3">
                         <div class="font-semibold break-words">
                             <p>
                                 {{ $product->description }}
@@ -87,7 +87,7 @@
                 </div>
 
                 <div>
-                    <div id="specs" @click=" show_specs = ! show_specs; (show_specs) ? window.location = '#specs' : true " class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl md:px-1">
+                    <div id="specs" @click=" show_specs = ! show_specs; (show_specs) ? window.location = '#specs' : true " class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl">
                         <span>
                             specifications
                         </span>
@@ -95,10 +95,10 @@
                             <i :class="show_specs ? 'fa-minus-circle' : 'fa-plus-circle'" class="fas"></i>
                         </span>
                     </div>
-                    <div x-show="show_specs" class="p-3">
+                    <div x-show="show_specs" class="px-3 pt-0 pb-3">
                         <div class="w-full h-full break-words">
                             @if($product->specifications->count() > 0)
-                            <div class="grid grid-cols-1 gap-3 md:gap-3 sm:grid-cols-2 md:grid-cols-3">
+                            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
                                 @foreach($product->specifications as $specification)
                                 <div class="bg-gray-100 shadow">
                                     <h3 class="px-3 py-2 text-xl font-semibold text-blue-700 border border-gray-200 rounded-t-sm">
@@ -128,10 +128,10 @@
     <script>
         function product_data() {
             return {
-                activeImage: null,
-                show_description: true,
-                show_specs: null,
-                init_product() {
+                activeImage: null
+                , show_description: null
+                , show_specs: null
+                , init_product() {
                     this.activeImage = '{{ $product->displayImage() }}';
                 }
             }

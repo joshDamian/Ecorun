@@ -18,7 +18,7 @@ class PostFeedback extends Component
 
     public function mount()
     {
-        $this->profile = Auth::user()->profile;
+        $this->profile = Auth::user()->currentProfile;
         $this->likeable = $this->post;
         $this->commentsReady = ($this->view === 'post.show') ? true : null;
     }

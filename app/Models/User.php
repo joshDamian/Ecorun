@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\StringManipulations;
+use App\Traits\HasProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,13 +13,13 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    use HasProfile;
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use StringManipulations;
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'password',
     ];
 
     protected $with = [
@@ -55,15 +55,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'profile_photo_url',
-    ];
-
     public function isManager()
     {
         return $this->hasOne(Manager::class);
@@ -84,37 +75,49 @@ class User extends Authenticatable
         return $this->hasMany(RecentlyViewed::class);
     }
 
-    public function slugData()
-    {
-        return [
-            'name' => $this->name,
-        ];
-    }
-
     protected static function boot()
     {
         parent::boot();
 
         static::created(function ($user) {
+            $name = explode("@", $user->email)[0] . '-' . $user->id;
             $user->profile()->create([
-                'description' => "I am {$user->name}, I'm a newbie and i hope to make new friends very soon.",
+                'name' => $name,
+                'eco_tag' => "{$name}@ecorun",
+                'description' => "I am {$name}, I'm a newbie and i hope to make new friends soon.",
             ]);
-            $user->following()->save($user->profile);
+            $user->profile->following()->save($user->profile);
+
+            $user->switchProfile($user->profile);
         });
+    }
+
+    public function canAccessProfile(Profile $profile)
+    {
+        if ($profile->isBusiness()) {
+            return $this->teams->pluck('business')->contains($profile->profileable) || ($this->isManager) ? $this->isManager->id === $profile->profileable->manager_id : false;
+        } else {
+            return $this->can('update', $profile);
+        }
+    }
+
+    public function switchProfile($profile)
+    {
+        if (!$this->canAccessProfile($profile)) {
+            return false;
+        }
+
+        $this->forceFill([
+            'current_profile_id' => $profile->id,
+        ])->save();
+
+        $this->setRelation('currentProfile', $profile);
+
+        return true;
     }
 
     public function revokeManager()
     {
         return $this->isManager->revoke();
-    }
-
-    public function following()
-    {
-        return $this->belongsToMany(Profile::class);
-    }
-
-    public function profile()
-    {
-        return $this->morphOne('App\Models\Profile', 'profileable');
     }
 }

@@ -16,7 +16,7 @@ class FollowController extends Controller
     {
         if ($request->user()) {
             if (!$request->user()->can('update', $profile)) {
-                $request->user()->following()->toggle($profile);
+                $request->user()->currentProfile->following()->toggle($profile);
             }
         }
     }

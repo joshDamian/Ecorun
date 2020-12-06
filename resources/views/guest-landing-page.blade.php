@@ -32,10 +32,10 @@
 
 <body class="font-sans leading-normal tracking-normal">
     <div x-data="{ visible: null }" x-cloak>
-        <nav class="bg-white sticky top-0 border-b-4 border-blue-800">
+        <nav class="sticky top-0 bg-white border-b-4 border-blue-800">
             <div>
                 <ul class="flex px-3 py-2">
-                    <li class="font-bold text-xl flex-1 text-blue-800">Logo</li>
+                    <li class="flex-1 text-xl font-bold text-blue-800">Logo</li>
                     <li class="text-right">
                         <div x-show.transition="visible" class="flex flex-wrap">
                             <a class="mr-4" href="/login">
@@ -59,15 +59,15 @@
             <div class="bg-gray-100">
                 <div class="grid grid-cols-1 sm:p-3 md:p-10 md:grid-cols-2">
                     <div class="">
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-gray-800 px-3 sm:px-0 sm:pb-3 sm:py-0 py-2">
+                        <h3 class="px-3 py-2 text-2xl font-semibold text-gray-800 sm:text-3xl sm:px-0 sm:pb-3 sm:py-0">
                             Connect with people, shop, build and manage businesses.
                         </h3>
 
-                        <h3 class="text-lg font-medium text-gray-600 px-3 sm:px-0 sm:pb-4 pb-3 sm:py-0">
+                        <h3 class="px-3 pb-3 text-lg font-medium text-gray-600 sm:px-0 sm:pb-4 sm:py-0">
                             Ecorun naturally blends social interaction with doing business.
                         </h3>
 
-                        <div class="flex px-3 sm:px-0 mb-4 flex-wrap">
+                        <div class="flex flex-wrap px-3 mb-4 sm:px-0">
                             <a class="mr-4 sm:mr-6" href="/login">
                                 <x-jet-button class="bg-blue-600">
                                     Login
@@ -82,45 +82,29 @@
                         </div>
                     </div>
 
-                    <div class="p-3 md:p-6 justify-center flex items-center">
+                    <div class="flex items-center justify-center p-3 md:bg-white md:rounded-lg md:shadow md:p-6">
                         <div class="flex uppercase">
-                            <div class="text-xl sm:text-3xl font-semibold text-blue-800">
-                                <span class="mr-3">connect</span>
-                                <span class="mr-3">
-                                    <i class="fas text-blue-800 fa-exchange-alt"></i>
-                                </span>
-                            </div>
-
-                            <div class="text-xl sm:text-3xl font-semibold text-blue-600">
-                                <span class="mr-3">shop</span>
-                                <span class="mr-3">
-                                    <i class="fas text-blue-800 fa-exchange-alt"></i>
-                                </span>
-                            </div>
-
-                            <div class="text-xl sm:text-3xl font-semibold text-blue-800">
-                                <span>build</span>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 bg-gray-100 sm:p-3 gap-3 sm:gap-3 md:gap-9 md:p-9">
+            <div class="grid grid-cols-1 gap-3 bg-gray-100 sm:grid-cols-2 md:grid-cols-3 sm:p-3 sm:gap-3 md:gap-9 md:p-9">
                 <div class="bg-white sm:bg-transparent">
-                    <div class="p-2 flex justify-center">
+                    <div class="flex justify-center p-2">
                         <span class="fa-stack fa-3x">
-                            <i class="fas fa-circle text-blue-800 fa-stack-2x"></i>
-                            <i class="fa-stack-1x text-white fas fa-user-friends"></i>
+                            <i class="text-blue-800 fas fa-circle fa-stack-2x"></i>
+                            <i class="text-white fa-stack-1x fas fa-user-friends"></i>
                         </span>
                     </div>
 
-                    <div class="p-3 border-gray-200 sm:shadow sm:rounded-lg sm:border text-gray-600">
+                    <div class="p-3 text-gray-600 border-gray-200 sm:bg-white sm:shadow sm:rounded-lg sm:border">
                         <h3 class="text-xl font-semibold text-blue-800">
                             Connect with people
                         </h3>
                         <div class="px-5 py-2">
-                            <ul class="list-disc text-blue-800">
+                            <ul class="text-blue-800 list-disc">
                                 <li>
                                     <span class="text-gray-700">
                                         Make new friends.
@@ -149,7 +133,7 @@
 
                         <div>
                             <a href="/register">
-                                <x-jet-button class="bg-blue-800 w-100 mt-2">
+                                <x-jet-button class="mt-2 bg-blue-800 w-100">
                                     <i class="fas fa-plus"></i> &nbsp; join the community
                                 </x-jet-button>
                             </a>
@@ -158,20 +142,20 @@
                 </div>
 
                 <div class="bg-white sm:bg-transparent">
-                    <div class="p-2 flex justify-center">
+                    <div class="flex justify-center p-2">
                         <span class="fa-stack fa-3x">
-                            <i class="fas fa-circle text-blue-600 fa-stack-2x"></i>
-                            <i class="fas fa-shopping-cart text-white fa-stack-1x"></i>
-                            {{-- <span class="fa-stack-1x text-white font-semibold">&#8358;</span> --}}
+                            <i class="text-blue-600 fas fa-circle fa-stack-2x"></i>
+                            <i class="text-white fas fa-shopping-cart fa-stack-1x"></i>
+                            {{-- <span class="font-semibold text-white fa-stack-1x">&#8358;</span> --}}
                         </span>
                     </div>
 
-                    <div class="p-3 border-gray-200 sm:shadow sm:rounded-lg sm:border text-gray-600">
+                    <div class="p-3 text-gray-600 border-gray-200 sm:bg-white sm:shadow sm:rounded-lg sm:border">
                         <h3 class="text-xl font-semibold text-blue-600">
                             Shop
                         </h3>
                         <div class="px-5 py-2">
-                            <ul class="list-disc text-blue-600">
+                            <ul class="text-blue-600 list-disc">
                                 <li>
                                     <span class="text-gray-700">
                                         Shop products and services.
@@ -194,7 +178,7 @@
 
                         <div>
                             <a href="/shop">
-                                <x-jet-button class="bg-blue-600 w-100 mt-2">
+                                <x-jet-button class="mt-2 bg-blue-600 w-100">
                                     <i class="fas fa-shopping-bag"></i> &nbsp; shop
                                 </x-jet-button>
                             </a>
@@ -203,19 +187,19 @@
                 </div>
 
                 <div class="bg-white sm:bg-transparent">
-                    <div class="p-2 flex justify-center">
+                    <div class="flex justify-center p-2">
                         <span class="fa-stack fa-3x">
-                            <i class="fas fa-circle text-blue-800 fa-stack-2x"></i>
-                            <i class="fa-stack-1x text-white fas fa-store-alt"></i>
+                            <i class="text-blue-800 fas fa-circle fa-stack-2x"></i>
+                            <i class="text-white fa-stack-1x fas fa-store-alt"></i>
                         </span>
                     </div>
 
-                    <div class="p-3 border-gray-200 sm:shadow sm:rounded-lg text-gray-600 sm:border">
+                    <div class="p-3 text-gray-600 border-gray-200 sm:bg-white sm:shadow sm:rounded-lg sm:border">
                         <h3 class="text-xl font-semibold text-blue-800">
                             Build and manage businesses
                         </h3>
                         <div class="px-5 py-2">
-                            <ul class="list-disc text-blue-800">
+                            <ul class="text-blue-800 list-disc">
                                 <li>
                                     <span class="text-gray-700">
                                         Build an online presence for your business.
@@ -249,7 +233,7 @@
                         </div>
 
                         <div>
-                            <x-jet-button class="bg-blue-800 w-100 mt-2">
+                            <x-jet-button class="mt-2 bg-blue-800 w-100">
                                 <i class="fas fa-business-time"></i> &nbsp; build a business
                             </x-jet-button>
                         </div>

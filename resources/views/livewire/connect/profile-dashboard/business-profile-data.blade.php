@@ -34,7 +34,7 @@
         @case('about')
         <div class="bg-gray-100 sm:shadow-sm">
             <p class="p-2 text-lg font-medium text-gray-600 border-b border-gray-300">
-                About {{ $business->profile->name() }}
+                About {{ $business->profile->name }}
             </p>
             <p class="p-2 text-gray-700 text-md">
                 {{ $business->profile->description }}
@@ -49,7 +49,7 @@
 @push('scripts')
 <script>
     document.addEventListener('livewire:load', function() {
-        window.modifyUrl("/profile/{{ $business->data_slug('name') }}/{{ $business->profile->id }}/visit/{{ array_keys($views, $active_view)[0] }}")
+        window.modifyUrl("/profile/{{ $business->profile->data_slug('name') }}/{{ $business->profile->id }}/visit/{{ array_keys($views, $active_view)[0] }}")
     })
 
 </script>

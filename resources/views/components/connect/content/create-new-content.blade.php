@@ -4,9 +4,6 @@
         <div x-data>
             <div>
                 <div class="flex justify-center text-blue-600" style="width: 100%;" wire:loading>
-                    <div class="text-xl text-center">
-                        loading &nbsp; <i class="fas fa-spin fa-spinner"></i>
-                    </div>
                     <x-loader />
                 </div>
 
@@ -28,7 +25,7 @@
                     @if($photos)
                     <div class="grid grid-cols-3 gap-2 mt-3">
                         @foreach($photos as $photo)
-                        <div style="background-image: url('{{ $photo->temporaryUrl() }}'); background-size: cover; background-position: center center;" class="w-full h-20 sm:h-44">
+                        <div style="background-image: url('{{ $photo->temporaryUrl() }}'); background-size: cover; background-position: center center;" class="w-full h-20 sm:h-36">
                         </div>
                         @endforeach
                     </div>
