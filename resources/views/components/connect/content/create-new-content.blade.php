@@ -7,7 +7,7 @@
                     <div class="text-xl text-center">
                         loading &nbsp; <i class="fas fa-spin fa-spinner"></i>
                     </div>
-                    {{-- <x-loader /> --}}
+                    <x-loader />
                 </div>
 
                 <div class="flex items-baseline justify-between mb-2">

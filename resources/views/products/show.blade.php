@@ -6,9 +6,9 @@
                 <div class="flex flex-col flex-1 md:flex-row">
                     <!-- Product Image Gallery -->
                     <div class="order-2 sm:order-2 md:order-1">
-                        <div class="flex flex-row p-2 md:p-0 md:mr-2 md:flex-col">
+                        <div class="flex flex-row p-3 md:p-0 md:mr-2 md:flex-col">
                             @foreach($product->gallery as $image)
-                            <div style="max-height: 80px; max-width: 80px;" class="@if(!$loop->last) mr-2 md:mb-2 md:mr-0 @endif md:shadow-lg">
+                            <div style="max-height: 80px; max-width: 80px;" class="@if(!$loop->last) mr-3 md:mb-2 md:mr-0 @endif md:shadow-lg">
                                 <img class="max-w-full max-h-full cursor-pointer md:rounded-md" @click=" activeImage = '{{ $image->image_url }}' " :class="('{{ $image->image_url }}' === activeImage) ? 'border-2 border-blue-800' : ''" src="/storage/{{ $image->image_url }}" />
                             </div>
                             @endforeach
@@ -25,10 +25,10 @@
 
                 <!-- Product Data -->
                 <div class="order-3 sm:py-1 md:py-0 sm:pr-1 sm:order-3">
-                    <div class="grid grid-cols-1 gap-2 p-2 bg-white sm:p-3 md:mx-2 md:shadow-lg md:rounded-md md:p-3">
+                    <div class="grid grid-cols-1 gap-2 p-3 bg-white sm:p-3 md:mx-2 md:shadow-lg md:rounded-md md:p-3">
                         <div>
                             <!-- Name -->
-                            <p class="mt-2 mb-2 text-2xl font-semibold text-blue-800 md:mb-6 md:mt-0">
+                            <p class="mb-2 text-2xl font-semibold text-blue-800 md:mb-6 md:mt-0">
                                 {{ $product->name }}
                             </p>
 
@@ -52,7 +52,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex flex-wrap items-baseline justify-between pt-6">
+                            <div class="flex flex-wrap items-baseline justify-between py-3 md:py-6">
                                 <!-- Price -->
                                 <p class="mr-5 text-2xl font-bold text-blue-700">
                                     {!! $product->price() !!}
@@ -69,7 +69,7 @@
             <!-- expansible description  & specifications -->
             <div class="grid grid-cols-1 gap-0 bg-gray-100 md:bg-transparent md:mb-3 md:mt-3">
                 <div>
-                    <div id="description" @click=" show_description = ! show_description; (show_description) ? window.location = '#description' : true " class="grid grid-cols-2 px-2 py-2 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-300 cursor-pointer select-none md:text-xl md:px-1">
+                    <div id="description" @click=" show_description = ! show_description; (show_description) ? window.location = '#description' : true " class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl md:px-1">
                         <span>
                             description
                         </span>
@@ -77,8 +77,8 @@
                             <i :class="show_description ? 'fa-minus-circle' : 'fa-plus-circle'" class="fas"></i>
                         </span>
                     </div>
-                    <div x-show="show_description" class="p-2">
-                        <div class="w-full h-full break-words">
+                    <div x-show="show_description" class="p-3">
+                        <div class="font-semibold break-words">
                             <p>
                                 {{ $product->description }}
                             </p>
@@ -87,7 +87,7 @@
                 </div>
 
                 <div>
-                    <div id="specs" @click=" show_specs = ! show_specs; (show_specs) ? window.location = '#specs' : true " class="grid grid-cols-2 px-2 py-2 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-300 cursor-pointer select-none md:text-xl md:px-1">
+                    <div id="specs" @click=" show_specs = ! show_specs; (show_specs) ? window.location = '#specs' : true " class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl md:px-1">
                         <span>
                             specifications
                         </span>
@@ -95,10 +95,10 @@
                             <i :class="show_specs ? 'fa-minus-circle' : 'fa-plus-circle'" class="fas"></i>
                         </span>
                     </div>
-                    <div x-show="show_specs" class="p-2">
+                    <div x-show="show_specs" class="p-3">
                         <div class="w-full h-full break-words">
                             @if($product->specifications->count() > 0)
-                            <div class="grid grid-cols-1 gap-2 md:gap-3 md:grid-cols-3">
+                            <div class="grid grid-cols-1 gap-3 md:gap-3 sm:grid-cols-2 md:grid-cols-3">
                                 @foreach($product->specifications as $specification)
                                 <div class="bg-gray-100 shadow">
                                     <h3 class="px-3 py-2 text-xl font-semibold text-blue-700 border border-gray-200 rounded-t-sm">
@@ -128,10 +128,10 @@
     <script>
         function product_data() {
             return {
-                activeImage: null
-                , show_description: null
-                , show_specs: null
-                , init_product() {
+                activeImage: null,
+                show_description: true,
+                show_specs: null,
+                init_product() {
                     this.activeImage = '{{ $product->displayImage() }}';
                 }
             }

@@ -16,7 +16,7 @@
         </div>
 
         @else
-        <div x-data x-init="() => { window.scrollTo(0, 0); }" :class="({{ !$products->count() < 2 }}) ? 'flex justify-center items-center' : 'grid gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-6'" class="px-2 sm:px-0">
+        <div x-data x-init="() => { window.scrollTo(0, 0); }" class="grid gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-6 px-2 sm:px-0">
             @forelse ($products as $product)
             <div wire:click="switchActiveProduct('{{ $product->id }}')" class="px-3 py-3 bg-white shadow cursor-pointer">
                 <div class="flex items-center justify-center">

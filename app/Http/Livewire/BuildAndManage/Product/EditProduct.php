@@ -46,7 +46,7 @@ class EditProduct extends Component
                 'int',
                 'min:1'
             ],
-            'product.available_stock' => ($this->product->enterprise->isStore() || $this->available_stock || $this->available_stock === "0") ? [
+            'product.available_stock' => ($this->product->business->isStore() || $this->available_stock || $this->available_stock === "0") ? [
                 'required',
                 'int',
                 'min:1'
@@ -73,7 +73,7 @@ class EditProduct extends Component
                 'int',
                 'min:1'
             ],
-            'product.available_stock' => ($this->product->enterprise->isStore() || $this->available_stock || $this->available_stock === "0") ? [
+            'product.available_stock' => ($this->product->business->isStore() || $this->available_stock || $this->available_stock === "0") ? [
                 'required',
                 'int',
                 'min:1'

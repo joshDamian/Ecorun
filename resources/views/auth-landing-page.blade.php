@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="grid grid-cols-1 md:gap-4 md:grid-cols-3">
         <div class="md:col-span-2">
-            <div class="mb-2 bg-gray-100 md:mb-3 sm:shadow sm:rounded">
+            <div class="mb-3 bg-gray-100 md:mb-3 sm:shadow sm:rounded">
                 @livewire('connect.post.create-new-post', ['profile' => Auth::user()->profile, 'view' => 'landing-page'])
             </div>
 

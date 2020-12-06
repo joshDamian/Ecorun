@@ -40,7 +40,7 @@ class AuthServiceProvider extends ServiceProvider
             if ($user->isManager === null) {
                 return false;
             } else {
-                return $user->isManager->id === Business::find($business)->manager_id;
+                return $user->isManager->id === Business::findOrFail($business)->manager_id;
             }
         });
 
