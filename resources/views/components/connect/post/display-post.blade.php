@@ -1,6 +1,6 @@
 @props(['post', 'image_count' => $post->gallery->count(), 'like_count' => $post->likes->count() ])
 <div>
-    <div class="bg-gray-100 sm:shadow">
+    <div class="bg-white sm:shadow">
         <div class="flex justify-between px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
             <a class="block" href="{{ route('profile.visit', ['profile' => $post->profile->id, 'slug' => $post->profile->data_slug('name')]) }}">
                 <div class="flex items-center">

@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="font-hairline text-gray-600">
-                        {{ $user->currentProfile->eco_tag ?? __('') }}
+                        {{ $user->currentProfile->eco_tag.$profile_tag_suffix ?? __('') }}
                     </div>
                 </div>
                 @auth

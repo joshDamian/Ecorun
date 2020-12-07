@@ -17,8 +17,7 @@ class CreateNewBusiness extends Component
     public $name;
     public $type;
 
-    public function create()
-    {
+    public function create() {
         $this->name = trim($this->name);
         $this->validate([
             'name' => [
@@ -33,7 +32,7 @@ class CreateNewBusiness extends Component
         $this->name = ucwords($this->name);
 
         $business = Auth::user()->isManager
-            ->businesses()->save(new Business());
+        ->businesses()->save(new Business());
 
         if ($business) {
             $this->assignType($business);
@@ -49,20 +48,19 @@ class CreateNewBusiness extends Component
         return $business->team()->save($team);
     }
 
-    protected function create_profile(Business $business)
-    {
+    protected function create_profile(Business $business) {
         $name_slug = $this->data_slug('name');
 
         if ($business->isStore()) {
             $business->profile()->create([
                 'name' => $this->name,
-                'eco_tag' => "{$name_slug}@ecorun",
+                'eco_tag' => "{$name_slug}_b",
                 'description' => "{$this->name} sells quality products, we look forward to satisfying your purchase needs."
             ]);
         } elseif ($business->isService()) {
             $business->profile()->create([
                 'name' => $this->name,
-                'eco_tag' => "{$name_slug}@ecorun",
+                'eco_tag' => "{$name_slug}_b",
                 'description' => "{$this->name} offers quality services, we look forward to making you happy."
             ]);
         }
@@ -70,23 +68,20 @@ class CreateNewBusiness extends Component
         $business->profile->following()->save($business->profile);
     }
 
-    public function slugData()
-    {
+    public function slugData() {
         return [
             'name' => $this->name,
         ];
     }
 
-    protected function createTeam()
-    {
+    protected function createTeam() {
         $user = Auth::user();
         return $user->ownedTeams()->create([
             'name' => $this->name . "'s Team",
         ]);
     }
 
-    protected function assignType(Business $business)
-    {
+    protected function assignType(Business $business) {
         switch ($this->type) {
             case 'service':
                 $service = Service::create([]);
@@ -101,8 +96,7 @@ class CreateNewBusiness extends Component
         }
     }
 
-    public function updated($propertyName)
-    {
+    public function updated($propertyName) {
         $this->validateOnly(
             $propertyName,
             [
@@ -118,8 +112,7 @@ class CreateNewBusiness extends Component
         );
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.build-and-manage.business.create-new-business');
     }
 }

@@ -6,13 +6,13 @@
             <div x-data="{photoName: null, photoPreview: null}" class="">
                 <!-- Profile Photo File Input -->
                 <input type="file" accept="image/*" class="hidden" wire:model="photo" x-ref="photo" x-on:change="
-                    photoName = $refs.photo.files[0].name;
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                    photoPreview = e.target.result;
-                    };
-                    reader.readAsDataURL($refs.photo.files[0]);
-                    " />
+                photoName = $refs.photo.files[0].name;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                photoPreview = e.target.result;
+                };
+                reader.readAsDataURL($refs.photo.files[0]);
+                " />
 
                 <x-jet-label for="photo" value="{{ __('Photo') }}" />
 
@@ -44,14 +44,17 @@
             <!-- Name -->
             <div class="">
                 <x-jet-label for="name" value="{{ __('Name') }}" />
-                <x-jet-input id="name" type="text" class="block w-full mt-1" wire:model="profile.name" autocomplete="name" />
+                <x-jet-input name="name" id="name" type="text" class="block w-full mt-1" wire:model="profile.name" autocomplete="name" />
                 <x-jet-input-error for="profile.name" class="mt-2" />
             </div>
 
             <!-- Eco-tag -->
             <div class="">
                 <x-jet-label for="eco_tag" value="{{ __('Eco-tag') }}" />
-                <x-jet-input id="eco_tag" type="text" class="block w-full mt-1" wire:model="profile.eco_tag" autocomplete="eco_tag" />
+                <div class="grid grid-cols-2 gap-3">
+                    <x-jet-input id="eco_tag" name="eco_tag" type="text" class="block w-full mt-1" wire:model="profile.eco_tag" autocomplete="eco_tag" />
+                    <x-jet-input class="mt-1 w-full bg-gray-200 block" value="{{ $tag_suffix }}" disabled readonly />
+                </div>
                 <x-jet-input-error for="profile.eco_tag" class="mt-2" />
             </div>
 

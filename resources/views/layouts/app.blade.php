@@ -30,7 +30,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
-<body class="font-sans leading-relaxed tracking-normal bg-gray-200">
+<body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
     <div x-data="nav_data()" x-init="init_nav()" x-cloak>
         <!--Nav-->
         <x-navbar />
@@ -57,8 +57,8 @@
     <script>
         function nav_data() {
             return {
-                active_item: null
-                , init_nav() {
+                active_item: null,
+                init_nav() {
                     if (window.outerWidth > 640) {
                         return this.active_item = 'user';
                     }
