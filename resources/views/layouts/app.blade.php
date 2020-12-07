@@ -31,18 +31,18 @@
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
-    <div x-data="nav_data()" x-init="init_nav()" x-cloak>
+    <div x-on:resize.window="activateDefault()" x-data="nav_data()" x-init="init_nav()" x-cloak>
         <!--Nav-->
         <x-navbar />
 
-        <div class="justify-center md:flex md:px-12 md:pt-12 justify-items-center">
-            <div x-show="active_item" class="md:w-1/4 fixed top-12 md:top-24 w-full bg-white md:bg-transparent md:p-0 md:-mt-0.5 md:pr-2 md:left-12">
+        <div class="justify-between md:flex md:px-8 md:pt-8 justify-items-center">
+            <div x-show="active_item" class="fixed flex-1 flex-grow-0 flex-shrink w-full bg-white md:w-1/4 top-12 md:top-20 md:bg-transparent md:pr-3 md:left-12">
                 <div class="h-screen overflow-y-auto">
                     <x-nav-content />
                 </div>
             </div>
 
-            <div class="flex-1 w-full md:ml-80 md:pl-2 sm:p-2 md:p-0">
+            <div class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:pl-8 sm:p-2 md:p-0">
                 <div>
                     @livewire('general.session.session-transport', key('session_transport'))
                 </div>
@@ -57,10 +57,15 @@
     <script>
         function nav_data() {
             return {
-                active_item: null,
-                init_nav() {
+                active_item: null
+                , init_nav() {
+                    return this.activateDefault()
+                }
+                , activateDefault() {
                     if (window.outerWidth > 640) {
                         return this.active_item = 'user';
+                    } else {
+                        return this.active_item = null;
                     }
                 }
             }

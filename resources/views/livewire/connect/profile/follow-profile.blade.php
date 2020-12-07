@@ -13,7 +13,7 @@
     @endauth
 
     @guest
-    <a href="/profile/{{ $profile->profileable->data_slug('name') }}/{{ $profile->id }}/follow">
+    <a href="/{{ $profile->eco_tag . __('-') . $profile->id }}/follow">
         <x-jet-button wire:click="follow" class="bg-blue-800 rounded">
             <i class="fas fa-plus"></i> &nbsp; {{ __('follow') }}
         </x-jet-button>
@@ -23,7 +23,7 @@
     @endcannot
 
     @can('update', $profile)
-    <a href="/user/profile/edit">
+    <a href="/{{ $currentProfile->eco_tag }}/update">
         <x-jet-button wire:click="follow" class="bg-blue-800 rounded">
             {{ __('edit profile') }} &nbsp; <i class="fas fa-user-edit"></i>
         </x-jet-button>

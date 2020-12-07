@@ -29,12 +29,15 @@ Route::get('/', function () {
     return (Auth::user()) ? view('auth-landing-page') : view('guest-landing-page');
 });
 
-Route::get('/profile/{slug}/{profile}/visit/{active_view?}', [ProfileController::class, 'show'])->name('profile.visit');
+Route::get('/{eco_tag}-{profile}/{active_view?}', [ProfileController::class, 'show'])->name('profile.visit');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/profile/{slug}/{profile}/follow', function ($slug, $profile) {
-        return redirect("/profile/{$slug}/{$profile}/visit");
+    Route::get('/{eco_tag}-{profile}/follow', function ($eco_tag, $profile) {
+        return redirect("/{$eco_tag}-{$profile}/");
     });
+
+    Route::get('/{eco_tag}-{profile}/edit', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
 
     Route::get('/account.me/{active_action?}/', UserDashboard::class)->name('dashboard');
     Route::middleware(['can:own-businesses'])->group(function () {

@@ -1,6 +1,6 @@
 <nav class="sticky top-0 w-full text-white bg-blue-800 shadow">
     <div class="flex items-baseline overflow-x-auto select-none">
-        <div class="text-gray-200 @guest flex-1 @endguest md:w-80 text-xl px-2 py-2 font-extrabold">
+        <div class="text-gray-200 @guest flex-1 @endguest md:w-1/4 text-xl px-2 py-2 font-extrabold">
             <a href="/">
                 {{ config('app.name') }}
             </a>
