@@ -53,16 +53,19 @@
                     <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photos.click();">
                         {{ __('Select Product Photos') }}
                     </x-jet-secondary-button>
-                    <x-jet-input-error for="photos.*" class="mt-2" />
+                    <div class="mt-2">
+                        <x-jet-input-error for="photos" />
+                        <x-jet-input-error for="photos.*" />
+                    </div>
                 </div>
 
-                <div class="col-span-12 md:col-span-6 sm:col-span-4">
+                <div class="static col-span-12 md:col-span-6 sm:col-span-4">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <!-- Category -->
                         <div>
                             <x-jet-label for="category">
                                 {{__('Category Groups')}}
-                                @if ($business->isService())
+                                @if ($this->business->isService())
                                 <span class="text-green-400">
                                     {{__(' (optional) ')}}
                                 </span>
@@ -89,7 +92,7 @@
                         <div>
                             <x-jet-label for="category">
                                 {{__('Product Category')}}
-                                @if ($business->isService())
+                                @if ($this->business->isService())
                                 <span class="text-green-400">
                                     {{__(' (optional) ')}}
                                 </span>
@@ -125,7 +128,7 @@
                 </div>
 
                 <!-- Price -->
-                <div x-data class="relative col-span-6 sm:col-span-4 md:col-span-3">
+                <div x-data class="static col-span-6 sm:col-span-4 md:col-span-3">
                     <x-jet-label for="price" value="{{ __('Product Price') }}" /> (<span x-ref="pricewatch"></span>)
                     <div class="relative">
 
@@ -145,7 +148,7 @@
                 <div class="col-span-6 sm:col-span-4 md:col-span-3">
                     <x-jet-label for="category">
                         {{__('Available Stock')}}
-                        @if ($business->isService())
+                        @if ($this->business->isService())
                         <span class="text-green-400">
                             {{__(' (optional) ')}}
                         </span>

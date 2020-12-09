@@ -59,7 +59,7 @@ class BusinessDashboard extends Component
     {
         $this->active_action = ($active_action) ?
             ((array_key_exists($active_action, $this->actions)) ? $this->actions[$active_action] : $this->actions['add-product'])
-            : $this->actions['update'];
+            : $this->actions['products'];
     }
 
     public function switchAction($key)

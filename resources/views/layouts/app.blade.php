@@ -35,14 +35,14 @@
         <!--Nav-->
         <x-navbar />
 
-        <div class="justify-between md:flex md:px-8 md:pt-8 justify-items-center">
-            <div x-show="active_item" class="fixed flex-1 flex-grow-0 flex-shrink w-full bg-white md:w-1/4 top-12 md:top-20 md:bg-transparent md:pr-3 md:left-12">
-                <div class="h-screen overflow-y-auto">
+        <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
+            <div x-show="active_item" class="fixed flex-1 flex-grow-0 flex-shrink w-full overflow-auto bg-white md:w-1/4 top-12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
+                <div class="h-full overflow-y-auto">
                     <x-nav-content />
                 </div>
             </div>
 
-            <div class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:pl-8 sm:p-2 md:p-0">
+            <div class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:pl-4 sm:p-2 md:p-0">
                 <div>
                     @livewire('general.session.session-transport', key('session_transport'))
                 </div>

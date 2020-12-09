@@ -12,7 +12,7 @@ class CreateNewProduct extends Component
 {
     use WithFileUploads;
 
-    public Business $business;
+    public $businessId;
     public $name;
     public $price;
     public $description;
@@ -23,11 +23,36 @@ class CreateNewProduct extends Component
     public $activeCategory;
     public $product_category;
 
-    protected $rules = [];
-
     public function create()
     {
-        $this->validate([
+        $this->validate($this->rules());
+
+        $this->product = $this->business
+            ->products()
+            ->create([
+                'name' => ucwords(strtolower($this->name)),
+                'description' => $this->description,
+                'price' => $this->price,
+                'available_stock' => $this->available_stock
+            ]);
+
+        Category::find($this->product_category)->products()->save($this->product);
+
+        foreach ($this->photos as $photo) {
+            $photo_path = $photo->store('product-photos', 'public');
+            $photo = Image::make(public_path("/storage/{$photo_path}"))->fit(1600, 1600);
+            $photo->save();
+
+            $this->product->gallery()->create([
+                'image_url' => $photo_path,
+                'label' => 'product_image'
+            ]);
+        }
+    }
+
+    public function rules(): array
+    {
+        return [
             'photos.*' => [
                 'image',
                 'max:7168'
@@ -57,72 +82,32 @@ class CreateNewProduct extends Component
                 'int',
                 'min:1'
             ],
-            
+
             'product_category' => ($this->business->isStore()) ? ['required'] : '',
-        ]);
-
-        $this->product = $this->business
-            ->products()
-            ->create([
-                'name' => ucwords(strtolower($this->name)),
-                'description' => $this->description,
-                'price' => $this->price,
-                'available_stock' => $this->available_stock
-            ]);
-
-        Category::find($this->product_category)->products()->save($this->product);
-
-        foreach ($this->photos as $photo) {
-            $photo_path = $photo->store('product-photos', 'public');
-            $photo = Image::make(public_path("/storage/{$photo_path}"))->fit(1600, 1600);
-            $photo->save();
-
-            $this->product->gallery()->create([
-                'image_url' => $photo_path,
-                'label' => 'product_image'
-            ]);
-        }
+        ];
     }
 
     public function updated($propertyName)
     {
-        $this->validateOnly($propertyName, [
-            'photos.*' => [
-                'required',
-                'image',
-                'max:7168'
-            ],
-
-            'name' => [
-                'required',
-                'min:4',
-                'string'
-            ],
-            'description' => [
-                'required',
-                'min:20'
-            ],
-
-            'available_stock' => ($this->business->isStore() || $this->available_stock || $this->available_stock === "0") ? [
-                'required',
-                'int',
-                'min:1'
-            ] : '',
-
-            'price' => [
-                'required',
-                'int',
-                'min:1'
-            ],
-            'product_category' => ($this->business->isStore()) ? ['required'] : '',
-        ]);
+        $this->validateOnly($propertyName, $this->rules());
     }
 
     public function mount()
     {
         $this->categories = Category::without('products')->where('parent_title', null)->orderBy('title', 'ASC')->get();
-        $this->activeCategory = $this->categories->first()->title;
-        $this->product_category = Category::find($this->activeCategory)->children->first()->title;
+        //dump($this->categories->first());
+        if ($this->categories->count() > 0) {
+            $this->activeCategory = $this->categories->first()->title;
+            $this->product_category = Category::find($this->activeCategory)->children()->first()->title;
+        } else {
+            $this->activeCategory = 'no categories yet';
+            $this->product_category = 'no categories yet';
+        }
+    }
+
+    public function getBusinessProperty()
+    {
+        return Business::find($this->businessId);
     }
 
     public function render()

@@ -44,15 +44,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     ->name('profile.edit');*/
 
     Route::get('/{user}/@{tag}', UpdateCurrentProfile::class)
-        ->name('profile.edit');
+        ->name('current-profile.edit');
 
     Route::get('/account.me/{active_action?}/', UserDashboard::class)->name('dashboard');
     Route::middleware(['can:own-businesses'])->group(function () {
-        Route::get('/business/{slug}/{business}/{active_action?}/', BusinessDashboard::class)
+        Route::get('/business/@{tag}/{business}/{active_action?}/', BusinessDashboard::class)
             ->middleware('can:update-business,business')
             ->name('business.dashboard');
 
-        Route::get('/business/{slug}/{business}/products/{active_product?}/', BusinessProductList::class)
+        Route::get('/business/@{tag}/{business}/products/{active_product?}/', BusinessProductList::class)
             ->middleware('can:update-business,business')
             ->name('business.products');
     });
