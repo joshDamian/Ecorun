@@ -45,7 +45,7 @@
         document.addEventListener('livewire:load', function() {
 
             setTimeout(() => {
-                window.modifyUrl("/business/{{ $business->data_slug('name') }}/{{ $business->id }}/{{ array_keys($actions, $active_action)[0] }}")
+                window.modifyUrl("/business/{{ $business->profile->data_slug('name') }}/{{ $business->id }}/{{ array_keys($actions, $active_action)[0] }}")
             }, 10);
 
             Livewire.on('actionSwitch', (action) => {

@@ -32,11 +32,11 @@
         @break
 
         @case('about')
-        <div class="bg-gray-100 sm:shadow-sm">
-            <p class="p-2 text-lg font-medium text-gray-600 border-b border-gray-300">
+        <div class="bg-white sm:shadow-sm">
+            <p class="p-3 text-lg font-medium text-gray-600 border-b border-gray-300">
                 About {{ $business->profile->name }}
             </p>
-            <p class="p-2 text-gray-700 text-md">
+            <p class="p-3 text-gray-700 text-md">
                 {{ $business->profile->description }}
             </p>
         </div>

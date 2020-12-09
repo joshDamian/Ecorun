@@ -30,7 +30,7 @@ use App\Models\Profile;
 
 Route::get('/', function () {
     return (Auth::user()) ? view('auth-landing-page') : view('guest-landing-page');
-});
+})->name('home');
 
 Route::get('/@{tag}/{active_view?}', [ProfileController::class, 'show'])->name('profile.visit');
 
@@ -44,31 +44,31 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     ->name('profile.edit');*/
 
     Route::get('/{user}/@{tag}', UpdateCurrentProfile::class)
-    ->name('profile.edit');
+        ->name('profile.edit');
 
     Route::get('/account.me/{active_action?}/', UserDashboard::class)->name('dashboard');
     Route::middleware(['can:own-businesses'])->group(function () {
         Route::get('/business/{slug}/{business}/{active_action?}/', BusinessDashboard::class)
-        ->middleware('can:update-business,business')
-        ->name('business.dashboard');
+            ->middleware('can:update-business,business')
+            ->name('business.dashboard');
 
         Route::get('/business/{slug}/{business}/products/{active_product?}/', BusinessProductList::class)
-        ->middleware('can:update-business,business')
-        ->name('business.products');
+            ->middleware('can:update-business,business')
+            ->name('business.products');
     });
 
     Route::get('/post/{post}', [PostController::class, 'show'])->name('post.show');
 });
 
 Route::get('/browsing-history', [RecentlyViewedController::class, 'index'])
-->name('view-history.index');
+    ->name('view-history.index');
 
 Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
-->name('product.show');
+    ->name('product.show');
 
 Route::get('/categories', [CategoryController::class, 'index'])
-->name('category.index');
+    ->name('category.index');
 Route::get('category/{slug}', [CategoryController::class, 'show'])
-->name('category.show');
+    ->name('category.show');
 
 //Route::get('/cart', ViewCart::class);

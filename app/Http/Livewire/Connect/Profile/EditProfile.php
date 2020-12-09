@@ -8,6 +8,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Models\User;
 
 class EditProfile extends Component
 {
@@ -20,13 +21,15 @@ class EditProfile extends Component
     public $tag;
     public $description;
 
-    public function mount() {
+    public function mount()
+    {
         $this->name = $this->profile->name;
         $this->description = $this->profile->description;
         $this->tag = $this->profile->tag;
     }
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
         $this->authorize('update', $this->profile);
 
         $this->validate($this->rules());
@@ -45,24 +48,26 @@ class EditProfile extends Component
 
         $this->emitSelf('saved');
 
-        return redirect("/{$request->user()->profile->data_slug('name')}/@{$this->profile->tag}");
+        return redirect("/" . User::find($request->user()->id)->profile->data_slug('name') . "/@{$this->profile->tag}");
     }
 
-    public function deleteProfilePhoto() {
+    public function deleteProfilePhoto()
+    {
         return $this->profile->deleteProfilePhoto();
     }
 
-    protected function rules() :array {
+    protected function rules(): array
+    {
         return  [
             'name' => [
                 'required',
                 'min:4',
                 'max:255',
                 ($this->profile->isBusiness() && strtolower($this->profile->name) !== strtolower($this->name)) ?
-                Rule::unique('profiles', 'name')->where(function ($query) {
-                    return $query->where('profileable_type', 'App\Models\Business');
-                })
-                : '',
+                    Rule::unique('profiles', 'name')->where(function ($query) {
+                        return $query->where('profileable_type', 'App\Models\Business');
+                    })
+                    : '',
             ],
 
             'tag' => (strtolower($this->profile->tag) !== strtolower($this->tag)) ? [
@@ -72,11 +77,11 @@ class EditProfile extends Component
                 'unique:profiles,tag',
                 'alpha_dash'
             ] :
-            [
-                'required',
-                'min:4',
-                'alpha_dash'
-            ],
+                [
+                    'required',
+                    'min:4',
+                    'alpha_dash'
+                ],
 
             'description' => [
                 'required',
@@ -91,35 +96,23 @@ class EditProfile extends Component
         ];
     }
 
-    public function getProfileProperty() {
+    public function getProfileProperty()
+    {
         return Profile::find($this->profileId);
     }
 
-    public function updated($propertyName) {
+    public function updated($propertyName)
+    {
         $this->validateOnly($propertyName, $this->rules());
     }
 
-    protected function upperCaseWords(string $string) {
+    protected function upperCaseWords(string $string)
+    {
         return ucwords(strtolower($string));
     }
 
-    /**
-    * Get the error messages for the defined validation rules.
-    *
-    * @return array
-    */
-
-    public function messages() {
-        return [
-            'name.unique' => 'This business name has been taken',
-            'profile.tag.required' => 'The eco-tag field is required',
-            'profile.tag.unique' => 'This eco-tag is unavailable',
-            'profile.tag.min' => 'An eco-tag should be at least :min characters',
-            'profile.tag.alpha_dash' => 'An eco-tag may only contain letters, numbers, dashes and underscores',
-        ];
-    }
-
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.profile.edit-profile', [
             'tag_prefix' => Profile::TAG_PREFIX
         ]);

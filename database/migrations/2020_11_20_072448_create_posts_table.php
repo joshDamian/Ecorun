@@ -7,17 +7,18 @@ use Illuminate\Support\Facades\Schema;
 class CreatePostsTable extends Migration
 {
     /**
-    * Run the migrations.
-    *
-    * @return void
-    */
-    public function up() {
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\Profile::class)
-            ->index()
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
+                ->index()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
 
             $table->text('content');
             $table->text('visibility');
@@ -26,11 +27,12 @@ class CreatePostsTable extends Migration
     }
 
     /**
-    * Reverse the migrations.
-    *
-    * @return void
-    */
-    public function down() {
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
         Schema::dropIfExists('posts');
     }
 }
