@@ -2,18 +2,22 @@
 <div>
     <div class="bg-white sm:shadow">
         <div class="flex justify-between px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
-            <a class="block" href="{{ route('profile.visit', ['profile' => $post->profile->id, 'slug' => $post->profile->data_slug('name')]) }}">
-                <div class="flex items-center">
+            <div class="flex items-center">
+                <a class="block" href="{{ route('profile.visit', ['tag' => $post->profile->tag]) }}">
                     <div style="background-image: url('{{ $post->profile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-12 h-12 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
                     </div>
+
                     <div>
                         <span class="font-medium text-blue-700 text-md">{{ $post->profile->name }}</span>
+                        <div class="flex">
+                            <span class="font-normal mr-2 text-blue-600 text-sm">{{ $post->profile->full_tag() }}</span>
+                        </a>
                         <div class="text-sm font-normal text-gray-500">
                             {{ $post->created_at->diffForHumans() }}
                         </div>
                     </div>
                 </div>
-            </a>
+            </div>
 
             @auth
             <div>

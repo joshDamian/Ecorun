@@ -7,18 +7,18 @@ use Illuminate\Support\Facades\Schema;
 class CreateProfilesTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+    * Run the migrations.
+    *
+    * @return void
+    */
+    public function up() {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->string('profileable_type');
             $table->integer('profileable_id');
             $table->string('name')->nullable();
-            $table->string('eco_tag')->unique()->nullable();
+            $table->string('tag')->unique();
+
             $table->text('profile_photo_path')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
@@ -26,12 +26,11 @@ class CreateProfilesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    * Reverse the migrations.
+    *
+    * @return void
+    */
+    public function down() {
         Schema::dropIfExists('profiles');
     }
 }

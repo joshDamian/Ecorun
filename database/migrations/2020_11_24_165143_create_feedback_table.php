@@ -7,18 +7,19 @@ use Illuminate\Support\Facades\Schema;
 class CreateFeedbackTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+    * Run the migrations.
+    *
+    * @return void
+    */
+    public function up() {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('profile_id')
-                ->index()
-                ->onUpdate('cascade')
-                ->onDelete('cascade')->nullable();
+
+            $table->foreignIdFor(\App\Models\Profile::class)
+            ->index('profile_id')
+            ->onUpdate('cascade')
+            ->onDelete('cascade')->nullable();
+
             $table->string('feedbackable_type')->nullable();
             $table->integer('feedbackable_id')->nullable();
             $table->string('title')->nullable();
@@ -28,12 +29,11 @@ class CreateFeedbackTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    * Reverse the migrations.
+    *
+    * @return void
+    */
+    public function down() {
         Schema::dropIfExists('feedback');
     }
 }

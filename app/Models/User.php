@@ -76,10 +76,10 @@ class User extends Authenticatable
         parent::boot();
 
         static::created(function ($user) {
-            $name = explode("@", $user->email)[0] . '-' . $user->id;
+            $name = explode("@", $user->email)[0] . '_' . $user->id;
             $user->profile()->create([
                 'name' => $name,
-                'eco_tag' => "{$name}",
+                'tag' => "{$name}",
                 'description' => "I'm a newbie and i hope to make new friends soon.",
             ]);
             $user->profile->following()->save($user->profile);

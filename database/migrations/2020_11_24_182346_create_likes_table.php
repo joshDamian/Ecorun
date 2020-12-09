@@ -7,18 +7,19 @@ use Illuminate\Support\Facades\Schema;
 class CreateLikesTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+    * Run the migrations.
+    *
+    * @return void
+    */
+    public function up() {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('profile_id')
-                ->index()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+
+            $table->foreignIdFor(\App\Models\Profile::class)
+            ->index('profile_id')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+
             $table->string('likeable_type');
             $table->integer('likeable_id');
             $table->timestamps();
@@ -26,12 +27,11 @@ class CreateLikesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    * Reverse the migrations.
+    *
+    * @return void
+    */
+    public function down() {
         Schema::dropIfExists('likes');
     }
 }

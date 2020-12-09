@@ -9,7 +9,6 @@ use App\Models\Profile;
 class NavContent extends Component
 {
     public $user;
-    public $profile_tag_suffix;
 
     /**
     * Create a new component instance.
@@ -18,7 +17,6 @@ class NavContent extends Component
     */
     public function __construct() {
         $this->user = Auth::user();
-        $this->profile_tag_suffix = Profile::TAG_SUFFIX;
     }
 
     /**

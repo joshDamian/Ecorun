@@ -20,8 +20,8 @@
         </div>
         @break
         @case('posts')
-        @can('update-business', $business->id)
-        <div class="mb-2 ml-2 md:ml-0 md:mb-3">
+        @can('update', $business->profile)
+        <div class="mb-2 ml-0 md:ml-0 md:mb-3">
             @livewire('connect.post.create-new-post', ['profile' => $business->profile, 'view' => 'timeline'])
         </div>
         @endcan
@@ -49,7 +49,7 @@
 @push('scripts')
 <script>
     document.addEventListener('livewire:load', function() {
-        window.modifyUrl("/profile/{{ $business->profile->data_slug('name') }}/{{ $business->profile->id }}/visit/{{ array_keys($views, $active_view)[0] }}")
+        window.modifyUrl("/{{ $business->profile->full_tag() }}/{{ array_keys($views, $active_view)[0] }}")
     })
 
 </script>

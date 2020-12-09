@@ -30,6 +30,7 @@
                     @livewire('connect.profile-dashboard.business-profile-data', ['business' => $profile->profileable, 'active_view' => $active_view])
                 </div>
 
+                @else
                 <div>
                     @livewire('connect.profile-dashboard.user-profile-data', ['user' => $profile->profileable, 'active_view' => $active_view])
                 </div>
@@ -37,7 +38,7 @@
             </div>
         </div>
 
-        <div class="sm:col-span-1">
+        {{-- <div class="sm:col-span-1">
             <div class="fixed bottom-0 w-full bg-gray-900 md:bg-transparent md:pl-1 md:w-1/4 md:top-20 md:right-12">
                 <div class="flex flex-row md:flex-col">
                     @auth
@@ -57,5 +58,6 @@
                 </div>
             </div>
         </div>
+        --}}
     </div>
 </x-app-layout>

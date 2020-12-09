@@ -54,13 +54,13 @@ class CreateNewBusiness extends Component
         if ($business->isStore()) {
             $business->profile()->create([
                 'name' => $this->name,
-                'eco_tag' => "{$name_slug}_b",
+                'tag' => "{$name_slug}_b",
                 'description' => "{$this->name} sells quality products, we look forward to satisfying your purchase needs."
             ]);
         } elseif ($business->isService()) {
             $business->profile()->create([
                 'name' => $this->name,
-                'eco_tag' => "{$name_slug}_b",
+                'tag' => "{strtolower($name_slug)}_b",
                 'description' => "{$this->name} offers quality services, we look forward to making you happy."
             ]);
         }

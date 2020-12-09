@@ -17,14 +17,22 @@
                 <x-jet-label for="photo" value="{{ __('Photo') }}" />
 
                 <!-- Current Profile Photo -->
-                <div class="mt-2" x-show="! photoPreview">
+                <div class="mt-2 mb-1" x-show="! photoPreview">
+                    @if($this->profile->isUser())
                     <img src="{{ $this->profile->profile_photo_url }}" alt="{{ $this->profile->name }}" class="object-cover w-20 h-20 rounded-full">
+                    @else
+                    <img class="h-52 w-full border-blue-800 border-t-2 border-b-2 object-cover" src="{{ $this->profile->profile_photo_url }}" />
+                    @endif
                 </div>
 
                 <!-- New Profile Photo Preview -->
                 <div class="mt-2" x-show="photoPreview">
+                    @if($this->profile->isUser())
                     <span class="block w-20 h-20 rounded-full" x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
                     </span>
+                    @else
+                    <img class="h-52 w-full border-blue-800 border-t-2 border-b-2 object-cover" :src="photoPreview" />
+                    @endif
                 </div>
 
                 <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click()">
@@ -44,24 +52,24 @@
             <!-- Name -->
             <div class="">
                 <x-jet-label for="name" value="{{ __('Name') }}" />
-                <x-jet-input name="name" id="name" type="text" class="block w-full mt-1" wire:model="profile.name" autocomplete="name" />
-                <x-jet-input-error for="profile.name" class="mt-2" />
+                <x-jet-input name="name" id="name" type="text" class="block w-full mt-1" wire:model="name" autocomplete="name" />
+                <x-jet-input-error for="name" class="mt-2" />
             </div>
 
             <!-- Eco-tag -->
             <div class="">
-                <x-jet-label for="eco_tag" value="{{ __('Eco-tag') }}" />
-                <div class="grid grid-cols-2 gap-3">
-                    <x-jet-input id="eco_tag" name="eco_tag" type="text" class="block w-full mt-1" wire:model="profile.eco_tag" autocomplete="eco_tag" />
-                    <x-jet-input class="mt-1 w-full bg-gray-200 block" value="{{ $tag_suffix }}" disabled readonly />
+                <x-jet-label for="tag" value="{{ __('Tag') }}" />
+                <div class="grid grid-cols-6 gap-3">
+                    <x-jet-input class="mt-1 bg-gray-200 w-full col-span-1/2 block" value="{{ $tag_prefix }}" disabled readonly />
+                    <x-jet-input id="tag" name="tag" type="text" class="block col-span-5 w-full mt-1" wire:model="tag" autocomplete="tag" />
                 </div>
-                <x-jet-input-error for="profile.eco_tag" class="mt-2" />
+                <x-jet-input-error for="tag" class="mt-2" />
             </div>
 
             <div>
-                <x-jet-label for="description" value="{{ __('About Me') }}" />
-                <textarea id="description" rows="4" class="block w-full mt-1 form-input" placeholder="enter description" wire:model="profile.description" autocomplete="description"></textarea>
-                <x-jet-input-error for="profile.description" class="mt-2" />
+                <x-jet-label for="description" value="{{ __('About ') . (($errors->has('name')) ? $this->profile->name : $name) }}" />
+                <textarea id="description" rows="4" class="block w-full mt-1 form-input" placeholder="enter description" wire:model="description" autocomplete="description"></textarea>
+                <x-jet-input-error for="description" class="mt-2" />
             </div>
         </div>
 

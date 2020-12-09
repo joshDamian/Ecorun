@@ -7,33 +7,32 @@ use Illuminate\Support\Facades\Schema;
 class CreateProfileFollowerTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+    * Run the migrations.
+    *
+    * @return void
+    */
+    public function up() {
         Schema::create('profile_follower', function (Blueprint $table) {
             $table->id();
+
             $table->foreignId('follower_id')
-                ->index()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+
             $table->foreignId('profile_id')
-                ->index()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    * Reverse the migrations.
+    *
+    * @return void
+    */
+    public function down() {
         Schema::dropIfExists('profile_user');
     }
 }

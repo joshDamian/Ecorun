@@ -15,11 +15,11 @@ class Profile extends Model
 
     protected $fillable = [
         'name',
-        'eco_tag',
+        'tag',
         'description'
     ];
 
-    public const TAG_SUFFIX = '@ecorun';
+    public const TAG_PREFIX = '@';
 
     protected $with = [
         //'followers'
@@ -54,6 +54,10 @@ class Profile extends Model
 
     public function isBusiness() {
         return $this->profileable instanceof Business;
+    }
+
+    public function full_tag() {
+        return Profile::TAG_PREFIX . $this->tag;
     }
 
     public function feedbacks() {

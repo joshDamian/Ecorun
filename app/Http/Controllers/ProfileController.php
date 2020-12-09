@@ -8,82 +8,73 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function index() {
         //
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function create() {
         //
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
+    * Store a newly created resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
+    public function store(Request $request) {
         //
     }
 
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Profile  $profile
-     * @return \Illuminate\Http\Response
-     */
-    public function show($slug, Profile $profile, $active_view = null)
-    {
+    * Display the specified resource.
+    *
+    * @param  \App\Models\Profile  $profile
+    * @return \Illuminate\Http\Response
+    */
+    public function show($tag, $active_view = null) {
+        $profile = Profile::where('tag', $tag)->firstOrFail();
         return view('profile-dashboard.show', compact('profile', 'active_view'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Profile  $profile
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Profile $profile, Request $request)
-    {
-        return view('profile.show', [
-            'request' => $request,
-            'user' => $request->user(),
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Profile  $profile
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Profile $profile)
-    {
+    * Show the form for editing the specified resource.
+    *
+    * @param  \App\Models\Profile  $profile
+    * @return \Illuminate\Http\Response
+    */
+    public function edit(Profile $profile) {
         //
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Profile  $profile
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Profile $profile)
-    {
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  \App\Models\Profile  $profile
+    * @return \Illuminate\Http\Response
+    */
+    public function update(Request $request, Profile $profile) {
+        //
+    }
+
+    /**
+    * Remove the specified resource from storage.
+    *
+    * @param  \App\Models\Profile  $profile
+    * @return \Illuminate\Http\Response
+    */
+    public function destroy(Profile $profile) {
         //
     }
 }

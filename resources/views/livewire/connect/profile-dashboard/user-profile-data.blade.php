@@ -44,7 +44,7 @@
 
 <script>
     document.addEventListener('livewire:load', function() {
-        window.modifyUrl("/profile/{{ $user->profile->data_slug('name') }}/{{ $user->profile->id }}/visit/{{ array_keys($views, $active_view)[0] }}")
+        window.modifyUrl("/{{ $user->profile->full_tag() }}/{{ array_keys($views, $active_view)[0] }}")
     })
 
 </script>

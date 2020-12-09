@@ -43,18 +43,18 @@
                     </div>
 
                     <div class="font-hairline text-gray-600">
-                        {{ $user->currentProfile->eco_tag.$profile_tag_suffix ?? __('') }}
+                        {{ $user->currentProfile->full_tag() ?? __('') }}
                     </div>
                 </div>
                 @auth
-                @livewire('connect.profile.following-followers-counter')
+                @livewire('connect.profile.following-followers-counter', ['profile' => $user->currentProfile])
                 @endauth
             </div>
         </div>
 
         @auth
-        <a href="{{ route('profile.visit', ['profile' => $user->currentProfile->id, 'slug' => $user->currentProfile->data_slug('name')]) }}">
-            <div class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('profile.visit') && explode('/', request()->getRequestUri())[3] == $user->currentProfile->id)) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-lg text-blue-800 md:cursor-pointer">
+        <a href="{{ route('profile.visit', ['tag' => $user->currentProfile->tag]) }}">
+            <div class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('profile.visit')) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-lg text-blue-800 md:cursor-pointer">
                 <i class="fa fa-user"></i> Profile
             </div>
         </a>

@@ -10,7 +10,7 @@
             <div class="flex md:text-lg @auth justify-between @endauth font-normal">
                 <div @click=" active_item = 'user' " :class="(active_item === 'user') ? 'text-blue-500' : ''" class="flex-shrink-0 px-2 py-2 text-xl md:px-4 sm:cursor-pointer hover:text-blue-500">
                     @auth
-                    <i class="fas fa-user-shield"></i> <span class="hidden sm:inline">{{ ucwords(Auth::user()->currentProfile->name) }}</span>
+                    <i class="fas @if(Auth::user()->currentProfile->isUser()) fa-user-shield @else fa-store-alt @endif"></i> <span class="hidden sm:inline">{{ ucwords(Auth::user()->currentProfile->name) }}</span>
                     @endauth
 
                     @guest

@@ -17,22 +17,19 @@ class ProfilePostList extends Component
     public $displayOptions;
     public $readyToLoad = false;
 
-    public function loadPosts()
-    {
+    public function loadPosts() {
         $this->readyToLoad = true;
     }
 
-    public function triggerOptions(Post $post)
-    {
+    public function triggerOptions(Post $post) {
         $this->activePost = $post;
         return $this->displayOptions = true;
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.connect.profile.profile-post-list', [
             'posts' => $this->readyToLoad ?
-                /* Cache::remember(
+            /* Cache::remember(
                     'posts.' . $this->profile->id,
                     now()->addSeconds(2),
                     function () {

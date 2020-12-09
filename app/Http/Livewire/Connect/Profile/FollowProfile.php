@@ -11,15 +11,13 @@ class FollowProfile extends Component
 {
     public Profile $profile;
 
-    public function follow()
-    {
+    public function follow() {
         $followController = new FollowController();
         $followController->store($this->profile, request());
         return $this->emit('modifiedFollowers');
     }
 
-    public function isFollowing()
-    {
+    public function isFollowing() {
         if (Auth::user()) {
             return Auth::user()->currentProfile->following()->where('profile_id', $this->profile->id)->get()->first() !== null;
         } else {
@@ -27,8 +25,7 @@ class FollowProfile extends Component
         }
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.connect.profile.follow-profile');
     }
 }
