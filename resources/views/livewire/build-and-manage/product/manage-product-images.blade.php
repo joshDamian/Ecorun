@@ -10,7 +10,7 @@
 
         <x-slot name="form">
             <div class="col-span-12">
-                <div class="text-right mb-4">
+                <div class="mb-4 text-right">
                     <x-jet-secondary-button style="color: white;" x-on:click.prevent="$refs.photos.click();" class="bg-blue-900 border border-blue-900">
                         {{ __('add photos') }}
                     </x-jet-secondary-button>
@@ -30,7 +30,7 @@
                         <div class="mt-2" x-show.transition="photos.length > 0">
                             <div class="grid @if(count($photos) < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-4 sm:gap-2 gap-2">
                                 <template x-for="photo in photos">
-                                    <div x-bind:style="'width: 100%; height: 200px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
+                                    <div x-bind:style="'width: 100%; height: 140px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
                                     </div>
                                 </template>
                             </div>
@@ -47,8 +47,8 @@
                     @foreach($product->gallery as $image)
                     <div class="">
                         <img class="w-100 h-100" src="/storage/{{$image->image_url}}" />
-                        <div class="bg-black py-1 text-right px-1">
-                            <x-jet-secondary-button title="delete photo" style="color: white;" class="border border-red-700 bg-red-700" wire:click="deleteImage('{{ $image->id }}')">
+                        <div class="px-1 py-1 text-right bg-black">
+                            <x-jet-secondary-button title="delete photo" style="color: white;" class="bg-red-700 border border-red-700" wire:click="deleteImage('{{ $image->id }}')">
                                 <i class="fa fa-trash"></i>
                                 </x-secondary-jet-button>
                         </div>

@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="pb-16 md:grid md:pb-0 md:grid-cols-3 md:gap-3">
-        <div class="md:col-span-2 md:mr-12">
+    <div class="pb-16 md:grid md:pb-0 md:grid-cols-4 md:gap-3">
+        <div class="md:col-span-3 md:mr-12">
             @if ($profile->isUser())
 
             <div class="flex justify-center p-4 bg-gray-200">
@@ -9,7 +9,7 @@
             </div>
 
             @else
-            <div class="w-full h-64" style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
+            <div class="w-full h-96" style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"></div>
             @endif
 
             <div class="px-4 py-4 bg-gray-100 border-t-2 border-gray-200 md:px-4">

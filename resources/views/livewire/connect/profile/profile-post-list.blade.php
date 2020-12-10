@@ -1,4 +1,8 @@
 <div wire:init="loadPosts" wire:poll.1000ms>
+    <div wire:loading wire:target="loadPosts" class="w-full">
+        <x-loader />
+    </div>
+
     <div class="grid grid-cols-1 gap-3 md:gap-4">
         @foreach($posts as $post)
         <div>
@@ -11,6 +15,7 @@
         </div>
         @endforeach
     </div>
+
     <div>
         <x-jet-dialog-modal wire:model="displayOptions">
             <x-slot name="title">

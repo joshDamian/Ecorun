@@ -33,7 +33,8 @@ class CreateNewProduct extends Component
                 'name' => ucwords(strtolower($this->name)),
                 'description' => $this->description,
                 'price' => $this->price,
-                'available_stock' => $this->available_stock
+                'available_stock' => $this->available_stock,
+                'is_published' => true
             ]);
 
         Category::find($this->product_category)->products()->save($this->product);

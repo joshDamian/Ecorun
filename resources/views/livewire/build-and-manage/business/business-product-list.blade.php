@@ -6,12 +6,11 @@
                 <i class="text-blue-800 fas fa-circle fa-stack-2x"></i>
                 <i class="text-white fa-stack-1x fas fa-plus"></i>
             </span>
-
         </a>
     </div>
     @endif
 
-    <div style="width: 100%;" wire:loading>
+    <div class="w-full" wire:loading>
         <x-loader />
     </div>
 
@@ -28,7 +27,7 @@
         </div>
 
         @else
-        <div x-data x-init="() => { window.scrollTo(0, 0); }" class="@if($products->count() > 0) grid gap-2 sm:gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-6 @endif px-2 sm:px-0">
+        <div x-data x-init="() => { window.scrollTo(0, 0); }" class="@if($products->count() > 0) grid gap-2 sm:gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-6 @endif px-2 sm:px-0">
             @forelse ($products as $product)
             <div wire:click="switchActiveProduct('{{ $product->id }}')" class="px-3 py-3 bg-gray-100 cursor-pointer">
                 <div class="flex items-center justify-center">
@@ -64,7 +63,7 @@
                 </div>
 
                 <div class="px-3 py-3 text-lg font-bold text-center text-blue-700">
-                    <span class="mb-3 block">
+                    <span class="block mb-3">
                         your product store is empty.
                     </span>
                 </div>
