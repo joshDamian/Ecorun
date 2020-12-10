@@ -1,28 +1,5 @@
 <div class="h-full overflow-y-auto">
-    <div @click=" active_item = null " class="p-3 text-right md:hidden">
-        <i class="text-lg text-blue-800 fas fa-times"></i>
-    </div>
-
-    <div x-show="active_item === 'categories'" class="font-light text-black nav-content">
-        {{-- <div class=px-4 tracking-wider"text-left font-medium text-lg rounded-lg p-2 shadow border border-gray-400">
-            Shop By Categories
-        </div>
-
-        <div class="px-4 py-3 tracking-wider text-left border-b border-gray-300 hover:border-black md:cursor-pointer">
-            Mobile Phones
-        </div>
-
-        <div class="px-4 py-3 tracking-wider text-left border-b border-gray-300 hover:border-black md:cursor-pointer">
-            Shirts
-        </div>
-
-        <div class="px-4 py-3 tracking-wider text-left border-b border-gray-300 hover:border-black md:cursor-pointer">
-            Trousers
-        </div>
-        --}}
-    </div>
-
-    <div x-show="active_item === 'user'" class="font-light nav-content">
+    <div class="font-light nav-content">
         <div class="flex flex-wrap items-center px-4 py-3 bg-white border-b border-gray-200 shadow md:rounded-t-lg">
             @if($user->currentProfile->profile_photo_url ?? false)
             <div style="background-image: url('{{ $user->currentProfile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-16 h-16 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
@@ -131,27 +108,27 @@
     </a>
     @endguest
 
-    {{-- @auth
-        <a>
+    @auth
+    {{-- <a>
+        <div class="px-4 py-3 text-lg font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:cursor-pointer">
+            <i class="fa fa-clipboard-check"></i> &nbsp;Orders
+        </div>
+    </a> --}}
+
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                this.closest('form').submit();">
             <div class="px-4 py-3 text-lg font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:cursor-pointer">
-                <i class="fa fa-clipboard-check"></i> &nbsp;Orders
+                <i class="fa fa-sign-out-alt"></i> &nbsp;Logout
             </div>
         </a>
-
-        <form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                this.closest('form').submit();">
-        <div class="px-4 py-3 text-lg font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:cursor-pointer">
-            <i class="fa fa-sign-out-alt"></i> &nbsp;Logout
-        </div>
-    </a>
     </form>
 
-    <div class="px-4 py-3 text-lg font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:rounded-b-lg md:cursor-pointer">
+    {{-- <div class="px-4 py-3 text-lg font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:rounded-b-lg md:cursor-pointer">
         <span class="font-bold">&#8358;</span> &nbsp;Auction Sales
-    </div>
+    </div> --}}
 
-    @endauth --}}
+    @endauth
 </div>
 </div>

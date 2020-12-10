@@ -60,9 +60,9 @@
                 <!-- Eco-tag -->
                 <div class="">
                     <x-jet-label for="tag" value="{{ __('Tag') }}" />
-                    <div class="grid grid-cols-6 gap-3">
-                        <x-jet-input class="block w-full mt-1 bg-gray-200 col-span-1/2" value="{{ $tag_prefix }}" disabled readonly />
-                        <x-jet-input id="tag" name="tag" type="text" class="block w-full col-span-5 mt-1" wire:model="tag" autocomplete="tag" />
+                    <div class="flex">
+                        <x-jet-input style="width: 2.5rem;" class="block mt-1 mr-2 text-center bg-gray-200" value="{{ $tag_prefix }}" disabled readonly />
+                        <x-jet-input id="tag" name="tag" type="text" class="flex-1 block w-full mt-1" wire:model="tag" autocomplete="tag" />
                     </div>
                     <x-jet-input-error for="tag" class="mt-2" />
                 </div>

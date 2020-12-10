@@ -15,7 +15,7 @@
 
                     <div class="flex items-center">
                         <a class="mr-2" href="{{ route('profile.visit', ['tag' => $post->profile->tag]) }}">
-                            <span class="font-normal text-blue-600 text-sm">{{ $post->profile->full_tag() }}</span>
+                            <span class="text-sm font-normal text-blue-600">{{ $post->profile->full_tag() }}</span>
                         </a>
 
                         <div class="text-sm font-normal text-gray-500">

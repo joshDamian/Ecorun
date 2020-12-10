@@ -3,7 +3,7 @@
         <x-loader />
     </div>
     @if($product)
-    <div class="px-4 pb-4 text-right">
+    <div class="px-4 pb-4 text-right md:px-0">
         <x-jet-button @click="window.location = window.location" class="bg-pink-600">
             {{ __('Add Another') }}
         </x-jet-button>

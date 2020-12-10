@@ -31,15 +31,13 @@
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
-    <div x-on:resize.window="activateDefault()" x-data="nav_data()" x-init="init_nav()" x-cloak>
+    <div x-on:resize.window="expand()" x-data="nav_data()" x-init="init_nav()" x-cloak>
         <!--Nav-->
         <x-navbar />
 
         <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
-            <div x-show="active_item" class="fixed flex-1 flex-grow-0 flex-shrink w-full overflow-auto bg-white md:w-1/4 top-12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
-                <div class="h-full overflow-y-auto">
-                    <x-nav-content />
-                </div>
+            <div x-show.transition="open" :class="(open) ? 'w-full md:w-1/4' : 'w-0'" class="fixed flex-1 flex-grow-0 flex-shrink h-screen overflow-auto bg-white animate__animated animate__slideInLeft top-12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
+                <x-nav-content />
             </div>
 
             <div class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:pl-4 sm:p-2 md:p-0">
@@ -57,15 +55,15 @@
     <script>
         function nav_data() {
             return {
-                active_item: null
+                open: null
                 , init_nav() {
-                    return this.activateDefault()
+                    return this.expand()
                 }
-                , activateDefault() {
+                , expand() {
                     if (window.outerWidth > 640) {
-                        return this.active_item = 'user';
+                        return this.open = true;
                     } else {
-                        return this.active_item = null;
+                        return this.open = null;
                     }
                 }
             }

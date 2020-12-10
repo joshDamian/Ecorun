@@ -40,7 +40,9 @@ class CreateNewProduct extends Component
 
         foreach ($this->photos as $photo) {
             $photo_path = $photo->store('product-photos', 'public');
-            $photo = Image::make(public_path("/storage/{$photo_path}"))->fit(1600, 1600);
+            $photo = Image::make(public_path("/storage/{$photo_path}"))->fit(1600, 1600, function ($constraint) {
+                $constraint->upsize();
+            });
             $photo->save();
 
             $this->product->gallery()->create([
