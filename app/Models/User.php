@@ -22,10 +22,10 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    * The attributes that are mass assignable.
+    *
+    * @var array
+    */
     protected $fillable = [
         'email',
         'password',
@@ -36,10 +36,10 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+    * The attributes that should be hidden for arrays.
+    *
+    * @var array
+    */
     protected $hidden = [
         'password',
         'remember_token',
@@ -48,36 +48,35 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
+    * The attributes that should be cast to native types.
+    *
+    * @var array
+    */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function isManager()
-    {
+    public function isManager() {
         return $this->hasOne(Manager::class);
     }
 
-    public function orders()
-    {
+    public function orders() {
         return $this->hasMany(Order::class);
     }
 
-    public function cart()
-    {
+    public function cart() {
         return $this->hasMany(Cart::class);
     }
 
-    public function view_history()
-    {
+    public function view_history() {
         return $this->hasMany(RecentlyViewed::class);
     }
 
-    protected static function boot()
-    {
+    public function business_profiles() {
+        return ($this->isManager) ? $this->isManager->businesses->pluck('profile') : null;
+    }
+
+    protected static function boot() {
         parent::boot();
 
         static::created(function ($user) {
@@ -93,18 +92,8 @@ class User extends Authenticatable
         });
     }
 
-    public function canAccessProfile(Profile $profile)
-    {
-        if ($profile->isBusiness()) {
-            return $this->teams->pluck('business')->contains($profile->profileable) || ($this->isManager) ? $this->isManager->id === $profile->profileable->manager_id : false;
-        } else {
-            return $this->id === $profile->profileable->id;
-        }
-    }
-
-    public function switchProfile($profile)
-    {
-        if (!$this->canAccessProfile($profile)) {
+    public function switchProfile($profile) {
+        if (!$this->can('access', $profile)) {
             return false;
         }
 
@@ -117,13 +106,11 @@ class User extends Authenticatable
         return true;
     }
 
-    public function currentProfile()
-    {
+    public function currentProfile() {
         return $this->belongsTo(Profile::class, 'current_profile_id');
     }
 
-    public function revokeManager()
-    {
+    public function revokeManager() {
         return $this->isManager->revoke();
     }
 }

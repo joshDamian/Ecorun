@@ -36,14 +36,18 @@
         <x-navbar />
 
         <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
-            <div x-show.transition="open" :class="(open) ? 'w-full md:w-1/4' : 'w-0'" class="fixed flex-1 flex-grow-0 flex-shrink h-screen overflow-auto bg-white animate__animated animate__slideInLeft top-12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
-                <x-nav-content />
+
+            <div x-show.transition="open" :class="(open) ? 'w-full md:w-1/4' : 'w-0'" class="sticky md:fixed flex-1 flex-grow-0 flex-shrink h-screen bg-white animate__animated animate__slideInLeft top-12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
+                <div class="h-screen overflow-y-auto">
+                    <x-nav-content />
+                </div>
             </div>
 
-            <div class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:pl-4 sm:p-2 md:p-0">
+            <div :class="(window.outerWidth < 768 && (open)) ? 'overflow-y-hidden' : ''" class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:pl-4 sm:p-2 md:p-0">
                 <div>
                     @livewire('general.session.session-transport', key('session_transport'))
                 </div>
+
                 <main class="w-full">
                     {{ $slot }}
                 </main>
@@ -55,15 +59,13 @@
     <script>
         function nav_data() {
             return {
-                open: null
-                , init_nav() {
+                open: null,
+                init_nav() {
                     return this.expand()
-                }
-                , expand() {
-                    if (window.outerWidth > 640) {
+                },
+                expand() {
+                    if (window.outerWidth > 768) {
                         return this.open = true;
-                    } else {
-                        return this.open = null;
                     }
                 }
             }

@@ -1,6 +1,6 @@
 <nav class="sticky top-0 w-full text-white bg-blue-800 shadow">
     <div class="flex items-center overflow-x-auto select-none">
-        <div @click=" open = ! open" class="flex-shrink-0 px-2 py-2 text-xl md:px-4 sm:cursor-pointer hover:text-blue-500">
+        <div @click=" open = ! open" class="flex-shrink-0 px-2 py-2 text-xl md:px-4 sm:cursor-pointer">
             <i :class="(open) ? 'fa-times' : 'fa-bars'" class="fas"></i>
         </div>
 
@@ -10,7 +10,7 @@
             </a>
         </div>
 
-        <div class="flex flex-1 md:text-lg @auth justify-between @endauth items-center font-normal">
+        <div class="flex flex-1 md:text-lg @auth justify-between @endauth items-center font-medium">
 
             <div class="flex-shrink-0 px-2 py-2 text-xl md:px-4 sm:cursor-pointer hover:text-blue-500">
                 <i class="text-xl fas fa-shopping-bag"></i> <span class="@auth hidden @endauth sm:inline">Shop</span>
@@ -57,9 +57,9 @@
             @endauth
 
             {{-- <div @click=" active_item = 'blog' " :class="(active_item === 'blog') ? 'text-blue-500' : ''" class="flex-shrink-0 px-2 py-2 text-xl sm:cursor-pointer md:px-4 hover:text-blue-500">
-                    <i class="fas fa-blog"></i> Blog
-                </div>
-                --}}
+                <i class="fas fa-blog"></i> Blog
+            </div>
+            --}}
         </div>
     </div>
 </nav>

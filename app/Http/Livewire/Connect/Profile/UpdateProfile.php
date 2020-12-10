@@ -7,17 +7,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Profile;
 
-class UpdateCurrentProfile extends Component
+class UpdateProfile extends Component
 {
+    public $tag;
+    public $profile;
+
     use AuthorizesRequests;
 
     public function mount($tag) {
-        $this->authorize('update', Profile::where('tag', $tag)->firstOrFail());
+        $this->tag = $tag;
+        $this->profile = Profile::where('tag', $this->tag)->firstOrFail();
+        $this->authorize('access', $this->profile);
     }
 
     public function render() {
-        return view('livewire.connect.profile.update-current-profile', [
-            'currentProfile' => Auth::user()->currentProfile
-        ]);
+        return view('livewire.connect.profile.update-profile');
     }
 }

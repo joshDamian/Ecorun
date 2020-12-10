@@ -50,7 +50,15 @@ class ProfilePolicy
     * @return mixed
     */
     public function update(User $user, Profile $profile) {
-        return ($user->currentProfile->id === $profile->id && $user->canAccessProfile($profile));
+        return ($user->currentProfile->id === $profile->id && $user->can('access', $profile));
+    }
+
+    public function access(User $user, Profile $profile) {
+        if ($profile->isBusiness()) {
+            return $user->teams->pluck('business')->contains($profile->profileable) || ($user->isManager) ? $user->isManager->id === $profile->profileable->manager_id : false;
+        } else {
+            return $user->id === $profile->profileable->id;
+        }
     }
 
     /**

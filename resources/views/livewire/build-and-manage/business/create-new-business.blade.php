@@ -19,9 +19,24 @@
 
             @if($name && !$errors->has('name'))
             <div class="col-span-6 sm:col-span-4">
-                <p class="mb-1 font-bold text-blue-800 text-md">
+                <h3 class="mb-3 p-0 font-bold text-blue-800 text-md">
                     What kind of business is {{ $name }} ?
-                </p>
+                </h3>
+
+                <div class="relative mb-3">
+                    <select wire:model="type" class="block appearance-none w-full bg-blue-800 border border-blue-800 text-white py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-green-900 focus:border-green-900" id="grid-state">
+                        <option value="">Select an option</option>
+                        <option value="store">An Online Store</option>
+                        <option value="service">A Service Provider</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                        </svg>
+                    </div>
+                </div>
+                <x-jet-input-error for="type" class="mt-2" />
+
                 <div x-data="{show: null}" x-init="() => { setTimeout(() => { show = true; }, 200); }">
                     <p x-show="! show" x-on:click="show = true" class="text-green-700 mb-1 cursor-pointer text-md">
                         Help
@@ -45,26 +60,13 @@
                                         Your selection determines how your business is categorized.
                                     </p>
                                 </p>
-                                <p class="mt-2 text-right cursor-pointer text-red-700" x-on:click="show = false">
+                                <p class="mt-2 text-right md:cursor-pointer text-red-700" x-on:click="show = false">
                                     Dismiss
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="relative">
-                    <select wire:model="type" class="block appearance-none w-full bg-blue-800 border border-blue-800 text-white py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-green-900 focus:border-green-900" id="grid-state">
-                        <option value="">Select an option</option>
-                        <option value="store">An Online Store</option>
-                        <option value="service">A Service Provider</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                        </svg>
-                    </div>
-                </div>
-                <x-jet-input-error for="type" class="mt-2" />
             </div>
             @endif
         </x-slot>

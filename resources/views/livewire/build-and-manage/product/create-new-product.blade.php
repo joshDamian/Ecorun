@@ -3,7 +3,13 @@
         <x-loader />
     </div>
     @if($product)
-    <div class="px-4 pb-4 text-right md:px-0">
+    <div class="px-4 pb-4 text-right flex justify-end md:px-0">
+        <a class="mr-3" href="{{ route('business.dashboard', ['tag' => $this->business->profile->tag, 'business' => $this->business->id, 'active_action' => 'products']) }}">
+            <x-jet-button class="bg-blue-700">
+                done
+            </x-jet-button>
+        </a>
+
         <x-jet-button @click="window.location = window.location" class="bg-pink-600">
             {{ __('Add Another') }}
         </x-jet-button>
@@ -29,7 +35,7 @@
                     const files = $refs.photos.files;
                     photosArray = [];
                     for(var i = 0; i < files.length; i++) {
-                        photosArray[i] = {'url': URL.createObjectURL(files[i])}
+                    photosArray[i] = {'url': URL.createObjectURL(files[i])}
                     }
                     console.log(files.length);
                     " />
@@ -40,7 +46,7 @@
                     <div class="mt-2" x-show.transition="photosArray.length > 0">
                         <div class="grid @if(count($photos) < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-3 sm:gap-2 gap-2">
                             <template x-for="photo in photosArray">
-                                <div x-bind:style="'width: 100%; height: 200px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
+                                <div x-bind:style="'width: 100%; height: 130px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
                                 </div>
                             </template>
                         </div>
@@ -181,9 +187,7 @@
 </div>
 @push('scripts')
 <script>
-    document.addEventListener('livewire:load', function() {
-
-    })
+    document.addEventListener('livewire:load', function() {})
 
 </script>
 @endpush

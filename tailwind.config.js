@@ -10,14 +10,20 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Nunito',
+                    ...defaultTheme.fontFamily.sans],
             },
         },
     },
 
     variants: {
-        opacity: ['responsive', 'hover', 'focus', 'disabled'],
+        opacity: ['responsive',
+            'hover',
+            'focus',
+            'disabled'],
     },
+
+    darkMode: 'media',
 
     plugins: [require('@tailwindcss/ui')],
 };

@@ -68,6 +68,11 @@ class ProfileController extends Controller
         //
     }
 
+    public function updateCurrentProfile(Request $request) {
+        $request->user()->switchProfile(Profile::findOrFail($request->input('profile_id')));
+        return back();
+    }
+
     /**
     * Remove the specified resource from storage.
     *

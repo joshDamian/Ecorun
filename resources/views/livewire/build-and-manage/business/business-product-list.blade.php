@@ -1,4 +1,16 @@
 <div>
+    @if(!$active_product)
+    <div class="fixed right-0 top-14">
+        <a href="{{ route('business.dashboard', ['tag' => $business->profile->tag, 'business' => $business->id, 'active_action' => 'add-product' ]) }}">
+            <span class="fa-stack fa-2x">
+                <i class="text-blue-800 fas fa-circle fa-stack-2x"></i>
+                <i class="text-white fa-stack-1x fas fa-plus"></i>
+            </span>
+
+        </a>
+    </div>
+    @endif
+
     <div style="width: 100%;" wire:loading>
         <x-loader />
     </div>
@@ -18,7 +30,7 @@
         @else
         <div x-data x-init="() => { window.scrollTo(0, 0); }" class="@if($products->count() > 0) grid gap-2 sm:gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-6 @endif px-2 sm:px-0">
             @forelse ($products as $product)
-            <div wire:click="switchActiveProduct('{{ $product->id }}')" class="px-3 py-3 bg-white shadow cursor-pointer">
+            <div wire:click="switchActiveProduct('{{ $product->id }}')" class="px-3 py-3 bg-gray-100 cursor-pointer">
                 <div class="flex items-center justify-center">
                     <img src="/storage/{{ $product->displayImage() }}" width="150" height="150" />
                 </div>
@@ -51,8 +63,10 @@
                     <i style="font-size: 8rem;" class="text-blue-700 fas fa-shopping-bag"></i>
                 </div>
 
-                <div class="px-4 py-4 text-lg font-bold text-center text-blue-700">
-                    nothing here, add a product
+                <div class="px-3 py-3 text-lg font-bold text-center text-blue-700">
+                    <span class="mb-3 block">
+                        your product store is empty.
+                    </span>
                 </div>
             </div>
             @endforelse
