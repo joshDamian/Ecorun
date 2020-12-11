@@ -21,7 +21,7 @@
         }
 
         ::-webkit-scrollbar {
-            width: 12px;
+            width: 9px;
         }
 
         /* Track */
@@ -80,11 +80,11 @@
     <script>
         function nav_data() {
             return {
-                open: null
-                , init_nav() {
+                open: null,
+                init_nav() {
                     return this.expand()
-                }
-                , expand() {
+                },
+                expand() {
                     if (window.outerWidth > 768) {
                         return this.open = true;
                     }
