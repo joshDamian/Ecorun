@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Gate;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-    * The policy mappings for the application.
-    *
-    * @var array
-    */
+     * The policy mappings for the application.
+     *
+     * @var array
+     */
     protected $policies = [
         Team::class => TeamPolicy::class,
         Product::class => ProductPolicy::class,
@@ -25,11 +25,12 @@ class AuthServiceProvider extends ServiceProvider
     ];
 
     /**
-    * Register any authentication / authorization services.
-    *
-    * @return void
-    */
-    public function boot() {
+     * Register any authentication / authorization services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
         $this->registerPolicies();
 
         Gate::define('own-businesses', function ($user) {
@@ -37,6 +38,8 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('update-business', function ($user, $business) {
+            $user->switchProfile(Business::findOrFail($business)->profile);
+
             if ($user->isManager === null) {
                 return false;
             } else {
@@ -44,13 +47,15 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
-        Gate::define('manage-business',
+        Gate::define(
+            'manage-business',
             function ($user, Business $business) {
                 return $business->profile !== null;
             }
         );
 
-        Gate::define('reference-businesses',
+        Gate::define(
+            'reference-businesses',
             function ($user) {
                 return $user->isManager->businesses->count() > 0;
             }

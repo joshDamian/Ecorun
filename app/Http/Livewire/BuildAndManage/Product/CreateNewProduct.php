@@ -26,18 +26,28 @@ class CreateNewProduct extends Component
     {
         $this->validate($this->rules());
 
-        $product = $this->business
+        $this->product = $this->business
             ->products()->create([
                 'name' => ucwords(strtolower($this->name)),
-                'description' => $this->description,
+                'description' => $this->description . "some random long text... some more text and more text. 
+                Just some more. some random long text... some more text and more text. 
+                Just some more. some random long text... some more text and more text. 
+                Just some more. some random long text... some more text and more text. 
+                Just some more. some random long text... some more text and more text. 
+                Just some more. some random long text... some more text and more text. 
+                Just some more. some random long text... some more text and more text. 
+                Just some more. some random long text... some more text and more text. 
+                Just some more. some random long text... some more text and more text. 
+                Just some more. some random long text... some more text and more text. 
+                Just some more. some random long text... some more text and more text. Just some more.",
                 'price' => $this->price,
                 'available_stock' => $this->available_stock,
                 'is_published' => true
             ]);
 
-        Category::find($this->product_category)->products()->save($product);
+        Category::find($this->product_category)->products()->save($this->product);
 
-        $this->uploadPhotos('product-photos', $product, 'product_image', array(1600, 1600));
+        $this->uploadPhotos('product-photos', $this->product, 'product_image', array(1600, 1600));
     }
 
     public function rules(): array

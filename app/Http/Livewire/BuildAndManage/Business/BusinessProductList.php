@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\BuildAndManage\Business;
 
+use App\Models\Business;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -11,7 +12,7 @@ class BusinessProductList extends Component
 {
     use WithPagination;
 
-    public $business;
+    public Business $business;
     public $active_product;
 
     protected $listeners = [

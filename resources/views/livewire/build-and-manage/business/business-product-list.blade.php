@@ -74,4 +74,10 @@
         <x-paginator :data="$products" />
     </div>
     @endif
+    @if($active_product)
+    <script>
+        window.modifyUrl("/business/{{ $business->profile->full_tag() }}/{{ $business->id }}/products/{{ $active_product->id }}")
+
+    </script>
+    @endif
 </div>

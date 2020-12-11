@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\BuildAndManage\Business;
 
 use App\Models\Business;
+use Illuminate\Http\Request;
 use Livewire\Component;
 
 class BusinessDashboard extends Component
@@ -20,12 +21,6 @@ class BusinessDashboard extends Component
             'title' => 'products',
             'icon' => 'fas fa-shopping-basket',
             'color' => 'purple-500'
-        ],
-
-        'update' => [
-            'title' => 'update business info',
-            'icon' => 'fas fa-edit',
-            'color' => 'red-500'
         ],
 
         'orders' => [

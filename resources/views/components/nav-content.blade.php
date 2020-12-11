@@ -16,7 +16,7 @@
 
             <div class="grid grid-cols-1 gap-1">
                 <div class="text-left">
-                    <div class="text-md font-semibold text-blue-800">
+                    <div class="font-semibold text-blue-800 text-md">
                         {{ $user->currentProfile->name ?? __('Guest') }}
                     </div>
 
@@ -41,7 +41,7 @@
 
         @auth
 
-        <div class="px-4 py-3 my-1 text-md font-semibold tracking-wider text-left text-blue-700 bg-white">
+        <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white text-md">
             {{ $user->currentProfile->full_tag() }} <i class="text-green-400 fas fa-check-circle"></i>
         </div>
 
@@ -59,26 +59,26 @@
 
         @if($user->currentProfile->isBusiness())
         <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'active_action' => 'products']) }}">
-            <div class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('business.dashboard') && (explode('/', request()->getRequestUri())[4] === 'products')) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-md text-blue-800 md:cursor-pointer">
+            <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-shopping-bag"></i> &nbsp;Products
             </div>
         </a>
 
         <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'active_action' => 'add-product']) }}">
-            <div class="py-3 px-4 tracking-wider border-b-2 text-left  @if(request()->routeIs('business.dashboard') && (explode('/', request()->getRequestUri())[4] === 'add-product')) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-md text-blue-800 md:cursor-pointer">
+            <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-plus-circle"></i> &nbsp;Add product
             </div>
         </a>
 
         <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'active_action' => 'team']) }}">
-            <div class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('business.dashboard') && (explode('/', request()->getRequestUri())[4] === 'team')) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-md text-blue-800 md:cursor-pointer">
+            <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fas fa-users"></i> &nbsp;Team
             </div>
         </a>
 
         @if($user->currentProfile->profileable->isService())
         <a href="{{ route('current-profile.edit', ['tag' => $user->currentProfile->tag, 'user' => $user->profile->data_slug('name')]) }}">
-            <div class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('current-profile.edit')) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-md text-blue-800 md:cursor-pointer">
+            <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fas fa-images"></i> &nbsp;Gallery
             </div>
         </a>
@@ -87,23 +87,23 @@
         @endif
         @endauth
 
-        <div class="px-4 py-3 my-1 text-md font-semibold tracking-wider text-left text-blue-700 bg-white">
+        <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white text-md">
             <i class="fas fa-user"></i> &nbsp;{{ $user->profile->name ?? __('Guest') }}
         </div>
 
-        <div class="px-4 py-3 text-md font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:cursor-pointer">
+        <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
             <i class="fa fa-shopping-cart"></i> &nbsp;Cart
         </div>
 
 
         @guest
         <a href="/login">
-            <div class="px-4 py-3 text-md font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:cursor-pointer">
+            <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
                 <i class="fa fa-sign-in-alt"></i> &nbsp;Login
             </div>
         </a>
         <a href="/register">
-            <div class="px-4 py-3 text-md font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:cursor-pointer">
+            <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
                 <i class="fa fa-registered"></i> &nbsp;Signup
             </div>
         </a>
@@ -111,19 +111,19 @@
 
         @auth
         <a href="{{ route('dashboard', ['active_action' => 'manager-account']) }}">
-            <div class="px-4 py-3 text-md font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:cursor-pointer">
+            <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
                 <i class="fa fa-user-tie"></i> &nbsp;Manager account
             </div>
         </a>
 
         <a>
-            <div class="px-4 py-3 text-md font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:cursor-pointer">
+            <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
                 <i class="fa fa-clipboard-check"></i> &nbsp;Orders
             </div>
         </a>
 
         @if($user->business_profiles())
-        <div class="px-4 py-3 border-b my-1 text-md font-semibold tracking-wider text-left text-blue-700 bg-white">
+        <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white border-b text-md">
             Switch profiles <i class="text-green-400 fas fa-retweet"></i>
         </div>
 
@@ -139,13 +139,13 @@
             @csrf
             <a href="{{ route('logout') }}" onclick="event.preventDefault();
                 this.closest('form').submit();">
-                <div class="px-4 py-3 text-md font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:cursor-pointer">
+                <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
                     <i class="fa fa-sign-out-alt"></i> &nbsp;Logout
                 </div>
             </a>
         </form>
 
-        {{-- <div class="px-4 py-3 text-md font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 md:rounded-b-lg md:cursor-pointer">
+        {{-- <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:rounded-b-lg md:cursor-pointer">
             <span class="font-bold">&#8358;</span> &nbsp;Auction Sales
         </div>
         --}}
