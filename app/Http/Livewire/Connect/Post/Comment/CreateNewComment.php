@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\Connect\Post\Comment;
 
-use App\Http\Livewire\Connect\Traits\CreateNewContent;
+use App\Http\Livewire\Traits\CreateProfileContent;
 use Livewire\Component;
 
 class CreateNewComment extends Component
 {
-    use CreateNewContent;
+    use CreateProfileContent;
 
     public $post;
 

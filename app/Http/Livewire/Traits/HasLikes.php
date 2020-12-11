@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Connect\Traits;
+namespace App\Http\Livewire\Traits;
 
 use App\Models\Like;
 

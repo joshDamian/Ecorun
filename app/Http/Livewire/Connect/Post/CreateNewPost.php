@@ -2,14 +2,15 @@
 
 namespace App\Http\Livewire\Connect\Post;
 
-use App\Http\Livewire\Connect\Traits\CreateNewContent;
+use App\Http\Livewire\Traits\CreateProfileContent;
 use Livewire\Component;
 
 class CreateNewPost extends Component
 {
-    use CreateNewContent;
+    use CreateProfileContent;
 
     public $view;
+    public $visibility = "public";
 
     public function create()
     {
@@ -17,7 +18,7 @@ class CreateNewPost extends Component
 
         $post = $this->profile->posts()->create([
             'content' => trim($this->content) ?? '',
-            'visibility' => 'public'
+            'visibility' => $this->visibility
         ]);
 
         $this->uploadPhotos('post-photos', $post, 'post_photo', array(1400, 1400));

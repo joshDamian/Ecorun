@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Connect\Post;
 
-use App\Http\Livewire\Connect\Traits\HasComments;
-use App\Http\Livewire\Connect\Traits\HasLikes;
+use App\Http\Livewire\Traits\HasFeedback;
+use App\Http\Livewire\Traits\HasLikes;
 use Livewire\Component;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class PostFeedback extends Component
 {
     use HasLikes;
-    use HasComments;
+    use HasFeedback;
 
     public $postId;
     public $view;
@@ -20,7 +20,7 @@ class PostFeedback extends Component
     {
         $this->profile = Auth::user()->currentProfile;
         $this->likeable = $this->post;
-        $this->commentsReady = ($this->view === 'post.show') ? true : null;
+        $this->feedbackReady = ($this->view === 'post.show') ? true : null;
     }
 
     public function getPostProperty()
