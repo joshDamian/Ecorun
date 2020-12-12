@@ -66,20 +66,6 @@
                         <h3 class="px-3 pb-3 text-lg font-medium text-gray-600 sm:px-0 sm:pb-4 sm:py-0">
                             Ecorun naturally blends social interaction with doing business.
                         </h3>
-
-                        <div class="flex flex-wrap px-3 mb-4 sm:px-0">
-                            <a class="mr-4 sm:mr-6" href="/login">
-                                <x-jet-button class="bg-blue-600">
-                                    Login
-                                </x-jet-button>
-                            </a>
-
-                            <a href="/register">
-                                <x-jet-button class="bg-blue-800">
-                                    Signup
-                                </x-jet-button>
-                            </a>
-                        </div>
                     </div>
 
                     <div class="flex items-center justify-center p-3 md:bg-white md:rounded-lg md:shadow md:p-6">
