@@ -13,7 +13,8 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ secure_asset('css/webfonts.css') }}">
+    <link rel="stylesheet" href="/css/webfonts.css">
+
     <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
     <style>
         [x-cloak] {
