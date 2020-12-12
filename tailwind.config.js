@@ -21,6 +21,9 @@ module.exports = {
             'hover',
             'focus',
             'disabled'],
+        extend: {
+            backgroundColor: ['active']
+        }
     },
 
     darkMode: 'media',
