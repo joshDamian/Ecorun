@@ -1,7 +1,7 @@
 @props(['photos', 'type'])
 <div>
     <form wire:submit.prevent="create">
-        <div x-data>
+        <div x-data x-init="() => { $refs.content.focus() }">
             <div>
                 <div class="flex justify-center text-blue-600" style="width: 100%;" wire:loading>
                     <x-loader />
@@ -15,7 +15,7 @@
                     </div>
                     @enderror
                 </div>
-                <textarea autofocus rows="3" wire:model.defer="content" placeholder="say something" class="w-full rounded-md form-textarea"></textarea>
+                <textarea x-ref="content" autofocus rows="3" wire:model.defer="content" placeholder="say something" class="w-full rounded-md form-textarea"></textarea>
 
                 <div class="mt-3">
                     <input class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple>
