@@ -14,7 +14,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/webfonts.css') }}">
-    <link href="https://afeld.github.io/emoji-css/emo7ji.css" rel="stylesheet">
+    {{--  <link href="https://afeld.github.io/emoji-css/emo7ji.css" rel="stylesheet">
     <style>
         [x-cloak] {
             display: none;
@@ -28,16 +28,17 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
+    --}}
 </head>
 
 <body class="font-sans leading-normal tracking-normal">
-    <div x-data="{ visible: null }" x-cloak>
+    <div>
         <nav class="sticky top-0 bg-white border-b-4 border-blue-800">
             <div>
                 <ul class="flex px-3 py-2">
                     <li class="flex-1 text-xl font-bold text-blue-800">Logo</li>
                     <li class="text-right">
-                        <div x-show.transition="visible" class="flex flex-wrap">
+                        <div class="flex flex-wrap">
                             <a class="mr-4" href="/login">
                                 <x-jet-button class="bg-blue-600">
                                     Login
@@ -84,7 +85,7 @@
 
                     <div class="flex items-center justify-center p-3 md:bg-white md:rounded-lg md:shadow md:p-6">
                         <div class="flex uppercase">
-                            
+
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,8 @@
 <nav class="sticky top-0 w-full text-white bg-blue-800 shadow">
     <div class="flex items-center overflow-x-auto select-none">
-        <div @click=" open = ! open" class="flex-shrink-0 px-2 py-2 text-xl md:px-4 sm:cursor-pointer">
+        <div @click=" open = ! open" class="flex-shrink-0 flex items-center px-2 py-2 text-xl md:px-4 sm:cursor-pointer">
             <i :class="(open) ? 'fa-times' : 'fa-bars'" class="fas"></i>
+            <span class="font-semibold ml-2">menu</span>
         </div>
 
         <div class="text-gray-200 @guest flex-1 @endguest w-1/4 text-xl px-2 py-2 font-extrabold">

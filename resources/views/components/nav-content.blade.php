@@ -122,6 +122,16 @@
             </div>
         </a>
 
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                this.closest('form').submit();">
+                <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
+                    <i class="fa fa-sign-out-alt"></i> &nbsp;Logout
+                </div>
+            </a>
+        </form>
+
         @if($user->business_profiles())
         <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white border-b text-md">
             Switch profiles <i class="text-green-400 fas fa-retweet"></i>
@@ -134,16 +144,6 @@
             @endforeach
         </div>
         @endif
-
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                this.closest('form').submit();">
-                <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
-                    <i class="fa fa-sign-out-alt"></i> &nbsp;Logout
-                </div>
-            </a>
-        </form>
 
         {{-- <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:rounded-b-lg md:cursor-pointer">
             <span class="font-bold">&#8358;</span> &nbsp;Auction Sales

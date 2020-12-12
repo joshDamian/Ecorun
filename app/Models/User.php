@@ -32,7 +32,7 @@ class User extends Authenticatable
     ];
 
     protected $with = [
-        //'following'
+        'profile'
     ];
 
     /**

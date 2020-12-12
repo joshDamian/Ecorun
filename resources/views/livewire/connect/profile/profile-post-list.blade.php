@@ -1,7 +1,22 @@
-<div wire:init="loadPosts" wire:poll.1000ms>
+<div wire:init="loadPosts" wire:poll.5000ms>
+
     <div wire:loading wire:target="loadPosts" class="w-full">
         <x-loader />
     </div>
+
+    <div wire:loading wire:target="refreshPosts" class="w-full">
+        <x-loader />
+    </div>
+
+    @if($this->hasNewItem())
+    <div class="flex justify-center items-center pb-2">
+        <x-jet-button wire:click="refreshPosts" class="rounded-full bg-blue-600">
+            <span class="lowercase">
+                more posts
+            </span>
+        </x-jet-button>
+    </div>
+    @endif
 
     <div class="grid grid-cols-1 gap-3 md:gap-4">
         @foreach($posts as $post)

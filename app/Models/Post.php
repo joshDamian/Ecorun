@@ -12,7 +12,8 @@ class Post extends Model
     protected $with = [
         'likes',
         'comments',
-        'gallery'
+        'gallery',
+        //'profile'
     ];
 
     protected $fillable = [
@@ -20,23 +21,19 @@ class Post extends Model
         'visibility'
     ];
 
-    public function comments()
-    {
+    public function comments() {
         return $this->morphMany('App\Models\Feedback', 'feedbackable')->latest();
     }
 
-    public function gallery()
-    {
+    public function gallery() {
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 
-    public function likes()
-    {
+    public function likes() {
         return $this->morphMany('App\Models\Like', 'likeable');
     }
 
-    public function profile()
-    {
+    public function profile() {
         return $this->belongsTo(Profile::class);
     }
 }

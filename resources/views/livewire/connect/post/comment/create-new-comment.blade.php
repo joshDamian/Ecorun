@@ -8,7 +8,7 @@
                     @if($ready)
                     <x-connect.content.create-new-content :photos="$photos" type="comment" />
                     @else
-                    <input wire:focus="ready" placeholder="add a comment" class="w-full px-3 py-2 bg-white rounded-full form-input">
+                    <input wire:focus="ready" placeholder="add a comment" wire:model="content" class="w-full px-3 py-2 bg-white rounded-full form-input">
                     @endif
                 </div>
             </div>

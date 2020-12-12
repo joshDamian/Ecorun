@@ -15,47 +15,40 @@ class Business extends Model
 
     protected $with = [
         'products',
+        'profile'
     ];
 
     use HasFactory;
 
-    public function manager()
-    {
+    public function manager() {
         return $this->belongsTo(Manager::class);
     }
 
-    public function businessable()
-    {
+    public function businessable() {
         return $this->morphTo();
     }
 
-    public function isStore()
-    {
+    public function isStore() {
         return $this->businessable instanceof Store;
     }
 
-    public function isService()
-    {
+    public function isService() {
         return $this->businessable instanceof Service;
     }
 
-    public function products()
-    {
+    public function products() {
         return $this->hasMany(Product::class);
     }
 
-    public function gallery()
-    {
+    public function gallery() {
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 
-    public function team()
-    {
+    public function team() {
         return $this->hasOne(Team::class);
     }
 
-    public function locations()
-    {
+    public function locations() {
         return $this->morphMany('App\Models\Location', 'locateable');
     }
 }

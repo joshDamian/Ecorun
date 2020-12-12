@@ -21,7 +21,7 @@
         }
 
         ::-webkit-scrollbar {
-            width: 9px;
+            width: 8px;
         }
 
         /* Track */
@@ -64,7 +64,7 @@
                 <x-nav-content />
             </div>
 
-            <div class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:pl-6 sm:p-2 md:p-0">
+            <div :class="(open && (window.outerWidth < 768)) ? 'hidden' : ''" class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:pl-6 sm:p-2 md:p-0">
                 <div>
                     @livewire('general.session.session-transport', key('session_transport'))
                 </div>

@@ -22,7 +22,7 @@ class Profile extends Model
     public const TAG_PREFIX = '@';
 
     protected $with = [
-        //'followers'
+        'posts'
     ];
 
     /**
