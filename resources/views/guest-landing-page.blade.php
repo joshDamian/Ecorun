@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
-    <link rel="stylesheet" href="css/webfonts.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/webfonts.css">
 
     {{--  <link href="https://afeld.github.io/emoji-css/emo7ji.css" rel="stylesheet">
     <style>
@@ -36,7 +36,7 @@
         <nav class="sticky top-0 bg-white border-b-4 border-blue-800">
             <div>
                 <ul class="flex px-3 py-2">
-                    <li class="flex-1 text-xl font-bold text-blue-800">Logo</li>
+                    <li class="flex-1 text-xl font-bold text-blue-800">{{ config('app.name') }}</li>
                     <li class="text-right">
                         <div class="flex flex-wrap">
                             <a class="mr-4" href="/login">
@@ -68,21 +68,15 @@
                             Ecorun naturally blends social interaction with doing business.
                         </h3>
                     </div>
-
-                    <div class="flex items-center justify-center p-3 md:bg-white md:rounded-lg md:shadow md:p-6">
-                        <div class="flex uppercase">
-
-                        </div>
-                    </div>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 gap-3 bg-gray-100 sm:grid-cols-2 md:grid-cols-3 sm:p-3 sm:gap-3 md:gap-9 md:p-9">
-                <div class="bg-white sm:bg-transparent">
-                    <div class="flex justify-center p-2">
+                <div class="bg-white sticky top-14 sm:bg-transparent">
+                    <div class="flex items-center justify-center p-2">
                         <span class="fa-stack fa-3x">
-                            <i class="text-blue-800 fas fa-circle fa-stack-2x"></i>
-                            <i class="text-white fa-stack-1x fas fa-user-friends"></i>
+                            <i class="text-blue-800 far fa-circle fa-stack-2x"></i>
+                            <i class="text-blue-800 fa-stack-1x fas fa-user-friends"></i>
                         </span>
                     </div>
 
@@ -128,11 +122,11 @@
                     </div>
                 </div>
 
-                <div class="bg-white sm:bg-transparent">
+                <div class="bg-white sticky top-14 sm:bg-transparent">
                     <div class="flex justify-center p-2">
                         <span class="fa-stack fa-3x">
-                            <i class="text-blue-600 fas fa-circle fa-stack-2x"></i>
-                            <i class="text-white fas fa-shopping-cart fa-stack-1x"></i>
+                            <i class="text-blue-600 far fa-circle fa-stack-2x"></i>
+                            <i class="text-blue-600 fas fa-shopping-cart fa-stack-1x"></i>
                             {{-- <span class="font-semibold text-white fa-stack-1x">&#8358;</span> --}}
                         </span>
                     </div>
@@ -173,11 +167,11 @@
                     </div>
                 </div>
 
-                <div class="bg-white sm:bg-transparent">
+                <div class="bg-white sticky top-14 sm:bg-transparent">
                     <div class="flex justify-center p-2">
                         <span class="fa-stack fa-3x">
-                            <i class="text-blue-800 fas fa-circle fa-stack-2x"></i>
-                            <i class="text-white fa-stack-1x fas fa-store-alt"></i>
+                            <i class="text-blue-800 far fa-circle fa-stack-2x"></i>
+                            <i class="text-blue-800 fa-stack-1x fas fa-store-alt"></i>
                         </span>
                     </div>
 
