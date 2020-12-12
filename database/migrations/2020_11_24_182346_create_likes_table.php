@@ -16,7 +16,6 @@ class CreateLikesTable extends Migration
             $table->id();
 
             $table->foreignIdFor(\App\Models\Profile::class)
-            ->index('profile_id')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 
