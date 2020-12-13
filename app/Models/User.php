@@ -80,10 +80,10 @@ class User extends Authenticatable
         parent::boot();
 
         static::created(function ($user) {
-            $name = explode("@", $user->email)[0] . '_' . $user->id;
+            $name = explode("@", $user->email)[0];
             $user->profile()->create([
                 'name' => $name,
-                'tag' => "{$name}",
+                'tag' => (is_object(Profile::where('tag', $name . "_" . $user->id)->get()->first())) ? null : $name . "_" . $user->id,
                 'description' => "I'm a newbie and i hope to make new friends soon.",
             ]);
             $user->profile->following()->save($user->profile);

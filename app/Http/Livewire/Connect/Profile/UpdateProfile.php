@@ -16,7 +16,7 @@ class UpdateProfile extends Component
 
     public function mount($tag) {
         $this->tag = $tag;
-        $this->profile = Profile::where('tag', $this->tag)->firstOrFail();
+        $this->profile = Profile::where('tag', $this->tag)->orWhere('initial_tag', $tag)->firstOrFail();
         $this->authorize('access', $this->profile);
     }
 

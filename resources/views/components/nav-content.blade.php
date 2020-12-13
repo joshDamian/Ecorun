@@ -14,14 +14,14 @@
             </div>
             @endif
 
-            <div class="grid grid-cols-1 gap-1">
+            <div class="grid flex-1 grid-cols-1 gap-1">
                 <div class="text-left">
                     <div class="font-semibold text-blue-800 text-md">
                         {{ $user->currentProfile->name ?? __('Guest') }}
                     </div>
 
                     @auth
-                    <div class="font-hairline text-gray-600">
+                    <div class="font-hairline truncate text-gray-600">
                         {{ $user->currentProfile->full_tag() }}
                     </div>
                     @endauth

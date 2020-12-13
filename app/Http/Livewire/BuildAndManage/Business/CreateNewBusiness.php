@@ -7,6 +7,7 @@ use App\Models\Store;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Business;
+use App\Models\Profile;
 use Illuminate\Validation\Rule;
 use App\Traits\StringManipulations;
 
@@ -19,15 +20,7 @@ class CreateNewBusiness extends Component
 
     public function create() {
         $this->name = trim($this->name);
-        $this->validate([
-            'name' => [
-                Rule::unique('profiles', 'name')->where(function ($query) {
-                    return $query->where('profileable_type', 'App\Models\Business');
-                }),
-                'min:4', 'max:255'
-            ],
-            'type' => 'required'
-        ]);
+        $this->validate($this->rules());
 
         $this->name = ucwords($this->name);
 
@@ -51,19 +44,13 @@ class CreateNewBusiness extends Component
     protected function create_profile(Business $business) {
         $name_slug = $this->data_slug('name');
 
-        if ($business->isStore()) {
-            $business->profile()->create([
-                'name' => $this->name,
-                'tag' => "{$name_slug}_b",
-                'description' => "{$this->name} sells quality products, we look forward to satisfying your purchase needs."
-            ]);
-        } elseif ($business->isService()) {
-            $business->profile()->create([
-                'name' => $this->name,
-                'tag' => "{strtolower($name_slug)}_b",
-                'description' => "{$this->name} offers quality services, we look forward to making you happy."
-            ]);
-        }
+        $business->profile()->create([
+            'name' => $this->name,
+            'tag' => (is_object(Profile::where('tag', $name_slug)->get()->first())) ? null : $name_slug,
+            'description' => ($business->isStore()) ?
+            "{$this->name} sells quality products, we look forward to satisfying your purchase needs." :
+            "{$this->name} offers quality services, we look forward to making you happy."
+        ]);
 
         $business->profile->following()->save($business->profile);
     }
@@ -71,6 +58,20 @@ class CreateNewBusiness extends Component
     public function slugData() {
         return [
             'name' => $this->name,
+        ];
+    }
+
+    public function rules(): array {
+        return  [
+            'name' => [
+                Rule::unique('profiles', 'name')->where(function ($query) {
+                    return $query->where('profileable_type', 'App\Models\Business');
+                }),
+                'min:4',
+                'max:255'
+            ],
+
+            'type' => 'required'
         ];
     }
 
@@ -99,16 +100,7 @@ class CreateNewBusiness extends Component
     public function updated($propertyName) {
         $this->validateOnly(
             $propertyName,
-            [
-                'name' => [
-                    Rule::unique('profiles', 'name')->where(function ($query) {
-                        return $query->where('profileable_type', 'App\Models\Business');
-                    }),
-                    'min:4', 'max:255'
-                ],
-
-                'type' => 'required'
-            ]
+            $this->rules()
         );
     }
 

@@ -6,6 +6,7 @@ use App\Traits\StringManipulations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Jetstream\HasProfilePhoto;
+use Illuminate\Support\Str;
 
 class Profile extends Model
 {
@@ -38,6 +39,16 @@ class Profile extends Model
         return $this->belongsToMany(Profile::class, 'profile_follower', 'profile_id', 'follower_id');
     }
 
+    /**
+    * Get the profile's tag.
+    *
+    * @param  string  $value
+    * @return string
+    */
+    public function getTagAttribute($value) {
+        return $value ?? $this->initial_tag;
+    }
+
     public function following() {
         return $this->belongsToMany(Profile::class, 'profile_follower', 'follower_id', 'profile_id');
     }
@@ -46,6 +57,14 @@ class Profile extends Model
         return [
             'name' => $this->name,
         ];
+    }
+
+    protected static function boot() {
+        parent::boot();
+
+        static::creating(function ($profile) {
+            $profile->initial_tag = (string) Str::uuid();
+        });
     }
 
     public function profileable() {
