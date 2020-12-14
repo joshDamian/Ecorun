@@ -1,7 +1,7 @@
 <div>
-    <div class="pt-3 pb-4 mx-auto max-w-7xl md:pt-0">
+    <div class="pt-4 pb-4 mx-auto max-w-7xl md:pt-0">
         <div class="grid grid-cols-1 sm:gap-4 sm:grid-cols-6">
-            <div class="mx-4 mb-3 sm:col-span-2 sm:mb-0 sm:mx-0">
+            <div class="mx-4 mb-4 sm:col-span-2 sm:mb-0 sm:mx-0">
                 <h3 class="text-lg font-medium text-gray-900">
                     Profile Information
                 </h3>

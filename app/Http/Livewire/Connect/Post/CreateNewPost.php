@@ -20,12 +20,15 @@ class CreateNewPost extends Component
             'visibility' => $this->visibility
         ]);
 
+        $this->uploadPhotos('post-photos', $post, 'post_photo', array(1400, 1400));
+
+        $this->emit('addedContent');
+
         $this->emit('newPost');
 
-        $this->uploadPhotos('post-photos', $post, 'post_photo', array(1400, 1400));
-        return $this->done();
+        $this->done();
+        return;
     }
-
     public function render() {
         return view('livewire.connect.post.create-new-post');
     }

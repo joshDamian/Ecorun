@@ -42,8 +42,7 @@ class ProfileController extends Controller
     * @param  \App\Models\Profile  $profile
     * @return \Illuminate\Http\Response
     */
-    public function show($tag, $active_view = null) {
-        $profile = Profile::where('tag', $tag)->orWhere('initial_tag', $tag)->firstOrFail();
+    public function show(Profile $profile, $active_view = null) {
         return view('profile-dashboard.show', compact('profile', 'active_view'));
     }
 

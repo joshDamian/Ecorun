@@ -48,7 +48,7 @@ class EditProfile extends Component
 
         $this->emitSelf('saved');
 
-        return redirect(route('profile.edit', ['user' => User::find($request->user()->id)->profile->data_slug('name'), 'tag' => $this->profile->tag]));
+        return redirect(route('profile.edit', ['user' => User::find($request->user()->id)->profile->data_slug('name'), 'profile' => $this->profile->tag]));
     }
 
     public function deleteProfilePhoto() {
@@ -63,24 +63,18 @@ class EditProfile extends Component
                 'required',
                 'min:4',
                 'max:255',
-                ($this->profile->isBusiness() && strtolower($this->profile->name) !== strtolower($this->name)) ?
+
                 Rule::unique('profiles', 'name')->where(function ($query) {
                     return $query->where('profileable_type', 'App\Models\Business');
-                })
-                : '',
+                })->ignore($this->profile)
             ],
 
-            'tag' => (strtolower($this->profile->tag) !== strtolower($this->tag)) ? [
+            'tag' => [
                 'required',
                 'min:4',
-                'max:15',
-                'unique:profiles,tag',
-                'alpha_dash'
-            ] :
-            [
-                'required',
-                'min:4',
-                'alpha_dash'
+                'max:16',
+                Rule::unique('profiles')->ignore($this->profile),
+                'alpha_dash',
             ],
 
             'description' => [
@@ -98,6 +92,12 @@ class EditProfile extends Component
 
     public function getProfileProperty() {
         return Profile::find($this->profileId);
+    }
+
+    public function messages () {
+        return [
+            'name.unique' => 'That\'s a registered business name.'
+        ];
     }
 
     public function updated($propertyName) {

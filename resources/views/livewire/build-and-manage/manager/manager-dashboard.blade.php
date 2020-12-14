@@ -1,11 +1,11 @@
 <div>
     <div>
         @can('own-businesses')
-        <div wire:key="manager_dashboard" x-data="{ show_create: null, show_list: null }" x-init="() => { show_list = true }" class="py-4 md:py-2 md:pb-4">
+        <div wire:key="manager_dashboard" x-data="{ show_create: null, show_list: null }" x-init="() => { show_list = true; Livewire.on('newBusiness', () => { show_create = false; show_list = true; }) }" class="py-6 md:py-2 md:pb-4">
             <!-- switcher -->
-            <div class="flex mx-2 mb-6 sm:mx-4">
+            <div class="flex mx-3 mb-6 sm:mx-4">
                 <div class="mr-4">
-                    <span :class="show_list ? 'bg-green-600 text-white' : 'bg-white'" class="px-2 py-2 rounded-md shadow-md md:cursor-pointer" @click=" show_create = false; show_list = true; ">
+                    <span :class="show_list ? 'bg-blue-700 text-white' : 'bg-white'" class="px-2 py-3 select-none rounded-md shadow-md md:cursor-pointer" @click=" show_create = false; show_list = true; ">
                         <span>
                             @if(Auth::user()->isManager->businesses->count() > 2)
                             {{ __('My Businesses') }}
@@ -17,21 +17,21 @@
                 </div>
 
                 <div>
-                    <span @click=" show_list = false; show_create = true; " :class="show_create ? 'bg-green-600 text-white' : 'bg-white'" class="px-2 py-2 rounded-md shadow-md md:cursor-pointer">
+                    <span @click=" show_list = false; show_create = true; " :class="show_create ? 'bg-blue-700 text-white' : 'bg-white'" class="px-2 py-3 rounded-md select-none shadow-md md:cursor-pointer">
                         {{ __('Create a New Business') }}
                     </span>
                 </div>
             </div>
             <div class="mb-4">
                 <div x-show="show_list">
-                    <div class="px-2 sm:px-4">
+                    <div class="px-3 sm:px-4 pt-2">
                         @livewire('build-and-manage.manager.manager-business-list')
                     </div>
                 </div>
             </div>
 
             <div x-show="show_create">
-                <div class="sm:px-4">
+                <div class="sm:px-4 pt-2">
                     @livewire('build-and-manage.business.create-new-business', key(time()))
                 </div>
             </div>

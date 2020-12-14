@@ -1,4 +1,13 @@
 <div>
+    <div class="text-white sticky top-0 md:hidden p-2 bg-blue-800 text-left">
+        <div class="flex items-center justify-between">
+            <i @click="open = false" class="fas text-2xl fa-times mr-3"></i>
+            <div class="text-center text-lg font-bold flex-1">
+                Menu
+            </div>
+        </div>
+    </div>
+
     <div class="font-light">
         <div class="flex flex-wrap items-center px-4 py-3 bg-white border-b border-gray-200 shadow md:rounded-t-lg">
             @if($user->currentProfile->profile_photo_url ?? false)
@@ -45,14 +54,14 @@
             {{ $user->currentProfile->full_tag() }} <i class="text-green-400 fas fa-check-circle"></i>
         </div>
 
-        <a href="{{ route('profile.visit', ['tag' => $user->currentProfile->tag]) }}">
+        <a href="{{ route('profile.visit', ['profile' => $user->currentProfile->tag]) }}">
             <div class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('profile.visit') && (explode('/', request()->getRequestUri())[1] === $user->currentProfile->full_tag())) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-md text-blue-800 md:cursor-pointer">
                 <i class="fa fa-eye"></i> &nbsp;Visit
             </div>
         </a>
 
-        <a href="{{ route('profile.edit', ['tag' => $user->currentProfile->tag, 'user' => $user->profile->data_slug('name')]) }}">
-            <div class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('current-profile.edit')) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-md text-blue-800 md:cursor-pointer">
+        <a href="{{ route('profile.edit', ['profile' => $user->currentProfile->tag, 'user' => $user->profile->data_slug('name')]) }}">
+            <div class="py-3 px-4 tracking-wider border-b-2 textext-left border-gray-200 hover:border-blue-700 bg-gray-100 font-medium text-md text-blue-800 md:cursor-pointer">
                 <i class="fa fa-edit"></i> &nbsp;Edit
             </div>
         </a>

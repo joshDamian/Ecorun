@@ -1,7 +1,7 @@
 <div class="pt-3 bg-white shadow md:rounded-lg">
     <form wire:submit.prevent="update">
         <div class="grid grid-cols-9">
-            <div class="grid grid-cols-1 col-span-9 gap-3 px-4 sm:col-span-7 md:gap-4 md:px-6">
+            <div class="grid grid-cols-1 col-span-9 gap-6 px-4 sm:col-span-7 md:gap-4 md:px-6">
                 <!-- Profile Photo -->
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                 <div x-data="{photoName: null, photoPreview: null}" class="">

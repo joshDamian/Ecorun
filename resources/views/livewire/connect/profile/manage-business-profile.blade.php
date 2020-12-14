@@ -1,7 +1,7 @@
 <div>
     <div class="py-4 sm:py-0">
         <div class="grid grid-cols-1 sm:gap-4 sm:grid-cols-6">
-            <div class="mx-4 mb-2 sm:col-span-2 md:mx-0 sm:mb-0">
+            <div class="mx-4 mb-4 sm:col-span-2 md:mx-0 sm:mb-0">
                 <h3 class="text-lg font-medium text-gray-900">
                     {{ __('Update ') . $business->profile->name }}
                 </h3>

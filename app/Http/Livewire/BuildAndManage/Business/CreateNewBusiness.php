@@ -64,11 +64,12 @@ class CreateNewBusiness extends Component
     public function rules(): array {
         return  [
             'name' => [
+                'required',
                 Rule::unique('profiles', 'name')->where(function ($query) {
                     return $query->where('profileable_type', 'App\Models\Business');
                 }),
                 'min:4',
-                'max:255'
+                'max:255',
             ],
 
             'type' => 'required'

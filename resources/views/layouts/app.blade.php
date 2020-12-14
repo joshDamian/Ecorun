@@ -51,7 +51,12 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
-    <script src="{{ secure_asset('js/app.js') }}" defer></script>
+    <script src="/js/app.js" defer></script>
+
+    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    <script>
+        eruda.init();
+    </script>
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
@@ -61,11 +66,13 @@
 
         <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
 
-            <div x-show="open" :class="(open) ? 'w-full md:w-1/4' : 'w-0'" class="sticky flex-1 flex-grow-0 flex-shrink h-screen pb-20 overflow-y-auto bg-white md:fixed animate__animated animate__slideInLeft top-12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
-                <x-nav-content />
+            <div x-show="open" :class="(open) ? 'w-full md:w-1/4' : 'w-0'" class="flex-1 flex-grow-0 flex-shrink h-screen pb-20 fixed overflow-y-auto bg-white animate__animated animate__slideInLeft top-0 md:top-16 md:bg-transparent md:pr-3 md:left-5">
+                <div class="pb-10 md:pb-20">
+                    <x-nav-content />
+                </div>
             </div>
 
-            <div :class="(open && (window.outerWidth < 768)) ? 'hidden' : ''" class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:pl-6 sm:p-2 md:p-0">
+            <div :class="(open) ? 'hidden md:block' : ''" class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:pl-6 sm:p-2 md:p-0">
                 <div>
                     @livewire('general.session.session-transport', key('session_transport'))
                 </div>

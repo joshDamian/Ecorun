@@ -1,21 +1,21 @@
 @props(['post', 'image_count' => $post->gallery->count(), 'like_count' => $post->likes->count(), 'profile' => $post->profile ])
 <div>
-    <div class="bg-white sm:shadow">
+    <div class="bg-gray-100 sm:shadow">
         <div class="flex justify-between px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
-            <div class="flex items-center">
-                <a class="mr-3" href="{{ route('profile.visit', ['tag' => $profile->tag]) }}">
+            <div class="flex flex-1 items-center">
+                <a class="mr-3" href="{{ route('profile.visit', ['profile' => $profile->tag]) }}">
                     <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-12 h-12 border-t-2 border-b-2 border-blue-700 rounded-full">
                     </div>
                 </a>
 
                 <div>
-                    <a href="{{ route('profile.visit', ['tag' => $profile->tag]) }}">
+                    <a href="{{ route('profile.visit', ['profile' => $profile->tag]) }}">
                         <span class="font-medium text-blue-700 text-md">{{ $profile->name }}</span>
                     </a>
 
                     <div class="flex items-center">
-                        <a class="mr-2" href="{{ route('profile.visit', ['tag' => $profile->tag]) }}">
-                            <span class="text-sm font-normal text-blue-600">{{ $profile->full_tag() }}</span>
+                        <a class="mr-2 flex-1 truncate" href="{{ route('profile.visit', ['profile' => $profile->tag]) }}">
+                            <span class="text-sm font-normal truncate text-blue-600">{{ $profile->full_tag() }}</span>
                         </a>
 
                         <div class="text-sm font-normal text-gray-500">
@@ -24,12 +24,6 @@
                     </div>
                 </div>
             </div>
-
-            @auth
-            <div>
-                <i wire:click="triggerOptions({{$post->id}})" class="text-blue-700 cursor-pointer fas fa-chevron-down"></i>
-            </div>
-            @endauth
         </div>
 
         @if($post->content)

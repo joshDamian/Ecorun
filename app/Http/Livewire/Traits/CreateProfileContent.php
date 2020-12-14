@@ -11,19 +11,12 @@ trait CreateProfileContent
     public $profile;
     public $photos = [];
     public $content;
-    public $ready;
 
-    public function done()
-    {
-        $this->ready = null;
+    public function done() {
         $this->photos = [];
         $this->content = null;
-        return $this->resetErrorBag();
-    }
-
-    public function ready(): void
-    {
-        $this->ready = true;
+        $this->resetErrorBag();
+        return;
     }
 
     public function updatedPhotos(): void
@@ -35,13 +28,12 @@ trait CreateProfileContent
 
     abstract public function create();
 
-    public function defaultContentValidation()
-    {
+    public function defaultContentValidation() {
         return
-            $this->validate([
-                'content' => Rule::requiredIf(count($this->photos) === 0),
-                'photos' => Rule::requiredIf(empty(trim($this->content))),
-                'photos.*' => ['image', 'max:5120']
-            ]);
+        $this->validate([
+            'content' => Rule::requiredIf(count($this->photos) === 0),
+            'photos' => Rule::requiredIf(empty(trim($this->content))),
+            'photos.*' => ['image', 'max:5120']
+        ]);
     }
 }

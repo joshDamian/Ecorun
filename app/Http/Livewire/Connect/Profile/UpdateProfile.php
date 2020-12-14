@@ -9,14 +9,11 @@ use App\Models\Profile;
 
 class UpdateProfile extends Component
 {
-    public $tag;
     public $profile;
 
     use AuthorizesRequests;
 
-    public function mount($tag) {
-        $this->tag = $tag;
-        $this->profile = Profile::where('tag', $this->tag)->orWhere('initial_tag', $tag)->firstOrFail();
+    public function mount(Profile $profile) {
         $this->authorize('access', $this->profile);
     }
 

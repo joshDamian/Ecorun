@@ -19,7 +19,7 @@ class CreateProfilesTable extends Migration
             $table->string('name')->nullable();
             $table->string('tag')->unique()->nullable();
 
-            $table->uuid('initial_tag');
+            $table->uuid('auto_tag');
 
             $table->text('profile_photo_path')->nullable();
             $table->text('description')->nullable();
