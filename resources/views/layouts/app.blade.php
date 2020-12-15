@@ -9,13 +9,12 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="/css/webfonts.css">
+    <link rel="preload" href="/css/app.css" defer>
+    <link rel="preload" href="/css/webfonts.css" defer>
 
-    <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
     <style>
         [x-cloak] {
             display: none;
@@ -53,10 +52,12 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
     <script src="/js/app.js" defer></script>
 
-    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    @env('local')
+    <script src="//cdn.jsdelivr.net/npm/eruda" defer></script>
     <script>
         eruda.init();
     </script>
+    @endenv
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
