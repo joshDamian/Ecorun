@@ -9,11 +9,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" defer>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="/css/webfonts.css">
+    <link rel="stylesheet" href="/css/app.css" defer>
+    <link rel="stylesheet" href="/css/webfonts.css" defer>
 
     {{--  <link href="https://afeld.github.io/emoji-css/emo7ji.css" rel="stylesheet">
     <style>

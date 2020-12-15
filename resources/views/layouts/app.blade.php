@@ -9,11 +9,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link preload rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" defer>
 
     <!-- Styles -->
-    <link rel="preload" href="/css/app.css" defer>
-    <link rel="preload" href="/css/webfonts.css" defer>
+    <link preload rel="stylesheet" href="/css/app.css" defer>
+    <link preload rel="stylesheet" href="/css/webfonts.css" defer>
 
     <style>
         [x-cloak] {
