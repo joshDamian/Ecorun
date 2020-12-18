@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Support\Str;
 use App\Tools\GeneratorTool;
+use Illuminate\Notifications\Notifiable;
 
 class Profile extends Model
 {
-    use HasFactory;
-    use HasProfilePhoto;
-    use StringManipulations;
+    use Notifiable, HasFactory, HasProfilePhoto, StringManipulations;
 
     protected $fillable = [
         'name',
@@ -27,59 +26,73 @@ class Profile extends Model
         'posts'
     ];
 
+    
     /**
-    * The accessors to append to the model's array form.
-    *
-    * @var array
-    */
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
         'profile_photo_url',
     ];
 
-    public function followers() {
+    public function followers()
+    {
+        
         return $this->belongsToMany(Profile::class, 'profile_follower', 'profile_id', 'follower_id');
     }
 
-    public function following() {
+    public function following()
+    {
         return $this->belongsToMany(Profile::class, 'profile_follower', 'follower_id', 'profile_id');
     }
 
-    public function slugData() {
+    public function slugData()
+    {
         return [
             'name' => $this->name,
         ];
     }
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
 
-        static::creating(function ($profile) {
-            $profile->auto_tag = (string) Str::uuid();
-            $profile->tag = $profile->tag ?? GeneratorTool::generateID(Profile::class, 'tag', $profile->name . "_");
-        });
+        static::creating(
+            function ($profile) {
+                $profile->auto_tag = (string) Str::uuid();
+                $profile->tag = $profile->tag ?? GeneratorTool::generateID(Profile::class, 'tag', $profile->name . "_");
+            }
+        );
     }
 
-    public function profileable() {
+    public function profileable()
+    {
         return $this->morphTo();
     }
 
-    public function isBusiness() {
+    public function isBusiness()
+    {
         return $this->profileable instanceof Business;
     }
 
-    public function full_tag() {
+    public function full_tag()
+    {
         return Profile::TAG_PREFIX . $this->tag;
     }
 
-    public function feedbacks() {
+    public function feedbacks()
+    {
         return $this->hasMany(Feedback::class);
     }
 
-    public function isUser() {
+    public function isUser()
+    {
         return $this->profileable instanceof User;
     }
 
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
 }

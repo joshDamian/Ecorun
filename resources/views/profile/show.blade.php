@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-business-layout>
     <div>
         <div class="pt-4 pb-4 mx-auto max-w-7xl md:pt-0">
             <div class="mt-2 sm:mt-0">
@@ -41,4 +41,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-business-layout>

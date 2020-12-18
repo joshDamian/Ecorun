@@ -14,7 +14,7 @@
                 </div>
                 <div class="flex mt-1">
                     <p>
-                        {{ $comment->created_at->diffForHumans(null, true, true) }}
+                        {{ $comment->created_at->diffForHumans(null, null, true) }}
                     </p>
                 </div>
             </div>

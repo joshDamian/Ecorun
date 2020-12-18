@@ -13,11 +13,13 @@ class UpdateProfile extends Component
 
     use AuthorizesRequests;
 
-    public function mount(Profile $profile) {
+    public function mount(Profile $profile)
+    {
         $this->authorize('access', $this->profile);
     }
 
-    public function render() {
-        return view('livewire.connect.profile.update-profile');
+    public function render()
+    {
+        return view('livewire.connect.profile.update-profile')->layout('layouts.business');
     }
 }

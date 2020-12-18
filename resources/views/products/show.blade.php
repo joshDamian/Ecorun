@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-business-layout>
     <div>
         @can('view', $product)
         <div x-data="product_data()" x-init="init_product()" class="">
@@ -139,4 +139,4 @@
 
     </script>
     @endpush
-</x-app-layout>
+</x-business-layout>

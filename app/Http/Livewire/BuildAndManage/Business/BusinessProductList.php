@@ -36,8 +36,12 @@ class BusinessProductList extends Component
 
     public function render()
     {
-        return view('livewire.build-and-manage.business.business-product-list', [
-            'products' => Auth::user()->isManager->businesses->find($this->business)->products()->latest()->paginate(12)
-        ]);
+        $products = Auth::user()->isManager->businesses->find($this->business)->products()->latest()->paginate(12);
+        $empty = $products->count() < 0;
+
+        return view(
+            'livewire.build-and-manage.business.business-product-list',
+            compact('products', 'empty')
+        )->layout('layouts.business');
     }
 }

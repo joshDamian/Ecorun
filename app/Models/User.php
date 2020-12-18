@@ -11,6 +11,8 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
+use function PHPUnit\Framework\isFalse;
+
 class User extends Authenticatable
 {
     use HasProfile;
@@ -22,24 +24,24 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
 
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'email',
         'password',
     ];
 
     protected $with = [
-        'profile'
+        //'profile'
     ];
 
     /**
-    * The attributes that should be hidden for arrays.
-    *
-    * @var array
-    */
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -48,69 +50,84 @@ class User extends Authenticatable
     ];
 
     /**
-    * The attributes that should be cast to native types.
-    *
-    * @var array
-    */
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function isManager() {
+    public function isManager()
+    {
         return $this->hasOne(Manager::class);
     }
 
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany(Order::class);
     }
 
-    public function cart() {
+    public function cart()
+    {
         return $this->hasMany(Cart::class);
     }
 
-    public function view_history() {
+    public function view_history()
+    {
         return $this->hasMany(RecentlyViewed::class);
     }
 
-    public function business_profiles() {
+    public function business_profiles()
+    {
         return ($this->isManager) ? $this->isManager->businesses->pluck('profile') : null;
     }
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
 
-        static::created(function ($user) {
-            $name = explode("@", $user->email)[0];
-            $user->profile()->create([
-                'name' => $name,
-                'tag' => (is_object(Profile::where('tag', $name . "_" . $user->id)->get()->first())) ? null : $name . "_" . $user->id,
-                'description' => "I'm a newbie and i hope to make new friends soon.",
-            ]);
-            $user->profile->following()->save($user->profile);
+        static::created(
+            function ($user) {
+                $name = explode("@", $user->email)[0];
+                $user->profile()->create(
+                    [
+                    'name' => $name,
+                    'tag' => (is_object(Profile::where('tag', $name . "_" . $user->id)->get()->first())) ? null : $name . "_" . $user->id,
+                    'description' => "I'm a newbie and i hope to make new friends soon.",
+                    ]
+                );
+                $user->profile->following()->save($user->profile);
 
-            $user->switchProfile($user->profile);
-        });
+                $user->switchProfile($user->profile);
+            }
+        );
     }
 
-    public function switchProfile($profile) {
+    public function switchProfile($profile)
+    {
         if (!$this->can('access', $profile)) {
             return false;
         }
 
-        $this->forceFill([
+        $this->forceFill(
+            [
             'current_profile_id' => $profile->id,
-        ])->save();
+            ]
+        )->save();
 
         $this->setRelation('currentProfile', $profile);
 
         return true;
     }
 
-    public function currentProfile() {
+    public function currentProfile()
+    {
         return $this->belongsTo(Profile::class, 'current_profile_id');
     }
 
-    public function revokeManager() {
+    public function revokeManager()
+    {
         return $this->isManager->revoke();
     }
 }

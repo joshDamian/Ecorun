@@ -1,5 +1,9 @@
 <div>
-    @if(!$active_product)
+    <div class="w-full" wire:loading>
+        <x-loader />
+    </div>
+
+    @if(!$active_product && $empty)
     <div class="fixed right-0 top-14">
         <a href="{{ route('business.dashboard', ['tag' => $business->profile->tag, 'business' => $business->id, 'active_action' => 'add-product' ]) }}">
             <span class="fa-stack fa-2x">
@@ -9,10 +13,6 @@
         </a>
     </div>
     @endif
-
-    <div class="w-full" wire:loading>
-        <x-loader />
-    </div>
 
     <div>
         @if($active_product)
@@ -77,6 +77,12 @@
     @if($active_product)
     <script>
         window.modifyUrl("/business/{{ $business->profile->full_tag() }}/{{ $business->id }}/products/{{ $active_product->id }}")
+
+    </script>
+
+    @else
+    <script>
+        window.modifyUrl("/business/{{ $business->profile->full_tag() }}/{{ $business->id }}/products")
 
     </script>
     @endif

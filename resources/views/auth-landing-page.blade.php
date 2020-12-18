@@ -1,7 +1,7 @@
-<x-app-layout>
-    <div class="grid grid-cols-1 md:gap-4 md:grid-cols-4">
-        <div class="md:col-span-3">
-            <div class="mb-3 bg-gray-100 sticky top-12 md:mb-3 sm:shadow sm:rounded">
+<x-social-layout>
+    <div>
+        <div>
+            <div class="sticky mb-3 bg-gray-100 top-12 md:mb-3 sm:shadow sm:rounded">
                 @livewire('connect.post.create-new-post', ['profile' => Auth::user()->currentProfile, 'view' => 'landing-page'])
             </div>
 
@@ -10,4 +10,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-social-layout>

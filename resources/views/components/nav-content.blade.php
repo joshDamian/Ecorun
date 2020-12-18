@@ -1,8 +1,8 @@
 <div>
-    <div class="text-white sticky top-0 md:hidden p-2 bg-blue-800 text-left">
+    <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
         <div class="flex items-center justify-between">
-            <i @click="open = false" class="fas text-2xl fa-times mr-3"></i>
-            <div class="text-center text-lg font-bold flex-1">
+            <i @click=" open_menu = false" class="mr-3 text-2xl fas fa-times"></i>
+            <div class="flex-1 text-lg font-bold text-center">
                 Menu
             </div>
         </div>
@@ -30,7 +30,7 @@
                     </div>
 
                     @auth
-                    <div class="font-hairline truncate text-gray-600">
+                    <div class="font-hairline text-gray-600 truncate">
                         {{ $user->currentProfile->full_tag() }}
                     </div>
                     @endauth
@@ -61,25 +61,25 @@
         </a>
 
         <a href="{{ route('profile.edit', ['profile' => $user->currentProfile->tag, 'user' => $user->profile->data_slug('name')]) }}">
-            <div class="py-3 px-4 tracking-wider border-b-2 textext-left border-gray-200 hover:border-blue-700 bg-gray-100 font-medium text-md text-blue-800 md:cursor-pointer">
+            <div class="px-4 py-3 font-medium tracking-wider text-blue-800 bg-gray-100 border-b-2 @if(request()->routeIs('profile.edit') && (explode('/', request()->getRequestUri())[2] === $user->currentProfile->full_tag())) border-blue-700 @else border-gray-200 @endif textext-left hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-edit"></i> &nbsp;Edit
             </div>
         </a>
 
         @if($user->currentProfile->isBusiness())
-        <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'active_action' => 'products']) }}">
+        <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'action_route' => 'products']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-shopping-bag"></i> &nbsp;Products
             </div>
         </a>
 
-        <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'active_action' => 'add-product']) }}">
+        <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'action_route' => 'add-product']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-plus-circle"></i> &nbsp;Add product
             </div>
         </a>
 
-        <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'active_action' => 'team']) }}">
+        <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'action_route' => 'team']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fas fa-users"></i> &nbsp;Team
             </div>

@@ -1,9 +1,9 @@
-<div wire:poll.5000ms wire:init="loadPosts">
+<div wire:init="loadPosts">
     <div wire:loading wire:target="loadPosts" class="w-full">
         <x-loader />
     </div>
 
-    <div class="grid grid-cols-1 scrolling-pagination gap-3 md:gap-4">
+    <div class="grid grid-cols-1 gap-3 scrolling-pagination md:gap-4">
         @forelse($posts as $post)
         <div>
             <x-connect.post.display-post :post="$post" />
@@ -17,11 +17,11 @@
         @empty
         @if($readyToLoad)
         <div class="bg-white">
-            <div class="flex justify-center items-center p-3">
-                <i style="font-size: 6rem;" class="fas text-blue-700 fa-pencil-alt">
+            <div class="flex items-center justify-center p-3">
+                <i style="font-size: 6rem;" class="text-blue-700 fas fa-pencil-alt">
                 </i>
             </div>
-            <div class="text-center text-lg font-medium text-blue-700 bg-white px-3 pb-3">
+            <div class="px-3 pb-3 text-lg font-medium text-center text-blue-700 bg-white">
                 @can('update', $profile)
                 make your first post
                 @endcan
@@ -44,5 +44,6 @@
             }
         };
     });
+
 </script>
 @endpush

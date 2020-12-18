@@ -15,7 +15,11 @@ class PostFeedback extends Component
 
     public $postId;
     public $view;
-
+    protected $listeners = [
+        'newFeedback' => '$refresh',
+        'newLike' => '$refresh'
+    ];
+   
     public function mount()
     {
         $this->profile = Auth::user()->currentProfile;
@@ -30,8 +34,11 @@ class PostFeedback extends Component
 
     public function render()
     {
-        return view('livewire.connect.post.post-feedback', [
+        return view(
+            'livewire.connect.post.post-feedback',
+            [
             'likes_count' => $this->likes()
-        ]);
+            ]
+        );
     }
 }

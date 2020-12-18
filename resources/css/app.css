@@ -5,3 +5,9 @@
 @import 'animate.css/animate.compat.css';
 
 @import './loader.css';
+
+@import './scroll-bar.css';
+
+[x-cloak] {
+            display: none;
+        }

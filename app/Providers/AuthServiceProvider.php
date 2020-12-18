@@ -38,7 +38,6 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('update-business', function ($user, $business) {
-            $user->switchProfile(Business::findOrFail($business)->profile);
 
             if ($user->isManager === null) {
                 return false;

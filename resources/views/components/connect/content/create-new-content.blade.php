@@ -1,5 +1,5 @@
 @props(['photos', 'type'])
-<div x-data="{ ready: false }" x-init="() => { $refs.content.focus(); Livewire.on('addedContent', () => { ready = false; }) }">
+<div x-data="{ ready: false }" x-init="() => { Livewire.on('addedContent', () => { ready = false; }) }">
     <div x-show="!ready">
         {{ $trigger }}
     </div>

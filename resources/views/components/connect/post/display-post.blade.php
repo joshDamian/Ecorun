@@ -2,7 +2,7 @@
 <div>
     <div class="bg-gray-100 sm:shadow">
         <div class="flex justify-between px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
-            <div class="flex flex-1 items-center">
+            <div class="flex items-center flex-1">
                 <a class="mr-3" href="{{ route('profile.visit', ['profile' => $profile->tag]) }}">
                     <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-12 h-12 border-t-2 border-b-2 border-blue-700 rounded-full">
                     </div>
@@ -14,8 +14,8 @@
                     </a>
 
                     <div class="flex items-center">
-                        <a class="mr-2 flex-1 truncate" href="{{ route('profile.visit', ['profile' => $profile->tag]) }}">
-                            <span class="text-sm font-normal truncate text-blue-600">{{ $profile->full_tag() }}</span>
+                        <a class="flex-1 mr-2 truncate" href="{{ route('profile.visit', ['profile' => $profile->tag]) }}">
+                            <span class="text-sm font-normal text-blue-600 truncate">{{ $profile->full_tag() }}</span>
                         </a>
 
                         <div class="text-sm font-normal text-gray-500">
