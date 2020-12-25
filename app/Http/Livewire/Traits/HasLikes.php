@@ -27,11 +27,11 @@ trait HasLikes
 
     public function likes(): int
     {
-        return $this->likeable->load('likes')->likes->count();
+        return $this->likeable->loadMissing('likes')->likes->count();
     }
 
     public function liked(): bool
     {
-        return $this->likeable->load('likes.profile')->likes->pluck('profile.id')->contains($this->profile->id);
+        return $this->likeable->loadMissing('likes.profile')->likes->pluck('profile.id')->contains($this->profile->id);
     }
 }

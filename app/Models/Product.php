@@ -16,8 +16,8 @@ class Product extends Model
     use StringManipulations;
 
     protected $with = [
-        'specifications',
-        'gallery',
+        //'specifications',
+        //'gallery',
     ];
 
     protected $casts = [

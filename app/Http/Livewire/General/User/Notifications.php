@@ -2,15 +2,14 @@
 
 namespace App\Http\Livewire\General\User;
 
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\Profile;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 class Notifications extends Component
 {
-    public $associatedProfiles;
-    public $personal_profile;
-    public $currentProfile;
+    public Collection $profiles;
     public $activeProfile;
     public $display = false;
     protected $listeners = [
@@ -34,16 +33,14 @@ class Notifications extends Component
         return $this->display = false;
     }
 
-    public function mount():void
+    public function mount(Collection $allProfiles, User $user):void
     {
-        $user = Auth::user()->loadMissing('profile.unreadNotifications', 'currentProfile.unreadNotifications');
-        $this->personal_profile = $user->profile;
-        $this->activeProfile = $this->currentProfile = $user->currentProfile;
-        $this->associatedProfiles = $user->associatedProfiles();
+        $this->profiles = $allProfiles->loadMissing('unreadNotifications')->sortBy('id');
+        $this->activeProfile = $this->profiles->find($user->currentProfile->id);
         return;
     }
 
-    public function switchProfile(Profile $profile)
+    public function switchProfile(Profile $profile):void
     {
         $this->activeProfile = $profile->loadMissing('notifications');
         return;

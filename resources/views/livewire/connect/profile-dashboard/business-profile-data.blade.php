@@ -15,6 +15,9 @@
     <div class="mt-2 md:my-3">
         @switch($active_view['title'])
         @case('products')
+        @php
+        $products = $profile->loadMissing('profileable.products')->profileable->products()->paginate(12);
+        @endphp
         <div class="mb-2">
             <x-product.user-product-list :products="$products" />
             <div class="mx-2 md:mx-0">

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Connect\Profile;
 use App\Models\Post;
 use Livewire\Component;
 use App\Models\Profile;
+use App\Models\User;
 
 /**
  * Class ProfilePostList a component that fetches the posts related to a profile
@@ -12,8 +13,9 @@ use App\Models\Profile;
 class ProfilePostList extends Component
 {
     public Profile $profile;
-    public $view;
-    public $perPage = 10;
+    public string $view;
+    public int $perPage = 10;
+    public Profile $currentProfile;
     protected $listeners = [
         //'loadOlderPosts',
         'newPost' => '$refresh'
@@ -31,8 +33,8 @@ class ProfilePostList extends Component
         return view(
             'livewire.connect.profile.profile-post-list',
             [
-            'posts' => Post::whereIn('profile_id', ($this->view === 'landing-page') ? $this->profile->loadMissing('following')->following->pluck('id') : [$this->profile->id])
-                ->latest()->get()->unique()
+            'posts' => Post::withCount('gallery')->whereIn('profile_id', ($this->view === 'landing-page') ? $this->profile->loadMissing('following')->following->pluck('id') : [$this->profile->id])
+                ->latest()->get()->unique()->loadMissing('gallery', 'likes', 'profile')
             ]
         );
     }

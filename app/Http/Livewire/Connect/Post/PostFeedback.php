@@ -6,6 +6,7 @@ use App\Http\Livewire\Traits\HasFeedback;
 use App\Http\Livewire\Traits\HasLikes;
 use Livewire\Component;
 use App\Models\Post;
+use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 
 class PostFeedback extends Component
@@ -14,17 +15,18 @@ class PostFeedback extends Component
     use HasFeedback;
 
     public Post $post;
-    public $view;
+    public string $view;
     protected $listeners = [
         'newFeedback' => '$refresh',
         'newLike' => '$refresh'
     ];
    
-    public function mount()
+    public function mount(Profile $currentProfile):void
     {
-        $this->profile = Auth::user()->currentProfile;
+        $this->profile = $currentProfile;
         $this->likeable = $this->post;
         $this->feedbackReady = ($this->view === 'post.show') ? true : null;
+        return;
     }
 
     public function render()

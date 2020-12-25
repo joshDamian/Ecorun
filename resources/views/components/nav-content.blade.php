@@ -1,4 +1,18 @@
-<div>
+<div x-init="() => { 
+    Echo.private('App.Models.Profile.{{$currentProfile->id}}').notification((notification) => {
+        Livewire.emit('newNotification', notification);
+    });
+    @foreach($associatedProfiles as $key => $profile)
+    @continue($profile->is($currentProfile) || ($profile->is($personalProfile)))
+    Echo.private('App.Models.Profile.{{$profile->id}}').notification((notification) => {
+        Livewire.emit('newNotification', notification);
+    });
+    @endforeach
+
+    Echo.private('App.Models.Profile.{{$personalProfile->id}}').notification((notification) => {
+        Livewire.emit('newNotification', notification);
+    });
+     }">
     <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
         <div class="flex items-center justify-between">
             <i @click=" open_menu = false" class="mr-3 text-2xl fas fa-times"></i>
@@ -56,8 +70,8 @@
             </div>
         </a>
 
-        <a href="{{ ($currentProfile_is_biz) ? route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personal_profile->tag, 'action_route' => 'edit']) : route('profile.edit', ['profile' => $currentProfile->tag]) }}">
-            @if($currentProfile_is_biz)
+        <a href="{{ ($currentProfileIsBiz) ? route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'edit']) : route('profile.edit', ['profile' => $currentProfile->tag]) }}">
+            @if($currentProfileIsBiz)
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-edit"></i> &nbsp;Edit
             </div>
@@ -68,26 +82,26 @@
             @endif
         </a>
 
-        @if($currentProfile_is_biz)
-        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personal_profile->tag, 'action_route' => 'products']) }}">
+        @if($currentProfileIsBiz)
+        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'products']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-shopping-bag"></i> &nbsp;Products
             </div>
         </a>
 
-        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personal_profile->tag, 'action_route' => 'add-product']) }}">
+        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'add-product']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-plus-circle"></i> &nbsp;Add product
             </div>
         </a>
 
-        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personal_profile->tag, 'action_route' => 'team']) }}">
+        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'team']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fas fa-users"></i> &nbsp;Team
             </div>
         </a>
 
-        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personal_profile->tag, 'action_route' => 'gallery']) }}">
+        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'gallery']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fas fa-images"></i> &nbsp;Gallery
             </div>
@@ -97,7 +111,7 @@
         @endauth
 
         <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white text-md">
-            <i class="fas fa-user"></i> &nbsp;{{ $personal_profile->name ?? __('Guest') }}
+            <i class="fas fa-user"></i> &nbsp;{{ $personalProfile->name ?? __('Guest') }}
         </div>
 
         <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
@@ -119,7 +133,7 @@
         @endguest
 
         @auth
-        <a href="{{ route('manager.dashboard', ['profile' => $personal_profile->tag]) }}">
+        <a href="{{ route('manager.dashboard', ['profile' => $personalProfile->tag]) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
                 <i class="fas fa-store-alt"></i> &nbsp;Businesses
             </div>
@@ -147,7 +161,7 @@
         </div>
 
         <div class="pl-1">
-            <x-connect.profile.switchable-profile :profile="$personal_profile" />
+            <x-connect.profile.switchable-profile :profile="$personalProfile" />
             @foreach($associatedProfiles as $profile)
             <x-connect.profile.switchable-profile :profile="$profile" />
             @endforeach
@@ -156,3 +170,8 @@
         @endauth
     </div>
 </div>
+@push('scripts')
+<script>
+
+</script>
+@endpush

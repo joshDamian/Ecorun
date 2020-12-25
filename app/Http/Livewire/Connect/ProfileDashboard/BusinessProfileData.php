@@ -32,7 +32,7 @@ class BusinessProfileData extends Component
         ],
     ];
 
-    public function mount($action_route = 'products')
+    public function mount(string $action_route = 'products'):void
     {
         $this->action_route = $action_route;
         if (!array_key_exists($this->action_route, $this->views)) {
@@ -52,10 +52,7 @@ class BusinessProfileData extends Component
     public function render()
     {
         return view(
-            'livewire.connect.profile-dashboard.business-profile-data',
-            [
-            'products' => $this->profile->loadMissing('profileable.products')->profileable->products()->where('is_published', true)->latest()->paginate(12)
-            ]
+            'livewire.connect.profile-dashboard.business-profile-data'
         );
     }
 }

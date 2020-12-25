@@ -36,13 +36,13 @@
     @stack('modals')
     @livewireScripts
     @stack('scripts')
-    <script>
+    {{-- <script>
         document.addEventListener('livewire:load', () => {
             Echo.channel('posts').listen('PostCreated', (e) => {
                 console.log(e.post.content);
             });
         })
 
-    </script>
+    </script> --}}
 </body>
 </html>

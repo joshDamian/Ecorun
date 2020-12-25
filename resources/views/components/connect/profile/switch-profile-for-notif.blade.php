@@ -1,13 +1,13 @@
-@props(['profile', 'unread_count' => $profile->loadMissing('unreadNotifications')->unreadNotifications->count(), 'active'])
+@props(['profile', 'unreadCount' => $profile->unreadNotifications->count(), 'active'])
 <div x-data="{ active: '{{$active}}' }">
-    <div wire:click="switchProfile('{{$profile->id}}')" :class="(active === '1') ? 'text-blue-700 bg-white shadow-outline' : 'bg-gray-200 shadow-lg border-gray-200 text-gray-700 border-2'" class="flex px-2 py-1 lowercase rounded-full cursor-pointer">
+    <button wire:click="switchProfile('{{$profile->id}}')" type="button" :class="(active === '1') ? 'text-blue-800 bg-white border-blue-800' : 'text-gray-800 bg-gray-200 border-gray-300'" class="inline-flex items-center px-2 py-2 text-xs font-semibold tracking-normal lowercase transition duration-150 ease-in-out border rounded-lg shadow-sm hover:text-blue-800 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-white">
         <span>
             {{ $profile->full_tag() }}
         </span>
-        @if($unread_count > 0)
+        @if($unreadCount > 0)
         <span class="ml-2 text-red-600">
-            {{ $unread_count }} <sup class="p-1 text-white bg-red-600 rounded-lg">new</sup>
+            {{ $unreadCount }} <sup class="p-1 text-white bg-red-600 rounded-md">new</sup>
         </span>
         @endif
-    </div>
+    </button>
 </div>

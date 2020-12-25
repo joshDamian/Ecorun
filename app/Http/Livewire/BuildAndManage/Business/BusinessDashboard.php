@@ -52,7 +52,7 @@ class BusinessDashboard extends Component
 
     public function getBusinessProperty(): Business
     {
-        return Business::findOrFail(Profile::where('tag', $this->tag)->firstOrFail()->profileable->id);
+        return Business::findOrFail(Profile::where('tag', $this->tag)->firstOrFail()->loadMissing('profileable')->profileable->id);
     }
 
     public function switchAction(string $key)

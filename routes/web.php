@@ -27,8 +27,8 @@ use App\Http\Livewire\BuildAndManage\Manager\ManagerDashboard;
 Route::get(
     '/',
     function () {
-        $user = Auth::check() ? Auth::user()->load('currentProfile') : null;
-        return ($user) ? view('auth-landing-page', ['profile' => $user->load('currentProfile')->currentProfile]) : view('guest-landing-page');
+        $user = Auth::check() ? Auth::user()->loadMissing('currentProfile') : null;
+        return ($user) ? view('auth-landing-page', ['profile' => $user->currentProfile]) : view('guest-landing-page');
     }
 )->name('home');
 

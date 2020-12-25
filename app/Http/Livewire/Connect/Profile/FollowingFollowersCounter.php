@@ -29,9 +29,20 @@ class FollowingFollowersCounter extends Component
             }
         );
 
-        $following_count = $this->profile->following->count();
-        $followers_count = $this->profile->followers->count();
-
+        $following_count = Cache::remember(
+            $this->profile->id.'_following_count',
+            60,
+            function ():int {
+                return $this->profile->following->count();
+            }
+        );
+        $followers_count = Cache::remember(
+            $this->profile->id.'_followers_count',
+            60,
+            function ():int {
+                return $this->profile->followers->count();
+            }
+        );
         $this->following = $self_following ? ($following_count - 1) : $following_count;
         $this->followers = $self_following ? ($followers_count - 1) : $followers_count;
     }

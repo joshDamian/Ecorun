@@ -6,11 +6,11 @@
     <div class="grid grid-cols-1 gap-3 scrolling-pagination md:gap-4">
         @forelse($posts as $post)
         <div>
-            <x-connect.post.display-post :post="$post" />
+            <x-connect.post.display-post :post="$post->loadMissing('gallery')" />
             <div class="bg-gray-100 border-t border-gray-200">
                 @auth
                 <div>
-                    @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.index'], key(time()."post_fb_{$post->id}"))
+                    @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.index', 'currentProfile' => $currentProfile], key(time()."post_fb_{$post->id}"))
                 </div>
                 @endauth
             </div>

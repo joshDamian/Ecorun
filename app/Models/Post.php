@@ -11,9 +11,9 @@ class Post extends Model
     use HasFactory;
 
     protected $with = [
-        'likes',
-        'comments',
-        'gallery',
+        //'likes',
+        //'comments',
+        //'gallery',
     ];
 
     protected $fillable = [
