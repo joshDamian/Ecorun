@@ -21,7 +21,8 @@ class EditProfile extends Component
     public $tag;
     public $description;
 
-    public function mount() {
+    public function mount()
+    {
         $this->authorize('access', $this->profile);
         $this->name = $this->profile->name;
         $this->description = $this->profile->description;
@@ -29,7 +30,8 @@ class EditProfile extends Component
     }
 
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
         $this->authorize('access', $this->profile);
 
         $this->validate($this->rules());
@@ -48,10 +50,15 @@ class EditProfile extends Component
 
         $this->emitSelf('saved');
 
-        return redirect(route('profile.edit', ['user' => User::find($request->user()->id)->profile->data_slug('name'), 'profile' => $this->profile->tag]));
+        return redirect(
+            ($this->profile->isBusiness()) ?
+            route('business.dashboard', ['tag' => $this->profile->tag, 'profile' => $request->user()->profile->tag, 'action_route' => 'edit'])
+            : route('profile.edit', ['profile' => $this->profile->tag])
+        );
     }
 
-    public function deleteProfilePhoto() {
+    public function deleteProfilePhoto()
+    {
         $this->authorize('access', $this->profile);
         return $this->profile->deleteProfilePhoto();
     }
@@ -64,15 +71,17 @@ class EditProfile extends Component
                 'min:4',
                 'max:255',
 
-                Rule::unique('profiles', 'name')->where(function ($query) {
-                    return $query->where('profileable_type', 'App\Models\Business');
-                })->ignore($this->profile)
+                Rule::unique('profiles', 'name')->where(
+                    function ($query) {
+                        return $query->where('profileable_type', 'App\Models\Business');
+                    }
+                )->ignore($this->profile)
             ],
 
             'tag' => [
                 'required',
                 'min:4',
-                'max:16',
+                'max:20',
                 Rule::unique('profiles')->ignore($this->profile),
                 'alpha_dash',
             ],
@@ -90,27 +99,35 @@ class EditProfile extends Component
         ];
     }
 
-    public function getProfileProperty() {
+    public function getProfileProperty()
+    {
         return Profile::find($this->profileId);
     }
 
-    public function messages () {
+    public function messages()
+    {
         return [
             'name.unique' => 'That\'s a registered business name.'
         ];
     }
 
-    public function updated($propertyName) {
+    public function updated($propertyName)
+    {
         $this->validateOnly($propertyName, $this->rules());
     }
 
-    protected function upperCaseWords(string $string) {
+    protected function upperCaseWords(string $string)
+    {
         return ucwords(strtolower($string));
     }
 
-    public function render() {
-        return view('livewire.connect.profile.edit-profile', [
+    public function render()
+    {
+        return view(
+            'livewire.connect.profile.edit-profile',
+            [
             'tag_prefix' => Profile::TAG_PREFIX
-        ]);
+            ]
+        );
     }
 }

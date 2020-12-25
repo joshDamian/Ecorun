@@ -2,59 +2,60 @@
 
 namespace App\Http\Livewire\Connect\ProfileDashboard;
 
+use App\Models\Profile;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class BusinessProfileData extends Component
 {
-    public $business;
-    public $active_view;
-    public $views = [
+    use WithPagination;
+
+    public Profile $profile;
+    public array $active_view;
+    public string $action_route;
+    public array $views = [
         'products' => [
             'title' => 'products',
             'icon' => 'fas fa-shopping-bag',
         ],
-
         'posts' => [
             'title' => 'posts',
             'icon' => 'fas fa-user-edit'
         ],
-
         'gallery' => [
             'title' => 'gallery',
             'icon' => 'fas fa-images'
         ],
-
         'about' => [
             'title' => 'about',
             'icon' => 'fas fa-store-alt'
         ],
     ];
 
-    public function mount($active_view = null)
+    public function mount($action_route = 'products')
     {
-        if ($active_view) {
-            if (array_key_exists($active_view, $this->views)) {
-                $this->switchView($active_view);
-            } else {
-                $this->defaultView();
-            }
-        } else {
-            $this->defaultView();
+        $this->action_route = $action_route;
+        if (!array_key_exists($this->action_route, $this->views)) {
+            $this->action_route = 'products';
         }
+        $this->switchView($this->action_route);
+        return;
     }
 
-    public function switchView($view_key)
+    public function switchView(string $view_key)
     {
-        return $this->active_view = $this->views[$view_key];
+        $this->active_view = $this->views[$view_key];
+        return;
     }
 
-    public function defaultView()
-    {
-        return $this->switchView('products');
-    }
 
     public function render()
     {
-        return view('livewire.connect.profile-dashboard.business-profile-data');
+        return view(
+            'livewire.connect.profile-dashboard.business-profile-data',
+            [
+            'products' => $this->profile->loadMissing('profileable.products')->profileable->products()->where('is_published', true)->latest()->paginate(12)
+            ]
+        );
     }
 }

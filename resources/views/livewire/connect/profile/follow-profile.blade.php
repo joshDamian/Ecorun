@@ -28,7 +28,7 @@
     @endcannot
 
     @can('update', $profile)
-    <a href="{{ route('profile.edit', ['profile' => $profile->tag, 'user' => request()->user()->profile->data_slug('name')]) }}">
+    <a href="{{ ($profile->isUser()) ? route('profile.edit', ['profile' => $profile->tag]) : route('business.dashboard', ['tag' => $profile->tag, 'profile' => Auth::user()->profile->tag, 'action_route' => 'edit']) }}">
         <x-jet-button wire:click="follow" class="bg-blue-800 rounded">
             {{ __('edit profile') }} &nbsp; <i class="fas fa-user-edit"></i>
         </x-jet-button>

@@ -1,13 +1,12 @@
 require('./bootstrap');
 
-window.modifyUrl = function (url) {
-    var state = {
-        id: "100"
-    };
-    
-    window.history.replaceState(
-        state
-        , url
-        , url
-    );
-};
+class ModifyUrl {
+    modify(url) {
+        var state = {
+            id: 100
+        }
+        return window.history.replaceState(state, url, url);
+    }
+}
+
+window.modifyUrl = new ModifyUrl();

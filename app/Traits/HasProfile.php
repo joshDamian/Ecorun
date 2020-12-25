@@ -2,19 +2,20 @@
 
 namespace App\Traits;
 
-use App\Models\Profile;
-
 trait HasProfile
 {
-    public function profile() {
+    public function profile()
+    {
         return $this->morphOne('App\Models\Profile', 'profileable');
     }
 
-    public function profile_image() {
+    public function profile_image()
+    {
         return $this->profile->profile_photo_url;
     }
 
-    public function name() {
+    public function name()
+    {
         return $this->profile->name;
     }
 }

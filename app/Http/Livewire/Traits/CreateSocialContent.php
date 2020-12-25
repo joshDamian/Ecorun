@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire\Traits;
 
+use App\Models\Profile;
 use Illuminate\Validation\Rule;
 
 trait CreateSocialContent
 {
     use UploadPhotos;
 
-    public $profile;
+    public Profile $profile;
     public $photos = [];
     public $content;
 

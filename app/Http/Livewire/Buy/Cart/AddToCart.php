@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class AddToCart extends Component
 {
-    public $product;
+    public $productId;
     public $add_specs;
     public $specifications = [];
     public $quantity;
@@ -17,15 +17,16 @@ class AddToCart extends Component
         'modifiedCart' => '$refresh'
     ];
 
-    protected $rules = [
-        'quantity' => ['required', 'min:1', 'int']
-    ];
+    public function rules() :array
+    {
+        return [
+            'quantity' => ['required', 'min:1', "max:{$this->product->available_stock}", 'int'],
+        ];
+    }
 
-    public function mount(Product $product)
+    public function mount()
     {
         $this->quantity = 1;
-        $this->product = $product;
-
         $indicated_specs = $this->product->indicatedSpecs();
         if ($indicated_specs->count() > 0) {
             foreach ($indicated_specs as $spec) {
@@ -41,7 +42,7 @@ class AddToCart extends Component
 
     public function add_prod()
     {
-        $this->validate();
+        $this->validate($this->rules());
         if (!$this->existing()) {
             (Auth::user()) ?
                 $this->product->cart_instances()->save(
@@ -70,11 +71,16 @@ class AddToCart extends Component
         ];
     }
 
+    public function getProductProperty()
+    {
+        return  Product::find($this->productId);
+    }
+
     public function add_specs_prod()
     {
         $this->validate(
             [
-                'quantity' => ['required', 'min:1', 'int'],
+                'quantity' => ['required', 'min:1', 'int', "max:{$this->product->available_stock}"],
                 'specifications.*' => ['required']
             ]
         );
@@ -104,7 +110,7 @@ class AddToCart extends Component
 
     public function updated($propertyName)
     {
-        $this->validateOnly($propertyName);
+        $this->validateOnly($propertyName, $this->rules());
     }
 
     public function existing()

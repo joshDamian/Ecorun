@@ -10,10 +10,9 @@
 
     <div class="font-light">
         <div class="flex flex-wrap items-center px-4 py-3 bg-white border-b border-gray-200 shadow md:rounded-t-lg">
-            @if($user->currentProfile->profile_photo_url ?? false)
-            <div style="background-image: url('{{ $user->currentProfile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-16 h-16 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
+            @if($currentProfile->profile_photo_url ?? false)
+            <div style="background-image: url('{{ $currentProfile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-16 h-16 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
             </div>
-
             @else
             <div>
                 <span class="fa-stack fa-2x">
@@ -26,18 +25,16 @@
             <div class="grid flex-1 grid-cols-1 gap-1">
                 <div class="text-left">
                     <div class="font-semibold text-blue-800 text-md">
-                        {{ $user->currentProfile->name ?? __('Guest') }}
+                        {{ $currentProfile->name ?? __('Guest') }}
                     </div>
-
                     @auth
                     <div class="font-hairline text-gray-600 truncate">
-                        {{ $user->currentProfile->full_tag() }}
+                        {{ $currentProfile->full_tag() }}
                     </div>
                     @endauth
                 </div>
-
                 @auth
-                @livewire('connect.profile.following-followers-counter', ['profile' => $user->currentProfile])
+                @livewire('connect.profile.following-followers-counter', ['profile' => $currentProfile->loadMissing('following', 'followers')])
                 @endauth
             </div>
         </div>
@@ -49,55 +46,58 @@
         </a>
 
         @auth
-
         <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white text-md">
-            {{ $user->currentProfile->full_tag() }} <i class="text-green-400 fas fa-check-circle"></i>
+            {{ $currentProfile->full_tag() }} <i class="text-green-400 fas fa-check-circle"></i>
         </div>
 
-        <a href="{{ route('profile.visit', ['profile' => $user->currentProfile->tag]) }}">
-            <div class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('profile.visit') && (explode('/', request()->getRequestUri())[1] === $user->currentProfile->full_tag())) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-md text-blue-800 md:cursor-pointer">
+        <a href="{{ route('profile.visit', ['profile' => $currentProfile->tag]) }}">
+            <div class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('profile.visit') && (explode('/', request()->getRequestUri())[1] === $currentProfile->full_tag())) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-md text-blue-800 md:cursor-pointer">
                 <i class="fa fa-eye"></i> &nbsp;Visit
             </div>
         </a>
 
-        <a href="{{ route('profile.edit', ['profile' => $user->currentProfile->tag, 'user' => $user->profile->data_slug('name')]) }}">
-            <div class="px-4 py-3 font-medium tracking-wider text-blue-800 bg-gray-100 border-b-2 @if(request()->routeIs('profile.edit') && (explode('/', request()->getRequestUri())[2] === $user->currentProfile->full_tag())) border-blue-700 @else border-gray-200 @endif textext-left hover:border-blue-700 text-md md:cursor-pointer">
+        <a href="{{ ($currentProfile_is_biz) ? route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personal_profile->tag, 'action_route' => 'edit']) : route('profile.edit', ['profile' => $currentProfile->tag]) }}">
+            @if($currentProfile_is_biz)
+            <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-edit"></i> &nbsp;Edit
             </div>
+            @else
+            <div class="px-4 py-3 font-medium tracking-wider text-blue-800 bg-gray-100 border-b-2 @if(request()->routeIs('profile.edit') && (explode('/', request()->getRequestUri())[1] === $currentProfile->full_tag())) border-blue-700 @else border-gray-200 @endif textext-left hover:border-blue-700 text-md md:cursor-pointer">
+                <i class="fa fa-edit"></i> &nbsp;Edit
+            </div>
+            @endif
         </a>
 
-        @if($user->currentProfile->isBusiness())
-        <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'action_route' => 'products']) }}">
+        @if($currentProfile_is_biz)
+        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personal_profile->tag, 'action_route' => 'products']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-shopping-bag"></i> &nbsp;Products
             </div>
         </a>
 
-        <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'action_route' => 'add-product']) }}">
+        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personal_profile->tag, 'action_route' => 'add-product']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-plus-circle"></i> &nbsp;Add product
             </div>
         </a>
 
-        <a href="{{ route('business.dashboard', ['tag' => $user->currentProfile->tag, 'business' => $user->currentProfile->profileable->id, 'action_route' => 'team']) }}">
+        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personal_profile->tag, 'action_route' => 'team']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fas fa-users"></i> &nbsp;Team
             </div>
         </a>
 
-        @if($user->currentProfile->profileable->isService())
-        <a href="{{ route('current-profile.edit', ['tag' => $user->currentProfile->tag, 'user' => $user->profile->data_slug('name')]) }}">
+        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personal_profile->tag, 'action_route' => 'gallery']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fas fa-images"></i> &nbsp;Gallery
             </div>
         </a>
-        @endif
 
         @endif
         @endauth
 
         <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white text-md">
-            <i class="fas fa-user"></i> &nbsp;{{ $user->profile->name ?? __('Guest') }}
+            <i class="fas fa-user"></i> &nbsp;{{ $personal_profile->name ?? __('Guest') }}
         </div>
 
         <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
@@ -119,9 +119,9 @@
         @endguest
 
         @auth
-        <a href="{{ route('dashboard', ['active_action' => 'manager-account']) }}">
+        <a href="{{ route('manager.dashboard', ['profile' => $personal_profile->tag]) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
-                <i class="fa fa-user-tie"></i> &nbsp;Manager account
+                <i class="fas fa-store-alt"></i> &nbsp;Businesses
             </div>
         </a>
 
@@ -141,24 +141,18 @@
             </a>
         </form>
 
-        @if($user->business_profiles())
+        @if($associatedProfiles->count() > 1)
         <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white border-b text-md">
             Switch profiles <i class="text-green-400 fas fa-retweet"></i>
         </div>
 
         <div class="pl-1">
-            <x-connect.profile.switchable-profile :profile="$user->profile" />
-            @foreach($user->business_profiles() as $profile)
+            <x-connect.profile.switchable-profile :profile="$personal_profile" />
+            @foreach($associatedProfiles as $profile)
             <x-connect.profile.switchable-profile :profile="$profile" />
             @endforeach
         </div>
         @endif
-
-        {{-- <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:rounded-b-lg md:cursor-pointer">
-            <span class="font-bold">&#8358;</span> &nbsp;Auction Sales
-        </div>
-        --}}
-
         @endauth
     </div>
 </div>

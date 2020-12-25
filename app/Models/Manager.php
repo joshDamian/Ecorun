@@ -9,7 +9,7 @@ class Manager extends Model
 {
     use HasFactory;
     protected $with = [
-        'businesses',
+        //'businesses',
         //'user'
     ];
 

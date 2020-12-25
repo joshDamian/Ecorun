@@ -3,22 +3,21 @@
 namespace App\Models;
 
 use App\Traits\HasProfile;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
+//use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
-
-use function PHPUnit\Framework\isFalse;
 
 class User extends Authenticatable
 {
     use HasProfile;
     use HasApiTokens;
     use HasFactory;
-    use HasProfilePhoto;
+    //use HasProfilePhoto;
     use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
@@ -34,7 +33,8 @@ class User extends Authenticatable
     ];
 
     protected $with = [
-        //'profile'
+        //'profile',
+        //'currentProfile',
     ];
 
     /**
@@ -78,15 +78,17 @@ class User extends Authenticatable
         return $this->hasMany(RecentlyViewed::class);
     }
 
-    public function business_profiles()
+    public function associatedProfiles(): Collection
     {
-        return ($this->isManager) ? $this->isManager->businesses->pluck('profile') : null;
+        $manager_access = $this->isManager->load('businesses.profile');
+        $business_profiles = Profile::without('posts')->whereIn('id', ($manager_access) ? $manager_access->businesses->pluck('profile.id') : [])->get();
+        $team_business_profiles = Profile::without('posts')->whereIn('id', $this->load('teams.business')->teams->pluck('business.profile.id'))->get();
+        return $business_profiles->concat($team_business_profiles)->sortBy('tag');
     }
 
     protected static function boot()
     {
         parent::boot();
-
         static::created(
             function ($user) {
                 $name = explode("@", $user->email)[0];
@@ -98,7 +100,6 @@ class User extends Authenticatable
                     ]
                 );
                 $user->profile->following()->save($user->profile);
-
                 $user->switchProfile($user->profile);
             }
         );
@@ -109,15 +110,12 @@ class User extends Authenticatable
         if (!$this->can('access', $profile)) {
             return false;
         }
-
         $this->forceFill(
             [
             'current_profile_id' => $profile->id,
             ]
         )->save();
-
         $this->setRelation('currentProfile', $profile);
-
         return true;
     }
 

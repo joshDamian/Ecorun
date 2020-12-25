@@ -3,11 +3,12 @@
 namespace App\Http\Livewire\Traits;
 
 use App\Models\Like;
+use App\Models\Profile;
 
 trait HasLikes
 {
     public $likeable;
-    public $profile;
+    public Profile $profile;
 
     public function like(): void
     {
@@ -26,11 +27,11 @@ trait HasLikes
 
     public function likes(): int
     {
-        return $this->likeable->likes->count();
+        return $this->likeable->load('likes')->likes->count();
     }
 
     public function liked(): bool
     {
-        return $this->likeable->likes->pluck('profile.id')->contains($this->profile->id);
+        return $this->likeable->load('likes.profile')->likes->pluck('profile.id')->contains($this->profile->id);
     }
 }

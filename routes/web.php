@@ -5,17 +5,13 @@ use App\Http\Controllers\FollowController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecentlyViewedController;
-use App\Http\Livewire\General\User\UserDashboard;
 use App\Http\Livewire\BuildAndManage\Business\BusinessDashboard;
 use App\Http\Livewire\UserComponents\Cart\ViewCart;
-use App\Http\Livewire\UserComponents\Home;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Livewire\BuildAndManage\Business\BusinessProductList;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 use App\Http\Livewire\Connect\Profile\UpdateProfile;
-use App\Models\Profile;
+use App\Http\Livewire\BuildAndManage\Manager\ManagerDashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,11 +27,12 @@ use App\Models\Profile;
 Route::get(
     '/',
     function () {
-        return (Auth::user()) ? view('auth-landing-page') : view('guest-landing-page');
+        $user = Auth::check() ? Auth::user()->load('currentProfile') : null;
+        return ($user) ? view('auth-landing-page', ['profile' => $user->load('currentProfile')->currentProfile]) : view('guest-landing-page');
     }
 )->name('home');
 
-Route::get('/@{profile:tag}/{active_view?}', [ProfileController::class, 'show'])->name('profile.visit');
+Route::get('/@{profile:tag}/{action_route?}', [ProfileController::class, 'show'])->name('profile.visit');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(
     function () {
@@ -50,25 +47,26 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         ->middleware('can:update,profile')
         ->name('profile.edit');*/
 
-        Route::get('/{user}/@{profile:tag}/edit', UpdateProfile::class)
+        Route::get('/@{profile:tag}/actions/edit', UpdateProfile::class)
         ->name('profile.edit');
 
         Route::put('/{user}/current-profile/update', [ProfileController::class, 'updateCurrentProfile'])->name('current-profile.update');
 
-        Route::get('/account.me/{active_action?}/', UserDashboard::class)->name('dashboard');
+        Route::get('/@{profile}/biz/dashboard/', ManagerDashboard::class)->name('manager.dashboard');
   
         Route::middleware(['can:own-businesses'])->group(
             function () {
-                Route::get('/business/@{tag}/{business}/{action_route?}/{action_route_resource?}', BusinessDashboard::class)
-                    ->middleware('can:update-business,business')
+                Route::get('/@{profile}/biz/@{tag}/{action_route?}/{action_route_resource?}', BusinessDashboard::class)
+                    ->middleware('can:update-business,tag')
                     ->name('business.dashboard');
 
                 Route::get(
-                    '/business/@{tag}/{business}/products/{active_product?}/', function ($tag, $business, $active_product) {
-                        return redirect(route('business.dashboard', ['business' => $business->id, 'action_route' => 'products', 'action_route_resource' => $active_product]));
+                    '/@{profile}/biz/@{tag}/products/{active_product?}/',
+                    function ($profile, $tag, $business, $active_product) {
+                        return redirect(route('business.dashboard', ['profile' => $profile->tag, 'action_route' => 'products', 'action_route_resource' => $active_product]));
                     }
                 )
-                     ->middleware('can:update-business,business')
+                     ->middleware('can:update-business,tag')
                      ->name('business.products');
             }
         );

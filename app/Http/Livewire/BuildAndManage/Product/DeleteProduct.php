@@ -5,13 +5,15 @@ namespace App\Http\Livewire\BuildAndManage\Product;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class DeleteProduct extends Component
 {
     public Product $product;
     public $confirm;
 
-    public function delete() {
+    public function delete()
+    {
         $business = $this->product->business;
 
         $this->product->specifications()->delete();
@@ -24,14 +26,16 @@ class DeleteProduct extends Component
 
         $this->product->forceDelete();
 
-        redirect()->to("/business/{$business->data_slug('name')}/{$business->id}/products");
+        redirect()->to(Auth::user()->profile->tag."/{$business->profile->tag}/products");
     }
 
-    public function confirmDeleteProduct() {
+    public function confirmDeleteProduct()
+    {
         $this->confirm = true;
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.build-and-manage.product.delete-product');
     }
 }

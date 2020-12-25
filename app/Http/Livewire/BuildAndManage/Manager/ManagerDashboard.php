@@ -12,6 +12,6 @@ class ManagerDashboard extends Component
 
     public function render()
     {
-        return view('livewire.build-and-manage.manager.manager-dashboard');
+        return view('livewire.build-and-manage.manager.manager-dashboard')->layout('layouts.business');
     }
 }

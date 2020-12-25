@@ -51,29 +51,32 @@
                     Livewire.emit('toggleNotifications');
                 }
             } nav();" class="flex-shrink-0 px-2 py-2 text-xl sm:cursor-pointer md:px-4 hover:text-blue-500">
-                <i class="far fa-bell"></i>
-                <sup class="sm:hidden">
-                    <span class="-mt-2 -ml-5 fa-stack fa-1x">
-                        <i style="font-size: 23.5px;" class="text-red-600 fas fa-circle fa-stack-1x"></i>
-                        <span class="text-xs font-extrabold text-white fa-stack-1x">99+</span>
-                    </span>
-                </sup>
+                <div x-data x-init="() => { Livewire.on('updatedCount', (count) => { 
+                    if(count > 0) {
+                        if(count > 99) {
+                            return $refs.count.innerText = '99+'; 
+                        }
+                        return $refs.count.innerText = count;
+                    }
+                }) }">
+                    <i class="far fa-bell"></i>
+                    <sup class="sm:hidden">
+                        <span class="-mt-2 -ml-5 fa-stack fa-1x">
+                            <i style="font-size: 23.5px;" class="text-red-600 fas fa-circle fa-stack-1x"></i>
+                            <span x-ref="count" class="text-xs font-extrabold text-white fa-stack-1x"></span>
+                        </span>
+                    </sup>
 
-                <span class="hidden sm:inline">Notifications</span>
-
-                <sup class="hidden sm:inline">
-                    <span class="-mt-2 -ml-3 fa-stack fa-1x">
-                        <i style="font-size: 23.5px;" class="text-red-600 fas fa-circle fa-stack-1x"></i>
-                        <span class="text-xs font-extrabold text-white fa-stack-1x">99+</span>
-                    </span>
-                </sup>
+                    <span class="hidden sm:inline">Notifications</span>
+                    <sup class="hidden sm:inline">
+                        <span class="-mt-2 -ml-3 fa-stack fa-1x">
+                            <i style="font-size: 23.5px;" class="text-red-600 fas fa-circle fa-stack-1x"></i>
+                            <span x-ref="count" class="text-xs font-extrabold text-white fa-stack-1x"></span>
+                        </span>
+                    </sup>
+                </div>
             </div>
             @endauth
-
-            {{-- <div @click=" active_item = 'blog' " :class="(active_item === 'blog') ? 'text-blue-500' : ''" class="flex-shrink-0 px-2 py-2 text-xl sm:cursor-pointer md:px-4 hover:text-blue-500">
-                <i class="fas fa-blog"></i> Blog
-            </div>
-            --}}
         </div>
     </div>
 </nav>

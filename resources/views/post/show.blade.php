@@ -4,7 +4,7 @@
             <x-connect.post.display-post :post="$post" />
             <div class="bg-gray-100">
                 @auth
-                @livewire('connect.post.post-feedback', ['postId' => $post->id, 'view' => 'post.show'], key(md5('post_actions'.$post->id)))
+                @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.show'], key(md5('post_actions'.$post->id)))
                 @endauth
             </div>
         </div>

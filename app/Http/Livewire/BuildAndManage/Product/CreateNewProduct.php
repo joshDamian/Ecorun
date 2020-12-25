@@ -6,6 +6,7 @@ use App\Http\Livewire\Traits\UploadPhotos;
 use App\Models\Category;
 use App\Models\Business;
 use Livewire\Component;
+use App\Models\Product;
 
 class CreateNewProduct extends Component
 {
@@ -27,7 +28,8 @@ class CreateNewProduct extends Component
         $this->validate($this->rules());
 
         $this->product = $this->business
-            ->products()->create([
+            ->products()->create(
+                [
                 'name' => ucwords(strtolower($this->name)),
                 'description' => $this->description . "some random long text... some more text and more text. 
                 Just some more. some random long text... some more text and more text. 
@@ -43,7 +45,8 @@ class CreateNewProduct extends Component
                 'price' => $this->price,
                 'available_stock' => $this->available_stock,
                 'is_published' => true
-            ]);
+                ]
+            );
 
         Category::find($this->product_category)->products()->save($this->product);
 

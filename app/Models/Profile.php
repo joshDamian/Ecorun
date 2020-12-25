@@ -23,7 +23,10 @@ class Profile extends Model
     public const TAG_PREFIX = '@';
 
     protected $with = [
-        'posts'
+       // 'posts',
+        //'notifications',
+       // 'unreadNotifications',
+        //'readNotifications',
     ];
 
     
@@ -38,7 +41,6 @@ class Profile extends Model
 
     public function followers()
     {
-        
         return $this->belongsToMany(Profile::class, 'profile_follower', 'profile_id', 'follower_id');
     }
 
@@ -61,7 +63,7 @@ class Profile extends Model
         static::creating(
             function ($profile) {
                 $profile->auto_tag = (string) Str::uuid();
-                $profile->tag = $profile->tag ?? GeneratorTool::generateID(Profile::class, 'tag', $profile->name . "_");
+                $profile->tag = $profile->tag ?? GeneratorTool::generateID(Profile::class, 'tag', [], $profile->name . "_");
             }
         );
     }

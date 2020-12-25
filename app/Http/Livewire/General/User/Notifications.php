@@ -2,10 +2,16 @@
 
 namespace App\Http\Livewire\General\User;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use App\Models\Profile;
 
 class Notifications extends Component
 {
+    public $associatedProfiles;
+    public $personal_profile;
+    public $currentProfile;
+    public $activeProfile;
     public $display = false;
     protected $listeners = [
         'showNotifications',
@@ -26,6 +32,21 @@ class Notifications extends Component
     public function hideNotifications()
     {
         return $this->display = false;
+    }
+
+    public function mount():void
+    {
+        $user = Auth::user()->loadMissing('profile.unreadNotifications', 'currentProfile.unreadNotifications');
+        $this->personal_profile = $user->profile;
+        $this->activeProfile = $this->currentProfile = $user->currentProfile;
+        $this->associatedProfiles = $user->associatedProfiles();
+        return;
+    }
+
+    public function switchProfile(Profile $profile)
+    {
+        $this->activeProfile = $profile->loadMissing('notifications');
+        return;
     }
 
     public function render()

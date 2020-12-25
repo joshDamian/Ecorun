@@ -27,12 +27,12 @@
             <div class="md:mt-1">
                 @if($profile->isBusiness())
                 <div>
-                    @livewire('connect.profile-dashboard.business-profile-data', ['business' => $profile->profileable, 'active_view' => $active_view])
+                    @livewire('connect.profile-dashboard.business-profile-data', ['profile' => $profile, 'action_route' => $action_route ?? 'products'])
                 </div>
 
                 @else
                 <div>
-                    @livewire('connect.profile-dashboard.user-profile-data', ['user' => $profile->profileable, 'active_view' => $active_view])
+                    @livewire('connect.profile-dashboard.user-profile-data', ['user' => $profile->profileable, 'action_route' => $action_route ?? 'products'])
                 </div>
                 @endif
             </div>

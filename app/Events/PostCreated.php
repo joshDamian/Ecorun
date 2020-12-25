@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PostCreated implements ShouldBroadcast
+class PostCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -34,6 +34,6 @@ class PostCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('posts.');
+        //return new Channel('posts');
     }
 }

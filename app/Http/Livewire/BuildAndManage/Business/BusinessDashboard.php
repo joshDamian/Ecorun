@@ -3,75 +3,63 @@
 namespace App\Http\Livewire\BuildAndManage\Business;
 
 use App\Models\Business;
+use App\Models\Profile;
 use Livewire\Component;
 
 class BusinessDashboard extends Component
 {
-    public Business $business;
-
+    public $tag;
     public array $actions = [
         'add-product' => [
             'title' => 'add product',
             'icon' => 'fas fa-plus-circle',
-            'color' => 'green-500'
         ],
-
         'products' => [
             'title' => 'products',
             'icon' => 'fas fa-shopping-basket',
-            'color' => 'purple-500'
         ],
-
+        'edit' => [
+            'title' => 'edit',
+            'icon' => 'fas fa-edit',
+        ],
         'orders' => [
             'title' => 'orders',
             'icon' => 'fas fa-clipboard-check',
-            'color' => 'pink-500'
         ],
-
         'gallery' => [
             'title' => 'gallery',
             'icon' => 'fas fa-image',
-            'color' => 'teal-500'
         ],
-
         'team' => [
-            'title' => 'management team',
+            'title' => 'team',
             'icon' => 'fas fa-users',
-            'color' => 'yellow-500'
         ],
-
-
     ];
-
-    public $action_route;
-
+    public string $action_route;
     public array $active_action;
-
     public $action_route_resource;
-
     protected $listeners = [
         'setupDone' => '$refresh'
     ];
 
-    public function mount($action_route = null, $action_route_resource = null)
+    public function mount($action_route = 'products', $action_route_resource = null)
     {
-        $this->action_route = $action_route;
-        $this->action_route_resource = $action_route_resource;
-
-        if (!array_key_exists($this->action_route, $this->actions)) {
-            $this->action_route = 'products';
-        }
-        if ($this->action_route === 'products') {
-            $this->action_route_resource = $action_route_resource;
-        }
-
-        return $this->active_action = $this->actions[$this->action_route];
+        $this->action_route = (array_key_exists($action_route, $this->actions)) ? $action_route : 'products';
+        $this->action_route_resource = ($this->action_route === 'products') ? $action_route_resource : null;
+        $this->switchAction($this->action_route);
+        return;
     }
 
-    public function switchAction($key)
+    public function getBusinessProperty(): Business
+    {
+        return Business::findOrFail(Profile::where('tag', $this->tag)->firstOrFail()->profileable->id);
+    }
+
+    public function switchAction(string $key)
     {
         $this->action_route = $key;
         $this->active_action = $this->actions[$key];
+        return;
     }
 
     public function render()

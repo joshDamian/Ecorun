@@ -1,4 +1,4 @@
-<div class="">
+<div>
     <div class="px-3 py-4 border-t  @if($feedbackReady) border-b @endif border-gray-200 grid grid-cols-3 gap-3 sm:gap-4 sm:px-5 sm:py-3 sm:p-0">
         <div x-data="{ liked: '{{ $this->liked() }}', clicked: null }" class="px-2 py-1 bg-white rounded-full">
             <div class="flex items-center justify-center">
@@ -27,10 +27,16 @@
     </div>
 
     <div>
-        @if($feedbackReady)
-        @livewire('connect.post.comment.create-new-comment', ['post' => $this->post, 'profile' => $profile])
-        <div class="p-3 sm:px-5 sm:pt-1 sm:pb-3 sm:p-0">
-            <x-connect.comment.display-comments :comments="$this->post->comments" />
+        @if($view === 'post.show')
+        <div>
+            @if($feedbackReady)
+            <div>
+                @livewire('connect.post.comment.create-new-comment', ['post' => $this->post, 'profile' => $profile], key(time().$this->post->id.'comment'))
+                <div class="p-3 sm:px-5 sm:pt-1 sm:pb-3 sm:p-0">
+                    <x-connect.comment.display-comments :comments="$this->post->load('comments')->comments" />
+                </div>
+            </div>
+            @endif
         </div>
         @endif
     </div>

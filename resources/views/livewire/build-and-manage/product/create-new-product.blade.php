@@ -3,14 +3,14 @@
         <x-loader />
     </div>
     @if($product)
-    <div class="px-4 pb-4 text-right flex justify-end md:px-0">
-        <a class="mr-3" href="{{ route('business.dashboard', ['tag' => $this->business->profile->tag, 'business' => $this->business->id, 'active_action' => 'products']) }}">
-            <x-jet-button class="bg-blue-700">
+    <div class="flex justify-end px-4 pb-4 text-right md:px-0">
+        <a class="mr-3" href="{{ route('business.dashboard', ['tag' => $this->business->profile->tag, 'profile' => Auth::user()->profile->tag, 'action_route' => 'products']) }}">
+            <x-jet-button class="bg-blue-800">
                 done
             </x-jet-button>
         </a>
 
-        <x-jet-button @click="window.location = window.location" class="bg-pink-600">
+        <x-jet-button @click=" window.location = window.location " class="bg-blue-600">
             {{ __('Add Another') }}
         </x-jet-button>
     </div>
@@ -144,7 +144,7 @@
                             </div>
                         </div>
 
-                        <x-jet-input id="price" type="number" class="relative block w-full mt-1 sm:py-2 sm:pr-2 sm:pl-12" placeholder="product price" wire:model.defer="price" autocomplete="price" />
+                        <x-jet-input id="price" step="100" type="number" class="relative block w-full mt-1 sm:py-2 sm:pr-2 sm:pl-12" placeholder="product price" wire:model.defer="price" autocomplete="price" />
                     </div>
 
                     <x-jet-input-error for="price" class="mt-2" />

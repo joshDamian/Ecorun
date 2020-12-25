@@ -16,24 +16,17 @@ class CreateNewPost extends Component
     public function create()
     {
         $this->defaultContentValidation();
-
         $post = $this->profile->posts()->create(
             [
             'content' => trim($this->content) ?? '',
             'visibility' => $this->visibility
             ]
         );
-
         $this->uploadPhotos('post-photos', $post, 'post_photo', array(1400, 1400));
-
-        $this->emit('addedContent');
-
         $this->emit('newPost');
-
+        $this->emit('addedContent');
         $this->done();
-
-        event(new PostCreated($post));
-        
+        broadcast(new PostCreated($post))->toOthers();
         return;
     }
     

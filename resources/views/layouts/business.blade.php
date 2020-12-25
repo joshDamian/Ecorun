@@ -21,7 +21,7 @@
                 </main>
             </div>
 
-            <div style="height: 98vh;" :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'" class="fixed top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white pb-1/6 animate__animated animate__slideInRight md:top-16 md:mt-2 md:right-5">
+            <div style="height: 98vh;" :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'" class="fixed top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white md:shadow-2xl pb-1/6 animate__animated animate__slideInRight md:top-16 md:mt-2 md:right-5">
                 <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
                     <div class="flex items-center justify-between">
                         <div class="flex-1 text-lg font-bold text-center">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
 
-                @livewire('general.user.notifications')
+                {{-- @livewire('general.user.notifications') --}}
             </div>
         </div>
     </div>

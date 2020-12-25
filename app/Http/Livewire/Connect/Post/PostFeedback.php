@@ -13,7 +13,7 @@ class PostFeedback extends Component
     use HasLikes;
     use HasFeedback;
 
-    public $postId;
+    public Post $post;
     public $view;
     protected $listeners = [
         'newFeedback' => '$refresh',
@@ -25,11 +25,6 @@ class PostFeedback extends Component
         $this->profile = Auth::user()->currentProfile;
         $this->likeable = $this->post;
         $this->feedbackReady = ($this->view === 'post.show') ? true : null;
-    }
-
-    public function getPostProperty()
-    {
-        return Post::find($this->postId);
     }
 
     public function render()

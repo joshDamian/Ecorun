@@ -17,6 +17,7 @@ class Product extends Model
 
     protected $with = [
         'specifications',
+        'gallery',
     ];
 
     protected $casts = [

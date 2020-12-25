@@ -58,7 +58,7 @@
                                     {!! $product->price() !!}
                                 </p>
                                 <div>
-                                    @livewire('buy.cart.add-to-cart', ['product' => $product], key(md5('add_to_cart'.$product->id)))
+                                    @livewire('buy.cart.add-to-cart', ['productId' => $product->id], key(md5('add_to_cart'.$product->id)))
                                 </div>
                             </div>
                         </div>

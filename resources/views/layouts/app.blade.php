@@ -32,14 +32,17 @@
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
-
     {{$slot}}
-
     @stack('modals')
-
     @livewireScripts
-
     @stack('scripts')
-</body>
+    <script>
+        document.addEventListener('livewire:load', () => {
+            Echo.channel('posts').listen('PostCreated', (e) => {
+                console.log(e.post.content);
+            });
+        })
 
+    </script>
+</body>
 </html>

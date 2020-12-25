@@ -26,10 +26,10 @@ class SendPostWebNotificaton
      * @param  PostCreated $event
      * @return void
      */
+    
     public function handle(PostCreated $event)
     {
-        $followers = $event->post->profile->followers->except([$event->post->profile->id]);
-
+        $followers = $event->post->load('profile.followers')->profile->followers->except([$event->post->profile->id]);
         Notification::send($followers, new NotificationsPostCreated($event->post));
     }
 }

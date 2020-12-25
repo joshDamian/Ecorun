@@ -16,7 +16,7 @@
                     @endif
                     ">
                 @forelse ($businesses as $business)
-                <a class="block shadow" href="{{ route('business.dashboard', ['business' => $business->id, 'tag' => $business->profile->tag]) }}">
+                <a class="block shadow" href="{{ route('business.dashboard', ['profile' => Auth::user()->profile->tag, 'tag' => $business->profile->tag]) }}">
                     <x-build-and-manage.business.business-preview :business="$business" />
                     <div style="width: 100%;" class="px-2 py-2 font-semibold text-center text-white truncate bg-blue-900 text-md">
                         {{ $business->name() }}

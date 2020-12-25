@@ -4,7 +4,7 @@
         {{ $trigger }}
     </div>
 
-    <div class="p-4 sm:p-6" x-show="ready">
+    <div class="p-4 bg-gray-100 sm:p-6" x-show="ready">
         <form wire:submit.prevent="create">
             @csrf
             <div>
@@ -28,7 +28,7 @@
                         <span @click=" $refs.photos.click() " class="font-semibold text-blue-800 cursor-pointer">
                             <i class="fas fa-images"></i> &nbsp;Photos (Max 5MB)
                         </span>
-                        @if($photos)
+                        @if(count($photos) > 0)
                         <div class="grid grid-cols-3 gap-2 mt-3">
                             @foreach($photos as $photo)
                             <div style="background-image: url('{{ $photo->temporaryUrl() }}'); background-size: cover; background-position: center center;" class="w-full h-20 sm:h-36">

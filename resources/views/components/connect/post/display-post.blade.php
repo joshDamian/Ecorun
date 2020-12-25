@@ -1,5 +1,6 @@
-@props(['post', 'image_count' => $post->gallery->count(), 'like_count' => $post->likes->count(), 'profile' => $post->profile ])
+@props(['post', 'gallery' => $post->load('gallery')->gallery, 'profile' => $post->profile ])
 <div>
+    @php $image_count = $gallery->count() @endphp
     <div class="bg-gray-100 sm:shadow">
         <div class="flex justify-between px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
             <div class="flex items-center flex-1">
@@ -27,20 +28,20 @@
         </div>
 
         @if($post->content)
-        <div class="p-3 sm:px-5 sm:py-3 sm:p-0">
-            {{ $post->content }}
+        <div class="p-3 break-words sm:px-5 sm:py-3 sm:p-0">
+            {!! $post->content !!}
         </div>
         @endif
 
         @if($image_count > 0)
         <div class="@if($image_count > 1) grid grid-cols-2 gap-1 @endif bg-white">
             <div>
-                <img src="/storage/{{ $post->gallery->first()->image_url }}" />
+                <img src="/storage/{{ $gallery->first()->image_url }}" />
             </div>
             @if($image_count > 1 )
             <div class="grid gap-1 @if($image_count > 1 && $image_count < 4) grid-cols-1 @else grid-cols-2 @endif">
-                @foreach($post->gallery as $key => $image)
-                @continue($image->is($post->gallery->first()))
+                @foreach($gallery as $key => $image)
+                @continue($image->is($gallery->first()))
                 @if($image_count > 2)
                 @break($key === 6)
                 <div style="background-image: url('/storage/{{ $image->image_url }}'); background-size: cover; background-position: center center;" class="w-full h-full">

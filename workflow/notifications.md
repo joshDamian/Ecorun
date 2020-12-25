@@ -5,7 +5,7 @@
         -What channel would echo listen on for the notifications... dependent on question 1.
     End_Questions
 
-    PosibleSolutions:
+    PosssssibleSolutions:
         For_question_1:
             -The notifications can be based on the currently authenticated user and switchable options be provided to view notifications for his/her associated profiles with the default profile as the user's currentProfile.
         End_For_question_1

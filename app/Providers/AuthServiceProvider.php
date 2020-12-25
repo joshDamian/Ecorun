@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Business;
 use App\Models\Product;
+use App\Models\Profile;
 use App\Models\Team;
 use App\Policies\ProductPolicy;
 use App\Policies\ProfilePolicy;
@@ -33,18 +34,25 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('own-businesses', function ($user) {
-            return $user->isManager !== null;
-        });
-
-        Gate::define('update-business', function ($user, $business) {
-
-            if ($user->isManager === null) {
-                return false;
-            } else {
-                return $user->isManager->id === Business::findOrFail($business)->manager_id;
+        Gate::define(
+            'own-businesses',
+            function ($user) {
+                return $user->isManager !== null;
             }
-        });
+        );
+
+        Gate::define(
+            'update-business',
+            function ($user, $tag) {
+                $business = Business::findOrFail(Profile::where('tag', $tag)->firstOrFail()->profileable->id);
+           
+                if ($user->isManager === null) {
+                    return false;
+                } else {
+                    return $user->isManager->id === $business->manager_id;
+                }
+            }
+        );
 
         Gate::define(
             'manage-business',

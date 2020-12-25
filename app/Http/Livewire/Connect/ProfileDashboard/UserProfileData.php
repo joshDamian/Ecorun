@@ -2,50 +2,41 @@
 
 namespace App\Http\Livewire\Connect\ProfileDashboard;
 
+use App\Models\User;
 use Livewire\Component;
 
 class UserProfileData extends Component
 {
-    public $user;
-    public $active_view;
-    public $views = [
+    public User $user;
+    public array $active_view;
+    public string $action_route;
+    public array $views = [
         'posts' => [
             'title' => 'posts',
             'icon' => 'fas fa-user-edit'
         ],
-
         'gallery' => [
             'title' => 'gallery',
             'icon' => 'fas fa-images'
         ],
-
         'about' => [
             'title' => 'about',
             'icon' => 'fas fa-user'
         ]
     ];
 
-    public function mount($active_view = null)
+    public function mount($action_route = 'posts')
     {
-        if ($active_view) {
-            if (array_key_exists($active_view, $this->views)) {
-                $this->switchView($active_view);
-            } else {
-                $this->defaultView();
-            }
-        } else {
-            $this->defaultView();
-        }
+        $this->action_route = (array_key_exists($this->action_route, $this->views)) ? $action_route : 'posts';
+        $this->switchView($this->action_route);
+        return;
     }
 
     public function switchView($view_key)
     {
-        return $this->active_view = $this->views[$view_key];
-    }
-
-    public function defaultView()
-    {
-        return $this->switchView('posts');
+        $this->action_route = $view_key;
+        $this->active_view = $this->views[$view_key];
+        return;
     }
 
     public function render()
