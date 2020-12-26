@@ -5,6 +5,7 @@ namespace App\Http\Livewire\BuildAndManage\Business;
 use App\Models\Business;
 use App\Models\Profile;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class BusinessDashboard extends Component
 {
@@ -28,7 +29,7 @@ class BusinessDashboard extends Component
         ],
         'gallery' => [
             'title' => 'gallery',
-            'icon' => 'fas fa-image',
+            'icon' => 'fas fa-images',
         ],
         'team' => [
             'title' => 'team',
@@ -64,6 +65,7 @@ class BusinessDashboard extends Component
 
     public function render()
     {
-        return view('livewire.build-and-manage.business.business-dashboard')->layout('layouts.business');
+        $user = Auth::user()->loadMissing('profile');
+        return view('livewire.build-and-manage.business.business-dashboard')->layout('layouts.business', ['user' => $user]);
     }
 }

@@ -1,6 +1,6 @@
 <div>
     <div style="width: 100%;" wire:loading>
-        <x-loader />
+        <x-loader_2 />
     </div>
     @if($product)
     <div class="flex justify-end px-4 pb-4 text-right md:px-0">

@@ -27,7 +27,7 @@
     </div>
 
     <div wire:loading class="w-full">
-        <x-loader />
+        <x-loader_2 />
     </div>
 
     <div class="py-4 md:py-0 md:px-4 md:pb-4">

@@ -6,7 +6,7 @@
             </div>
 
             <div class="sm:mb-4">
-                @livewire('connect.profile.profile-post-list', ['profile' => $profile->loadMissing('following'), 'view' => 'landing-page', 'currentProfile' => $profile], key(md5('profile_post_list_auth')))
+                @livewire('connect.profile.profile-post-list', ['profile' => $profile->loadMissing('following'), 'view' => 'landing-page'], key(md5('profile_post_list_auth')))
             </div>
         </div>
     </div>

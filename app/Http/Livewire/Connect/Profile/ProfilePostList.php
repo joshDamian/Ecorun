@@ -15,7 +15,6 @@ class ProfilePostList extends Component
     public Profile $profile;
     public string $view;
     public int $perPage = 10;
-    public Profile $currentProfile;
     protected $listeners = [
         //'loadOlderPosts',
         'newPost' => '$refresh'

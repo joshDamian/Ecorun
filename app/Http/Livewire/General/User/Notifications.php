@@ -42,7 +42,7 @@ class Notifications extends Component
 
     public function switchProfile(Profile $profile):void
     {
-        $this->activeProfile = $profile->loadMissing('notifications');
+        $this->activeProfile = $profile->loadMissing('notifications', 'unreadNotifications');
         return;
     }
 

@@ -10,7 +10,7 @@
             <div>
                 <div>
                     <div class="flex justify-center text-blue-600" style="width: 100%;" wire:loading>
-                        <x-loader />
+                        <x-loader_2 />
                     </div>
 
                     <div class="flex items-baseline justify-between mb-2">

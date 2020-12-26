@@ -7,7 +7,13 @@
 
             <div x-show="open_menu" :class="(open_menu) ? 'w-full md:w-1/4' : 'w-0'" style="height: 98vh;" class="fixed top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white animate__animated animate__slideInLeft md:top-16 md:bg-transparent md:pr-3 md:left-5">
                 <div class="pb-1/5">
-                    <x-nav-content />
+                    @php
+                    $currentProfile = $user->currentProfile->load('profileable');
+                    $personalProfile = $user->profile;
+                    $associatedProfiles = $user->associatedProfiles();
+                    $currentProfileIsBiz = $currentProfile->isBusiness();
+                    @endphp
+                    <x-nav-content :user="$user" :associatedProfiles="$associatedProfiles" :personalProfile="$personalProfile" :currentProfile="$currentProfile" :currentProfileIsBiz="$currentProfileIsBiz" />
                 </div>
             </div>
 
@@ -22,16 +28,7 @@
             </div>
 
             <div style="height: 98vh;" :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'" class="fixed top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white md:shadow-2xl pb-1/6 animate__animated animate__slideInRight md:top-16 md:mt-2 md:right-5">
-                <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
-                    <div class="flex items-center justify-between">
-                        <div class="flex-1 text-lg font-bold text-center">
-                            Notifications
-                        </div>
-                        <i @click=" open_notifications = false; Livewire.emit('hideNotifications')" class="ml-3 text-2xl fas fa-times"></i>
-                    </div>
-                </div>
-
-                {{-- @livewire('general.user.notifications') --}}
+                <livewire:general.user.notifications :allProfiles="$associatedProfiles->concat([$personalProfile])" :user="$user" />
             </div>
         </div>
     </div>

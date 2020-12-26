@@ -20,6 +20,7 @@ class UpdateProfile extends Component
 
     public function render()
     {
-        return view('livewire.connect.profile.update-profile')->layout('layouts.business');
+        $user = Auth::user()->loadMissing('profile');
+        return view('livewire.connect.profile.update-profile')->layout('layouts.business', ['user' => $user]);
     }
 }

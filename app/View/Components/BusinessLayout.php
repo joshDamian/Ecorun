@@ -2,16 +2,13 @@
 
 namespace App\View\Components;
 
+use App\Models\User;
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\Auth;
 
 class BusinessLayout extends Component
 {
-    public $user;
-    public $currentProfile;
-    public $associatedProfiles;
-    public $personalProfile;
-    public $currentProfileIsBiz;
+    public User $user;
 
     /**
      * Create a new component instance.
@@ -22,10 +19,6 @@ class BusinessLayout extends Component
     {
         if (Auth::check()) {
             $this->user = Auth::user()->load('profile');
-            $this->currentProfile = $this->user->currentProfile->load('profileable');
-            $this->personalProfile = $this->user->profile;
-            $this->associatedProfiles = $this->user->associatedProfiles();
-            $this->currentProfileIsBiz = $this->currentProfile->isBusiness();
         }
     }
 

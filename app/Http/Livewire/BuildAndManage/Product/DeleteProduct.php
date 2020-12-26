@@ -26,7 +26,7 @@ class DeleteProduct extends Component
 
         $this->product->forceDelete();
 
-        redirect()->to(Auth::user()->profile->tag."/{$business->profile->tag}/products");
+        redirect()->to(Auth::user()->profile->full_tag()."/{$business->profile->full_tag()}/products");
     }
 
     public function confirmDeleteProduct()
