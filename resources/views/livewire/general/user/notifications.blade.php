@@ -8,7 +8,23 @@
         </div>
     </div>
 
-    <div x-data x-init="() => { Livewire.on('newNotification', (notification) => { Livewire.emit('updatedCount', 2) }) }" class="flex flex-wrap p-2 md:p-0 md:pt-2">
+    <div x-data x-init="() => { 
+        @foreach($profiles as $key => $profile)
+        Echo.private('App.Models.Profile.{{$profile->id}}').notification((notification) => {
+            Livewire.emit('newNotification', notification);
+        });
+        @endforeach
+         }">
+    </div>
+    <div x-data x-init="() => {
+        Livewire.emit('updatedNotifCount');
+        Livewire.on('newNotification', (notification) => {
+            Livewire.emit('updatedNotifCount');
+        })
+    }">
+    </div>
+    @if($display)
+    <div class="flex flex-wrap p-2 md:p-0 md:pt-2">
         @foreach($profiles as $key => $profile)
         <div class="mb-2 mr-2">
             <x-connect.profile.switch-profile-for-notif :profile="$profile" :active="$profile->is($activeProfile)" />
@@ -22,5 +38,6 @@
     <div class="bg-gray-100">
         <x-connect.profile.profile-notifications :profile="$activeProfile" />
     </div>
+    @endif
     @endif
 </div>

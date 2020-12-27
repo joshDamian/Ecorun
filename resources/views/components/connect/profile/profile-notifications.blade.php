@@ -1,7 +1,6 @@
-@props(['profile', 'freshNotifications' => $profile->loadMissing('unreadNotifications')->unreadNotifications()->whereNotIn('id', Cache::get($profile->id.'_notifications', collect([]))->pluck('id'))->get()])
+@props(['profile', 'freshNotifications' => $profile->loadMissing('unreadNotifications')->unreadNotifications->whereNotIn('id', Cache::get($profile->id.'_notifications', collect([]))->pluck('id'))])
 <div class="grid grid-cols-1 gap-2">
     @php
-
     if($freshNotifications->count() > 0) {
     Cache::put($profile->id.'_notifications', Cache::get($profile->id.'_notifications', collect([]))->concat($freshNotifications));
     }
@@ -13,12 +12,20 @@
     $post_notifications = $notifications->filter(function($value, $key) {
     return $value->type === 'App\Notifications\PostCreated';
     });
-    $posts = App\Models\Post::whereIn('id', $post_notifications->pluck('data.post_id'))->get()->loadMissing('profile');
+    $posts = App\Models\Post::withCount('gallery')->whereIn('id', $post_notifications->pluck('data.post_id'))->get()->loadMissing('profile');
     @endphp
 
     @forelse($notifications as $notification)
     @if($notification->type === 'App\Notifications\PostCreated')
-    <x-connect.notification.post-created-display :notification="$notification" :post="$posts->find($notification->data['post_id'])->loadMissing('profile')" />
+    @php
+    $post = $posts->find($notification->data['post_id']);
+    if(is_null($post)) {
+    Cache::put($profile->id.'_notifications', Cache::get($profile->id.'_notifications', collect([]))->pull($notification->id));
+    $notification->delete();
+    continue;
+    }
+    @endphp
+    <x-connect.notification.post-created-display :notification="$notification" :post="$post" />
     @endif
     @empty
     <div class="p-3 text-blue-700">

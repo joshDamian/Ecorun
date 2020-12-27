@@ -12,7 +12,12 @@
                             <span class="text-gray-700">{{ $notification->created_at->diffForHumans(null, null, true) }}</span>
                         </div>
                         <div>
-                            <span class="font-bold text-black">{{ $profile->name }}</span> added a new post.
+                            <span class="font-bold text-black">{{ $profile->name }}</span>
+                            @if(!$post->content)
+                            added {{ $post->gallery_count }} new {{ ($post->gallery_count > 1) ? __('photos') : __('photo') }}
+                            @else
+                            added a new post.
+                            @endif
                         </div>
                         @if($post->content)
                         <div class="flex items-center">

@@ -26,6 +26,11 @@ class ProfilePostList extends Component
             $this->perPage = $this->perPage + 5;
         }
     }
+
+    public function mount()
+    {
+        //
+    }
     
     public function render()
     {

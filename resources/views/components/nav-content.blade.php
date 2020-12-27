@@ -1,18 +1,4 @@
-<div x-init="() => { 
-    Echo.private('App.Models.Profile.{{$currentProfile->id}}').notification((notification) => {
-        Livewire.emit('newNotification', notification);
-    });
-    @foreach($associatedProfiles as $key => $profile)
-    @continue($profile->is($currentProfile) || ($profile->is($personalProfile)))
-    Echo.private('App.Models.Profile.{{$profile->id}}').notification((notification) => {
-        Livewire.emit('newNotification', notification);
-    });
-    @endforeach
-
-    Echo.private('App.Models.Profile.{{$personalProfile->id}}').notification((notification) => {
-        Livewire.emit('newNotification', notification);
-    });
-     }">
+<div>
     <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
         <div class="flex items-center justify-between">
             <i @click=" open_menu = false" class="mr-3 text-2xl fas fa-times"></i>
@@ -155,7 +141,7 @@
             </a>
         </form>
 
-        @if($associatedProfiles->count() > 1)
+        @if($associatedProfiles->count() > 0)
         <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white border-b text-md">
             Switch profiles <i class="text-green-400 fas fa-retweet"></i>
         </div>

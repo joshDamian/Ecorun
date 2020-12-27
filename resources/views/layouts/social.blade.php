@@ -23,7 +23,7 @@
                 </main>
             </div>
             @auth
-            <div x-show="open_notifications" style="height: 98vh;" :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'" class="fixed top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white pb-1/6 animate__animated animate__slideInRight md:top-16 md:bg-transparent md:pl-2 md:right-5">
+            <div x-show.transition="open_notifications" style="height: 98vh;" :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'" class="fixed top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white pb-1/6 animate__animated animate__slideInLeft md:top-16 md:bg-transparent md:pl-2 md:right-5">
                 <div class="pb-1/12">
                     <livewire:general.user.notifications :allProfiles="$associatedProfiles->concat([$personalProfile])" :user="$user" />
                 </div>

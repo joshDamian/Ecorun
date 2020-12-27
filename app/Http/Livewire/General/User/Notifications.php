@@ -15,7 +15,8 @@ class Notifications extends Component
     protected $listeners = [
         'showNotifications',
         'hideNotifications',
-        'toggleNotifications'
+        'toggleNotifications',
+        'newNotification' => '$refresh'
     ];
 
     public function toggleNotifications()

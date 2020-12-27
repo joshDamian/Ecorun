@@ -1,7 +1,7 @@
 @props(['post', 'gallery' => $post->gallery, 'profile' => $post->profile])
 <div>
     @php
-    $image_count = $post->gallery_count;
+    $image_count = $post->gallery_count ?? $gallery->count();
     @endphp
     <div class="bg-gray-100 sm:shadow">
         <div class="flex justify-between px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
