@@ -8,7 +8,7 @@
             <div x-show="open_menu" :class="(open_menu) ? 'w-full md:w-1/4' : 'w-0'" style="height: 98vh;" class="fixed top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white animate__animated animate__slideInLeft md:top-16 md:bg-transparent md:pr-3 md:left-5">
                 <div class="pb-1/5">
                     @php
-                    $currentProfile = $user->currentProfile->load('profileable');
+                    $currentProfile = $user->currentProfile->loadMissing('profileable');
                     $personalProfile = $user->profile;
                     $associatedProfiles = $user->associatedProfiles();
                     $currentProfileIsBiz = $currentProfile->isBusiness();
@@ -36,12 +36,12 @@
     <script>
         function nav_data() {
             return {
-                open_menu: null,
-                open_notifications: null,
-                init_nav() {
+                open_menu: null
+                , open_notifications: null
+                , init_nav() {
                     return this.expand()
-                },
-                expand() {
+                }
+                , expand() {
                     if (window.outerWidth > 768) {
                         return this.open_menu = true;
                     }

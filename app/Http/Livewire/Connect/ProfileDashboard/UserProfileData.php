@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\Connect\ProfileDashboard;
 
-use App\Models\User;
+use App\Models\Profile;
 use Livewire\Component;
 
 class UserProfileData extends Component
 {
-    public User $user;
+    public Profile $profile;
     public array $active_view;
     public string $action_route;
     public array $views = [
@@ -25,14 +25,14 @@ class UserProfileData extends Component
         ]
     ];
 
-    public function mount($action_route = 'posts')
+    public function mount(string $action_route = 'posts'):void
     {
         $this->action_route = (array_key_exists($this->action_route, $this->views)) ? $action_route : 'posts';
         $this->switchView($this->action_route);
         return;
     }
 
-    public function switchView($view_key)
+    public function switchView(string $view_key):void
     {
         $this->action_route = $view_key;
         $this->active_view = $this->views[$view_key];

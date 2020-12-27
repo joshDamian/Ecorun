@@ -1,14 +1,7 @@
-@props(['profile', 'freshNotifications' => $profile->loadMissing('unreadNotifications')->unreadNotifications->whereNotIn('id', Cache::get($profile->id.'_notifications', collect([]))->pluck('id'))])
+@props(['profile'])
 <div class="grid grid-cols-1 gap-2">
     @php
-    if($freshNotifications->count() > 0) {
-    Cache::put($profile->id.'_notifications', Cache::get($profile->id.'_notifications', collect([]))->concat($freshNotifications));
-    }
-
-    $notifications = Cache::remember($profile->id.'_notifications', now()->addDays(30), function() use ($profile) {
-    return $profile->loadMissing('notifications')->notifications;
-    })->sortByDesc('created_at');
-
+    $notifications = $profile->loadMissing('notifications')->notifications;
     $post_notifications = $notifications->filter(function($value, $key) {
     return $value->type === 'App\Notifications\PostCreated';
     });
@@ -20,7 +13,6 @@
     @php
     $post = $posts->find($notification->data['post_id']);
     if(is_null($post)) {
-    Cache::put($profile->id.'_notifications', Cache::get($profile->id.'_notifications', collect([]))->pull($notification->id));
     $notification->delete();
     continue;
     }

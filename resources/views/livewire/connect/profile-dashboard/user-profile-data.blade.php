@@ -15,23 +15,23 @@
     <div class="mt-2 md:mt-3 md:mb-3">
         @switch($active_view['title'])
         @case('posts')
-        @can('update', $user->profile)
+        @can('update', $profile)
         <div class="mb-2 md:mb-3">
-            @livewire('connect.post.create-new-post', ['profile' => $user->profile, 'view' => 'timeline'])
+            @livewire('connect.post.create-new-post', ['profile' => $profile, 'view' => 'timeline'])
         </div>
         @endcan
 
         <div>
-            @livewire('connect.profile.profile-post-list', ['profile' => $user->profile, 'view' => 'timeline'])
+            @livewire('connect.profile.profile-post-list', ['profile' => $profile, 'view' => 'timeline'])
         </div>
         @break
         @case('about')
         <div class="bg-white sm:shadow-sm">
             <p class="p-3 text-lg font-medium text-gray-600 border-b border-gray-300">
-                About {{ $user->profile->name }}
+                About {{ $profile->name }}
             </p>
             <p class="p-3 text-gray-700 text-md">
-                {{ $user->profile->description }}
+                {{ $profile->description }}
             </p>
         </div>
         @break
@@ -45,7 +45,7 @@
 
 <script>
     document.addEventListener('livewire:load', function() {
-        window.modifyUrl.modify("/{{ $user->profile->full_tag() }}/{{ $action_route }}")
+        window.modifyUrl.modify("/{{ $profile->full_tag() }}/{{ $action_route }}")
     })
 
 </script>

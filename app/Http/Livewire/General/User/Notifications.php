@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Collection;
 class Notifications extends Component
 {
     public Collection $profiles;
-    public $activeProfile;
-    public $display = false;
+    public Profile $activeProfile;
+    public bool $display = false;
     protected $listeners = [
         'showNotifications',
         'hideNotifications',
@@ -19,17 +19,18 @@ class Notifications extends Component
         'newNotification' => '$refresh'
     ];
 
-    public function toggleNotifications()
+    public function toggleNotifications():void
     {
         $this->display = !$this->display;
+        return;
     }
 
-    public function showNotifications()
+    public function showNotifications():bool
     {
         return $this->display = true;
     }
 
-    public function hideNotifications()
+    public function hideNotifications():bool
     {
         return $this->display = false;
     }

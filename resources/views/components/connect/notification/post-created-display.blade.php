@@ -1,7 +1,7 @@
 @props(['notification', 'post', 'profile' => $post->profile])
 <div>
     <a href="{{ route('post.show', ['post' => $post->id]) }}">
-        <div class="p-2 bg-white">
+        <div class="p-2 @if($notification->read_at) bg-gray-200 @else bg-white @endif">
             <div class="flex flex-wrap">
                 <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="flex-shrink-0 w-12 h-12 mr-2 border-t-2 border-b-2 border-blue-700 rounded-full">
                 </div>
@@ -22,7 +22,7 @@
                         @if($post->content)
                         <div class="flex items-center">
                             <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
-                            <div class="flex-1 line-clamp flex-shrink-0 break-words truncate">
+                            <div class="flex-1 flex-shrink-0 break-words truncate line-clamp">
                                 {!! $post->content !!}
                             </div>
                         </div>

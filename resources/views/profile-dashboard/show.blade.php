@@ -29,10 +29,9 @@
                 <div>
                     @livewire('connect.profile-dashboard.business-profile-data', ['profile' => $profile, 'action_route' => $action_route ?? 'products'])
                 </div>
-
                 @else
                 <div>
-                    @livewire('connect.profile-dashboard.user-profile-data', ['user' => $profile->profileable, 'action_route' => $action_route ?? 'products'])
+                    @livewire('connect.profile-dashboard.user-profile-data', ['profile' => $profile, 'action_route' => $action_route ?? 'posts'])
                 </div>
                 @endif
             </div>
