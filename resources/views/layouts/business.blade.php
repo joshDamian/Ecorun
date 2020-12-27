@@ -1,7 +1,7 @@
 <x-app-layout>
     <div x-on:resize.window="expand()" x-data="nav_data()" x-init="init_nav()" x-cloak>
         <!--Nav-->
-        <x-navbar />
+        <x-navbar :user="$user" />
 
         <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
 
@@ -36,12 +36,12 @@
     <script>
         function nav_data() {
             return {
-                open_menu: null
-                , open_notifications: null
-                , init_nav() {
+                open_menu: null,
+                open_notifications: null,
+                init_nav() {
                     return this.expand()
-                }
-                , expand() {
+                },
+                expand() {
                     if (window.outerWidth > 768) {
                         return this.open_menu = true;
                     }

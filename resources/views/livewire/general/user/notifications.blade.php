@@ -1,3 +1,15 @@
+@once
+@push('styles')
+<style>
+    .line-clamp {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+@endpush
+@endonce
 <div>
     <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
         <div class="flex items-center justify-between">
@@ -8,22 +20,15 @@
         </div>
     </div>
 
-    <div x-data x-init="() => { 
+    <div x-data x-init="() => {
         @foreach($profiles as $key => $profile)
         Echo.private('App.Models.Profile.{{$profile->id}}').notification((notification) => {
-            Livewire.emit('newNotification', notification);
+        Livewire.emit('newNotification', notification);
         });
         @endforeach
-         }">
+        }">
     </div>
-    <div x-data x-init="() => {
-        Livewire.emit('updatedNotifCount');
-        Livewire.on('newNotification', (notification) => {
-            Livewire.emit('updatedNotifCount');
-        })
-    }">
-    </div>
-    @if($display)
+
     <div class="flex flex-wrap p-2 md:p-0 md:pt-2">
         @foreach($profiles as $key => $profile)
         <div class="mb-2 mr-2">
@@ -34,6 +39,7 @@
     <div wire:loading class="w-full">
         <x-loader_2 />
     </div>
+    @if($display)
     @if($activeProfile)
     <div class="bg-gray-100">
         <x-connect.profile.profile-notifications :profile="$activeProfile" />

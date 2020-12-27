@@ -12,6 +12,10 @@
             </ul>
         </div>
     </div>
+    <div wire:loading class="w-full">
+        <x-loader_2 />
+    </div>
+
     <div class="mt-2 md:my-3">
         @switch($active_view['title'])
         @case('products')

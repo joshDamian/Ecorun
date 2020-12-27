@@ -25518,7 +25518,7 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: "17466f169675347d00d2",
-  cluster: "us3",
+  cluster: "mt1",
   forceTLS: false,
   wsHost: window.location.hostname,
   wsPort: 6001,
@@ -25545,9 +25545,9 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/ecorun/Documents/web-projects/php/laravel/ecorun-current/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /home/ecorun/Documents/web-projects/php/laravel/ecorun-current/resources/sass/webfonts.scss */"./resources/sass/webfonts.scss");
-module.exports = __webpack_require__(/*! /home/ecorun/Documents/web-projects/php/laravel/ecorun-current/resources/css/app.css */"./resources/css/app.css");
+__webpack_require__(/*! /data/data/com.termux/files/home/web/laravel/ecorun-current/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /data/data/com.termux/files/home/web/laravel/ecorun-current/resources/sass/webfonts.scss */"./resources/sass/webfonts.scss");
+module.exports = __webpack_require__(/*! /data/data/com.termux/files/home/web/laravel/ecorun-current/resources/css/app.css */"./resources/css/app.css");
 
 
 /***/ })
