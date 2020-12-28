@@ -1,4 +1,4 @@
-<div x-data="{ unread: null }" x-init="() => { @if($count > 0) unread = true; @endif }">
+<div x-data="{ unread: null }" x-init="() => { @if($count > 0) unread = true; @endif Livewire.on('newNotification', () => { unread = true; }) }">
     <i class="far fa-bell"></i>
     <sup x-show="unread" class="sm:hidden">
         <span class="-mt-2 -ml-5 fa-stack fa-1x">

@@ -18,8 +18,10 @@ class SocialLayout extends Component
     public function __construct()
     {
         if (Auth::check()) {
-            $this->user = Auth::user()->loadMissing('profile');
+            $this->user = Auth::user()->loadMissing('profile', 'currentProfile.profileable', 'currentProfile.followers', 'currentProfile.following');
+            return;
         }
+        $this->user = new User();
     }
 
     /**

@@ -40,6 +40,18 @@
         </div>
         @break
 
+        @case('gallery')
+        <div class="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5">
+            @foreach($profile->gallery() as $key => $picture_post)
+            @foreach($picture_post->gallery as $key => $image)
+            <a href="{{ route('post.show', ['post' => $picture_post->id]) }}">
+                <img class="w-full" src="/storage/{{ $image->image_url }}" />
+            </a>
+            @endforeach
+            @endforeach
+        </div>
+        @break
+
         @case('about')
         <div class="bg-white sm:shadow-sm">
             <p class="p-3 text-lg font-medium text-gray-600 border-b border-gray-300">

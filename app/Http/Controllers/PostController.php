@@ -46,7 +46,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $post = $post->loadMissing('gallery', 'likes', 'comments');
+        $post = $post->loadMissing('gallery', 'likes', 'comments', 'profile');
         return view('post.show', compact('post'));
     }
 

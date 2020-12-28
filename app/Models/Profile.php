@@ -21,14 +21,6 @@ class Profile extends Model
     ];
 
     public const TAG_PREFIX = '@';
-
-    protected $with = [
-       // 'posts',
-        //'notifications',
-       // 'unreadNotifications',
-        //'readNotifications',
-    ];
-
     
     /**
      * The accessors to append to the model's array form.
@@ -47,6 +39,12 @@ class Profile extends Model
     public function following()
     {
         return $this->belongsToMany(Profile::class, 'profile_follower', 'follower_id', 'profile_id');
+    }
+
+    public function guestMode()
+    {
+        $this->name = 'Guest';
+        return $this;
     }
 
     public function slugData()
@@ -93,8 +91,19 @@ class Profile extends Model
         return $this->profileable instanceof User;
     }
 
+    public function gallery()
+    {
+        return $this->posts()->has('gallery')->get()->loadMissing('gallery');
+    }
+
+    public function concerned_posts()
+    {
+        return Post::with('gallery', 'likes', 'profile')->withCount('gallery')->whereIn('profile_id', $this->loadMissing('following')->following->pluck('id'))
+            ->latest()->get()->unique();
+    }
+
     public function posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class)->latest();
     }
 }

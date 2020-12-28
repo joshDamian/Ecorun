@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Connect\Profile;
 
-use App\Models\Post;
 use Livewire\Component;
 use App\Models\Profile;
 
@@ -17,7 +16,7 @@ class ProfilePostList extends Component
     public $posts_lazy;
     protected $listeners = [
         //'loadOlderPosts',
-        'newPost' => '$refresh'
+        'newPost'
     ];
 
     public function loadOlderPosts()
@@ -25,11 +24,14 @@ class ProfilePostList extends Component
         $this->perPage = $this->perPage + 5;
     }
 
+    public function newPost()
+    {
+        $this->posts_lazy = ($this->view === 'landing-page') ? $this->profile->concerned_posts() : $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
+    }
+
     public function mount()
     {
-        $all_posts = ($this->view === 'landing-page') ? true : false;
-        $this->posts_lazy = Post::with('gallery', 'likes', 'profile')->withCount('gallery')->whereIn('profile_id', ($all_posts) ? $this->profile->loadMissing('following')->following->pluck('id') : [$this->profile->id])
-            ->latest()->get()->unique();
+        $this->posts_lazy = ($this->view === 'landing-page') ? $this->profile->concerned_posts() : $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
     }
 
     public function render()

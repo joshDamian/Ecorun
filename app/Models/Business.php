@@ -44,11 +44,6 @@ class Business extends Model
         return $this->hasMany(Product::class)->where('is_published', true)->latest();
     }
 
-    public function gallery()
-    {
-        return $this->morphMany('App\Models\Image', 'imageable');
-    }
-
     public function team()
     {
         return $this->hasOne(Team::class);
