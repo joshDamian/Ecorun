@@ -87,9 +87,9 @@
             </div>
         </a>
 
-        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'gallery']) }}">
+        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'orders']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
-                <i class="fas fa-images"></i> &nbsp;Gallery
+                <i class="fas fa-clipboard-check"></i> &nbsp;Orders
             </div>
         </a>
 

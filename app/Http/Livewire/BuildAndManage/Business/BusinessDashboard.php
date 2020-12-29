@@ -27,10 +27,6 @@ class BusinessDashboard extends Component
             'title' => 'orders',
             'icon' => 'fas fa-clipboard-check',
         ],
-        'gallery' => [
-            'title' => 'gallery',
-            'icon' => 'fas fa-images',
-        ],
         'team' => [
             'title' => 'team',
             'icon' => 'fas fa-users',
@@ -43,8 +39,7 @@ class BusinessDashboard extends Component
         'setupDone' => '$refresh'
     ];
 
-    public function mount($action_route = 'products', $action_route_resource = null)
-    {
+    public function mount($action_route = 'products', $action_route_resource = null) {
         $this->action_route = (array_key_exists($action_route, $this->actions)) ? $action_route : 'products';
         $this->action_route_resource = ($this->action_route === 'products') ? $action_route_resource : null;
         $this->switchAction($this->action_route);
@@ -56,15 +51,13 @@ class BusinessDashboard extends Component
         return Business::findOrFail(Profile::where('tag', $this->tag)->firstOrFail()->loadMissing('profileable')->profileable->id);
     }
 
-    public function switchAction(string $key)
-    {
+    public function switchAction(string $key) {
         $this->action_route = $key;
         $this->active_action = $this->actions[$key];
         return;
     }
 
-    public function render()
-    {
+    public function render() {
         $user = Auth::user()->loadMissing('profile');
         return view('livewire.build-and-manage.business.business-dashboard')->layout('layouts.business', ['user' => $user]);
     }
