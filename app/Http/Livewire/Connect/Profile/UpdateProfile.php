@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Connect\Profile;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use App\Models\Profile;
 
 class UpdateProfile extends Component
 {
@@ -13,7 +12,7 @@ class UpdateProfile extends Component
 
     use AuthorizesRequests;
 
-    public function mount(Profile $profile)
+    public function mount()
     {
         $this->authorize('access', $this->profile);
     }

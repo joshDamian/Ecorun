@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\FollowController;
+use App\Models\Profile;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecentlyViewedController;
@@ -32,7 +32,7 @@ Route::get(
     }
 )->name('home');
 
-Route::get('/@{profile:tag}/{action_route?}', [ProfileController::class, 'show'])->name('profile.visit');
+Route::get('/@{profile}/{action_route?}', [ProfileController::class, 'show'])->name('profile.visit');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(
     function () {
@@ -47,27 +47,23 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         ->middleware('can:update,profile')
         ->name('profile.edit');*/
 
-        Route::get('/@{profile:tag}/actions/edit', UpdateProfile::class)
-        ->name('profile.edit');
+        Route::get('/@{profile}/actions/edit', UpdateProfile::class)->middleware('can:access,profile')
+            ->name('profile.edit');
 
         Route::put('/{user}/current-profile/update', [ProfileController::class, 'updateCurrentProfile'])->name('current-profile.update');
 
-        Route::get('/@{profile}/biz/dashboard/', ManagerDashboard::class)->name('manager.dashboard');
+        Route::get('/biz/dashboard/', ManagerDashboard::class)->name('manager.dashboard');
   
-        Route::middleware(['can:own-businesses'])->group(
+        Route::middleware(['can:reference-businesses'])->group(
             function () {
-                Route::get('/@{profile}/biz/@{tag}/{action_route?}/{action_route_resource?}', BusinessDashboard::class)
-                    ->middleware('can:update-business,tag')
-                    ->name('business.dashboard');
+                Route::get('/biz/@{profile}/{action_route?}/{action_route_resource?}', BusinessDashboard::class)->middleware(['can:sellWith,profile'])->name('business.dashboard');
 
                 Route::get(
-                    '/@{profile}/biz/@{tag}/products/{active_product?}/',
-                    function ($profile, $tag, $business, $active_product) {
-                        return redirect(route('business.dashboard', ['profile' => $profile->tag, 'action_route' => 'products', 'action_route_resource' => $active_product]));
+                    '/biz/@{profile}/products/{active_product?}/',
+                    function (Profile $profile, $active_product) {
+                        return redirect(route('business.dashboard', ['profile' => $profile, 'action_route' => 'products', 'action_route_resource' => $active_product]));
                     }
-                )
-                     ->middleware('can:update-business,tag')
-                     ->name('business.products');
+                )->middleware(['can:sellWith,profile'])->name('business.products');
             }
         );
 

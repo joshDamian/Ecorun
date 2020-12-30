@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 class BusinessDashboard extends Component
 {
-    public $tag;
+    public Profile $profile;
+    public Business $business;
     public array $actions = [
         'add-product' => [
             'title' => 'add product',
@@ -39,25 +40,24 @@ class BusinessDashboard extends Component
         'setupDone' => '$refresh'
     ];
 
-    public function mount($action_route = 'products', $action_route_resource = null) {
+    public function mount(?string $action_route = 'products', $action_route_resource = null)
+    {
+        $this->business = $this->profile->loadMissing('profileable')->profileable;
         $this->action_route = (array_key_exists($action_route, $this->actions)) ? $action_route : 'products';
         $this->action_route_resource = ($this->action_route === 'products') ? $action_route_resource : null;
-        $this->switchAction($this->action_route);
+        $this->switchView($this->action_route);
         return;
     }
 
-    public function getBusinessProperty(): Business
+    public function switchView(string $key)
     {
-        return Business::findOrFail(Profile::where('tag', $this->tag)->firstOrFail()->loadMissing('profileable')->profileable->id);
-    }
-
-    public function switchAction(string $key) {
         $this->action_route = $key;
         $this->active_action = $this->actions[$key];
         return;
     }
 
-    public function render() {
+    public function render()
+    {
         $user = Auth::user()->loadMissing('profile');
         return view('livewire.build-and-manage.business.business-dashboard')->layout('layouts.business', ['user' => $user]);
     }

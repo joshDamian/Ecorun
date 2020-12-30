@@ -56,7 +56,7 @@
             </div>
         </a>
 
-        <a href="{{ ($currentProfileIsBiz) ? route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'edit']) : route('profile.edit', ['profile' => $currentProfile->tag]) }}">
+        <a href="{{ ($currentProfileIsBiz) ? route('business.dashboard', ['profile' => $currentProfile->tag, 'action_route' => 'edit']) : route('profile.edit', ['profile' => $currentProfile->tag]) }}">
             @if($currentProfileIsBiz)
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-edit"></i> &nbsp;Edit
@@ -69,25 +69,25 @@
         </a>
 
         @if($currentProfileIsBiz)
-        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'products']) }}">
+        <a href="{{ route('business.dashboard', ['profile' => $currentProfile->tag, 'action_route' => 'products']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-shopping-bag"></i> &nbsp;Products
             </div>
         </a>
 
-        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'add-product']) }}">
+        <a href="{{ route('business.dashboard', ['profile' => $currentProfile->tag, 'action_route' => 'add-product']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fa fa-plus-circle"></i> &nbsp;Add product
             </div>
         </a>
 
-        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'team']) }}">
+        <a href="{{ route('business.dashboard', ['profile' => $currentProfile->tag, 'action_route' => 'team']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fas fa-users"></i> &nbsp;Team
             </div>
         </a>
 
-        <a href="{{ route('business.dashboard', ['tag' => $currentProfile->tag, 'profile' => $personalProfile->tag, 'action_route' => 'orders']) }}">
+        <a href="{{ route('business.dashboard', ['profile' => $currentProfile->tag, 'action_route' => 'orders']) }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fas fa-clipboard-check"></i> &nbsp;Orders
             </div>
@@ -97,11 +97,11 @@
         @endauth
 
         <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white text-md">
-            <i class="fas fa-user"></i> &nbsp;{{ $personalProfile->name ?? __('Guest') }}
+            <i class="far fa-user"></i> &nbsp;{{ $personalProfile->name ?? __('Guest') }}
         </div>
 
         <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
-            <i class="fa fa-shopping-cart"></i> &nbsp;Cart
+            <i class="fas fa-shopping-cart"></i> &nbsp;Cart
         </div>
 
 
@@ -119,7 +119,7 @@
         @endguest
 
         @auth
-        <a href="{{ route('manager.dashboard', ['profile' => $personalProfile->tag]) }}">
+        <a href="{{ route('manager.dashboard') }}">
             <div class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
                 <i class="fas fa-store-alt"></i> &nbsp;Businesses
             </div>

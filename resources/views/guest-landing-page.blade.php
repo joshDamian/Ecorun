@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/css/app.css" defer>
     <link rel="stylesheet" href="/css/webfonts.css" defer>
 
-    {{--  <link href="https://afeld.github.io/emoji-css/emo7ji.css" rel="stylesheet">
+    {{-- <link href="https://afeld.github.io/emoji-css/emo7ji.css" rel="stylesheet">
     <style>
         [x-cloak] {
             display: none;
@@ -66,6 +66,9 @@
                     <h3 class="px-3 pb-3 text-lg font-medium text-gray-600 sm:px-0 sm:pb-4 sm:py-0">
                         Ecorun naturally blends social interaction with doing business.
                     </h3>
+                </div>
+                <div class="p-3 bg-white">
+
                 </div>
             </div>
         </div>
@@ -213,9 +216,11 @@
                     </div>
 
                     <div>
-                        <x-jet-button class="mt-2 bg-blue-800 w-100">
-                            <i class="fas fa-business-time"></i> &nbsp; build a business
-                        </x-jet-button>
+                        <a href="{{ route('manager.dashboard') }}">
+                            <x-jet-button class="mt-2 bg-blue-800 w-100">
+                                <i class="fas fa-business-time"></i> &nbsp; build a business
+                            </x-jet-button>
+                        </a>
                     </div>
                 </div>
             </div>

@@ -28,7 +28,19 @@
                 <x-paginator :data="$products" />
             </div>
         </div>
+
+        @if($products->isEmpty())
+        <div class="p-4 text-blue-700 bg-white">
+            <div class="flex items-center justify-center justify-items-center">
+                <i style="font-size: 6rem;" class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="px-3 pt-3 text-center">
+                {{ $profile->name }}'s product store is empty <i class="far fa-smile"></i>
+            </div>
+        </div>
+        @endif
         @break
+
         @case('posts')
         @can('update', $profile)
         <div class="mb-2 ml-0 md:ml-0 md:mb-3">
@@ -42,14 +54,27 @@
 
         @case('gallery')
         <div class="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5">
-            @foreach($profile->gallery() as $key => $picture_post)
+            @php $profile_gallery = $profile->gallery() @endphp
+            @forelse($profile_gallery as $key => $picture_post)
             @foreach($picture_post->gallery as $key => $image)
             <a href="{{ route('post.show', ['post' => $picture_post->id]) }}">
                 <img class="w-full" src="/storage/{{ $image->image_url }}" />
             </a>
             @endforeach
-            @endforeach
+            @empty
+            @php $empty = true; @endphp
+            @endforelse
         </div>
+        @if($profile_gallery->isEmpty())
+        <div class="p-4 text-blue-700 bg-white">
+            <div class="flex items-center justify-center justify-items-center">
+                <i style="font-size: 6rem;" class="far fa-images"></i>
+            </div>
+            <div class="px-3 pt-3 text-center">
+                {{ $profile->name }}'s gallery is empty <i class="far fa-smile"></i>
+            </div>
+        </div>
+        @endif
         @break
 
         @case('about')

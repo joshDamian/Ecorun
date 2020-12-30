@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\Connect\Profile;
 
-use App\Models\Business;
+use App\Models\Profile;
 use Livewire\Component;
 
 class ManageBusinessProfile extends Component
 {
-    public Business $business;
+    public Profile $profile;
 
     public function render()
     {

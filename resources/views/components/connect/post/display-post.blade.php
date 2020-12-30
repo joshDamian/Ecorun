@@ -38,7 +38,7 @@
         @if($image_count > 0)
         <div class="@if($image_count > 1) grid grid-cols-2 gap-1 @endif bg-white">
             <div>
-                <img src="/storage/{{ $gallery->first()->image_url }}" />
+                <img class="w-full h-full" src="/storage/{{ $gallery->first()->image_url }}" />
             </div>
             @if($image_count > 1 )
             <div class="grid gap-1 @if($image_count > 1 && $image_count < 4) grid-cols-1 @else grid-cols-2 @endif">
@@ -49,7 +49,7 @@
                 <div style="background-image: url('/storage/{{ $image->image_url }}'); background-size: cover; background-position: center center;" class="w-full h-full">
                 </div>
                 @else
-                <img src="/storage/{{ $image->image_url }}" />
+                <img class="w-full h-full" src="/storage/{{ $image->image_url }}" />
                 @endif
                 @endforeach
                 @if($image_count > 6)

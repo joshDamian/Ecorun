@@ -35,36 +35,9 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define(
-            'own-businesses',
-            function ($user) {
-                return $user->isManager !== null;
-            }
-        );
-
-        Gate::define(
-            'update-business',
-            function ($user, $tag) {
-                $business = Business::findOrFail(Profile::where('tag', $tag)->firstOrFail()->profileable->id);
-           
-                if ($user->isManager === null) {
-                    return false;
-                } else {
-                    return $user->isManager->id === $business->manager_id;
-                }
-            }
-        );
-
-        Gate::define(
-            'manage-business',
-            function ($user, Business $business) {
-                return $business->profile !== null;
-            }
-        );
-
-        Gate::define(
             'reference-businesses',
             function ($user) {
-                return $user->isManager->businesses->count() > 0;
+                return $user->associatedProfiles()->loadMissing('profileable')->pluck('profileable')->count() > 0;
             }
         );
     }

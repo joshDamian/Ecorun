@@ -2,7 +2,6 @@
     <div class="w-full" wire:loading>
         <x-loader_2 />
     </div>
-    @php $auth_user = Auth::user() @endphp
     <div>
         @if($active_product)
         <div class="mb-4 ml-4 sm:ml-0">
@@ -69,7 +68,7 @@
     @if($active_product)
     <script>
         setTimeout(() => {
-            window.modifyUrl.modify("/{{ $auth_user->profile->full_tag() }}/biz/{{ $business->profile->full_tag() }}/products/{{ $active_product->id }}")
+            window.modifyUrl.modify("/biz/{{ $business->profile->full_tag() }}/products/{{ $active_product->id }}")
         }, 100);
 
     </script>
@@ -77,7 +76,7 @@
     @else
     <script>
         setTimeout(() => {
-            window.modifyUrl.modify("/{{ $auth_user->profile->full_tag() }}/biz/{{ $business->profile->full_tag() }}/products")
+            window.modifyUrl.modify("/biz/{{ $business->profile->full_tag() }}/products")
         }, 100);
 
     </script>

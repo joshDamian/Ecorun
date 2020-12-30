@@ -5,7 +5,7 @@
     </div>
     @else
     <div>
-        @livewire('connect.profile.manage-business-profile', ['business' => $profile->profileable])
+        @livewire('connect.profile.manage-business-profile', ['profile' => $profile])
     </div>
     @endif
 </div>

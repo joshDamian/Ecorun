@@ -70,7 +70,7 @@ class Product extends Model
 
     public function displayImage()
     {
-        return $this->gallery->first()->image_url;
+        return $this->loadMissing('gallery')->gallery->first()->image_url;
     }
 
     public function price($quantity = null)

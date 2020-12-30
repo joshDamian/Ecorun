@@ -15,7 +15,7 @@ class SessionTransport extends Component
     public function mount()
     {
         if (Auth::check()) {
-            $this->user = Auth::user()->load('view_history', 'cart');
+            $this->user = Auth::user()->loadMissing('view_history', 'cart');
             $this->session_transport('view_history');
             $this->session_transport('guest_cart');
         }

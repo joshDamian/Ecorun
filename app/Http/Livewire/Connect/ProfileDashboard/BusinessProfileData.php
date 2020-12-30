@@ -20,11 +20,11 @@ class BusinessProfileData extends Component
         ],
         'posts' => [
             'title' => 'posts',
-            'icon' => 'fas fa-user-edit'
+            'icon' => 'fa fa-user-edit'
         ],
         'gallery' => [
             'title' => 'gallery',
-            'icon' => 'fas fa-images'
+            'icon' => 'far fa-images'
         ],
         'about' => [
             'title' => 'about',

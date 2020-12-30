@@ -8,7 +8,6 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use App\Models\User;
 
 class EditProfile extends Component
 {
@@ -23,7 +22,6 @@ class EditProfile extends Component
 
     public function mount()
     {
-        $this->authorize('access', $this->profile);
         $this->name = $this->profile->name;
         $this->description = $this->profile->description;
         $this->tag = $this->profile->tag;
@@ -46,13 +44,11 @@ class EditProfile extends Component
             $this->profile->updateProfilePhoto($this->photo);
         }
 
-        $request->user()->switchProfile($this->profile);
-
         $this->emitSelf('saved');
 
         return redirect(
             ($this->profile->isBusiness()) ?
-            route('business.dashboard', ['tag' => $this->profile->tag, 'profile' => $request->user()->profile->tag, 'action_route' => 'edit'])
+            route('business.dashboard', ['profile' => $this->profile->tag, 'action_route' => 'edit'])
             : route('profile.edit', ['profile' => $this->profile->tag])
         );
     }
@@ -101,7 +97,7 @@ class EditProfile extends Component
 
     public function getProfileProperty()
     {
-        return Profile::find($this->profileId);
+        return Profile::findOrFail($this->profileId);
     }
 
     public function messages()

@@ -22,8 +22,8 @@ Broadcast::channel(
 );
 
 Broadcast::channel(
-    'App.Models.Profile.{profile}',
-    function ($user, Profile $profile):bool {
-        return $user->associatedProfiles()->contains($profile) || ($user->load('profile')->profile->id === $profile->id);
+    'App.Models.Profile.{id}',
+    function ($user, Profile $id):bool {
+        return $user->associatedProfiles()->contains($id) || ($user->loadMissing('profile')->profile->id === $id->id);
     }
 );

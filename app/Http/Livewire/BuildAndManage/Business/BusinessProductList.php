@@ -36,7 +36,7 @@ class BusinessProductList extends Component
 
     public function render()
     {
-        $products = Auth::user()->isManager->businesses->find($this->business)->products()->latest()->paginate(12);
+        $products = $this->business->loadMissing('products')->products()->latest()->paginate(12);
         $empty = $products->count() < 1;
 
         return view(
