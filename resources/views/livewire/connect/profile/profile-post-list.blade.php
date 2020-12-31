@@ -5,6 +5,55 @@
 
     <div class="grid grid-cols-1 gap-3 scrolling-pagination md:gap-4">
         @forelse($posts as $post)
+        @if($post instanceof App\Models\Product)
+        <div>
+            <div class="flex justify-between bg-gray-100 px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
+                <div class="flex items-center flex-1">
+                    <a class="mr-3" href="{{ route('profile.visit', ['profile' => $post->business->profile->tag]) }}">
+                        <div style="background-image: url('{{ $post->business->profile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-12 h-12 border-t-2 border-b-2 border-blue-700 rounded-full">
+                        </div>
+                    </a>
+
+                    <div>
+                        <a href="{{ route('profile.visit', ['profile' => $post->business->profile->tag]) }}">
+                            <span class="font-medium text-blue-700 text-md">{{ $post->business->profile->name }}</span>
+                        </a>
+
+                        <div class="flex items-center">
+                            <a class="flex-1 mr-2 truncate" href="{{ route('profile.visit', ['profile' => $post->business->profile->tag]) }}">
+                                <span class="text-sm font-normal text-blue-600 truncate">{{ $post->business->profile->full_tag() }}</span>
+                            </a>
+
+                            <div class="text-sm font-normal text-gray-500">
+                                {{ $post->created_at->diffForHumans() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-3 bg-gray-100 text-xl font-bold flex-wrap py-3 flex justify-between">
+                <div class="mr-3 text-blue-800">
+                    {{ $post->name }}
+                </div>
+                <div class="text-blue-600">
+                    {!! $post->price() !!}
+                </div>
+            </div>
+
+            <img class="w-full h-full" src="/storage/{{ $post->displayImage() }}" />
+            <div class="px-3 py-3 flex bg-gray-100 justify-end items-center text-right">
+                <div class="mr-3">
+                    @livewire('buy.cart.add-to-cart', ['productId' => $post->id])
+                </div>
+
+                <x-jet-button class="bg-blue-700">
+                    shop
+                </x-jet-button>
+            </div>
+        </div>
+        @continue
+        @endif
         <div>
             <x-connect.post.display-post :post="$post->loadMissing('gallery')" />
             <div class="bg-gray-100 border-t border-gray-200">

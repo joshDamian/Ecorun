@@ -2,7 +2,9 @@
     <div>
         @if($this->existing())
         <div>
-            @livewire('buy.cart.cart-trigger', ['view' => 'button'], key(md5('cart_trigger_3')))
+            <x-jet-button class="bg-blue-600 items-center">
+                <i class="far fa-eye"></i>&nbsp; view in cart
+            </x-jet-button>
         </div>
         @else
         <button wire:click="request_data" class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-800 border border-transparent rounded hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25">

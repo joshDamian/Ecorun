@@ -15,7 +15,7 @@
         </div>
 
         @else
-        <div x-data x-init="() => { window.scrollTo(0, 0); }" class="@if($products->count() > 0) grid gap-2 sm:gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-6 @endif px-2 sm:px-0">
+        <div x-data x-init="() => { window.scrollTo(0, 0); }" class="@if($business->products_count > 0) grid gap-2 sm:gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-6 @endif px-2 sm:px-0">
             @forelse ($products as $product)
             <div wire:click="switchActiveProduct('{{ $product->id }}')" class="px-3 py-3 bg-gray-100 cursor-pointer">
                 <div class="flex items-center justify-center">

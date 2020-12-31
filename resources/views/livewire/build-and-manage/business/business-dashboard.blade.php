@@ -32,13 +32,13 @@
         @switch($active_action['title'])
         @case('add product')
         <div>
-            {{-- @livewire('build-and-manage.product.create-new-product', ['businessId' => $business->id], key(time().$business->id)) --}}
+            @livewire('build-and-manage.product.create-new-product', ['businessId' => $business->id], key(time().$business->id))
         </div>
         @break
 
         @case('products')
         <div>
-            @livewire('build-and-manage.business.business-product-list', ['business' => $business->loadMissing('products'), 'active_product' => $action_route_resource])
+            @livewire('build-and-manage.business.business-product-list', ['business' => $business->loadCount('products'), 'active_product' => $action_route_resource])
         </div>
         @break
 
@@ -48,7 +48,9 @@
                 <i style="font-size: 8rem;" class="text-blue-700 fas fa-clipboard-check"></i>
             </div>
 
-            <div class="text-xl font-bold text-center text-blue-700">No orders yet.</div>
+            <div class="text-xl font-bold text-center text-blue-700">
+                No orders yet.
+            </div>
         </div>
         @break
 

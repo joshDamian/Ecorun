@@ -22,6 +22,7 @@
         "laravel/tinker": "^2.0",
         "livewire/livewire": "^2.0",
         "pusher/pusher-php-server": "~3.0",
+        "rennokki/laravel-eloquent-query-cache": "^2.5",
         "yab/laravel-scout-mysql-driver": "^3.0"
     },
     "require-dev": {

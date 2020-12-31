@@ -23,10 +23,10 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    * The attributes that are mass assignable.
+    *
+    * @var array
+    */
     protected $fillable = [
         'email',
         'password',
@@ -38,10 +38,10 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+    * The attributes that should be hidden for arrays.
+    *
+    * @var array
+    */
     protected $hidden = [
         'password',
         'remember_token',
@@ -50,44 +50,39 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
+    * The attributes that should be cast to native types.
+    *
+    * @var array
+    */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function isManager()
-    {
-        return $this->hasOne(Manager::class);
+    public function isManager() {
+        return $this->hasOne(Manager::class)->withDefault();
     }
 
-    public function orders()
-    {
+    public function orders() {
         return $this->hasMany(Order::class);
     }
 
-    public function cart()
-    {
+    public function cart() {
         return $this->hasMany(Cart::class);
     }
 
-    public function view_history()
-    {
+    public function view_history() {
         return $this->hasMany(RecentlyViewed::class);
     }
 
     public function associatedProfiles(): Collection
     {
         $manager_access = $this->loadMissing('isManager')->isManager;
-        $business_profiles = ($manager_access) ? $manager_access->loadMissing('businesses.profile')->businesses->pluck('profile') : collect([]);
-        $team_business_profiles = Profile::whereIn('id', $this->loadMissing('teams.business.profile')->teams->pluck('business.profile.id'))->get();
+        $business_profiles = $manager_access->loadMissing('businesses.profile')->businesses->pluck('profile');
+        $team_business_profiles = Profile::whereIn('id', $this->teams->pluck('business.profile.id'))->get();
         return $team_business_profiles->concat($business_profiles)->sortBy('tag');
     }
 
-    protected static function boot()
-    {
+    protected static function boot() {
         parent::boot();
         static::created(
             function ($user) {
@@ -95,7 +90,7 @@ class User extends Authenticatable
                 $user->profile()->create(
                     [
                         'name' => $name,
-                        'tag' => (is_object(Profile::where('tag', $name . "_" . $user->id)->get()->first())) ? null : $name . "_" . $user->id,
+                        'tag' => (is_object(Profile::where('tag', $name . "." . $user->id)->get()->first())) ? null : substr($name, 0, 15) . "." . $user->id,
                         'description' => "Hi, I am {$name }, I'm new here and i hope to make new friends soon.",
                     ]
                 );
@@ -105,8 +100,7 @@ class User extends Authenticatable
         );
     }
 
-    public function switchProfile($profile)
-    {
+    public function switchProfile($profile) {
         if (!$this->can('access', $profile)) {
             return false;
         }
@@ -119,13 +113,11 @@ class User extends Authenticatable
         return true;
     }
 
-    public function currentProfile()
-    {
-        return $this->belongsTo(Profile::class, 'current_profile_id');
+    public function currentProfile() {
+        return $this->belongsTo(Profile::class, 'current_profile_id')->withDefault();
     }
 
-    public function revokeManager()
-    {
+    public function revokeManager() {
         return $this->isManager->revoke();
     }
 }

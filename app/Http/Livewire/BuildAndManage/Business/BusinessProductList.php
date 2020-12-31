@@ -19,29 +19,24 @@ class BusinessProductList extends Component
         'viewAll'
     ];
 
-    public function mount($active_product = null)
-    {
+    public function mount($active_product = null) {
         return ($active_product) ?  $this->switchActiveProduct($active_product) : true;
     }
 
-    public function switchActiveProduct($product)
-    {
+    public function switchActiveProduct($product) {
         return $this->active_product = Product::findOrFail($product);
     }
 
-    public function viewAll()
-    {
+    public function viewAll() {
         $this->active_product = null;
     }
 
-    public function render()
-    {
+    public function render() {
         $products = $this->business->loadMissing('products')->products()->latest()->paginate(12);
-        $empty = $products->count() < 1;
 
         return view(
             'livewire.build-and-manage.business.business-product-list',
-            compact('products', 'empty')
+            compact('products')
         )->layout('layouts.business');
     }
 }

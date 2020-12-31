@@ -6,8 +6,8 @@ use Livewire\Component;
 use App\Models\Profile;
 
 /**
- * Class ProfilePostList a component that fetches the posts related to a profile
- */
+* Class ProfilePostList a component that fetches the posts related to a profile
+*/
 class ProfilePostList extends Component
 {
     public Profile $profile;
@@ -19,27 +19,23 @@ class ProfilePostList extends Component
         'newPost'
     ];
 
-    public function loadOlderPosts()
-    {
+    public function loadOlderPosts() {
         $this->perPage = $this->perPage + 5;
     }
 
-    public function newPost()
-    {
-        $this->posts_lazy = ($this->view === 'landing-page') ? $this->profile->concerned_posts() : $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
+    public function newPost() {
+        $this->posts_lazy = ($this->view === 'landing-page') ? $this->profile->feed() : $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
     }
 
-    public function mount()
-    {
-        $this->posts_lazy = ($this->view === 'landing-page') ? $this->profile->concerned_posts() : $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
+    public function mount() {
+        $this->posts_lazy = ($this->view === 'landing-page') ? $this->profile->feed() : $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
     }
 
-    public function render()
-    {
+    public function render() {
         return view(
             'livewire.connect.profile.profile-post-list',
             [
-            'posts' => $this->posts_lazy->take($this->perPage)
+                'posts' => $this->posts_lazy->take($this->perPage)
             ]
         );
     }

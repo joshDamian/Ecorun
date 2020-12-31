@@ -59,7 +59,7 @@ class GeneratorTool
     protected static function IDGenerator(): ?\Generator
     {
         for ($i = 1; $i <= self::$limitIterations; $i++) {
-            yield (string) random_int(10, 999999999);
+            yield (string) random_int(10, 9999999999);
         }
         return null;
     }
