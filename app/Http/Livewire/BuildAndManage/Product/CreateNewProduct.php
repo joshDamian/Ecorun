@@ -82,7 +82,7 @@ class CreateNewProduct extends Component
     {
         $this->categories = Category::without('products')->where('parent_title', null)->orderBy('title', 'ASC')->get();
         $this->activeCategory = $this->categories->first()->title;
-        $this->product_category = Category::find($this->activeCategory)->children()->first()->title;
+        $this->product_category = Category::find($this->activeCategory)->children->first()->title;
     }
 
     public function getBusinessProperty()

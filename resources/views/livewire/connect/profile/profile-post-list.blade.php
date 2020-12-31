@@ -7,7 +7,7 @@
         @forelse($posts as $post)
         @if($post instanceof App\Models\Product)
         <div>
-            <div class="flex justify-between bg-gray-100 px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
+            <div class="flex justify-between px-3 py-3 bg-gray-100 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
                 <div class="flex items-center flex-1">
                     <a class="mr-3" href="{{ route('profile.visit', ['profile' => $post->business->profile->tag]) }}">
                         <div style="background-image: url('{{ $post->business->profile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-12 h-12 border-t-2 border-b-2 border-blue-700 rounded-full">
@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="px-3 bg-gray-100 text-xl font-bold flex-wrap py-3 flex justify-between">
+            <div class="flex flex-wrap justify-between px-3 py-3 text-xl font-bold bg-gray-100 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
                 <div class="mr-3 text-blue-800">
                     {{ $post->name }}
                 </div>
@@ -41,8 +41,10 @@
                 </div>
             </div>
 
-            <img class="w-full h-full" src="/storage/{{ $post->displayImage() }}" />
-            <div class="px-3 py-3 flex bg-gray-100 justify-end items-center text-right">
+            <div class="flex items-center justify-center p-3 bg-gray-100 border-b border-gray-200 justify-items-center">
+                <img class="h-64" src="/storage/{{ $post->displayImage() }}" />
+            </div>
+            <div class="flex items-center justify-end px-3 py-3 text-right bg-gray-100 sm:px-5 sm:py-3 sm:p-0">
                 <div class="mr-3">
                     @livewire('buy.cart.add-to-cart', ['productId' => $post->id])
                 </div>
