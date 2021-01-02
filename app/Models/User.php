@@ -8,40 +8,29 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-//use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class User extends Authenticatable
 {
-    use HasProfile;
-    use HasApiTokens;
-    use HasFactory;
-    //use HasProfilePhoto;
-    use HasTeams;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
+    use HasProfile, HasApiTokens, HasFactory, HasTeams, Notifiable, TwoFactorAuthenticatable, QueryCacheable;
 
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'email',
         'password',
     ];
 
-    protected $with = [
-        //'profile',
-        //'currentProfile',
-    ];
-
     /**
-    * The attributes that should be hidden for arrays.
-    *
-    * @var array
-    */
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -50,27 +39,33 @@ class User extends Authenticatable
     ];
 
     /**
-    * The attributes that should be cast to native types.
-    *
-    * @var array
-    */
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public $cacheFor = 3600;
+    protected static $flushCacheOnUpdate = true;
 
-    public function isManager() {
+    public function isManager()
+    {
         return $this->hasOne(Manager::class)->withDefault();
     }
 
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany(Order::class);
     }
 
-    public function cart() {
+    public function cart()
+    {
         return $this->hasMany(Cart::class);
     }
 
-    public function view_history() {
+    public function view_history()
+    {
         return $this->hasMany(RecentlyViewed::class);
     }
 
@@ -82,7 +77,8 @@ class User extends Authenticatable
         return $team_business_profiles->concat($business_profiles)->sortBy('tag');
     }
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
         static::created(
             function ($user) {
@@ -100,24 +96,27 @@ class User extends Authenticatable
         );
     }
 
-    public function switchProfile($profile) {
+    public function switchProfile($profile)
+    {
         if (!$this->can('access', $profile)) {
             return false;
         }
-        $this->forceFill(
-            [
-                'current_profile_id' => $profile->id,
-            ]
-        )->save();
+        $this->forceFill(['current_profile_id' => $profile->id])->save();
         $this->setRelation('currentProfile', $profile);
         return true;
     }
 
-    public function currentProfile() {
-        return $this->belongsTo(Profile::class, 'current_profile_id')->withDefault();
+    public function currentProfile()
+    {
+        return $this->belongsTo(Profile::class, 'current_profile_id')->withDefault(
+            [
+            'name' => 'Guest',
+            ]
+        );
     }
 
-    public function revokeManager() {
+    public function revokeManager()
+    {
         return $this->isManager->revoke();
     }
 }

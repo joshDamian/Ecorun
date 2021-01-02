@@ -1811,7 +1811,7 @@ var ModifyUrl = /*#__PURE__*/function () {
     key: "modify",
     value: function modify(url) {
       var state = {
-        id: 100
+        id: "100"
       };
       return window.history.replaceState(state, url, url);
     }

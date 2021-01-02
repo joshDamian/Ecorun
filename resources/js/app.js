@@ -3,7 +3,7 @@ require('./bootstrap');
 class ModifyUrl {
     modify(url) {
         var state = {
-            id: 100
+            id: "100"
         }
         return window.history.replaceState(state, url, url);
     }

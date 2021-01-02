@@ -12,11 +12,11 @@
         <div class="flex items-center flex-1">
             @foreach($actions as $key => $action)
             @if($active_action['title'] === $action['title'])
-            <x-jet-secondary-button class="flex items-center flex-shrink-0 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full" wire:click="switchView('{{ $key }}')">
+            <x-jet-secondary-button class="flex items-center flex-shrink-0 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full" wire:click="switchView('{{$key}}')">
                 <i class="{{ $action['icon'] }}"></i> &nbsp; {{ $action['title'] }}
             </x-jet-secondary-button>
             @else
-            <x-jet-secondary-button class="flex items-center flex-shrink-0 mr-3 bg-gray-100 rounded-full" wire:click="switchView('{{ $key }}')">
+            <x-jet-secondary-button class="flex items-center flex-shrink-0 mr-3 bg-gray-100 rounded-full" wire:click="switchView('{{$key}}')">
                 <i class="{{ $action['icon'] }}"></i> &nbsp; {{ $action['title'] }}
             </x-jet-secondary-button>
             @endif
@@ -32,7 +32,7 @@
         @switch($active_action['title'])
         @case('add product')
         <div>
-            @livewire('build-and-manage.product.create-new-product', ['businessId' => $business->id], key(time().$business->id))
+            @livewire('build-and-manage.product.create-new-product', ['business' => $business], key(time().$business->id))
         </div>
         @break
 
@@ -60,12 +60,6 @@
         </div>
         @break
 
-        @case('gallery')
-        <div>
-
-        </div>
-        @break
-
         @case('team')
         <div>
             @include('teams.show', ['team' => $this->business->loadMissing('team')->team])
@@ -75,14 +69,3 @@
         @endswitch
     </div>
 </div>
-@once
-@push('scripts')
-<script>
-    setTimeout(() => {
-        window.modifyUrl.modify('/biz/{{ $profile->full_tag() }}/{{ $action_route ?? '
-            products ' }}@if($action_route_resource)/{{ $action_route_resource }}@endif')
-    }, 100);
-
-</script>
-@endpush
-@endonce

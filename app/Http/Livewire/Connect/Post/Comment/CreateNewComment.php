@@ -13,24 +13,17 @@ class CreateNewComment extends Component
 
     public function create()
     {
-        $this->defaultContentValidation();
-
+        $this->validate();
         $comment = $this->profile->feedbacks()->create(
             [
             'content' => trim($this->content) ?? ''
             ]
         );
-
         $this->post->comments()->save($comment);
-
         $this->uploadPhotos('comment-photos', $comment, 'comment_photo', array(1400, 1400));
-
         $this->emit('addedContent');
-
         $this->emit('newFeedback');
-
         $this->done();
-
         return;
     }
 

@@ -9,10 +9,13 @@ use Livewire\Component;
 
 class AddToCart extends Component
 {
-    public $productId;
+    public $product;
     public $add_specs;
     public $specifications = [];
     public $quantity;
+    public $available_stock;
+    public $indicated_specs;
+    public $specification_count;
     public $user;
     protected $listeners = [
         'modifiedCart' => '$refresh'
@@ -23,27 +26,37 @@ class AddToCart extends Component
         return [
             'quantity' => ['required',
                 'min:1',
-                "max:{$this->product->available_stock}",
+                "max:{$this->available_stock}",
                 'int'],
         ];
     }
 
-    public function mount() {
+    public function mount(Product $product)
+    {
+        $this->product = $product->loadMissing('specifications');
         $this->quantity = 1;
-        $indicated_specs = $this->product->indicatedSpecs();
-        if ($indicated_specs->count() > 0) {
-            foreach ($indicated_specs as $spec) {
+        $this->indicated_specs = $this->product->specifications->filter(
+            function ($specification) {
+                return $specification->is_specific === true;
+            }
+        );
+        $this->available_stock = $this->product->available_stock;
+        $this->specification_count = $this->indicated_specs->count();
+        if ($this->specification_count > 0) {
+            foreach ($this->indicated_specs as $spec) {
                 $this->specifications[Str::singular($spec->name)] = null;
             }
         }
         $this->user = Auth::user()->loadMissing('cart');
     }
 
-    public function request_data() {
+    public function request_data()
+    {
         $this->add_specs = true;
     }
 
-    public function add_prod() {
+    public function add_prod()
+    {
         $this->validate($this->rules());
         if (!$this->existing()) {
             ($this->user) ?
@@ -66,20 +79,18 @@ class AddToCart extends Component
         }
     }
 
-    public function messages() {
+    public function messages()
+    {
         return [
             'specifications.*.required' => 'This value is required'
         ];
     }
 
-    public function getProductProperty() {
-        return  Product::find($this->productId);
-    }
-
-    public function add_specs_prod() {
+    public function add_specs_prod()
+    {
         $this->validate(
             [
-                'quantity' => ['required', 'min:1', 'int', "max:{$this->product->available_stock}"],
+                'quantity' => ['required', 'min:1', 'int', "max:{$this->available_stock}"],
                 'specifications.*' => ['required']
             ]
         );
@@ -107,11 +118,13 @@ class AddToCart extends Component
         }
     }
 
-    public function updated($propertyName) {
+    public function updated($propertyName)
+    {
         $this->validateOnly($propertyName, $this->rules());
     }
 
-    public function existing() {
+    public function existing()
+    {
         if ($this->user) {
             $existing = $this->user->cart->where('product_id', $this->product->id)->isNotEmpty();
         } else {
@@ -122,7 +135,8 @@ class AddToCart extends Component
         return $existing;
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.buy.cart.add-to-cart');
     }
 }

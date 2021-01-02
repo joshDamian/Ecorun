@@ -9,12 +9,15 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Support\Str;
 use App\Tools\GeneratorTool;
 use Illuminate\Notifications\Notifiable;
+use App\DataBanks\ProfileDataBank;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Profile extends Model
 {
     use Notifiable,
     HasFactory,
     HasProfilePhoto,
+    QueryCacheable,
     StringManipulations;
 
     protected $fillable = [
@@ -26,34 +29,35 @@ class Profile extends Model
     public const TAG_PREFIX = '@';
 
     /**
-    * The accessors to append to the model's array form.
-    *
-    * @var array
-    */
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
         'profile_photo_url',
     ];
+    public $cacheFor = 3600;
+    protected static $flushCacheOnUpdate = true;
 
-    public function followers() {
+    public function followers()
+    {
         return $this->belongsToMany(Profile::class, 'profile_follower', 'profile_id', 'follower_id');
     }
 
-    public function following() {
+    public function following()
+    {
         return $this->belongsToMany(Profile::class, 'profile_follower', 'follower_id', 'profile_id');
     }
 
-    public function guestMode() {
-        $this->name = 'Guest';
-        return $this;
-    }
-
-    public function slugData() {
+    public function slugData()
+    {
         return [
             'name' => $this->name,
         ];
     }
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
 
         static::creating(
@@ -64,41 +68,43 @@ class Profile extends Model
         );
     }
 
-    public function profileable() {
+    public function profileable()
+    {
         return $this->morphTo();
     }
 
-    public function isBusiness() {
+    public function isBusiness()
+    {
         return $this->profileable instanceof Business;
     }
 
-    public function full_tag() {
+    public function full_tag()
+    {
         return Profile::TAG_PREFIX . $this->tag;
     }
 
-    public function feedbacks() {
+    public function feedbacks()
+    {
         return $this->hasMany(Feedback::class);
     }
 
-    public function isUser() {
+    public function feed()
+    {
+        return (new ProfileDataBank($this))->feed();
+    }
+
+    public function isUser()
+    {
         return $this->profileable instanceof User;
     }
 
-    public function gallery() {
+    public function gallery()
+    {
         return $this->posts()->has('gallery')->get()->loadMissing('gallery');
     }
 
-    public function feed() {
-        $following = $this->following->loadMissing('profileable');
-
-        $businesses_following = $following->filter(function($following) {
-            return $following->isBusiness();
-        });
-
-        return collect(Post::with('gallery', 'likes', 'comments', 'profile')->whereIn('profile_id', $following->pluck('id'))->withCount('gallery')->latest()->get()->unique()->merge(Product::with('business.profile')->whereIn('business_id', $businesses_following->pluck('profileable.id'))->where('is_published', true)->latest()->get())->sortByDesc('created_at')->all());
-    }
-
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class)->latest();
     }
 }

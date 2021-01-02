@@ -10,22 +10,24 @@
 
     <div class="font-light">
         <div class="flex flex-wrap items-center px-4 py-3 bg-white border-b border-gray-200 shadow md:rounded-t-lg">
-            @if($currentProfile->profile_photo_url ?? false)
+            @auth
             <div style="background-image: url('{{ $currentProfile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-16 h-16 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
             </div>
-            @else
+            @endauth
+
+            @guest
             <div>
                 <span class="fa-stack fa-2x">
-                    <i class="text-blue-800 fas fa-circle fa-stack-2x"></i>
-                    <i class="fa-stack-1x fas text-white @auth fa-user-shield @endauth @guest fa-user @endguest"></i>
+                    <i class="text-blue-700 far fa-circle fa-stack-2x"></i>
+                    <i class="text-blue-700 fa-stack-1x far fa-user"></i>
                 </span>
             </div>
-            @endif
+            @endguest
 
             <div class="grid flex-1 grid-cols-1 gap-1">
                 <div class="text-left">
                     <div class="font-semibold text-blue-800 text-md">
-                        {{ $currentProfile->name ?? __('Guest') }}
+                        {{ $currentProfile->name }}
                     </div>
                     @auth
                     <div class="font-hairline text-gray-600 truncate">

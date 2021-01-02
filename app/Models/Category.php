@@ -6,12 +6,11 @@ use App\Traits\StringManipulations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Category extends Model
 {
-    use HasFactory;
-    use Searchable;
-    use StringManipulations;
+    use HasFactory, Searchable, StringManipulations, QueryCacheable;
 
     protected $fillable = [
         'title'
@@ -25,9 +24,9 @@ class Category extends Model
     protected $keyType = 'string';
 
     public $incrementing = false;
-    protected $with = [
-        'products',
-    ];
+
+    public $cacheFor = 3600;
+    protected static $flushCacheOnUpdate = true;
 
     public function children()
     {

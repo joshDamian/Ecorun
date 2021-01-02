@@ -5,7 +5,9 @@
     $post_notifications = $notifications->filter(function($value, $key) {
     return $value->type === 'App\Notifications\PostCreated';
     });
-    $posts = App\Models\Post::withCount('gallery')->whereIn('id', $post_notifications->pluck('data.post_id'))->get()->loadMissing('profile');
+    $posts = App\Models\Post::with(['profile' => function($query) {
+    return $query->cacheFor(3600);
+    }])->withCount('gallery')->whereIn('id', $post_notifications->pluck('data.post_id'))->get()->loadMissing('profile');
     @endphp
 
     @forelse($notifications as $notification)
@@ -14,6 +16,7 @@
     $post = $posts->find($notification->data['post_id']);
     if(is_null($post)) {
     $notification->delete();
+    $this->emit('deletedStuff');
     continue;
     }
     @endphp

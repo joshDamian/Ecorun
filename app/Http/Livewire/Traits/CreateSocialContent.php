@@ -32,15 +32,12 @@ trait CreateSocialContent
 
     abstract public function create();
 
-    public function defaultContentValidation()
+    public function getRules():array
     {
-        return
-        $this->validate(
-            [
+        return [
             'content' => Rule::requiredIf(count($this->photos) === 0),
             'photos' => Rule::requiredIf(empty(trim($this->content))),
             'photos.*' => ['image', 'max:5120']
-            ]
-        );
+        ];
     }
 }

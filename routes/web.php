@@ -27,8 +27,7 @@ use App\Http\Livewire\BuildAndManage\Manager\ManagerDashboard;
 Route::get(
     '/',
     function () {
-        $user = Auth::check() ? Auth::user() : null;
-        return ($user) ? view('auth-landing-page', ['profile' => $user->currentProfile]) : view('guest-landing-page');
+        return (Auth::check()) ? view('auth-landing-page', ['profile' => Auth::user()->currentProfile]) : view('guest-landing-page');
     }
 )->name('home');
 
@@ -56,12 +55,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
   
         Route::middleware(['can:reference-businesses'])->group(
             function () {
-                Route::get('/biz/@{profile}/{action_route?}/{action_route_resource?}', BusinessDashboard::class)->middleware(['can:sellWith,profile'])->name('business.dashboard');
+                Route::get('/biz/@{profile:tag}/{action_route?}/{action_route_resource?}', BusinessDashboard::class)->middleware(['can:sellWith,profile'])->name('business.dashboard');
 
                 Route::get(
-                    '/biz/@{profile}/products/{active_product?}/',
+                    '/biz/@{profile:tag}/products/{active_product?}/',
                     function (Profile $profile, $active_product) {
-                        return redirect(route('business.dashboard', ['profile' => $profile, 'action_route' => 'products', 'action_route_resource' => $active_product]));
+                        return redirect(route('business.dashboard', ['profile' => $profile->tag, 'action_route' => 'products', 'action_route_resource' => $active_product]));
                     }
                 )->middleware(['can:sellWith,profile'])->name('business.products');
             }

@@ -4,18 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Image extends Model
 {
-    protected $with = [
-        //'imageable'
-    ];
+    use QueryCacheable, HasFactory;
 
     protected $fillable = [
         'image_url',
         'label'
     ];
-    use HasFactory;
+    public $cacheFor = 3600;
+    protected static $flushCacheOnUpdate = true;
 
     public function imageable()
     {

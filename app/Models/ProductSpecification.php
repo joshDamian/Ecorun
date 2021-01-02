@@ -5,11 +5,14 @@ namespace App\Models;
 use App\Traits\StringManipulations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class ProductSpecification extends Model
 {
-    use HasFactory;
-    use StringManipulations;
+    use HasFactory, StringManipulations, QueryCacheable;
+
+    public $cacheFor = 3600;
+    protected static $flushCacheOnUpdate = true;
 
     protected $casts = [
         'value' => 'array',

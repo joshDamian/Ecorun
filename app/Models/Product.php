@@ -33,49 +33,55 @@ class Product extends Model
 
     use HasFactory;
 
-    public function business() {
+    public function business()
+    {
         return $this->belongsTo(Business::class);
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function gallery() {
+    public function gallery()
+    {
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 
-    public function specifications() {
+    public function specifications()
+    {
         return $this->hasMany(ProductSpecification::class)->orderBy('name', 'ASC');
     }
 
-    public function indicatedSpecs() {
-        return $this->specifications()->where('is_specific', true)->get();
-    }
-
-    public function cart_instances() {
+    public function cart_instances()
+    {
         return $this->hasMany(Cart::class);
     }
 
-    public function view_history() {
+    public function view_history()
+    {
         return $this->hasMany(RecentlyViewed::class);
     }
 
-    public function displayImage() {
+    public function displayImage()
+    {
         return $this->loadMissing('gallery')->gallery->first()->image_url;
     }
 
-    public function price($quantity = null) {
+    public function price($quantity = null)
+    {
         return "<span>&#8358; </span>" . number_format(($quantity) ? $this->price * $quantity : $this->price, 2);
     }
 
-    public function slugData() {
+    public function slugData()
+    {
         return [
             'name' => $this->name,
         ];
     }
 
-    public function bootstrap() {
+    public function bootstrap()
+    {
         if (Auth::user()) {
             $existing = Auth::user()->view_history()->where('product_id', $this->id)->get()->first();
             if ($existing) {

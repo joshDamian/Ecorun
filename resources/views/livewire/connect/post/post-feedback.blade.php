@@ -31,7 +31,7 @@
         <div>
             @if($feedbackReady)
             <div>
-                @livewire('connect.post.comment.create-new-comment', ['post' => $this->post, 'profile' => $profile], key(time().$this->post->id.'comment'))
+                @livewire('connect.post.comment.create-new-comment', ['post' => $this->post, 'profile' => $profile], key(time().$this->post->id.'_comment'))
                 <div class="p-3 sm:px-5 sm:pt-1 sm:pb-3 sm:p-0">
                     <x-connect.comment.display-comments :comments="$this->post->loadMissing('comments')->comments" />
                 </div>

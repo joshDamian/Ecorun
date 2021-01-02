@@ -28,8 +28,8 @@
                             <x-jet-input wire:model="quantity" type="number" class="block w-full mt-1" />
                             <x-jet-input-error for="quantity" />
                         </div>
-                        @if($this->product->indicatedSpecs()->count() > 0)
-                        @foreach($this->product->indicatedSpecs() as $spec)
+                        @if($this->specification_count > 0)
+                        @foreach($this->indicated_specs as $spec)
                         <div>
                             <x-jet-label :value="Illuminate\Support\Str::singular($spec->name)" />
                             <div class="relative mt-1">
@@ -58,7 +58,7 @@
                     <x-jet-secondary-button wire:click="$toggle('add_specs')" class="mr-4">
                         {{ __('Cancel') }}
                     </x-jet-secondary-button>
-                    @if($this->product->indicatedSpecs()->count() > 0)
+                    @if($this->specification_count > 0)
                     <x-jet-button class="bg-blue-800" wire:click="add_specs_prod">
                         {{ __('add') }}
                     </x-jet-button>

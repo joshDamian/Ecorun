@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Notifications\DatabaseNotification;
 
 class Notifications extends Component
 {
@@ -16,7 +17,9 @@ class Notifications extends Component
         'showNotifications',
         'hideNotifications',
         'toggleNotifications',
-        'newNotification' => '$refresh'
+        'newNotification' => '$refresh',
+        'markAsRead',
+        'deletedStuff' => '$refresh'
     ];
 
     public function toggleNotifications():void
@@ -37,14 +40,20 @@ class Notifications extends Component
 
     public function mount(Collection $allProfiles, User $user):void
     {
-        $this->profiles = $allProfiles->loadMissing('unreadNotifications')->sortBy('id');
-        $this->activeProfile = $this->profiles->find($user->currentProfile->id);
+        $this->profiles = $allProfiles->loadMissing('notifications')->sortBy('id');
+        $this->switchProfile($user->currentProfile->id);
         return;
     }
 
-    public function switchProfile(Profile $profile):void
+    public function markAsRead(DatabaseNotification $notification, $redirect)
     {
-        $this->activeProfile = $profile->loadMissing('notifications', 'unreadNotifications');
+        $notification->markAsRead();
+        $this->redirect($redirect);
+    }
+
+    public function switchProfile($profile):void
+    {
+        $this->activeProfile = $this->profiles->find($profile);
         return;
     }
 

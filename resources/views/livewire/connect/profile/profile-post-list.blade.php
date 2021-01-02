@@ -46,12 +46,14 @@
             </div>
             <div class="flex items-center justify-end px-3 py-3 text-right bg-gray-100 sm:px-5 sm:py-3 sm:p-0">
                 <div class="mr-3">
-                    @livewire('buy.cart.add-to-cart', ['productId' => $post->id])
+                    @livewire('buy.cart.add-to-cart', ['product' => $post, key([microtime()."add_to_cart_{$post->id}"])])
                 </div>
 
-                <x-jet-button class="bg-blue-700">
-                    shop
-                </x-jet-button>
+                <a href="{{ route('product.show', ['product' => $post->id, 'slug' => $post->data_slug('name')]) }}">
+                    <x-jet-button class="bg-blue-700">
+                        shop
+                    </x-jet-button>
+                </a>
             </div>
         </div>
         @continue
@@ -61,7 +63,7 @@
             <div class="bg-gray-100 border-t border-gray-200">
                 @auth
                 <div>
-                    @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.index'], key(time()."post_fb_{$post->id}"))
+                    @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.index'], key(microtime()."post_fb_{$post->id}"))
                 </div>
                 @endauth
             </div>

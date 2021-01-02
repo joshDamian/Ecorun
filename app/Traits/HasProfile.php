@@ -6,7 +6,7 @@ trait HasProfile
 {
     public function profile()
     {
-        return $this->morphOne('App\Models\Profile', 'profileable');
+        return $this->morphOne('App\Models\Profile', 'profileable')->withDefault();
     }
 
     public function profile_image()

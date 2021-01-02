@@ -7,6 +7,7 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+
 </style>
 @endpush
 @endonce
@@ -29,16 +30,18 @@
         }">
     </div>
 
-    <div class="flex flex-wrap p-2 md:p-0 md:pt-2">
+    <div class="sticky top-0 flex flex-wrap p-2 bg-gray-200 bg-opacity-50 md:p-2">
         @foreach($profiles as $key => $profile)
         <div class="mb-2 mr-2">
             <x-connect.profile.switch-profile-for-notif :profile="$profile" :active="$profile->is($activeProfile)" />
         </div>
         @endforeach
     </div>
-    <div wire:loading class="w-full">
+
+    <div wire:loading wire:target="switchProfile" class="w-full">
         <x-loader_2 />
     </div>
+
     @if($display)
     @if($activeProfile)
     <div class="bg-gray-100">
