@@ -13,12 +13,12 @@ class Notifications extends Component
     public Collection $profiles;
     public Profile $activeProfile;
     public bool $display = false;
+    public User $user;
     protected $listeners = [
         'showNotifications',
         'hideNotifications',
         'toggleNotifications',
         'newNotification' => '$refresh',
-        'markAsRead',
         'deletedStuff' => '$refresh'
     ];
 
@@ -40,14 +40,18 @@ class Notifications extends Component
 
     public function mount(Collection $allProfiles, User $user):void
     {
+        $this->user = $user;
         $this->profiles = $allProfiles->loadMissing('notifications')->sortBy('id');
-        $this->switchProfile($user->currentProfile->id);
+        $this->switchProfile($this->user->currentProfile->id);
         return;
     }
 
-    public function markAsRead(DatabaseNotification $notification, $redirect)
+    public function handle(DatabaseNotification $notification, $redirect)
     {
-        $notification->markAsRead();
+        if (is_null($notification->read_at)) {
+            $notification->markAsRead();
+        }
+        $this->user->switchProfile($notification->notifiable);
         $this->redirect($redirect);
     }
 

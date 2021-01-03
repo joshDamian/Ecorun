@@ -149,9 +149,9 @@
         </div>
 
         <div class="pl-1">
-            <x-connect.profile.switchable-profile :profile="$personalProfile" />
+            <x-connect.profile.switchable-profile :currentProfile="$currentProfile" :profile="$personalProfile" />
             @foreach($associatedProfiles as $profile)
-            <x-connect.profile.switchable-profile :profile="$profile" />
+            <x-connect.profile.switchable-profile :profile="$profile" :currentProfile="$currentProfile" />
             @endforeach
         </div>
         @endif

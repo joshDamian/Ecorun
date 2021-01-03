@@ -25,7 +25,7 @@
     @empty
     <div class="p-3 text-blue-700">
         <div class="flex items-center justify-center justify-items-center">
-            <i style="font-size: 8rem;" class="far fa-bell"></i>
+            <i style="font-size: 5rem;" class="far fa-bell"></i>
         </div>
         <div class="pt-3 text-lg font-semibold text-center">no notifications yet.</div>
     </div>

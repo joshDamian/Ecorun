@@ -38,7 +38,7 @@
         @endforeach
     </div>
 
-    <div wire:loading wire:target="switchProfile" class="w-full">
+    <div wire:loading wire:target="mount,switchProfile" class="w-full">
         <x-loader_2 />
     </div>
 

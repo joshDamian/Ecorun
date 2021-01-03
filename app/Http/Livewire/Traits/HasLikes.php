@@ -19,9 +19,7 @@ trait HasLikes
             $like->profile_id = $this->profile->id;
             $this->likeable->likes()->save($like);
         }
-
         $this->emit('newLike');
-        
         return;
     }
 

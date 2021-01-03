@@ -1,15 +1,15 @@
 <div>
-    <div style="width: 100%;" wire:target="photos" wire:loading>
+    <div style="width: 100%;" wire:target="photos,create,resetData" wire:loading>
         <x-loader_2 />
     </div>
 
     @if($product_created)
     <div class="flex justify-end px-4 pb-4 text-right md:px-0">
-        <x-jet-secondary-button @click=" window.location = window.location ">
+        <x-jet-secondary-button class="mr-3" wire:click="resetData">
             {{ __('Add Another') }}
         </x-jet-secondary-button>
 
-        <a class="mr-3" href="{{ route('business.dashboard', ['profile' => $this->business->profile->tag, 'action_route' => 'products']) }}">
+        <a href="{{ route('business.dashboard', ['profile' => $this->business->profile->tag, 'action_route' => 'products']) }}">
             <x-jet-button class="bg-blue-800">
                 done
             </x-jet-button>
@@ -45,6 +45,7 @@
                     <x-jet-label for="photos" value="{{ __('Product Photos') }}" />
 
                     <!-- Product Photos Preview -->
+                    @if(count($photos) > 0)
                     <div class="mt-2" x-show.transition="photosArray.length > 0">
                         <div class="grid @if(count($photos) < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-3 sm:gap-2 gap-2">
                             <template x-for="photo in photosArray">
@@ -57,6 +58,7 @@
                             <progress max="100" x-bind:value="progress"></progress>
                         </div>
                     </div>
+                    @endif
 
                     <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photos.click();">
                         {{ __('Select Product Photos') }}

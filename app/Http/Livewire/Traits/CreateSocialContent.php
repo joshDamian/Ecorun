@@ -10,13 +10,12 @@ trait CreateSocialContent
     use UploadPhotos;
 
     public Profile $profile;
-    public $photos = [];
+    public array $photos = [];
     public $content;
 
     public function done()
     {
-        $this->photos = [];
-        $this->content = null;
+        $this->reset('photos', 'content');
         $this->resetErrorBag();
         return;
     }

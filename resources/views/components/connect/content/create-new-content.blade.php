@@ -9,7 +9,7 @@
             @csrf
             <div>
                 <div>
-                    <div class="flex justify-center text-blue-600" style="width: 100%;" wire:loading>
+                    <div class="flex justify-center w-full text-blue-600" wire:loading>
                         <x-loader_2 />
                     </div>
 

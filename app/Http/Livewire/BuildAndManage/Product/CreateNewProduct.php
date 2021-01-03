@@ -34,6 +34,7 @@ class CreateNewProduct extends Component
         /*  Category::find($this->product_category->title)->products()->save($this->product);
         */
         $this->uploadPhotos('product-photos', $this->product, 'product_image', array(1600, 1600));
+        $this->product_created = true;
     }
 
     public function getRules(): array
@@ -52,6 +53,11 @@ class CreateNewProduct extends Component
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
+    }
+
+    public function resetData()
+    {
+        return $this->reset('product_created', 'product', 'photos');
     }
 
     public function mount()

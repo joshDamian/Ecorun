@@ -103,7 +103,7 @@ class User extends Authenticatable
         }
         $this->forceFill(['current_profile_id' => $profile->id])->save();
         $this->setRelation('currentProfile', $profile);
-        return true;
+        return $profile->save();
     }
 
     public function currentProfile()

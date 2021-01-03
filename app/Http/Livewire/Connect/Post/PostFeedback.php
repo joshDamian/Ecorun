@@ -15,26 +15,28 @@ class PostFeedback extends Component
 
     public Post $post;
     public string $view;
+    public $likes_count;
     protected $listeners = [
         'newFeedback' => '$refresh',
-        'newLike' => '$refresh'
+        'newLike' => 'count'
     ];
    
     public function mount():void
     {
         $this->profile = Auth::user()->loadMissing('currentProfile')->currentProfile;
         $this->likeable = $this->post;
+        $this->likes_count = $this->likes();
         $this->feedbackReady = ($this->view === 'post.show') ? true : null;
         return;
     }
 
+    public function count()
+    {
+        $this->likes_count = $this->likes();
+    }
+
     public function render()
     {
-        return view(
-            'livewire.connect.post.post-feedback',
-            [
-            'likes_count' => $this->likes()
-            ]
-        );
+        return view('livewire.connect.post.post-feedback');
     }
 }

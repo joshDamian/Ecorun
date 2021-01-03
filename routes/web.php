@@ -31,7 +31,7 @@ Route::get(
     }
 )->name('home');
 
-Route::get('/@{profile}/{action_route?}', [ProfileController::class, 'show'])->name('profile.visit');
+Route::get('/@{profile:tag}/{action_route?}', [ProfileController::class, 'show'])->name('profile.visit');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(
     function () {
@@ -46,10 +46,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         ->middleware('can:update,profile')
         ->name('profile.edit');*/
 
-        Route::get('/@{profile}/actions/edit', UpdateProfile::class)->middleware('can:access,profile')
+        Route::get('/@{profile:tag}/actions/edit', UpdateProfile::class)->middleware('can:access,profile')
             ->name('profile.edit');
 
-        Route::put('/{user}/current-profile/update', [ProfileController::class, 'updateCurrentProfile'])->name('current-profile.update');
+        Route::put('/current-profile/update', [ProfileController::class, 'updateCurrentProfile'])->name('current-profile.update');
 
         Route::get('/biz/dashboard/', ManagerDashboard::class)->name('manager.dashboard');
   

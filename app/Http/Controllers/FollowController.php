@@ -14,9 +14,11 @@ class FollowController extends Controller
 
     public function store(Profile $profile, Request $request)
     {
-        if ($request->user()) {
-            if (!$request->user()->can('update', $profile)) {
-                $request->user()->currentProfile->following()->toggle($profile);
+        $user = $request->user()->loadMissing('currentProfile');
+        if ($user) {
+            if (!$user->can('update', $profile)) {
+                $user->currentProfile->following()->toggle($profile);
+                return $user->currentProfile->update();
             }
         }
     }
