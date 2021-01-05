@@ -2,13 +2,14 @@
 
 namespace App\Notifications;
 
-use App\Models\Post;
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PostCreated extends Notification implements ShouldBroadcast
+class ProductCreated extends Notification implements ShouldBroadcast
 {
     use Queueable;
 
@@ -17,15 +18,15 @@ class PostCreated extends Notification implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Post $post)
+    public function __construct(Product $product)
     {
-        $this->post = $post;
+        $this->product = $product;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -36,7 +37,7 @@ class PostCreated extends Notification implements ShouldBroadcast
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed $notifiable
+     * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
@@ -50,14 +51,14 @@ class PostCreated extends Notification implements ShouldBroadcast
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            'model_key' => $this->post->id,
-            'title' => 'New post for you.'
+            "model_key" => $this->product->id,
+            "title" => "New product alert"
         ];
     }
 }

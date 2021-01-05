@@ -1,13 +1,16 @@
-@props(['post', 'gallery' => $post->gallery, 'profile' => $post->profile])
 <div>
     @php
+    $post = $model;
+    $gallery = $post->gallery;
+    $profile = $post->profile;
     $image_count = $post->gallery_count ?? $gallery->count();
     @endphp
     <div class="bg-gray-100 sm:shadow">
         <div class="flex justify-between px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
             <div class="flex items-center flex-1">
                 <a class="mr-3" href="{{ route('profile.visit', ['profile' => $profile->tag]) }}">
-                    <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;" class="w-12 h-12 border-t-2 border-b-2 border-blue-700 rounded-full">
+                    <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;"
+                        class="w-12 h-12 border-t-2 border-b-2 border-blue-700 rounded-full">
                     </div>
                 </a>
 
@@ -17,7 +20,8 @@
                     </a>
 
                     <div class="flex items-center">
-                        <a class="flex-1 mr-2 truncate" href="{{ route('profile.visit', ['profile' => $profile->tag]) }}">
+                        <a class="flex-1 mr-2 truncate"
+                            href="{{ route('profile.visit', ['profile' => $profile->tag]) }}">
                             <span class="text-sm font-normal text-blue-600 truncate">{{ $profile->full_tag() }}</span>
                         </a>
 
@@ -46,7 +50,8 @@
                 @continue($image->is($gallery->first()))
                 @if($image_count > 2)
                 @break($key === 6)
-                <div style="background-image: url('/storage/{{ $image->image_url }}'); background-size: cover; background-position: center center;" class="w-full h-full">
+                <div style="background-image: url('/storage/{{ $image->image_url }}'); background-size: cover; background-position: center center;"
+                    class="w-full h-full">
                 </div>
                 @else
                 <img class="w-full h-full" src="/storage/{{ $image->image_url }}" />
@@ -55,7 +60,8 @@
                 @if($image_count > 6)
                 <div class="flex items-center justify-center bg-black">
                     <div class="text-white">
-                        <i class="text-2xl fas fa-plus"></i> &nbsp; <span class="text-2xl font-bold">{{ $image_count - 6 }}</span>
+                        <i class="text-2xl fas fa-plus"></i> &nbsp; <span
+                            class="text-2xl font-bold">{{ $image_count - 6 }}</span>
                     </div>
                 </div>
                 @endif
@@ -63,5 +69,13 @@
             @endif
         </div>
         @endif
+    </div>
+    <div class="bg-gray-100 border-t border-gray-200">
+        @auth
+        <div>
+            @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.index'],
+            key(microtime()."post_fb_{$post->id}"))
+        </div>
+        @endauth
     </div>
 </div>

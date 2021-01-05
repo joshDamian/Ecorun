@@ -87,7 +87,7 @@ class User extends Authenticatable
                     [
                         'name' => $name,
                         'tag' => (is_object(Profile::where('tag', $name . "." . $user->id)->get()->first())) ? null : substr($name, 0, 15) . "." . $user->id,
-                        'description' => "Hi, I am {$name }, I'm new here and i hope to make new friends soon.",
+                        'description' => "Hi, I am {$name}, I'm new here and i hope to make new friends soon.",
                     ]
                 );
                 $user->profile->following()->save($user->profile);
@@ -110,7 +110,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Profile::class, 'current_profile_id')->withDefault(
             [
-            'name' => 'Guest',
+                'name' => 'Guest',
             ]
         );
     }

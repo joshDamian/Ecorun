@@ -9,7 +9,8 @@ class UnreadNotifsDisplay extends Component
 {
     public User $user;
     protected $listeners = [
-        'newNotification' => '$refresh'
+        'newNotification' => '$refresh',
+        'deletedFromNotifications' => '$refresh'
     ];
 
     public function render()
@@ -17,11 +18,11 @@ class UnreadNotifsDisplay extends Component
         return view(
             'livewire.general.user.unread-notifs-display',
             [
-            'count' => $this->user->associatedProfiles()->concat([$this->user->loadMissing('profile')->profile])->loadMissing('unreadNotifications')->map(
-                function ($profile):int {
-                    return $profile->unreadNotifications->count();
-                }
-            )->sum()
+                'count' => $this->user->associatedProfiles()->concat([$this->user->loadMissing('profile')->profile])->loadMissing('unreadNotifications')->map(
+                    function ($profile): int {
+                        return $profile->unreadNotifications->count();
+                    }
+                )->sum()
             ]
         );
     }

@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Support\Collection as SupportCollection;
 
 class Notifications extends Component
 {
@@ -18,30 +19,30 @@ class Notifications extends Component
         'showNotifications',
         'hideNotifications',
         'toggleNotifications',
-        'newNotification' => '$refresh',
-        'deletedStuff' => '$refresh'
+        'modifiedNotifs' => '$refresh',
+        'switchedActiveProfile' => '$refresh'
     ];
 
-    public function toggleNotifications():void
+    public function toggleNotifications(): void
     {
         $this->display = !$this->display;
         return;
     }
 
-    public function showNotifications():bool
+    public function showNotifications(): bool
     {
         return $this->display = true;
     }
 
-    public function hideNotifications():bool
+    public function hideNotifications(): bool
     {
         return $this->display = false;
     }
 
-    public function mount(Collection $allProfiles, User $user):void
+    public function mount(array $profileIds, User $user): void
     {
         $this->user = $user;
-        $this->profiles = $allProfiles->loadMissing('notifications')->sortBy('id');
+        $this->profiles = Profile::cacheFor(3600)->with(['notifications'])->whereIn('id', $profileIds)->get()->unique();
         $this->switchProfile($this->user->currentProfile->id);
         return;
     }
@@ -51,13 +52,14 @@ class Notifications extends Component
         if (is_null($notification->read_at)) {
             $notification->markAsRead();
         }
-        $this->user->switchProfile($notification->notifiable);
+        $this->user->switchProfile($notification->loadMissing('notifiable')->notifiable);
         $this->redirect($redirect);
     }
 
-    public function switchProfile($profile):void
+    public function switchProfile($profile): void
     {
         $this->activeProfile = $this->profiles->find($profile);
+        $this->emit('switchedActiveProfile');
         return;
     }
 

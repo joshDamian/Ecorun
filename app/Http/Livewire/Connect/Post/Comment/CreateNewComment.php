@@ -2,21 +2,22 @@
 
 namespace App\Http\Livewire\Connect\Post\Comment;
 
-use App\Http\Livewire\Traits\CreateSocialContent;
+use App\Http\Livewire\Traits\CreatesSocialContent;
 use Livewire\Component;
+use App\Models\Profile;
 
 class CreateNewComment extends Component
 {
-    use CreateSocialContent;
+    use CreatesSocialContent;
 
     public $post;
 
     public function create()
     {
-        $this->validate();
+        $this->validate($this->defaulRules());
         $comment = $this->profile->feedbacks()->create(
             [
-            'content' => trim($this->content) ?? ''
+                'content' => trim($this->text_content) ?? ''
             ]
         );
         $this->post->comments()->save($comment);

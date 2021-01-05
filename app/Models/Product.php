@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
+use App\Events\ProductCreated;
 
 class Product extends Model
 {
@@ -15,9 +16,13 @@ class Product extends Model
     use SoftDeletes;
     use StringManipulations;
 
-    protected $with = [
-        //'specifications',
-        //'gallery',
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => ProductCreated::class,
     ];
 
     protected $casts = [

@@ -9,7 +9,7 @@ use App\Models\Profile;
 class ProfileDataBank
 {
     public Profile $profile;
-    
+
     public function __construct(Profile $profile)
     {
         $this->profile = $profile;
@@ -24,31 +24,27 @@ class ProfileDataBank
             }
         );
 
-        return collect(
-            Post::with(
-                [
-                    'gallery' => function ($query) {
-                        return $query->cacheFor(3600);
-                    }, 'likes' => function ($query) {
-                        return $query->cacheFor(3600);
-                    }, 'comments' => function ($query) {
-                        return $query->cacheFor(3600);
-                    }, 'profile' => function ($query) {
-                        return $query->cacheFor(3600);
-                    }
-                ]
-            )->whereIn('profile_id', $following->pluck('id'))->withCount('gallery')->latest()->get()->unique()->merge(
-                Product::with(
-                    [
-                        'business.profile' => function ($query) {
-                            return $query->cacheFor(3600);
-                        },
-                        'specifications' => function ($query) {
-                            return $query->cacheFor(3600);
-                        },
-                    ]
-                )->whereIn('business_id', $businesses_following->pluck('profileable.id'))->where('is_published', true)->latest()->get()->unique()
-            )->sortByDesc('created_at')->all()
-        );
+        return collect([
+            Post::class => Post::with([
+                'gallery' => function ($query) {
+                    return $query->cacheFor(3600);
+                }, 'likes' => function ($query) {
+                    return $query->cacheFor(3600);
+                }, 'comments' => function ($query) {
+                    return $query->cacheFor(3600);
+                }, 'profile' => function ($query) {
+                    return $query->cacheFor(3600);
+                }
+            ])->whereIn('profile_id', $following->pluck('id'))->withCount('gallery')->latest()->get()->unique(),
+            Product::class =>
+            Product::with([
+                'business.profile' => function ($query) {
+                    return $query->cacheFor(3600);
+                },
+                'specifications' => function ($query) {
+                    return $query->cacheFor(3600);
+                },
+            ])->whereIn('business_id', $businesses_following->pluck('profileable.id'))->where('is_published', true)->latest()->get()->unique()
+        ]);
     }
 }

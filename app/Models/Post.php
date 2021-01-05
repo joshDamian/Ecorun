@@ -2,24 +2,31 @@
 
 namespace App\Models;
 
+use App\Events\PostCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryCacheable;
 
-    protected $with = [
-        //'likes',
-        //'comments',
-        //'gallery',
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => PostCreated::class,
     ];
 
     protected $fillable = [
         'content',
         'visibility'
     ];
+    public $cacheFor = 3600;
+    protected static $flushCacheOnUpdate = true;
 
     public function comments()
     {

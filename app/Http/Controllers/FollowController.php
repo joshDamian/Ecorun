@@ -18,7 +18,7 @@ class FollowController extends Controller
         if ($user) {
             if (!$user->can('update', $profile)) {
                 $user->currentProfile->following()->toggle($profile);
-                return $user->currentProfile->update();
+                return $user->currentProfile->flushQueryCache();
             }
         }
     }

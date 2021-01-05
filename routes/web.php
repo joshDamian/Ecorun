@@ -52,7 +52,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         Route::put('/current-profile/update', [ProfileController::class, 'updateCurrentProfile'])->name('current-profile.update');
 
         Route::get('/biz/dashboard/', ManagerDashboard::class)->name('manager.dashboard');
-  
+
         Route::middleware(['can:reference-businesses'])->group(
             function () {
                 Route::get('/biz/@{profile:tag}/{action_route?}/{action_route_resource?}', BusinessDashboard::class)->middleware(['can:sellWith,profile'])->name('business.dashboard');
@@ -71,14 +71,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
 );
 
 Route::get('/browsing-history', [RecentlyViewedController::class, 'index'])
-->name('view-history.index');
+    ->name('view-history.index');
 
 Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
-->name('product.show');
+    ->name('product.show');
 
 Route::get('/categories', [CategoryController::class, 'index'])
-->name('category.index');
+    ->name('category.index');
 Route::get('category/{slug}', [CategoryController::class, 'show'])
-->name('category.show');
+    ->name('category.show');
 
 //Route::get('/cart', ViewCart::class);

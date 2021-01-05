@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3",
+        "php": "^7.4.3",
         "beyondcode/laravel-websockets": "^1.9",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
@@ -20,7 +20,7 @@
         "laravel/scout": "^8.3",
         "laravel/telescope": "^4.0",
         "laravel/tinker": "^2.0",
-        "livewire/livewire": "^2.0",
+        "livewire/livewire": "^2.3",
         "pusher/pusher-php-server": "~3.0",
         "rennokki/laravel-eloquent-query-cache": "^2.5",
         "yab/laravel-scout-mysql-driver": "^3.0"

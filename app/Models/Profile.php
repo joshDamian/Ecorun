@@ -15,10 +15,10 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 class Profile extends Model
 {
     use Notifiable,
-    HasFactory,
-    HasProfilePhoto,
-    QueryCacheable,
-    StringManipulations;
+        HasFactory,
+        HasProfilePhoto,
+        QueryCacheable,
+        StringManipulations;
 
     protected $fillable = [
         'name',
@@ -88,7 +88,7 @@ class Profile extends Model
         return $this->hasMany(Feedback::class);
     }
 
-    public function feed()
+    public function getFeedAttribute()
     {
         return (new ProfileDataBank($this))->feed();
     }

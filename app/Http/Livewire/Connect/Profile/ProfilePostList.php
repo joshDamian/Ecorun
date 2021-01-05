@@ -12,7 +12,7 @@ class ProfilePostList extends Component
 {
     public Profile $profile;
     public string $view;
-    public int $perPage = 10;
+    public int $perPage = 30;
     protected $posts_lazy;
     protected $listeners = [
         //'loadOlderPosts',
@@ -26,12 +26,12 @@ class ProfilePostList extends Component
 
     public function newPost()
     {
-        $this->posts_lazy = ($this->view === 'landing-page') ? $this->profile->feed() : $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
+        $this->posts_lazy = $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
     }
 
     public function mount()
     {
-        $this->posts_lazy = ($this->view === 'landing-page') ? $this->profile->feed() : $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
+        $this->posts_lazy = $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
     }
 
     public function render()

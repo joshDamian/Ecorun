@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
 
-class SendPostWebNotificaton
+class SendPostCreatedNotificaton
 {
     /**
      * Create the event listener.
@@ -26,10 +26,10 @@ class SendPostWebNotificaton
      * @param  PostCreated $event
      * @return void
      */
-    
+
     public function handle(PostCreated $event)
     {
-        $followers = $event->post->load('profile.followers')->profile->followers->except([$event->post->profile->id]);
+        $followers = $event->post->loadMissing('profile.followers')->profile->followers->except([$event->post->profile->id]);
         Notification::send($followers, new NotificationsPostCreated($event->post));
     }
 }
