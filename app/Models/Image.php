@@ -14,7 +14,7 @@ class Image extends Model
         'image_url',
         'label'
     ];
-    public $cacheFor = 3600;
+    public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
     public function imageable()

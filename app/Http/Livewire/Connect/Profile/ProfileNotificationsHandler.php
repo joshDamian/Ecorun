@@ -2,17 +2,19 @@
 
 namespace App\Http\Livewire\Connect\Profile;
 
+use App\Mappers\NotificationMapper;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\Profile;
 use App\Notifications\PostCreated;
 use App\Notifications\ProductCreated;
-use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
-class ProfileNotificationHandler extends Component
+class ProfileNotificationsHandler extends Component
 {
+    use NotificationMapper;
     public Profile $profile;
+    public $notifications_for_profile;
     public string $viewIncludeFolder = "includes.notification-display-cards.";
     public array $types_array = [
         PostCreated::class => [
@@ -28,17 +30,12 @@ class ProfileNotificationHandler extends Component
         ]
     ];
 
-    public function getNotificationsProperty(): Collection
+    public function notifications()
     {
-        return $this->profile->notifications;
+        return $this->notifications_for_profile;
     }
 
-    public function getGroupedNotificationsProperty(): Collection
-    {
-        return $this->notifications->groupBy('type');
-    }
-
-    public function getDataForModelsProperty()
+    public function data_for_models()
     {
         return $this->models->mapWithKeys(function ($model) {
             $notif_type = $this->model_notification_types->firstWhere('model', $model);
@@ -49,32 +46,32 @@ class ProfileNotificationHandler extends Component
                         return $query->cacheFor(3600);
                     }];
                 })->toArray() ?? []
-            )->whereIn((new $model)->getKeyName(), $this->grouped_notifications->get($notif_key)->pluck('data.model_key')->unique())->withCount($notif_type['count'] ?? [])->get()];
+            )->whereIn((new $model)->getKeyName(), $this->grouped_by_type->get($notif_key)->pluck('data.model_key')->unique())->withCount($notif_type['count'] ?? [])->get()];
         });
     }
 
-    public function getValidNotificationsProperty(): Collection
+    public function valid_notifications()
     {
-        return $this->notifications->filter(function ($notif) {
+        return $this->all->filter(function ($notif) {
             return $this->modelValidityTest($notif);
         });
     }
 
-    public function getModelsProperty()
+    public function models()
     {
         return $this->model_notification_types->pluck('model');
     }
 
-    public function getModelNotificationTypesProperty()
+    public function model_notification_types()
     {
         return $this->notification_types->filter(function ($type) {
             return $type['model'] !== "";
         });
     }
 
-    public function getNotificationTypesProperty()
+    public function notification_types()
     {
-        return $this->grouped_notifications->keys()->mapWithKeys(function ($type) {
+        return $this->types->mapWithKeys(function ($type) {
             return [$type => $this->types_array[$type]];
         });
     }
@@ -83,8 +80,15 @@ class ProfileNotificationHandler extends Component
     {
         return [
             "echo-notification:App.Models.Profile.{$this->profile->id},notification" => 'handleIncoming',
-            'switchedActiveProfile' => '$refresh',
+            'switchedActiveProfile' => 'setNotification',
         ];
+    }
+
+    public function setNotification(Profile $profile, $notifications)
+    {
+        $this->profile = $profile;
+        dump($this->profile);
+        $this->notifications_for_profile = $notifications;
     }
 
     public function handleIncoming($notification)
@@ -103,7 +107,7 @@ class ProfileNotificationHandler extends Component
         if ($model) {
             return true;
         }
-        $this->notifications->forget($notification->id);
+        $this->all->forget($notification->id);
         $notification->delete();
         $this->emit('deletedFromNotifications');
         return false;
@@ -111,6 +115,6 @@ class ProfileNotificationHandler extends Component
 
     public function render()
     {
-        return view('livewire.connect.profile.profile-notification-handler');
+        return view('livewire.connect.profile.profile-notifications-handler');
     }
 }

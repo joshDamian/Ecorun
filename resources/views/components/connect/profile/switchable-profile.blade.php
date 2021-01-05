@@ -29,12 +29,11 @@
 
         @if(!$currentProfile->is($profile))
         <div class="flex">
-            <a class="mr-3 text-blue-600 underline" href="{{ route('profile.visit', ['profile' => $profile->tag]) }}">
+            <a class="mr-3 text-blue-600 underline" href="{{ $profile->url->visit }}">
                 <i class="far fa-eye"></i>
             </a>
 
-            <a class="mr-3 text-blue-600 underline"
-                href="{{ ($profile->isBusiness()) ? route('business.dashboard', ['profile' => $profile->tag, 'action_route' => 'edit']) : route('profile.edit', ['profile' => $profile->tag]) }}">
+            <a class="mr-3 text-blue-600 underline" href="{{ $profile->url->edit }}">
                 <i class="far fa-edit"></i>
             </a>
         </div>

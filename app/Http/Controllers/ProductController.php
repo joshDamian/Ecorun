@@ -50,8 +50,7 @@ class ProductController extends Controller
             $product->bootstrap();
             return view('products.show', compact('product'));
         }
-        
-        return redirect()->route('product.show', ['slug' => $product->data_slug('name'), 'product' => $product]);
+        return redirect($product->url->show);
     }
 
     /**

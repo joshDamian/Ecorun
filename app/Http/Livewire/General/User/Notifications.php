@@ -4,23 +4,22 @@ namespace App\Http\Livewire\General\User;
 
 use Livewire\Component;
 use App\Models\Profile;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+//use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection as SupportCollection;
 
 class Notifications extends Component
 {
-    public Collection $profiles;
+    public $user;
     public Profile $activeProfile;
     public bool $display = false;
-    public User $user;
     protected $listeners = [
         'showNotifications',
         'hideNotifications',
         'toggleNotifications',
         'modifiedNotifs' => '$refresh',
-        'switchedActiveProfile' => '$refresh'
+        //'switchedActiveProfile' => '$refresh'
     ];
 
     public function toggleNotifications(): void
@@ -39,14 +38,6 @@ class Notifications extends Component
         return $this->display = false;
     }
 
-    public function mount(array $profileIds, User $user): void
-    {
-        $this->user = $user;
-        $this->profiles = Profile::cacheFor(3600)->with(['notifications'])->whereIn('id', $profileIds)->get()->unique();
-        $this->switchProfile($this->user->currentProfile->id);
-        return;
-    }
-
     public function handle(DatabaseNotification $notification, $redirect)
     {
         if (is_null($notification->read_at)) {
@@ -58,13 +49,35 @@ class Notifications extends Component
 
     public function switchProfile($profile): void
     {
-        $this->activeProfile = $this->profiles->find($profile);
-        $this->emit('switchedActiveProfile');
+        $this->activeProfile = $this->profiles->firstWhere("id", $profile);
+        $this->emitUp('switchedActiveProfile' . $this->activeProfile, $this->notifications->grouped_by_notifiable[$this->activeProfile->id] ?? collect([]));
         return;
+    }
+
+    public function getNotificationsProperty()
+    {
+        return $this->user->custom_notifications;
+    }
+
+    public function getProfilesProperty()
+    {
+        return $this->user->associated_profiles->all;
+    }
+
+    public function unreadCount(Profile $profile)
+    {
+        return $this->notifsForProfile($profile)->filter(function ($notif) {
+            return $notif->read_at === null;
+        })->count();
+    }
+
+    public function notifsForProfile(Profile $profile)
+    {
+        return $this->notifications->grouped_by_notifiable[$profile->id] ?? collect([]);
     }
 
     public function render()
     {
-        return view('livewire.general.user.notifications');
+        return view('livewire.general.user.notifications', ['profiles' => $this->profiles]);
     }
 }

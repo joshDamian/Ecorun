@@ -16,14 +16,14 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel(
     'App.Models.User.{id}',
-    function ($user, $id):bool {
+    function ($user, $id): bool {
         return (int) $user->id === (int) $id;
     }
 );
 
 Broadcast::channel(
     'App.Models.Profile.{id}',
-    function ($user, Profile $id):bool {
-        return $user->associatedProfiles()->contains($id) || ($user->loadMissing('profile')->profile->id === $id->id);
+    function ($user, Profile $id): bool {
+        return $user->associated_profiles->all->contains($id);
     }
 );

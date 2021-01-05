@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\PostCreated;
+use App\Presenters\Post\UrlPresenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -21,11 +22,20 @@ class Post extends Model
         'created' => PostCreated::class,
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'url',
+    ];
+
     protected $fillable = [
         'content',
         'visibility'
     ];
-    public $cacheFor = 3600;
+    public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
     public function comments()
@@ -62,5 +72,10 @@ class Post extends Model
         $this->gallery()->delete();
         $this->delete();
         return true;
+    }
+
+    public function getUrlAttribute()
+    {
+        return (new UrlPresenter($this));
     }
 }

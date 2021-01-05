@@ -9,7 +9,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 class Cart extends Model
 {
     use HasFactory, QueryCacheable;
-    
+
     protected $with = [
         'product'
     ];
@@ -21,7 +21,7 @@ class Cart extends Model
         'quantity',
         'specifications'
     ];
-    public $cacheFor = 3600;
+    public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
     public function product()

@@ -1,7 +1,7 @@
 @props(['profile'])
 <div>
     <div class="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5">
-        @php $profile_gallery = $profile->gallery() @endphp
+        @php $profile_gallery = $profile->gallery @endphp
         @foreach($profile_gallery as $key => $picture_post)
         @foreach($picture_post->gallery as $key => $image)
         <a href="{{ route('post.show', ['post' => $picture_post->id]) }}">

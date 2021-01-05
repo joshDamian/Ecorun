@@ -8,8 +8,12 @@
                     <div class="order-2 sm:order-2 md:order-1">
                         <div class="flex flex-row p-3 md:p-0 md:mr-2 md:flex-col">
                             @foreach($product->gallery as $image)
-                            <div style="max-height: 80px; max-width: 80px;" class="@if(!$loop->last) mr-3 md:mb-2 md:mr-0 @endif md:shadow-lg">
-                                <img class="max-w-full max-h-full cursor-pointer md:rounded-md" @click=" activeImage = '{{ $image->image_url }}' " :class="('{{ $image->image_url }}' === activeImage) ? 'border-2 border-blue-800' : ''" src="/storage/{{ $image->image_url }}" />
+                            <div style="max-height: 80px; max-width: 80px;"
+                                class="@if(!$loop->last) mr-3 md:mb-2 md:mr-0 @endif md:shadow-lg">
+                                <img class="max-w-full max-h-full cursor-pointer md:rounded-md"
+                                    @click=" activeImage = '{{ $image->image_url }}' "
+                                    :class="('{{ $image->image_url }}' === activeImage) ? 'border-2 border-blue-800' : ''"
+                                    src="/storage/{{ $image->image_url }}" />
                             </div>
                             @endforeach
                         </div>
@@ -58,7 +62,8 @@
                                     {!! $product->price() !!}
                                 </p>
                                 <div>
-                                    @livewire('buy.cart.add-to-cart', ['productId' => $product->id], key(md5('add_to_cart'.$product->id)))
+                                    @livewire('buy.cart.add-to-cart', ['productId' => $product->id],
+                                    key(md5('add_to_cart'.$product->id)))
                                 </div>
                             </div>
                         </div>
@@ -69,7 +74,9 @@
             <!-- expansible description  & specifications -->
             <div class="grid grid-cols-1 gap-0 bg-gray-100 md:mb-3 md:mt-3">
                 <div>
-                    <div id="description" @click=" show_description = ! show_description; (show_description) ? window.location = '#description' : true " class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl md:px-3">
+                    <div id="description"
+                        @click=" show_description = ! show_description; (show_description) ? window.location = '#description' : true "
+                        class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl md:px-3">
                         <span>
                             description
                         </span>
@@ -87,7 +94,9 @@
                 </div>
 
                 <div>
-                    <div id="specs" @click=" show_specs = ! show_specs; (show_specs) ? window.location = '#specs' : true " class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl">
+                    <div id="specs"
+                        @click=" show_specs = ! show_specs; (show_specs) ? window.location = '#specs' : true "
+                        class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl">
                         <span>
                             specifications
                         </span>
@@ -101,14 +110,17 @@
                             <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
                                 @foreach($product->specifications as $specification)
                                 <div class="bg-gray-100 shadow">
-                                    <h3 class="px-3 py-2 text-xl font-semibold text-blue-700 border border-gray-200 rounded-t-sm">
+                                    <h3
+                                        class="px-3 py-2 text-xl font-semibold text-blue-700 border border-gray-200 rounded-t-sm">
                                         {{ $specification->name }}
                                     </h3>
 
                                     <table class="table border-collapse rounded-b-sm">
                                         <tr>
                                             @foreach($specification->value as $key => $value)
-                                            <td class="px-3 py-2 text-lg font-medium text-center border border-gray-200">{{ $value }}</td>
+                                            <td
+                                                class="px-3 py-2 text-lg font-medium text-center border border-gray-200">
+                                                {{ $value }}</td>
                                             @endforeach
                                         </tr>
                                     </table>
@@ -132,7 +144,7 @@
                 , show_description: null
                 , show_specs: null
                 , init_product() {
-                    this.activeImage = '{{ $product->displayImage() }}';
+                    this.activeImage = '{{ $product->gallery->first() }}';
                 }
             }
         }

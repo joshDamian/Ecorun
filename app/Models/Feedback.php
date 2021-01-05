@@ -14,7 +14,7 @@ class Feedback extends Model
         'content',
         'title',
     ];
-    public $cacheFor = 3600;
+    public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
     public function profile()

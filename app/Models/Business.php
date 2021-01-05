@@ -12,7 +12,7 @@ class Business extends Model
 {
     use SoftDeletes, HasProfile, HasFactory, QueryCacheable;
 
-    public $cacheFor = 3600;
+    public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
     public function manager()

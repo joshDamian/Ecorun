@@ -2,44 +2,36 @@
     @cannot('update', $profile)
     <div>
         @if ($this->isFollowing())
-            <x-jet-button wire:click="follow"
-                class="bg-blue-800 rounded">
-                {{ __('unfollow') }}
-            </x-jet-button>
+        <x-jet-button wire:click="follow" class="bg-blue-800 rounded">
+            {{ __('unfollow') }}
+        </x-jet-button>
         @else
-            @auth
-                <x-jet-button wire:click="follow"
-                    class="bg-blue-800 rounded">
-                    <i class="fas fa-plus"></i> &nbsp; {{ __('follow') }}
-                </x-jet-button>
-            @endauth
-            @guest
-                <form method="POST"
-                    action="{{ route('guest.follow-profile', ['tag' => $profile->tag]) }}">
-                    @method('PUT')
-                    @csrf
+        @auth
+        <x-jet-button wire:click="follow" class="bg-blue-800 rounded">
+            <i class="fas fa-plus"></i> &nbsp; {{ __('follow') }}
+        </x-jet-button>
+        @endauth
+        @guest
+        <form method="POST" action="{{ route('guest.follow-profile', ['tag' => $profile->tag]) }}">
+            @method('PUT')
+            @csrf
 
-                    <!-- Hidden Profile ID -->
-                    <input type="hidden"
-                        name="profile_id"
-                        value="{{ $profile->id }}">
-                    <x-jet-button onclick="event.preventDefault(); this.closest('form').submit();"
-                        class="bg-blue-800 rounded">
-                        <i class="fas fa-plus"></i> &nbsp; {{ __('follow') }}
-                    </x-jet-button>
-                </form>
-            @endguest
+            <!-- Hidden Profile ID -->
+            <input type="hidden" name="profile_id" value="{{ $profile->id }}">
+            <x-jet-button onclick="event.preventDefault(); this.closest('form').submit();" class="bg-blue-800 rounded">
+                <i class="fas fa-plus"></i> &nbsp; {{ __('follow') }}
+            </x-jet-button>
+        </form>
+        @endguest
         @endif
     </div>
     @endcannot
 
     @can('update', $profile)
-        <a
-            href="{{ $profile->isUser() ? route('profile.edit', ['profile' => $profile->tag]) : route('business.dashboard', ['profile' => $profile->tag, 'action_route' => 'edit']) }}">
-            <x-jet-button wire:click="follow"
-                class="bg-blue-800 rounded">
-                {{ __('edit profile') }} &nbsp; <i class="fas fa-user-edit"></i>
-            </x-jet-button>
-        </a>
+    <a href="{{ $profile->url->edit }}">
+        <x-jet-button wire:click="follow" class="bg-blue-800 rounded">
+            {{ __('edit profile') }} &nbsp; <i class="fas fa-user-edit"></i>
+        </x-jet-button>
+    </a>
     @endcan
 </div>

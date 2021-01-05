@@ -2,15 +2,13 @@
 
 namespace App\View\Components;
 
-use App\Models\Profile;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
 class NavContent extends Component
 {
-    public $user;
     public $currentProfile;
+    public $hasMultipleProfiles;
+    public $other_profiles;
     public $associatedProfiles;
     public $personalProfile;
     public $currentProfileIsBiz;
@@ -20,13 +18,16 @@ class NavContent extends Component
      *
      * @return void
      */
-    public function __construct(User $user, Profile $personalProfile, Collection $associatedProfiles, Profile $currentProfile, bool $currentProfileIsBiz)
+    public function __construct($associatedProfiles)
     {
-        $this->user = $user;
-        $this->personalProfile = $personalProfile;
         $this->associatedProfiles = $associatedProfiles;
-        $this->currentProfile = $currentProfile;
-        $this->currentProfileIsBiz = $currentProfileIsBiz;
+        $this->personalProfile = $this->associatedProfiles->personal_profile;
+        $this->other_profiles = $this->associatedProfiles->all->filter(function ($profile) {
+            return $profile !== $this->personalProfile;
+        });
+        $this->hasMultipleProfiles = $this->other_profiles->count() > 0;
+        $this->currentProfile = $this->associatedProfiles->current_profile;
+        $this->currentProfileIsBiz = $this->currentProfile->isBusiness();
     }
 
     /**

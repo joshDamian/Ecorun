@@ -4,7 +4,7 @@
             <a class="underline" href="{{ route('manager.dashboard') }}">
                 Businesses
             </a> &nbsp;/
-            <a class="underline" href="{{ route('business.dashboard', ['profile' => $profile->tag]) }}">
+            <a class="underline" href="{{ $profile->url->business_url }}">
                 {{ $profile->full_tag() }}
             </a>
         </h3>
@@ -12,11 +12,14 @@
         <div class="flex items-center flex-1">
             @foreach($actions as $key => $action)
             @if($active_action['title'] === $action['title'])
-            <x-jet-secondary-button class="flex items-center flex-shrink-0 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full" wire:click="switchView('{{$key}}')">
+            <x-jet-secondary-button
+                class="flex items-center flex-shrink-0 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full"
+                wire:click="switchView('{{$key}}')">
                 <i class="{{ $action['icon'] }}"></i> &nbsp; {{ $action['title'] }}
             </x-jet-secondary-button>
             @else
-            <x-jet-secondary-button class="flex items-center flex-shrink-0 mr-3 bg-gray-100 rounded-full" wire:click="switchView('{{$key}}')">
+            <x-jet-secondary-button class="flex items-center flex-shrink-0 mr-3 bg-gray-100 rounded-full"
+                wire:click="switchView('{{$key}}')">
                 <i class="{{ $action['icon'] }}"></i> &nbsp; {{ $action['title'] }}
             </x-jet-secondary-button>
             @endif
@@ -32,13 +35,15 @@
         @switch($active_action['title'])
         @case('add product')
         <div>
-            @livewire('build-and-manage.product.create-new-product', ['business' => $business], key(time().$business->id))
+            @livewire('build-and-manage.product.create-new-product', ['business' => $business],
+            key(time().$business->id))
         </div>
         @break
 
         @case('products')
         <div>
-            @livewire('build-and-manage.business.business-product-list', ['business' => $business->loadCount('products'), 'active_product' => $action_route_resource])
+            @livewire('build-and-manage.business.business-product-list', ['business' =>
+            $business->loadCount('products'), 'active_product' => $action_route_resource])
         </div>
         @break
 

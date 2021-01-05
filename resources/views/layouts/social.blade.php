@@ -3,18 +3,11 @@
         <!--Nav-->
         <x-navbar :user="$user" />
         <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
+            @php $associatedProfiles = $user->associated_profiles; @endphp
             <div x-show="open_menu" :class="(open_menu) ? 'w-full md:w-1/4' : 'w-0'" style="height: 98vh;"
                 class="fixed top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white pb-1/6 animate__animated animate__slideInLeft md:top-16 md:bg-transparent md:pr-3 md:left-5">
                 <div class="pb-1/12" x-cloak>
-                    @php
-                    $currentProfile = $user->currentProfile;
-                    $personalProfile = $user->profile;
-                    $associatedProfiles = $user->associatedProfiles();
-                    $currentProfileIsBiz = $currentProfile->isBusiness();
-                    @endphp
-                    <x-nav-content :user="$user" :associatedProfiles="$associatedProfiles"
-                        :personalProfile="$personalProfile" :currentProfile="$currentProfile"
-                        :currentProfileIsBiz="$currentProfileIsBiz" />
+                    <x-nav-content :associatedProfiles="$associatedProfiles" />
                 </div>
             </div>
             <div :class="(open_menu || open_notifications) ? 'hidden md:block' : ''"
@@ -33,8 +26,8 @@
                 class="fixed top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white pb-1/6 animate__animated animate__slideInLeft md:top-16 md:bg-transparent md:pl-2 md:right-5"
                 x-cloak>
                 <div class="pb-1/12">
-                    <livewire:general.user.notifications
-                        :profileIds="$associatedProfiles->concat([$personalProfile])->modelKeys()" :user="$user" />
+                    <livewire:general.user.notifications :user="$user"
+                        :activeProfile="$associatedProfiles->current_profile" />
                 </div>
             </div>
             @endauth

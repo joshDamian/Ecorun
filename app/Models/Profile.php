@@ -9,7 +9,8 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Support\Str;
 use App\Tools\GeneratorTool;
 use Illuminate\Notifications\Notifiable;
-use App\DataBanks\ProfileDataBank;
+use App\Presenters\Profile\FeedPresenter;
+use App\Presenters\Profile\UrlPresenter;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Profile extends Model
@@ -35,8 +36,9 @@ class Profile extends Model
      */
     protected $appends = [
         'profile_photo_url',
+        'url'
     ];
-    public $cacheFor = 3600;
+    public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
     public function followers()
@@ -90,7 +92,12 @@ class Profile extends Model
 
     public function getFeedAttribute()
     {
-        return (new ProfileDataBank($this))->feed();
+        return (new FeedPresenter($this));
+    }
+
+    public function getUrlAttribute()
+    {
+        return (new UrlPresenter($this));
     }
 
     public function isUser()
@@ -98,7 +105,7 @@ class Profile extends Model
         return $this->profileable instanceof User;
     }
 
-    public function gallery()
+    public function getGalleryAttribute()
     {
         return $this->posts()->has('gallery')->get()->loadMissing('gallery');
     }

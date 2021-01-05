@@ -3,8 +3,7 @@
     $product = $model;
     $profile = $product->business->profile;
     @endphp
-    <div class="cursor-pointer"
-        wire:click="handle('{{$notification->id}}',  '{{route('product.show', ['product' => $product->id, 'slug' => $product->data_slug('name')])}}')">
+    <div class="cursor-pointer" wire:click="handle('{{$notification->id}}',  '{{$product->url->show}}')">
         <div class="p-2 @if($notification->read_at) bg-gray-200 @else bg-white @endif">
             <div class="flex flex-wrap">
                 <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;"

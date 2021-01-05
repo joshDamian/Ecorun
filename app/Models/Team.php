@@ -6,9 +6,15 @@ use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Team extends JetstreamTeam
 {
+    use QueryCacheable;
+
+    public $cacheFor = 2592000;
+    protected static $flushCacheOnUpdate = true;
+
     /**
      * The attributes that should be cast to native types.
      *

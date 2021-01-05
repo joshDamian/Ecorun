@@ -32,7 +32,7 @@ class BusinessProfileData extends Component
         ],
     ];
 
-    public function mount(string $action_route = 'products'):void
+    public function mount(string $action_route = 'products'): void
     {
         $this->action_route = $action_route;
         if (!array_key_exists($this->action_route, $this->views)) {
@@ -44,6 +44,7 @@ class BusinessProfileData extends Component
 
     public function switchView(string $view_key)
     {
+        $this->action_route = $view_key;
         $this->active_view = $this->views[$view_key];
         return;
     }

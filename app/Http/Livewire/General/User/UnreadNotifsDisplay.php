@@ -18,11 +18,7 @@ class UnreadNotifsDisplay extends Component
         return view(
             'livewire.general.user.unread-notifs-display',
             [
-                'count' => $this->user->associatedProfiles()->concat([$this->user->loadMissing('profile')->profile])->loadMissing('unreadNotifications')->map(
-                    function ($profile): int {
-                        return $profile->unreadNotifications->count();
-                    }
-                )->sum()
+                'count' => $this->user->custom_notifications->unread_count
             ]
         );
     }

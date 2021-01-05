@@ -11,7 +11,7 @@ class ProductSpecification extends Model
 {
     use HasFactory, StringManipulations, QueryCacheable;
 
-    public $cacheFor = 3600;
+    public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
     protected $casts = [

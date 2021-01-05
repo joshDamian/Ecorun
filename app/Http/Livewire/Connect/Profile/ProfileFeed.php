@@ -32,17 +32,17 @@ class ProfileFeed extends Component
     {
         switch ($key) {
             case ('posts'):
-                return $this->feed[Post::class];
+                return $this->feed->posts;
                 break;
             case ('products'):
-                return $this->feed[Product::class];
+                return $this->feed->products;
                 break;
             case ('gallery'):
-                return $this->feed[Post::class]->whereStrict('gallery_count', '>', 0);
+                return $this->feed->gallery;
                 break;
             case ('all'):
             default:
-                return $this->feed->flatten();
+                return $this->feed->all;
                 break;
         }
     }

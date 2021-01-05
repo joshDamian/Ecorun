@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Presenters\User\AssociatedProfilesPresenter;
+use App\Presenters\User\NotificationsPresenter;
 use App\Traits\HasProfile;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasTeams;
@@ -46,7 +48,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public $cacheFor = 3600;
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        //
+    ];
+    public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
     public function isManager()
@@ -69,12 +79,14 @@ class User extends Authenticatable
         return $this->hasMany(RecentlyViewed::class);
     }
 
-    public function associatedProfiles(): Collection
+    public function getAssociatedProfilesAttribute()
     {
-        $manager_access = $this->loadMissing('isManager')->isManager;
-        $business_profiles = $manager_access->loadMissing('businesses.profile')->businesses->pluck('profile');
-        $team_business_profiles = Profile::whereIn('id', $this->teams->pluck('business.profile.id'))->get();
-        return $team_business_profiles->concat($business_profiles)->sortBy('tag');
+        return (new AssociatedProfilesPresenter($this));
+    }
+
+    public function getCustomNotificationsAttribute()
+    {
+        return (new NotificationsPresenter($this));
     }
 
     protected static function boot()
@@ -108,11 +120,9 @@ class User extends Authenticatable
 
     public function currentProfile()
     {
-        return $this->belongsTo(Profile::class, 'current_profile_id')->withDefault(
-            [
-                'name' => 'Guest',
-            ]
-        );
+        return $this->belongsTo(Profile::class, 'current_profile_id')->withDefault([
+            'name' => 'Guest',
+        ]);
     }
 
     public function revokeManager()

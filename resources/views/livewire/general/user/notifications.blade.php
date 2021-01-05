@@ -35,7 +35,8 @@
     <div class="sticky top-0 flex flex-wrap p-2 bg-gray-200 bg-opacity-50">
         @foreach($profiles as $key => $profile)
         <div class="@if(!$loop->last) mb-2 @endif mr-2">
-            <x-connect.profile.switch-profile-for-notif :profile="$profile" :active="$profile->is($activeProfile)" />
+            <x-connect.profile.switch-profile-for-notif :profile="$profile" :unreadCount="$this->unreadCount($profile)"
+                :active="$profile->is($activeProfile)" />
         </div>
         @endforeach
     </div>
@@ -48,8 +49,8 @@
     @if($display)
     @if($activeProfile)
     <div class="bg-gray-100">
-        @livewire('connect.profile.profile-notification-handler', ['profile' =>
-        $activeProfile->loadMissing('notifications')])
+        @livewire('connect.profile.profile-notifications-handler', ['profile' =>
+        $activeProfile, 'notifications_for_profile' => $this->notifsForProfile($activeProfile)])
     </div>
     @endif
     @endif

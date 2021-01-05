@@ -46,11 +46,7 @@ class EditProfile extends Component
 
         $this->emitSelf('saved');
 
-        return redirect(
-            ($this->profile->isBusiness()) ?
-            route('business.dashboard', ['profile' => $this->profile->tag, 'action_route' => 'edit'])
-            : route('profile.edit', ['profile' => $this->profile->tag])
-        );
+        return redirect($this->profile->url->edit);
     }
 
     public function deleteProfilePhoto()
@@ -122,7 +118,7 @@ class EditProfile extends Component
         return view(
             'livewire.connect.profile.edit-profile',
             [
-            'tag_prefix' => Profile::TAG_PREFIX
+                'tag_prefix' => Profile::TAG_PREFIX
             ]
         );
     }
