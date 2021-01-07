@@ -9,7 +9,7 @@ class UserProfileData extends Component
 {
     public Profile $profile;
     public array $active_view;
-    public string $action_route;
+    public string $action_route = 'posts';
     public array $views = [
         'posts' => [
             'title' => 'posts',
@@ -39,8 +39,7 @@ class UserProfileData extends Component
         return;
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.connect.profile-dashboard.user-profile-data');
     }
 }

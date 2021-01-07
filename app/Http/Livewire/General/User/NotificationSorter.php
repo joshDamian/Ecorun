@@ -20,13 +20,11 @@ class NotificationSorter extends Component
         'deletedFromNotifications' => '$refresh'
     ];
 
-    public function switchedProfile(Profile $profile)
-    {
+    public function switchedProfile(Profile $profile) {
         $this->profile = $profile;
     }
 
-    public function handle(DatabaseNotification $notification, $redirect)
-    {
+    public function handle(DatabaseNotification $notification, $redirect) {
         if (is_null($notification->read_at)) {
             $notification->markAsRead();
         }
@@ -34,13 +32,11 @@ class NotificationSorter extends Component
         $this->redirect($redirect);
     }
 
-    public function notifications()
-    {
+    public function notifications() {
         return collect($this->notifications_incoming)->groupBy('notifiable_id')[$this->profile->id] ?? collect([]);
     }
 
-    public function data_for_models()
-    {
+    public function data_for_models() {
         return $this->models->mapWithKeys(function ($model) {
             $notif_type = $this->model_notification_types->firstWhere('model', $model);
             $notif_key = array_keys($this->model_notification_types->all(), $notif_type, true)[0];
@@ -54,34 +50,29 @@ class NotificationSorter extends Component
         });
     }
 
-    public function valid_notifications()
-    {
+    public function valid_notifications() {
         return $this->all->filter(function ($notif) {
             return $this->modelValidityTest($notif);
         });
     }
 
-    public function models()
-    {
+    public function models() {
         return $this->model_notification_types->pluck('model');
     }
 
-    public function model_notification_types()
-    {
+    public function model_notification_types() {
         return $this->notification_types->filter(function ($type) {
             return $type['model'] !== "";
         });
     }
 
-    public function notification_types()
-    {
+    public function notification_types() {
         return $this->types->mapWithKeys(function ($type) {
             return [$type => config('notifications.types')[$type]];
         });
     }
 
-    public function modelValidityTest($notification)
-    {
+    public function modelValidityTest($notification) {
         if (!$this->model_notification_types->has($notification->type)) {
             return true;
         }
@@ -97,8 +88,7 @@ class NotificationSorter extends Component
         return false;
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.general.user.notification-sorter');
     }
 }

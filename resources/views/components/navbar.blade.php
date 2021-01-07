@@ -11,8 +11,8 @@
             <i class="fas fa-bars"></i>
         </div>
 
-        <div class="text-gray-200 @guest flex-1 @endguest w-1/3 text-xl px-2 py-2 font-extrabold">
-            <a href="/">
+        <div class="text-gray-200 @guest flex-1 @endguest w-1/4 text-xl px-2 py-2 font-extrabold">
+            <a href="{{ route('home') }}">
                 {{ config('app.name') }}
             </a>
         </div>

@@ -46,7 +46,7 @@
     <div class="flex items-center justify-end px-3 py-3 text-right bg-gray-100 sm:px-5 sm:py-3 sm:p-0">
         <div class="mr-3">
             @livewire('buy.cart.add-to-cart', ['product' => $product],
-            key([microtime()."add_to_cart_{$product->id}".mt_rand(1, 100000)]))
+            key(microtime()."add_to_cart_{$product->id}"))
         </div>
 
         <a href="{{ $product->url->show }}">

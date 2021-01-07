@@ -12,7 +12,7 @@ class BusinessProfileData extends Component
 
     public Profile $profile;
     public array $active_view;
-    public string $action_route;
+    public string $action_route = 'products';
     public array $views = [
         'products' => [
             'title' => 'products',
@@ -42,16 +42,14 @@ class BusinessProfileData extends Component
         return;
     }
 
-    public function switchView(string $view_key)
-    {
+    public function switchView(string $view_key) {
         $this->action_route = $view_key;
         $this->active_view = $this->views[$view_key];
         return;
     }
 
 
-    public function render()
-    {
+    public function render() {
         return view(
             'livewire.connect.profile-dashboard.business-profile-data'
         );

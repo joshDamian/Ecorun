@@ -5,9 +5,9 @@
 
         <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
 
-            <div x-show="open_menu" :class="(open_menu) ? 'w-full md:w-1/4' : 'w-0'" style="height: 98vh;"
-                class="fixed top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white animate__animated animate__slideInLeft md:top-16 md:bg-transparent md:pr-3 md:left-5">
-                <div class="pb-1/5">
+            <div x-show="open_menu" :class="(open_menu) ? 'w-full md:w-1/4' : 'w-0'"
+                class="fixed top-0 h-full flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white animate__animated animate__slideInLeft md:top-16 md:bg-transparent md:pr-3 md:left-5">
+                <div>
                     @php $associatedProfiles = $user->associated_profiles; @endphp
                     <x-nav-content :associatedProfiles="$associatedProfiles" />
                 </div>
@@ -24,9 +24,9 @@
                 </main>
             </div>
 
-            <div x-show="open_notifications" style="height: 98vh;"
+            <div x-show="open_notifications"
                 :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'"
-                class="fixed top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white md:shadow-2xl pb-1/6 animate__animated animate__slideInRight md:top-16 md:right-5">
+                class="fixed top-0 h-full flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white md:shadow-2xl animate__animated animate__slideInRight md:top-16 md:right-5">
                 <livewire:general.user.notifications :user="$user"
                     :activeProfile="$associatedProfiles->current_profile" />
             </div>
@@ -36,12 +36,12 @@
     <script>
         function nav_data() {
             return {
-                open_menu: null
-                , open_notifications: null
-                , init_nav() {
+                open_menu: null,
+                open_notifications: null,
+                init_nav() {
                     return this.expand()
-                }
-                , expand() {
+                },
+                expand() {
                     if (window.outerWidth > 768) {
                         return this.open_menu = true;
                     }

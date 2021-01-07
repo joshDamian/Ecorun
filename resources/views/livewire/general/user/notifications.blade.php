@@ -31,7 +31,7 @@
     </div>
 
     @if($profiles->count() > 1)
-    <div class="sticky top-0 flex flex-wrap p-2 bg-gray-200 bg-opacity-50">
+    <div class="sticky top-12 md:top-0 flex flex-wrap p-2 bg-gray-200 bg-opacity-50">
         @foreach($profiles as $key => $profile)
         <div class="@if(!$loop->last) mb-2 @endif mr-2">
             <x-connect.profile.switch-profile-for-notif :profile="$profile" :unreadCount="$this->unreadCount($profile)"
@@ -41,7 +41,7 @@
     </div>
     @endif
 
-    <div wire:loading wire:target="mount,switchProfile,showNotifications,handle" class="w-full">
+    <div wire:loading wire:target="mount, switchProfile, showNotifications" class="w-full">
         <x-loader_2 />
     </div>
 
