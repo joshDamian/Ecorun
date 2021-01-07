@@ -19,7 +19,7 @@ class Notifications extends Component
         'hideNotifications',
         'toggleNotifications',
         'modifiedNotifs' => '$refresh',
-        //'switchedActiveProfile' => '$refresh'
+        'newNotification' => '$refresh',
     ];
 
     public function toggleNotifications(): void
@@ -38,19 +38,10 @@ class Notifications extends Component
         return $this->display = false;
     }
 
-    public function handle(DatabaseNotification $notification, $redirect)
-    {
-        if (is_null($notification->read_at)) {
-            $notification->markAsRead();
-        }
-        $this->user->switchProfile($notification->loadMissing('notifiable')->notifiable);
-        $this->redirect($redirect);
-    }
-
     public function switchProfile($profile): void
     {
         $this->activeProfile = $this->profiles->firstWhere("id", $profile);
-        $this->emitUp('switchedActiveProfile' . $this->activeProfile, $this->notifications->grouped_by_notifiable[$this->activeProfile->id] ?? collect([]));
+        $this->emit('switchedProfile', $this->activeProfile)->to('general.user.notification-sorter');
         return;
     }
 

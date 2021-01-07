@@ -1,4 +1,4 @@
-<div x-cloak>
+<div>
     <x-connect.content.create-new-content :photos="$photos" type="post">
         <x-slot name="trigger">
             <div :class="ready ? 'border-b' : ''"

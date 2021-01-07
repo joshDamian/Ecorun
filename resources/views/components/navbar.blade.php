@@ -18,6 +18,11 @@
         </div>
 
         <div class="flex flex-1 md:text-lg @auth justify-between @endauth items-center font-medium">
+            <a href="{{ route('home') }}">
+                <div class="flex-shrink-0 px-2 py-2 text-xl md:px-4 sm:cursor-pointer hover:text-blue-500">
+                    <i class="fas fa-house-user"></i> <span class="hidden sm:inline">Home</span>
+                </div>
+            </a>
 
             <div class="flex-shrink-0 px-2 py-2 text-xl md:px-4 sm:cursor-pointer hover:text-blue-500">
                 <i class="text-xl fas fa-shopping-bag"></i> <span class="@auth hidden @endauth sm:inline">Shop</span>

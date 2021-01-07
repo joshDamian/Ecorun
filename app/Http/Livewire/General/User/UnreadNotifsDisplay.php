@@ -4,6 +4,7 @@ namespace App\Http\Livewire\General\User;
 
 use Livewire\Component;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class UnreadNotifsDisplay extends Component
 {

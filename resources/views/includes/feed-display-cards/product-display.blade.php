@@ -1,7 +1,7 @@
 <div>
     @php
     $product = $model;
-    $profile = $product->loadMissing('business.profile')->business->profile;
+    $profile = $product->business->profile;
     $profile_visit_url = $profile->url->visit;
     @endphp
     <div class="flex justify-between px-3 py-3 bg-gray-100 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
@@ -45,8 +45,8 @@
     </div>
     <div class="flex items-center justify-end px-3 py-3 text-right bg-gray-100 sm:px-5 sm:py-3 sm:p-0">
         <div class="mr-3">
-            @livewire('buy.cart.add-to-cart', ['product' => $product,
-            key([microtime()."add_to_cart_{$product->id}".mt_rand(1, 100000)])])
+            @livewire('buy.cart.add-to-cart', ['product' => $product],
+            key([microtime()."add_to_cart_{$product->id}".mt_rand(1, 100000)]))
         </div>
 
         <a href="{{ $product->url->show }}">

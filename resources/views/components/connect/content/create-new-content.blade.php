@@ -1,10 +1,10 @@
 @props(['photos', 'type'])
-<div x-data="{ ready: false }" x-init="() => { Livewire.on('addedContent', () => { ready = false; }) }">
+<div x-data="{ ready: false }" x-init="() => { Livewire.on('addedContent', () => { ready = false; }) }" x-cloak>
     <div x-show="!ready">
         {{ $trigger }}
     </div>
 
-    <div class="p-4 bg-gray-100 sm:p-6" x-show="ready" x-cloak>
+    <div class="p-4 bg-gray-100 sm:p-6" x-show="ready">
         <form wire:submit.prevent="create">
             @csrf
             <div>

@@ -13,7 +13,6 @@ class ManagerDashboard extends Component
 
     public function render()
     {
-        $user = Auth::user()->loadMissing('profile');
-        return view('livewire.build-and-manage.manager.manager-dashboard')->layout('layouts.business', ['user' => $user]);
+        return view('livewire.build-and-manage.manager.manager-dashboard')->layout('layouts.business', ['user' => Auth::user()]);
     }
 }

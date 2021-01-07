@@ -107,7 +107,7 @@ class Profile extends Model
 
     public function getGalleryAttribute()
     {
-        return $this->posts()->has('gallery')->get()->loadMissing('gallery');
+        return $this->posts()->has('gallery')->with('gallery')->get();
     }
 
     public function posts()

@@ -43,13 +43,6 @@
             </div>
         </div>
 
-        <a href="{{ route('home') }}">
-            <div
-                class="py-3 px-4 tracking-wider border-b-2 text-left @if(request()->routeIs('home')) border-blue-700 @else border-gray-200 @endif hover:border-blue-700 bg-gray-100 font-medium text-md text-blue-800 md:cursor-pointer">
-                <i class="fa fa-home"></i> &nbsp;Home
-            </div>
-        </a>
-
         @auth
         <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white text-md">
             {{ $currentProfile->full_tag() }} <i class="text-green-400 fas fa-check-circle"></i>

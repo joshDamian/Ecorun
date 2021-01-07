@@ -12,9 +12,18 @@ class ProfileFeed extends Component
     public $perPage = 15;
     public $sortBy = 'all';
     public string $viewIncludeFolder = 'includes.feed-display-cards.';
-    public $feed_display_cards = [
-        Post::class => 'post-display',
-        Product::class => 'product-display'
+    public $feed_types = [
+        Post::class => [
+            'view' => 'post-display',
+            'name' => 'posts'
+        ],
+        Product::class => [
+            'view' => 'product-display',
+            'name' => 'products'
+        ]
+    ];
+    protected $listeners = [
+        'newPost' => '$refresh'
     ];
     public Profile $profile;
 
@@ -26,6 +35,11 @@ class ProfileFeed extends Component
     public function getDisplayingFeedProperty()
     {
         return $this->sortFeed($this->sortBy)->sortByDesc('created_at')->take($this->perPage);
+    }
+
+    public function setSortBy(string $sortBy)
+    {
+        return $this->sortBy = $sortBy;
     }
 
     public function sortFeed($key)

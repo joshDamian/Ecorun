@@ -7,7 +7,7 @@
             {{ $profile->full_tag() }}
         </span>
         @if($unreadCount > 0)
-        <span class="ml-2 font-extrabold text-red-500">
+        <span class="ml-2 font-extrabold text-red-600">
             {{ $unreadCount }} <sup>new</sup>
         </span>
         @endif

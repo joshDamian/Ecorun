@@ -58,11 +58,7 @@ class ProfilePolicy
 
     public function access(User $user, Profile $profile)
     {
-        if ($profile->isBusiness()) {
-            return $user->associated_profiles->contains($profile);
-        } else {
-            return $user->id === $profile->loadMissing('profileable')->profileable->id;
-        }
+        return  $user->associated_profiles->all->pluck('id')->contains($profile->id);
     }
 
     public function sellWith(User $user, Profile $profile)

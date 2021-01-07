@@ -144,7 +144,7 @@
                 , show_description: null
                 , show_specs: null
                 , init_product() {
-                    this.activeImage = '{{ $product->gallery->first() }}';
+                    this.activeImage = '{{ $product->gallery->first()->image_url }}';
                 }
             }
         }

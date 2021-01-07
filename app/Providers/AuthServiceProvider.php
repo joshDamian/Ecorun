@@ -37,7 +37,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define(
             'reference-businesses',
             function ($user) {
-                return $user->associatedProfiles()->loadMissing('profileable')->pluck('profileable')->count() > 0;
+                return $user->associated_profiles->all->pluck('profileable')->count() > 0;
             }
         );
     }

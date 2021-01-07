@@ -23,7 +23,6 @@
 
     <div x-data x-init="() => {
         @foreach($profiles as $key => $profile)
-        @continue($profile->is($activeProfile))
         Echo.private('App.Models.Profile.{{$profile->id}}').notification((notification) => {
         Livewire.emit('newNotification', notification);
         });
@@ -49,8 +48,9 @@
     @if($display)
     @if($activeProfile)
     <div class="bg-gray-100">
-        @livewire('connect.profile.profile-notifications-handler', ['profile' =>
-        $activeProfile, 'notifications_for_profile' => $this->notifsForProfile($activeProfile)])
+        {{--  <x-notification-sorter :notifications="$this->notifsForProfile($activeProfile)" /> --}}
+        @livewire('general.user.notification-sorter', ['notifications_incoming' =>
+        $this->notifications->all(), 'profile' => $activeProfile])
     </div>
     @endif
     @endif

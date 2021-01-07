@@ -6,7 +6,7 @@
     $profile_visit_url = $profile->url->visit;
     $image_count = $post->gallery_count ?? $gallery->count();
     @endphp
-    <div class="bg-gray-100 sm:shadow">
+    <div class="bg-gray-100">
         <div class="flex justify-between px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
             <div class="flex items-center flex-1">
                 <a class="mr-3" href="{{ $profile_visit_url }}">

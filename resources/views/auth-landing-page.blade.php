@@ -1,7 +1,7 @@
 <x-social-layout>
     <div>
         <div>
-            <div class="sticky mb-3 bg-gray-100 top-12 md:mb-3 sm:shadow sm:rounded" x-cloak>
+            <div class="sticky mb-3 bg-gray-100 bg-opacity-75 top-12" x-cloak>
                 @livewire('connect.post.create-new-post', ['profile' => $profile, 'view' => 'landing-page'],
                 key(md5('create_new_post_auth')))
             </div>

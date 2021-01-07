@@ -7,13 +7,13 @@
     <!-- Hidden Profile ID -->
     <input type="hidden" name="profile_id" value="{{ $profile->id }}">
 
-    <div @if(!$currentProfile->is($profile)) class="flex items-center self-stretch justify-between place-items-center"
+    <div @if(!$currentProfile->is($profile)) class="flex items-center self-stretch justify-between focus:text-white hover:text-white place-items-center"
         @endif>
         <div @if(!$currentProfile->is($profile)) class="mr-2" @endif>
-            <x-dynamic-component :component="$component" href="#"
+            <x-dynamic-component :component="$component" class="hover:bg-white" href="#"
                 onclick="event.preventDefault(); this.closest('form').submit();">
                 <div class="flex items-center">
-                    <div class="mr-2 text-blue-800 truncate">
+                    <div class="mr-2 text-blue-800 truncate focus:text-white hover:text-white">
                         {{ $profile->full_tag() }}
                     </div>
 
