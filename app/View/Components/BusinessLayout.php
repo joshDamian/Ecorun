@@ -19,7 +19,9 @@ class BusinessLayout extends Component
     {
         if (Auth::check()) {
             $this->user = Auth::user()->load('profile');
+            return;
         }
+        $this->user = new User();
     }
 
     /**

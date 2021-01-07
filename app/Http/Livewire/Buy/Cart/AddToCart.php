@@ -21,13 +21,15 @@ class AddToCart extends Component
         'modifiedCart' => '$refresh'
     ];
 
-    public function rules() :array
+    public function rules(): array
     {
         return [
-            'quantity' => ['required',
+            'quantity' => [
+                'required',
                 'min:1',
                 "max:{$this->available_stock}",
-                'int'],
+                'int'
+            ],
         ];
     }
 
@@ -47,7 +49,9 @@ class AddToCart extends Component
                 $this->specifications[Str::singular($spec->name)] = null;
             }
         }
-        $this->user = Auth::user()->loadMissing('cart');
+        if (Auth::check()) {
+            $this->user = Auth::user()->loadMissing('cart');
+        }
     }
 
     public function request_data()
@@ -60,20 +64,20 @@ class AddToCart extends Component
         $this->validate($this->rules());
         if (!$this->existing()) {
             ($this->user) ?
-            $this->product->cart_instances()->save(
-                $this->user->cart()->create(
+                $this->product->cart_instances()->save(
+                    $this->user->cart()->create(
+                        [
+                            'quantity' => $this->quantity
+                        ]
+                    )
+                ) :
+                session()->put(
+                    "guest_cart.{$this->product->id}",
                     [
+                        'product_id' => $this->product->id,
                         'quantity' => $this->quantity
                     ]
-                )
-            ) :
-            session()->put(
-                "guest_cart.{$this->product->id}",
-                [
-                    'product_id' => $this->product->id,
-                    'quantity' => $this->quantity
-                ]
-            );
+                );
 
             $this->emit('modifiedCart');
         }
@@ -97,22 +101,22 @@ class AddToCart extends Component
 
         if (!$this->existing()) {
             ($this->user) ?
-            $this->product->cart_instances()->save(
-                $this->user->cart()->create(
+                $this->product->cart_instances()->save(
+                    $this->user->cart()->create(
+                        [
+                            'quantity' => $this->quantity,
+                            'specifications' => $this->specifications
+                        ]
+                    )
+                ) :
+                session()->put(
+                    "guest_cart.{$this->product->id}",
                     [
+                        'product_id' => $this->product->id,
                         'quantity' => $this->quantity,
                         'specifications' => $this->specifications
                     ]
-                )
-            ) :
-            session()->put(
-                "guest_cart.{$this->product->id}",
-                [
-                    'product_id' => $this->product->id,
-                    'quantity' => $this->quantity,
-                    'specifications' => $this->specifications
-                ]
-            );
+                );
 
             $this->emit('modifiedCart');
         }

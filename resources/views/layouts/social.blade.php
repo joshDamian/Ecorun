@@ -5,7 +5,7 @@
         <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
             @php $associatedProfiles = $user->associated_profiles; @endphp
             <div x-show="open_menu" :class="(open_menu) ? 'w-full md:w-1/4' : 'w-0'"
-                class="fixed h-full top-0 flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white animate__animated animate__slideInLeft md:top-16 md:bg-transparent md:pr-3 md:left-5">
+                class="fixed top-0 flex-1 flex-grow-0 flex-shrink h-full overflow-y-auto bg-white animate__animated animate__slideInLeft md:pb-1/12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
                 <div x-cloak>
                     <x-nav-content :associatedProfiles="$associatedProfiles" />
                 </div>
@@ -21,9 +21,8 @@
                 </main>
             </div>
             @auth
-            <div x-show.transition="open_notifications"
-                :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'"
-                class="fixed top-0 h-full flex-1 flex-grow-0 flex-shrink overflow-y-auto bg-white animate__animated animate__slideInLeft md:top-16 md:bg-transparent md:pl-2 md:right-5"
+            <div x-show.transition="open_notifications" :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'"
+                class="fixed top-0 flex-1 flex-grow-0 flex-shrink h-full overflow-y-auto bg-white animate__animated animate__slideInLeft md:pb-1/12 md:top-16 md:bg-transparent md:pl-2 md:right-5"
                 x-cloak>
                 <div>
                     <livewire:general.user.notifications :user="$user"

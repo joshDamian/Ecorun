@@ -6,7 +6,7 @@
     $image_count = $post->gallery_count ?? $gallery->count();
     @endphp
     <div class="md:mb-3">
-        <div class="grid grid-cols-1 gap-3 mb-3 sm:gap-4">
+        <div class="grid grid-cols-1 gap-0 sm:gap-2">
             <div class="sticky px-3 py-3 bg-gray-100 bg-opacity-75 top-12 sm:px-5">
                 <div class="flex">
                     <a class="mr-4" href="{{ route('home') }}">
@@ -54,10 +54,8 @@
                 @endif
 
                 @if($image_count > 0)
-                <div class="grid grid-cols-1 gap-2">
-                    @foreach($gallery as $key => $image)
-                    <img src="/storage/{{ $image->image_url }}" />
-                    @endforeach
+                <div class="flex items-center justify-center">
+                    <img src="/storage/{{ $gallery->first()->image_url }}" />
                 </div>
                 @endif
                 <div class="bg-gray-100 border-t border-gray-200">

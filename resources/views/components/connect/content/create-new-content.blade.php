@@ -22,7 +22,8 @@
                         @enderror
                     </div>
                     <textarea autofocus x-ref="content" rows="3" wire:model.defer="text_content"
-                        placeholder="say something" class="w-full rounded-md form-textarea"></textarea>
+                        placeholder="say something"
+                        class="w-full placeholder-blue-700 rounded-md form-textarea"></textarea>
 
                     <div class="mt-3">
                         <input class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple>

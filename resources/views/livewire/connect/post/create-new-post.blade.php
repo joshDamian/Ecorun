@@ -9,7 +9,7 @@
                     </div>
                     <div class="flex-1">
                         <input @focus="ready = true" placeholder="say something"
-                            class="w-full px-3 py-2 bg-white rounded-full form-input">
+                            class="w-full px-3 py-2 placeholder-blue-700 bg-white rounded-full form-input">
                     </div>
                 </div>
             </div>

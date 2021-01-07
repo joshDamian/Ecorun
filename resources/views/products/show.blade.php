@@ -1,6 +1,7 @@
 <x-business-layout>
     <div>
         @can('view', $product)
+        <x-buy.market-place />
         <div x-data="product_data()" x-init="init_product()" class="">
             <div class="flex flex-col md:flex-row">
                 <div class="flex flex-col flex-1 md:flex-row">

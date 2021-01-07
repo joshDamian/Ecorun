@@ -5,6 +5,7 @@ namespace App\Http\Livewire\BuildAndManage\Product;
 use App\Http\Livewire\Traits\UploadPhotos;
 use App\Models\Category;
 use App\Models\Product;
+use Faker\Generator;
 use Livewire\Component;
 
 class CreateNewProduct extends Component
@@ -17,17 +18,17 @@ class CreateNewProduct extends Component
     public $product = ['_name', '_description', '_price', '_available stock'];
     public $business_is_store;
 
-    public function create()
+    public function create(Generator $faker)
     {
         $this->validate();
 
         $this->product = $this->business
             ->products()->create(
                 [
-                'name' => ucwords(strtolower($this->product['_name'])),
-                'description' => $this->product['_description'],
-                'price' => $this->product['_price'],
-                'available_stock' => $this->product['_available stock'],
+                    'name' => ucwords(strtolower($this->product['_name'])),
+                    'description' => $this->product['_description'] . PHP_EOL . $faker->paragraph,
+                    'price' => $this->product['_price'],
+                    'available_stock' => $this->product['_available stock'],
                 ]
             );
 

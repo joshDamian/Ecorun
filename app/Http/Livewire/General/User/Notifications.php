@@ -12,7 +12,6 @@ use Illuminate\Support\Collection as SupportCollection;
 class Notifications extends Component
 {
     public $user;
-    public Profile $activeProfile;
     public bool $display = false;
     protected $listeners = [
         'showNotifications',
@@ -40,7 +39,7 @@ class Notifications extends Component
 
     public function switchProfile($profile): void
     {
-        $this->activeProfile = $this->profiles->firstWhere("id", $profile);
+        cache()->put($this->user->id . "active_profile_for_notif", $this->profiles->firstWhere("id", $profile));
         $this->emit('switchedProfile', $this->activeProfile)->to('general.user.notification-sorter');
         return;
     }
@@ -48,6 +47,13 @@ class Notifications extends Component
     public function getNotificationsProperty()
     {
         return $this->user->custom_notifications;
+    }
+
+    public function getActiveProfileProperty()
+    {
+        return cache()->remember($this->user->id . "active_profile_for_notif", now()->addDays(60), function () {
+            return $this->user->currentProfile;
+        });
     }
 
     public function getProfilesProperty()

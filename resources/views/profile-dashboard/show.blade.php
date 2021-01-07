@@ -7,17 +7,21 @@
                     style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
                 </div>
             </div>
-
             @else
             <div class="w-full h-64 sm:h-96 md:h-80"
                 style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
             </div>
             @endif
 
-            <div class="px-4 py-4 bg-gray-100 border-t-2 border-gray-200 md:px-4">
+            <div class="px-4 py-2 bg-gray-100 border-t-2 border-gray-200 md:px-4">
                 <div class="flex flex-wrap items-center justify-between">
-                    <div class="mr-3 text-xl font-semibold text-blue-800">
-                        {{ $profile->name }}
+                    <div class="flex-1 mr-3 font-semibold">
+                        <span class="block text-xl text-blue-800">{{ $profile->name }}</span>
+                        <span class="flex items-center text-gray-600">
+                            {{ $profile->full_tag() }} &nbsp; <i class="text-xl fas fa-grip-lines-vertical"></i> &nbsp;
+                            @livewire('connect.profile.following-followers-counter',
+                            ['profile'=> $profile])
+                        </span>
                     </div>
 
                     <div>
