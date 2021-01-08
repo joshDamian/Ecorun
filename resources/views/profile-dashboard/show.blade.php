@@ -16,11 +16,15 @@
             <div class="px-4 py-2 bg-gray-100 border-t-2 border-gray-200 md:px-4">
                 <div class="flex flex-wrap items-center justify-between">
                     <div class="flex-1 mr-3 font-semibold">
-                        <span class="block text-xl text-blue-800">{{ $profile->name }}</span>
-                        <span class="flex items-center text-gray-600">
-                            {{ $profile->full_tag() }} &nbsp; <i class="text-xl fas fa-grip-lines-vertical"></i> &nbsp;
-                            @livewire('connect.profile.following-followers-counter',
-                            ['profile'=> $profile])
+                        <span class="block text-lg sm:text-xl text-blue-800">{{ $profile->name }}</span>
+                        <span class="grid grid-cols-1 text-sm text-gray-600">
+                            <span class="mr-3 truncate">
+                                {{ $profile->full_tag() }}
+                            </span>
+                            <span class="">
+                                @livewire('connect.profile.following-followers-counter',
+                                ['profile'=> $profile])
+                            </span>
                         </span>
                     </div>
 

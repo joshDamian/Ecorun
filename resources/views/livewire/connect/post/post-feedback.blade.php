@@ -14,15 +14,9 @@
             </div>
         </div>
 
-        <div class="flex items-center justify-center px-2 py-1 bg-white rounded-full">
-            @if($view === 'post.show')
-            <i wire:click="toogleFeedback" class="text-xl text-blue-700 cursor-pointer far fa-comment"></i>
-            @else
-            <a href="{{ route('post.show', ['post' => $this->post->id]) }}">
-                <i class="text-xl text-blue-700 cursor-pointer far fa-comment"></i>
-            </a>
-            @endif
-        </div>
+        <a class="flex items-center justify-center cursor-pointer px-2 py-1 bg-white rounded-full" @if($view !=='post.show') href="{{ route('post.show', ['post' => $this->post->id]) }}" @else wire:click="toogleFeedback" @endif>
+            <i class="text-xl text-blue-700 cursor-pointer far fa-comment"></i>
+        </a>
 
         <div class="flex items-center justify-center px-2 py-1 bg-white rounded-full">
             <i class="text-xl text-blue-700 cursor-pointer fas fa-share-alt"></i>
@@ -34,10 +28,6 @@
         <div>
             @if($feedbackReady)
             <div>
-                <div class="box-content sticky bottom-0">
-                    @livewire('connect.post.comment.create-new-comment', ['post' => $this->post, 'profile' => $profile],
-                    key(time().$this->post->id.'_comment'))
-                </div>
                 <div class="p-3 sm:px-5 sm:pt-1 sm:pb-3 sm:p-0">
                     <x-connect.comment.display-comments :comments="$this->post->loadMissing('comments')->comments" />
                 </div>

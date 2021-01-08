@@ -130,7 +130,7 @@
         <a href="{{ route('manager.dashboard') }}">
             <div
                 class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
-                <i class="fas fa-store-alt"></i> &nbsp;Businesses
+                <i class="fas fa-store"></i> &nbsp;Businesses
             </div>
         </a>
 

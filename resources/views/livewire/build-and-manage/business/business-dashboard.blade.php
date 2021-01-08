@@ -1,6 +1,6 @@
 <div>
-    <div class="sticky px-3 py-2 mb-2 overflow-y-auto bg-gray-200 bg-opacity-50 md:py-3 md:pr-3 top-12">
-        <h3 class="sticky left-0 flex-shrink-0 mb-2 font-bold text-blue-700 truncate text-md md:text-lg">
+    <div class="sticky mb-2 overflow-y-auto bg-gray-200 bg-opacity-50 top-12">
+        <h3 class="sticky left-0 p-2 flex-shrink-0 font-bold text-blue-700 truncate text-md md:text-lg">
             <a class="underline" href="{{ route('manager.dashboard') }}">
                 Businesses
             </a> &nbsp;/
@@ -11,18 +11,9 @@
 
         <div class="flex items-center flex-1">
             @foreach($actions as $key => $action)
-            @if($active_action['title'] === $action['title'])
-            <x-jet-secondary-button
-                class="flex items-center flex-shrink-0 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full"
-                wire:click="switchView('{{$key}}')">
-                <i class="{{ $action['icon'] }}"></i> &nbsp; {{ $action['title'] }}
-            </x-jet-secondary-button>
-            @else
-            <x-jet-secondary-button class="flex items-center flex-shrink-0 mr-3 bg-gray-100 rounded-full"
-                wire:click="switchView('{{$key}}')">
-                <i class="{{ $action['icon'] }}"></i> &nbsp; {{ $action['title'] }}
-            </x-jet-secondary-button>
-            @endif
+            <div wire:click="switchView('{{$key}}')" class="cursor-pointer flex-shrink-0 select-none px-3 py-2 @if($active_action['title'] === $action['title']) bg-white text-blue-700 @else text-gray-700 @endif">
+                <i class="{{ $action['icon'] }}"></i>&nbsp; {{ ucwords($action['title']) }}
+            </div>
             @endforeach
         </div>
     </div>

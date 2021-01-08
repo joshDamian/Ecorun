@@ -28,7 +28,7 @@ class BusinessProfileData extends Component
         ],
         'about' => [
             'title' => 'about',
-            'icon' => 'fas fa-store-alt'
+            'icon' => 'fas fa-store'
         ],
     ];
 

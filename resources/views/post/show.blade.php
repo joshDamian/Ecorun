@@ -61,6 +61,11 @@
                 <div class="bg-gray-100 border-t border-gray-200">
                     @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.show'])
                 </div>
+
+                <div class="box-content bg-gray-100 bg-opacity-75 sticky bottom-0">
+                    @livewire('connect.post.comment.create-new-comment', ['post' => $post, 'profile' => Auth::user()->currentProfile],
+                    key(time().$post->id.'_comment'))
+                </div>
             </div>
         </div>
-</x-social-layout>
+    </x-social-layout>
