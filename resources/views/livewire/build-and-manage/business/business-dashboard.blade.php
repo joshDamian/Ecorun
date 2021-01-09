@@ -1,9 +1,9 @@
 <div>
-    <div class="sticky mb-2 overflow-y-auto bg-gray-200 bg-opacity-50 top-12">
-        <h3 class="sticky left-0 p-2 flex-shrink-0 font-bold text-blue-700 truncate text-md md:text-lg">
+    <div class="sticky mb-2 overflow-y-auto bg-gray-200 bg-opacity-50 border-b border-gray-300 top-12">
+        <h3 class="sticky left-0 flex-shrink-0 p-2 font-bold text-blue-700 truncate text-md md:text-lg">
             <a class="underline" href="{{ route('manager.dashboard') }}">
-                Businesses
-            </a> &nbsp;/
+                <i class="fas fa-store"></i>&nbsp; Businesses
+            </a> &nbsp; <i class="fas fa-chevron-right"></i>&nbsp;
             <a class="underline" href="{{ $profile->url->business_url }}">
                 {{ $profile->full_tag() }}
             </a>
@@ -11,7 +11,8 @@
 
         <div class="flex items-center flex-1">
             @foreach($actions as $key => $action)
-            <div wire:click="switchView('{{$key}}')" class="cursor-pointer flex-shrink-0 select-none px-3 py-2 @if($active_action['title'] === $action['title']) bg-white text-blue-700 @else text-gray-700 @endif">
+            <div wire:click="switchView('{{$key}}')"
+                class="cursor-pointer font-semibold text-lg flex-shrink-0 select-none hover:bg-white hover:text-blue-700 px-3 py-2 @if($active_action['title'] === $action['title']) bg-white text-blue-700 @else text-gray-700 @endif">
                 <i class="{{ $action['icon'] }}"></i>&nbsp; {{ ucwords($action['title']) }}
             </div>
             @endforeach

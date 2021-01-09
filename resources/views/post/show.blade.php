@@ -48,9 +48,7 @@
                 </div>
 
                 @if($post->content)
-                <div class="p-3 break-words sm:px-5 sm:py-3 sm:p-0">
-                    {!! $post->content !!}
-                </div>
+                <x-display-text-content class="px-3 pt-3 sm:px-5" :content="$post->safe_html" />
                 @endif
 
                 @if($image_count > 0)
@@ -62,10 +60,11 @@
                     @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.show'])
                 </div>
 
-                <div class="box-content bg-gray-100 bg-opacity-75 sticky bottom-0">
-                    @livewire('connect.post.comment.create-new-comment', ['post' => $post, 'profile' => Auth::user()->currentProfile],
+                <div class="box-content sticky bottom-0 bg-gray-100 bg-opacity-75">
+                    @livewire('connect.post.comment.create-new-comment', ['post' => $post, 'profile' =>
+                    Auth::user()->currentProfile],
                     key(time().$post->id.'_comment'))
                 </div>
             </div>
         </div>
-    </x-social-layout>
+</x-social-layout>

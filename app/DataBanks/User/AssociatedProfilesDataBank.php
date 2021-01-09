@@ -4,7 +4,6 @@ namespace App\DataBanks\User;
 
 use App\DataBanks\DataBank;
 use App\Models\User;
-use App\Models\Profile;
 
 class AssociatedProfilesDataBank implements DataBank
 {

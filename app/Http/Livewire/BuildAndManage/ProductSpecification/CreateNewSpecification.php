@@ -34,7 +34,9 @@ class CreateNewSpecification extends Component
 
         $this->product->specifications()->create([
             'name' => $this->name,
-            'value' => $this->value,
+            'value' => collect($this->value)->filter(function ($item) {
+                return !empty(trim($item));
+            })->unique()->toArray(),
             'is_specific' => ($this->is_specific) ? $this->is_specific : false,
         ]);
 

@@ -28,9 +28,8 @@ $profile = $post->profile;
                     @if($post->content)
                     <div class="flex items-center">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
-                        <div class="flex-1 flex-shrink-0 break-words truncate line-clamp">
-                            {!! $post->content !!}
-                        </div>
+                        <x-display-text-content class="flex-1 flex-shrink-0 truncate line-clamp"
+                            :content="$post->safe_html" />
                     </div>
                     @endif
                 </div>

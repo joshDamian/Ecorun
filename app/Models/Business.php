@@ -27,12 +27,12 @@ class Business extends Model
 
     public function isStore()
     {
-        return $this->businessable instanceof Store;
+        return $this->businessable_type === Store::class;
     }
 
     public function isService()
     {
-        return $this->businessable instanceof Service;
+        return $this->businessable_type === Service::class;
     }
 
     public function products()

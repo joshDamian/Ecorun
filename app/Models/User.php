@@ -7,7 +7,6 @@ use App\Presenters\User\NotificationsPresenter;
 use App\Traits\HasProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasTeams;
@@ -98,11 +97,10 @@ class User extends Authenticatable
                 $user->profile()->create(
                     [
                         'name' => $name,
-                        'tag' => (is_object(Profile::where('tag', $name . "." . $user->id)->get()->first())) ? null : substr($name, 0, 15) . "." . $user->id,
-                        'description' => "Hi, I am {$name}, I'm new here and i hope to make new friends soon.",
+                        'tag' => (Profile::where('tag', $name . "-" . $user->id)->exists()) ? null : substr($name, 0, 25) . "-" . $user->id,
+                        'description' => "Hi, I am {$name}, I'm new here and i hope to make new friends.",
                     ]
                 );
-                $user->profile->following()->save($user->profile);
                 $user->switchProfile($user->profile);
             }
         );

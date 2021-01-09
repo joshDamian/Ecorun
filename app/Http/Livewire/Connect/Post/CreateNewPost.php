@@ -17,7 +17,7 @@ class CreateNewPost extends Component
     {
         $this->validate($this->defaulRules());
         $post = $this->profile->posts()->create([
-            'content' => trim($this->text_content . PHP_EOL . $generator->paragraph) ?? '',
+            'content' => trim(htmlentities($this->text_content . PHP_EOL . $generator->paragraph)) ?? '',
             'visibility' => $this->visibility
         ]);
         $this->uploadPhotos('post-photos', $post, 'post_photo', array(1400, 1400));

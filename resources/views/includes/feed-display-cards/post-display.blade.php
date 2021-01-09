@@ -34,9 +34,7 @@
         </div>
 
         @if($post->content)
-        <div class="p-3 break-words sm:px-5 sm:py-3 sm:p-0">
-            {!! $post->content !!}
-        </div>
+        <x-display-text-content class="px-3 pt-3 sm:px-5" :content="$post->safe_html" />
         @endif
 
         @if($image_count > 0)

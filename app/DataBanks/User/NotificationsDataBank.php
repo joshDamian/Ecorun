@@ -3,8 +3,9 @@
 namespace App\DataBanks\User;
 
 use App\DataBanks\DataBank;
+use App\Models\DatabaseNotification;
 use App\Models\User;
-use Illuminate\Notifications\DatabaseNotification;
+//use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationsDataBank implements DataBank
 {

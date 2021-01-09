@@ -13,10 +13,10 @@
             </div>
             @endif
 
-            <div class="px-4 py-2 bg-gray-100 border-t-2 border-gray-200 md:px-4">
+            <div class="px-4 py-2 bg-gray-100 border-t-2 border-gray-200">
                 <div class="flex flex-wrap items-center justify-between">
                     <div class="flex-1 mr-3 font-semibold">
-                        <span class="block text-lg sm:text-xl text-blue-800">{{ $profile->name }}</span>
+                        <span class="block text-lg text-blue-800 sm:text-xl">{{ $profile->name }}</span>
                         <span class="grid grid-cols-1 text-sm text-gray-600">
                             <span class="mr-3 truncate">
                                 {{ $profile->full_tag() }}
@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            <div class="md:mt-1">
+            <div>
                 @if($profile->isBusiness())
                 <div>
                     @livewire('connect.profile-dashboard.business-profile-data', ['profile' => $profile, 'action_route'

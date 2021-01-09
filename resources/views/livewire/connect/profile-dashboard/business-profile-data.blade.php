@@ -1,5 +1,6 @@
-<div x-data x-init="() => { setTimeout(() => { window.modifyUrl.modify('/{{ $profile->full_tag() }}/{{ $action_route }}')}, 1000); }">
-    <div class="md:sticky fixed bottom-0 bg-gray-200 md:top-12 w-full">
+<div x-data
+    x-init="() => { setTimeout(() => { window.modifyUrl.modify('/{{ $profile->full_tag() }}/{{ $action_route }}')}, 1000); }">
+    <div class="fixed bottom-0 w-full bg-gray-200 md:sticky md:top-12">
         <ul class="flex overflow-x-auto">
             @foreach($views as $key => $view)
             <li onclick=" window.modifyUrl.modify('{{ $key }}') " wire:click="switchView('{{ $key }}')" class="text-center @if($view === $active_view) text-blue-800 bg-white @else text-gray-800 @endif

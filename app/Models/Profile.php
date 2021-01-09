@@ -61,7 +61,6 @@ class Profile extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(
             function ($profile) {
                 $profile->auto_tag = (string) Str::uuid();
@@ -77,7 +76,7 @@ class Profile extends Model
 
     public function isBusiness()
     {
-        return $this->profileable instanceof Business;
+        return $this->profileable_type === Business::class;
     }
 
     public function full_tag()
@@ -102,7 +101,7 @@ class Profile extends Model
 
     public function isUser()
     {
-        return $this->profileable instanceof User;
+        return $this->profileable_type === User::class;
     }
 
     public function getGalleryAttribute()

@@ -1,7 +1,9 @@
 <x-social-layout>
     <div>
         <div>
-            <div class="sticky mb-2 bg-gray-100 bg-opacity-75 top-12" x-cloak>
+            <div x-data="{ collapsed: false }"
+                x-init="() => { Livewire.on('toggled', (toggle) => { collapsed = toggle; }) }"
+                :class="(collapsed) ? '' : 'sticky top-12'" class="mb-2 bg-gray-100 bg-opacity-75 " x-cloak>
                 @livewire('connect.post.create-new-post', ['profile' => $profile, 'view' => 'landing-page'],
                 key(md5('create_new_post_auth')))
             </div>

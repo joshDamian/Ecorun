@@ -21,7 +21,7 @@
                 </main>
             </div>
             @auth
-            <div x-show.transition="open_notifications" :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'"
+            <div x-show="open_notifications" :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'"
                 class="fixed top-0 flex-1 flex-grow-0 flex-shrink h-full overflow-y-auto bg-white animate__animated animate__slideInLeft md:pb-1/12 md:top-16 md:bg-transparent md:pl-2 md:right-5"
                 x-cloak>
                 <div>

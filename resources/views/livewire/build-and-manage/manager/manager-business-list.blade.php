@@ -24,7 +24,7 @@
                             @empty
                             <div>
                                 <div class="flex items-center justify-center pt-7">
-                                    <i style="font-size: 6rem;" class="text-blue-700 fas fa-store-alt"></i>
+                                    <i style="font-size: 6rem;" class="text-blue-700 fas fa-store"></i>
                                 </div>
                                 <div class="px-4 py-4 text-lg font-bold text-center text-blue-700">
                                     nothing here, create a business

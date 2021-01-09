@@ -28,16 +28,14 @@ class UrlPresenter
 
     public function edit()
     {
-        $this->profile = $this->profile->loadMissing('profileable');
         if ($this->profile->isUser()) {
             return route('profile.edit', $this->profile);
         }
-        return route('business.dashboard', ['profile' => $this->profile, 'action_route' => 'edit']);
+        return $this->business_url . '/edit';
     }
 
     public function business_url()
     {
-        $this->profile = $this->profile->loadMissing('profileable');
         if ($this->profile->isUser()) {
             return null;
         }

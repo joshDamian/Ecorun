@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsSpecificToProductSpecificationsTable extends Migration
+class AddRenderedHtmlColumnToPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddIsSpecificToProductSpecificationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('product_specifications', function (Blueprint $table) {
-            $table->boolean('is_specific')->default(false);
+        Schema::table('posts', function (Blueprint $table) {
+            $table->text('html')->nullable()->default(null);
         });
     }
 
@@ -25,8 +25,8 @@ class AddIsSpecificToProductSpecificationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('product_specifications', function (Blueprint $table) {
-            $table->dropColumn('is_specific');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropColumn('html');
         });
     }
 }

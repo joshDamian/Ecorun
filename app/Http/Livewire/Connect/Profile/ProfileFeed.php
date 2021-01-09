@@ -22,29 +22,34 @@ class ProfileFeed extends Component
         ]
     ];
     protected $listeners = [
-        'newPost' => '$refresh'
+        'newPost' => '$refresh',
     ];
     public Profile $profile;
 
-    public function getFeedProperty() {
+    public function getFeedProperty()
+    {
         return $this->profile->feed;
     }
 
-    public function getDisplayingFeedProperty() {
+    public function getDisplayingFeedProperty()
+    {
         return $this->sortFeed($this->sortBy)->sortByDesc('created_at')->take($this->perPage);
     }
 
-    public function setSortBy(string $sortBy) {
-        return cache()->put($this->profile->id."sort_feed_by", $sortBy);
+    public function setSortBy(string $sortBy)
+    {
+        return cache()->put($this->profile->id . "sort_feed_by", $sortBy);
     }
 
-    public function getSortByProperty() {
-        return cache()->remember($this->profile->id."sort_feed_by", now()->addDays(60), function() {
+    public function getSortByProperty()
+    {
+        return cache()->remember($this->profile->id . "sort_feed_by", now()->addDays(60), function () {
             return 'all';
         });
     }
 
-    public function sortFeed($key) {
+    public function sortFeed($key)
+    {
         switch ($key) {
             case ('posts'):
                 return $this->feed->posts;
@@ -56,13 +61,14 @@ class ProfileFeed extends Component
                 return $this->feed->photos;
                 break;
             case ('all'):
-                default:
-                    return $this->feed->all;
-                    break;
+            default:
+                return $this->feed->all;
+                break;
         }
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.profile.profile-feed');
     }
 }

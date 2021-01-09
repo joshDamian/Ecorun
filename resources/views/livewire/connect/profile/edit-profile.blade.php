@@ -20,7 +20,8 @@
                     <!-- Current Profile Photo -->
                     <div class="mt-2 mb-1" x-show="! photoPreview">
                         @if($this->profile->isUser())
-                        <img src="{{ $this->profile->profile_photo_url }}" alt="{{ $this->profile->name }}" class="object-cover w-20 h-20 rounded-full">
+                        <img src="{{ $this->profile->profile_photo_url }}" alt="{{ $this->profile->name }}"
+                            class="object-cover w-20 h-20 rounded-full">
                         @else
                         <img class="object-cover w-full h-52" src="{{ $this->profile->profile_photo_url }}" />
                         @endif
@@ -29,7 +30,8 @@
                     <!-- New Profile Photo Preview -->
                     <div class="mt-2" x-show="photoPreview">
                         @if($this->profile->isUser())
-                        <span class="block w-20 h-20 rounded-full" x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
+                        <span class="block w-20 h-20 rounded-full"
+                            x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
                         </span>
                         @else
                         <img class="object-cover w-full h-52" :src="photoPreview" />
@@ -53,7 +55,8 @@
                 <!-- Name -->
                 <div class="">
                     <x-jet-label for="name" value="{{ __('Name') }}" />
-                    <x-jet-input name="name" id="name" type="text" class="block w-full mt-1" wire:model="name" autocomplete="name" />
+                    <x-jet-input name="name" id="name" type="text" class="block w-full mt-1" wire:model="name"
+                        placeholder="name" autocomplete="name" />
                     <x-jet-input-error for="name" class="mt-2" />
                 </div>
 
@@ -61,15 +64,19 @@
                 <div class="">
                     <x-jet-label for="tag" value="{{ __('Tag') }}" />
                     <div class="flex">
-                        <x-jet-input style="width: 2.5rem;" class="block mt-1 mr-2 text-center bg-gray-200" value="{{ $tag_prefix }}" disabled readonly />
-                        <x-jet-input id="tag" name="tag" type="text" class="flex-1 block w-full mt-1" wire:model="tag" autocomplete="tag" />
+                        <x-jet-input style="width: 2.5rem;" class="block mt-1 mr-2 text-center bg-gray-200"
+                            value="{{ $tag_prefix }}" disabled readonly />
+                        <x-jet-input id="tag" name="tag" type="text" class="flex-1 block w-full mt-1" wire:model="tag"
+                            autocomplete="tag" />
                     </div>
                     <x-jet-input-error for="tag" class="mt-2" />
                 </div>
 
                 <div>
-                    <x-jet-label for="description" value="{{ __('About ') . (($errors->has('name')) ? $this->profile->name : $name) }}" />
-                    <textarea id="description" rows="4" class="block w-full mt-1 form-input" placeholder="enter description" wire:model="description" autocomplete="description"></textarea>
+                    <x-jet-label for="description"
+                        value="{{ __('About ') . (($errors->has('name')) ? $this->profile->name : $name) }}" />
+                    <textarea id="description" rows="4" class="block w-full mt-1 form-input"
+                        placeholder="enter description" wire:model="description" autocomplete="description"></textarea>
                     <x-jet-input-error for="description" class="mt-2" />
                 </div>
             </div>

@@ -31,9 +31,9 @@
     </div>
 
     @if($profiles->count() > 1)
-    <div class="sticky flex flex-wrap p-2 bg-gray-200 bg-opacity-50 top-12 md:top-0">
+    <div class="sticky flex flex-wrap bg-gray-200 bg-opacity-75 border-b border-gray-300 top-12 md:top-0">
         @foreach($profiles as $key => $profile)
-        <div class="@if(!$loop->last) mb-2 @endif mr-2">
+        <div class="@if(!$loop->last) mb-2 @endif">
             <x-connect.profile.switch-profile-for-notif :profile="$profile" :unreadCount="$this->unreadCount($profile)"
                 :active="$profile->is($this->activeProfile)" />
         </div>

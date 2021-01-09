@@ -7,6 +7,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Http\Request;
+use App\Models\Post;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class EditProfile extends Component
@@ -34,11 +35,18 @@ class EditProfile extends Component
 
         $this->validate($this->rules());
 
+        $old_tag = $this->profile->tag;
+        $should_modify = $this->tag !== $old_tag;
+
         $this->profile->name = $this->upperCaseWords($this->name);
         $this->profile->tag = strtolower($this->tag);
         $this->profile->description = $this->description;
 
         $this->profile->save();
+
+        if ($should_modify) {
+            $this->modify_static_content($old_tag, $this->profile->tag);
+        }
 
         if ($this->photo) {
             $this->profile->updateProfilePhoto($this->photo);
@@ -73,7 +81,7 @@ class EditProfile extends Component
             'tag' => [
                 'required',
                 'min:4',
-                'max:20',
+                'max:30',
                 Rule::unique('profiles')->ignore($this->profile),
                 'alpha_dash',
             ],
@@ -89,6 +97,15 @@ class EditProfile extends Component
                 'max:3072'
             ],
         ];
+    }
+
+    public function modify_static_content($oldProfile_tag, $newProfile_tag)
+    {
+        foreach (Post::whereJsonContains('mentions', $oldProfile_tag)->cursor() as $post) {
+            $post->mentions = $post->mentions->forget($oldProfile_tag)->concat([$newProfile_tag]);
+            $post->content = str_replace("@$oldProfile_tag", "@$newProfile_tag", $post->content);
+            $post->save();
+        }
     }
 
     public function getProfileProperty()
