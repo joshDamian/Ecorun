@@ -21,25 +21,30 @@ use League\CommonMark\Extension\Mention\MentionExtension;
 use League\CommonMark\HtmlRenderer;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\Tags\HasTags;
+use App\Models\Tag;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Post extends Model
 {
-    use HasFactory, QueryCacheable, HasTags, Searchable;
+    use HasFactory,
+    QueryCacheable,
+    HasTags,
+    Searchable;
 
     /**
-     * The event map for the model.
-     *
-     * @var array
-     */
+    * The event map for the model.
+    *
+    * @var array
+    */
     protected $dispatchesEvents = [
         'created' => PostCreated::class,
     ];
 
     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
+    * The accessors to append to the model's array form.
+    *
+    * @var array
+    */
     protected $appends = [
         'url',
     ];
@@ -53,26 +58,31 @@ class Post extends Model
         'visibility',
         'mentions'
     ];
+    protected $attributes = [
+        'mentions' => "[]"
+    ];
+
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function comments()
-    {
+    public function comments() {
         return $this->morphMany('App\Models\Feedback', 'feedbackable');
     }
 
-    public function gallery()
+    public static function getTagClassName(): string
     {
+        return Tag::class;
+    }
+
+    public function gallery() {
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 
-    public function likes()
-    {
+    public function likes() {
         return $this->morphMany('App\Models\Like', 'likeable');
     }
 
-    public function profile()
-    {
+    public function profile() {
         return $this->belongsTo(Profile::class);
     }
 
@@ -86,14 +96,12 @@ class Post extends Model
         return true;
     }
 
-    public function getSafeHtmlAttribute()
-    {
+    public function getSafeHtmlAttribute() {
         $converter = new CommonMarkConverter(['allow_unsafe_links' => false]);
         return $converter->convertToHtml($this->html);
     }
 
-    public static function boot()
-    {
+    public static function boot() {
         parent::boot();
         self::saving(function ($post) {
             App::singleton('tagqueue', function () {
@@ -124,8 +132,14 @@ class Post extends Model
         ];
     }
 
-    public function getUrlAttribute()
+    public function tags(): MorphToMany
     {
+        return $this
+        ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
+        ->orderBy('order_column');
+    }
+
+    public function getUrlAttribute() {
         return (new UrlPresenter($this));
     }
 }

@@ -30,9 +30,10 @@ class MentionParser implements InlineParserInterface
         }
         $profile = Profile::firstWhere('tag', $mention);
         if (!$profile) {
+            $cursor->restoreState($previousSave);
             return false;
         }
-        app('mentionqueue')->addMention($mention);
+        app('mentionqueue')->addMention($profile->id);
         $inlineContext->getContainer()->appendChild(new Link($profile->url->visit, '@' . $mention));
         return true;
     }

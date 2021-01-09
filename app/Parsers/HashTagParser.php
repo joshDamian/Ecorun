@@ -17,7 +17,7 @@ class HashTagParser implements InlineParserInterface
     {
         $cursor = $inlineContext->getCursor();
         $previousChar = $cursor->peek(-1);
-        if ($previousChar !== null && $previousChar !== ' ') {
+        if ($previousChar !== null && $previousChar !== ' ' && $previousChar !== "\n") {
             return false;
         }
         $previousSave = $cursor->saveState();
@@ -28,7 +28,7 @@ class HashTagParser implements InlineParserInterface
             return false;
         }
         app('tagqueue')->addTag($tag);
-        $tagUrl = '/tag/' . $tag;
+        $tagUrl = route('search', ['data' => $tag, 'data-set' => 'tags']);
         $inlineContext->getContainer()->appendChild(new Link($tagUrl, '#' . $tag));
         return true;
     }

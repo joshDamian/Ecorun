@@ -32,6 +32,7 @@ Route::get(
     }
 )->name('home');
 
+
 Route::get('/@{profile:tag}/{action_route?}', [ProfileController::class, 'show'])->name('profile.visit');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(
@@ -48,7 +49,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         ->name('profile.edit');*/
 
         Route::get('/@{profile:tag}/actions/edit', UpdateProfile::class)->middleware('can:access,profile')
-            ->name('profile.edit');
+        ->name('profile.edit');
 
         Route::put('/current-profile/update', [ProfileController::class, 'updateCurrentProfile'])->name('current-profile.update');
 
@@ -72,15 +73,20 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
 );
 
 Route::get('/browsing-history', [RecentlyViewedController::class, 'index'])
-    ->name('view-history.index');
+->name('view-history.index');
 
 Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
-    ->name('product.show');
+->name('product.show');
 
 Route::get('/categories', [CategoryController::class, 'index'])
-    ->name('category.index');
+->name('category.index');
 Route::get('category/{slug}', [CategoryController::class, 'show'])
-    ->name('category.show');
+->name('category.show');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+
+Route::get('/search/{data}', function($data) {
+    return dd(App\Models\Post::withAnyTags([$data])->get());
+})->name('search');
+
 //Route::get('/cart', ViewCart::class);
