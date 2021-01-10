@@ -41,4 +41,10 @@ class FeedPresenter
             return $post->gallery->count() > 0;
         });
     }
+
+    public function mentions() {
+        return $this->feed[Post::class]->filter(function($post) {
+            return $post->mentions->contains($this->profile->id);
+        });
+    }
 }

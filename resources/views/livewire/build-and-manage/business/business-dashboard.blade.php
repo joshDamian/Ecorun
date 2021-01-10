@@ -1,5 +1,5 @@
 <div>
-    <div class="sticky mb-2 overflow-y-auto bg-gray-200 bg-opacity-50 border-b border-gray-300 top-12">
+    <div class="sticky mb-2 overflow-y-auto bg-gray-200 border-b border-gray-300 top-12">
         <h3 class="sticky left-0 flex-shrink-0 p-2 font-bold text-blue-700 truncate text-md md:text-lg">
             <a class="underline" href="{{ route('manager.dashboard') }}">
                 <i class="fas fa-store"></i>&nbsp; Businesses

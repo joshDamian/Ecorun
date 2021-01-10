@@ -18,7 +18,7 @@ class MentionParser implements InlineParserInterface
     {
         $cursor = $inlineContext->getCursor();
         $previousChar = $cursor->peek(-1);
-        if ($previousChar !== null && $previousChar !== ' ') {
+        if ($previousChar !== null && $previousChar !== ' ' && $previousChar !== PHP_EOL) {
             return false;
         }
         $previousSave = $cursor->saveState();
