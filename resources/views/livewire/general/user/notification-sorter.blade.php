@@ -1,5 +1,7 @@
-<div>
-    <div class="w-full" wire:loading wire:target="mount">
+<div x-data x-init="() => { Livewire.on('shouldRefresh', () => {
+        @this.call('refreshNotification');
+    }) }">
+    <div class="w-full" wire:loading wire:target="mount, refreshNotification">
         <x-loader_2 />
     </div>
     <div class="grid grid-cols-1 gap-1 bg-gray-300">
@@ -10,7 +12,8 @@
         $modelName = $notification_type['model'];
         $model = $this->data_for_models[$modelName]->find($notification->data['model_key']);
         @endphp
-        <div>
+        <div
+            onclick="@if(is_null($notification->read_at)) Livewire.emit('markAsRead', '{{ $notification->id }}'); @endif window.location = '{{ $model->url->show }}'">
             @include($this->viewIncludeFolder . $notification_type['display-card'], ['model' => $model])
         </div>
         @endif

@@ -4,21 +4,16 @@ namespace App\Http\Livewire\General\User;
 
 use Livewire\Component;
 use App\Models\Profile;
-//use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Notifications\DatabaseNotification;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Collection as SupportCollection;
+use Illuminate\Support\Facades\Cache;
 
 class Notifications extends Component
 {
     public $user;
     public bool $display = false;
     protected $listeners = [
-        'showNotifications',
-        'hideNotifications',
-        'toggleNotifications',
-        'modifiedNotifs' => '$refresh',
-        'newNotification' => '$refresh',
+        'showNotifications', 'hideNotifications',
+        'toggleNotifications', 'modifiedNotifs' => '$refresh',
+        'newNotification',
     ];
 
     public function toggleNotifications(): void
@@ -37,9 +32,14 @@ class Notifications extends Component
         return $this->display = false;
     }
 
+    public function newNotification($notification)
+    {
+        return $this->render();
+    }
+
     public function switchProfile($profile): void
     {
-        cache()->put($this->user->id . "active_profile_for_notif", $this->profiles->firstWhere("id", $profile));
+        Cache::put($this->user->id . "active_profile_for_notif_", $profile);
         $this->emit('switchedProfile', $this->activeProfile)->to('general.user.notification-sorter');
         return;
     }
@@ -51,9 +51,7 @@ class Notifications extends Component
 
     public function getActiveProfileProperty()
     {
-        return cache()->remember($this->user->id . "active_profile_for_notif", now()->addDays(60), function () {
-            return $this->user->currentProfile;
-        });
+        return $this->profiles->firstWhere("id", Cache::get($this->user->id . "active_profile_for_notif_", $this->user->currentProfile->id));
     }
 
     public function getProfilesProperty()

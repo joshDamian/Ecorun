@@ -23,6 +23,13 @@
 
     <div x-data x-init="() => {
         @foreach($profiles as $key => $profile)
+        @if($profile->is($this->activeProfile))
+        Echo.private('App.Models.Profile.{{$profile->id}}').notification((notification) => {
+            Livewire.emit('newNotification', notification);
+            Livewire.emit('shouldRefresh');
+        });
+        @continue
+        @endif
         Echo.private('App.Models.Profile.{{$profile->id}}').notification((notification) => {
         Livewire.emit('newNotification', notification);
         });

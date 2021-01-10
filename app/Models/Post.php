@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
+use App\Actions\Ecorun\Post\ExtractMentionsAndTags;
 use App\Events\PostCreated;
-use App\Parsers\HashTagParser;
-use App\Parsers\MentionParser;
-use App\Parsers\ProfileMentionGenerator;
 use App\Presenters\Post\UrlPresenter;
 use App\Queues\MentionQueue;
 use App\Queues\TagQueue;
@@ -15,10 +13,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 use League\CommonMark\CommonMarkConverter;
-use League\CommonMark\DocParser;
-use League\CommonMark\Environment;
-use League\CommonMark\Extension\Mention\MentionExtension;
-use League\CommonMark\HtmlRenderer;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\Tags\HasTags;
 use App\Models\Tag;
@@ -27,24 +21,24 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Post extends Model
 {
     use HasFactory,
-    QueryCacheable,
-    HasTags,
-    Searchable;
+        QueryCacheable,
+        HasTags,
+        Searchable;
 
     /**
-    * The event map for the model.
-    *
-    * @var array
-    */
+     * The event map for the model.
+     *
+     * @var array
+     */
     protected $dispatchesEvents = [
         'created' => PostCreated::class,
     ];
 
     /**
-    * The accessors to append to the model's array form.
-    *
-    * @var array
-    */
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
         'url',
     ];
@@ -65,7 +59,8 @@ class Post extends Model
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function comments() {
+    public function comments()
+    {
         return $this->morphMany('App\Models\Feedback', 'feedbackable');
     }
 
@@ -74,15 +69,18 @@ class Post extends Model
         return Tag::class;
     }
 
-    public function gallery() {
+    public function gallery()
+    {
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 
-    public function likes() {
+    public function likes()
+    {
         return $this->morphMany('App\Models\Like', 'likeable');
     }
 
-    public function profile() {
+    public function profile()
+    {
         return $this->belongsTo(Profile::class);
     }
 
@@ -96,12 +94,14 @@ class Post extends Model
         return true;
     }
 
-    public function getSafeHtmlAttribute() {
+    public function getSafeHtmlAttribute()
+    {
         $converter = new CommonMarkConverter(['allow_unsafe_links' => false]);
         return $converter->convertToHtml($this->html);
     }
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
         self::saving(function ($post) {
             App::singleton('tagqueue', function () {
@@ -110,13 +110,7 @@ class Post extends Model
             App::singleton('mentionqueue', function () {
                 return new MentionQueue;
             });
-            $environment = Environment::createCommonMarkEnvironment();
-            $environment->addInlineParser(new HashTagParser());
-            $environment->addInlineParser(new MentionParser());
-            $parser = new DocParser($environment);
-            $htmlRender = new HtmlRenderer($environment);
-            $text = $parser->parse($post->content);
-            $post->html = $htmlRender->renderBlock($text);
+            $post->html = (new ExtractMentionsAndTags($post))->act();
             $post->mentions = app('mentionqueue')->getMentions();
         });
         self::saved(function ($post) {
@@ -135,11 +129,12 @@ class Post extends Model
     public function tags(): MorphToMany
     {
         return $this
-        ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
-        ->orderBy('order_column');
+            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
+            ->orderBy('order_column');
     }
 
-    public function getUrlAttribute() {
+    public function getUrlAttribute()
+    {
         return (new UrlPresenter($this));
     }
 }

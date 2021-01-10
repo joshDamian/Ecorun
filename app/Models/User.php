@@ -97,7 +97,7 @@ class User extends Authenticatable
                 $user->profile()->create(
                     [
                         'name' => $name,
-                        'tag' => (Profile::where('tag', $name . "-" . $user->id)->exists()) ? null : substr($name, 0, 25) . "-" . $user->id,
+                        'tag' => (Profile::where('tag', $name . "-" . $user->id)->exists()) ? null : substr($name, 0, 20) . "-" . $user->id,
                         'description' => "Hi, I am {$name}, I'm new here and i hope to make new friends.",
                     ]
                 );
