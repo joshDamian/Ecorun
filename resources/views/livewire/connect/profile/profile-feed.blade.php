@@ -1,27 +1,39 @@
-<div>
-    <div class="fixed bottom-0 flex w-full overflow-x-auto font-semibold bg-gray-200 border-gray-300 md:bg-gray-100 md:bg-opacity-75 md:border-b md:sticky "
+<div wire:init="setDisplayReady">
+    <div class="fixed bottom-0 border-t flex w-full overflow-x-auto font-semibold bg-gray-200 border-gray-300 bg-gray-100 md:bg-opacity-75 md:border-b md:sticky"
         x-data="{ collapsed: false }"
-        x-init="() => { Livewire.on('toggled', (toggle) => { collapsed = toggle; }); Livewire.on('newPost', () => { @this.call('setSortBy', 'all') }) }"
+        x-init="() => {
+        Livewire.on('toggled', (toggle) => { collapsed = toggle; }); Livewire.on('newPost', () => { @this.call('setSortBy', 'all') })
+        window.onscroll = function() {
+
+        console.log(document);
+
+        }
+        }"
         :class="(collapsed) ? 'md:top-12' : 'md:top-32'">
         <div onclick="window.scrollTo(0, 0)" wire:click="setSortBy('{{ __('all') }}')"
-            class="py-2 text-center flex-shrink-0 font-semibold flex-1 cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'all') bg-white text-blue-700 @else text-gray-700 @endif">
+            class="py-2 text-center flex-shrink-0 font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'all') bg-white text-blue-700 @else text-gray-700 @endif">
             {{ __('All') }}
         </div>
 
         @foreach($feed_types as $key => $card)
         <div onclick="window.scrollTo(0, 0)" wire:click="setSortBy('{{ $card['name'] }}')"
-            class="py-2 text-center flex-shrink-0 flex-1 font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === $card['name']) bg-white text-blue-700 @else text-gray-700 @endif">
+            class="py-2 text-center flex-shrink-0 font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === $card['name']) bg-white text-blue-700 @else text-gray-700 @endif">
             {{ ucwords($card['name']) }}
         </div>
         @endforeach
 
         <div onclick="window.scrollTo(0, 0)" wire:click="setSortBy('{{ __('photos') }}')"
-            class="py-2 text-center flex-shrink-0 flex-1 font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'photos') bg-white text-blue-700 @else text-gray-700 @endif">
+            class="py-2 text-center flex-shrink-0 font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'photos') bg-white text-blue-700 @else text-gray-700 @endif">
             {{ __('Photos') }}
+        </div>
+
+        <div onclick="window.scrollTo(0, 0)" wire:click="setSortBy('{{ __('mentions') }}')"
+            class="py-2 text-center flex-shrink-0 font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'mentions') bg-white text-blue-700 @else text-gray-700 @endif">
+            {{ __('Mentions') }}
         </div>
     </div>
 
-    <div class="w-full" wire:loading wire:target="setSortBy">
+    <div class="w-full" wire:loading wire:target="setSortBy, setDisplayReady">
         <x-loader_2 />
     </div>
 
@@ -30,6 +42,7 @@
         @include($this->viewIncludeFolder . $this->feed_types[get_class($feed_item)]['view'], ['model' =>
         $feed_item])
         @empty
+        @if($display_ready)
         <div class="text-blue-700">
             <div class="flex items-center justify-center p-4">
                 <i style="font-size: 6rem;" class="fas fa-home-user"></i>
@@ -41,6 +54,7 @@
                 not enough content here.
             </div>
         </div>
+        @endif
         @endforelse
     </div>
 </div>

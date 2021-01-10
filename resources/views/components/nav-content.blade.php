@@ -59,12 +59,12 @@
             @if($currentProfileIsBiz)
             <div
                 class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
-                <i class="fa fa-edit"></i> &nbsp;Edit
+                <i class="far fa-edit"></i> &nbsp;Edit
             </div>
             @else
             <div
                 class="px-4 py-3 font-medium tracking-wider text-blue-800 bg-gray-100 border-b-2 @if(request()->routeIs('profile.edit') && (explode('/', request()->getRequestUri())[1] === $currentProfile->full_tag())) border-blue-700 @else border-gray-200 @endif textext-left hover:border-blue-700 text-md md:cursor-pointer">
-                <i class="fa fa-edit"></i> &nbsp;Edit
+                <i class="far fa-edit"></i> &nbsp;Edit
             </div>
             @endif
         </a>
@@ -157,10 +157,10 @@
             Switch profiles <i class="text-green-400 fas fa-retweet"></i>
         </div>
 
-        <div class="pl-1">
-            <x-connect.profile.switchable-profile :currentProfile="$currentProfile" :profile="$personalProfile" />
+        <div class="grid grid-cols-1 gap-2 px-4">
+            <x-connect.profile.switchable-profile :active="$currentProfile->is($personalProfile)" :profile="$personalProfile" />
             @foreach($other_profiles as $profile)
-            <x-connect.profile.switchable-profile :profile="$profile" :currentProfile="$currentProfile" />
+            <x-connect.profile.switchable-profile :profile="$profile" :active="$currentProfile->is($profile)" />
             @endforeach
         </div>
         @endif

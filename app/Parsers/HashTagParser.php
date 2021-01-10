@@ -17,7 +17,7 @@ class HashTagParser implements InlineParserInterface
     {
         $cursor = $inlineContext->getCursor();
         $previousChar = $cursor->peek(-1);
-        if ($previousChar !== null && $previousChar !== ' ' && $previousChar !== "\n") {
+        if ($previousChar !== null && $previousChar !== ' ' && $previousChar !== PHP_EOL) {
             return false;
         }
         $previousSave = $cursor->saveState();

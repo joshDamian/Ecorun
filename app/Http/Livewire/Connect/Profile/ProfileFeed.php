@@ -9,7 +9,8 @@ use App\Models\Product;
 
 class ProfileFeed extends Component
 {
-    public $perPage = 15;
+    public $perPage = 5;
+    public $display_ready = false;
     public string $viewIncludeFolder = 'includes.feed-display-cards.';
     public $feed_types = [
         Post::class => [
@@ -26,30 +27,36 @@ class ProfileFeed extends Component
     ];
     public Profile $profile;
 
-    public function getFeedProperty()
-    {
+    public function setDisplayReady() {
+        return $this->display_ready = true;
+    }
+
+    public function getFeedProperty() {
         return $this->profile->feed;
     }
 
-    public function getDisplayingFeedProperty()
-    {
-        return $this->sortFeed($this->sortBy)->sortByDesc('created_at')->take($this->perPage);
+    public function getDisplayingFeedProperty() {
+        if ($this->display_ready) {
+            return $this->sortFeed($this->sortBy)->sortByDesc('created_at')->take($this->perPage);
+        }
+        return collect([]);
     }
 
-    public function setSortBy(string $sortBy)
-    {
+    public function loadMore() {
+        return $this->perPage = $this->perPage + 5;
+    }
+
+    public function setSortBy(string $sortBy) {
         return cache()->put($this->profile->id . "sort_feed_by", $sortBy);
     }
 
-    public function getSortByProperty()
-    {
+    public function getSortByProperty() {
         return cache()->remember($this->profile->id . "sort_feed_by", now()->addDays(60), function () {
             return 'all';
         });
     }
 
-    public function sortFeed($key)
-    {
+    public function sortFeed($key) {
         switch ($key) {
             case ('posts'):
                 return $this->feed->posts;
@@ -60,15 +67,17 @@ class ProfileFeed extends Component
             case ('photos'):
                 return $this->feed->photos;
                 break;
-            case ('all'):
-            default:
-                return $this->feed->all;
+            case ('mentions'):
+                return $this->feed->mentions;
                 break;
+            case ('all'):
+                default:
+                    return $this->feed->all;
+                    break;
         }
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.connect.profile.profile-feed');
     }
 }

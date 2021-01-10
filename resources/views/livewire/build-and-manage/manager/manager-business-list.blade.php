@@ -13,10 +13,10 @@
                 @endif
                 ">
                 @forelse ($businesses as $business)
-                <a class="block shadow" href="{{ $business->profile->url->business_url }}">
+                <a class="block" href="{{ $business->profile->url->business_url }}">
                     <x-build-and-manage.business.business-preview :business="$business" />
                     <div style="width: 100%;"
-                        class="px-2 py-2 font-semibold text-center text-white truncate bg-blue-900 text-md">
+                        class="px-2 py-2 font-semibold text-center text-white truncate bg-blue-800 text-md">
                         {{ $business->name() }}
                     </div>
                 </a>
