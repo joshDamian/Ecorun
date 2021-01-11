@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMessagesTable extends Migration
+class CreateDirectConversationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('direct_conversations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Profile::class, 'sender_id');
-            $table->string('messageable_type');
-            $table->integer('messageable_id');
-            $table->string('privacy_level')->default('all_members');
-            $table->text('content');
+            $table->foreignIdFor(\App\Models\Profile::class, 'initiator_id');
+            $table->foreignIdFor(\App\Models\Profile::class, 'joined_id');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('direct_conversations');
     }
 }

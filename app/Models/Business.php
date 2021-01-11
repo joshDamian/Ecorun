@@ -32,7 +32,7 @@ class Business extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class)->where('is_published', true)->latest();
+        return $this->hasMany(Product::class)->where('is_published', true)->latest('updated_at');
     }
 
     public function team()

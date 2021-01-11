@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateConversationsTable extends Migration
+class CreateMessageReaderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateConversationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('conversations', function (Blueprint $table) {
+        Schema::create('message_reader', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Profile::class, 'creator_id')->nullable();
-            $table->string("type");
-            $table->json('members');
+            $table->foreignIdFor(\App\Models\Profile::class, 'profile_id');
+            $table->foreignIdFor(\App\Models\Message::class, 'message_id');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateConversationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conversations');
+        Schema::dropIfExists('message_reader');
     }
 }

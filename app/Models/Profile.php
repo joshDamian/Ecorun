@@ -44,12 +44,17 @@ class Profile extends Model
 
     public function followers()
     {
-        return $this->belongsToMany(Profile::class, 'profile_follower', 'profile_id', 'follower_id');
+        return $this->belongsToMany(Profile::class, 'profile_follower', 'follower_id', 'profile_id')->withTimestamps();;
+    }
+
+    public function owned_groups()
+    {
+        return $this->hasMany(GroupConversation::class, 'creator_id');
     }
 
     public function following()
     {
-        return $this->belongsToMany(Profile::class, 'profile_follower', 'follower_id', 'profile_id');
+        return $this->belongsToMany(Profile::class, 'profile_follower', 'profile_id', 'follower_id')->withTimestamps();;
     }
 
     public function slugData()

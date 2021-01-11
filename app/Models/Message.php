@@ -9,27 +9,36 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 class Message extends Model
 {
     use HasFactory,
-    QueryCacheable;
+        QueryCacheable;
 
     /**
-    * All of the relationships to be touched.
-    *
-    * @var array
-    */
-    protected $touches = ['conversation'];
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = ['messageable'];
     protected $fillable = [
         'content',
         'privacy_level',
-        'read_at'
     ];
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
+    protected $with = [
+        'seenBy'
+    ];
 
-    public function conversation() {
-        return $this->belongsTo(Conversation::class);
+    public function messageable()
+    {
+        return $this->morphTo();
     }
 
-    public function sender() {
+    public function seenBy()
+    {
+        return $this->belongsToMany(Profile::class, 'message_reader', 'profile_id', 'message_id');
+    }
+
+    public function sender()
+    {
         return $this->belongsTo(Profile::class, 'sender_id')->withDefault();
     }
 }

@@ -68,6 +68,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
             }
         );
 
+        Route::get('/chat', function () {
+            return view('chat.index', ['profile' => Auth::user()->profile]);
+        })->name('chat.index');
+
         Route::get('/post/{post}', [PostController::class, 'show'])->name('post.show');
     }
 );
@@ -88,7 +92,3 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/search/{data}', function ($data) {
     return dd(App\Models\Post::withAnyTags([$data])->get());
 })->name('search');
-
-Route::get('/chat', function () {
-    return view('chat.index', ['profile' => Auth::user()->profile]);
-})->name('chat.index');
