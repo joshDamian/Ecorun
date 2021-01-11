@@ -6,12 +6,12 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
-use Illuminate\Support\Facades\Event;
 use App\Events\PostCreated;
 use App\Events\ProductCreated;
+use App\Events\SentMessage;
 use App\Listeners\SendPostCreatedNotificaton;
+use App\Listeners\SendDirectMessageNotification;
 use App\Listeners\SendProductCreatedNotificaton;
-use App\Models\Product;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -29,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ProductCreated::class => [
             SendProductCreatedNotificaton::class
+        ],
+        SentMessage::class => [
+            SendMessageNotification::class
         ]
     ];
 

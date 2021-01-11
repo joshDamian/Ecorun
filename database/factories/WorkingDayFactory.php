@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Store;
+use App\Models\WorkingDay;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class StoreFactory extends Factory
+class WorkingDayFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Store::class;
+    protected $model = WorkingDay::class;
 
     /**
      * Define the model's default state.

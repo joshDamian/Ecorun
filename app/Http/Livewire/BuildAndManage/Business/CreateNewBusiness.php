@@ -2,12 +2,8 @@
 
 namespace App\Http\Livewire\BuildAndManage\Business;
 
-use App\Models\Service;
-use App\Models\Store;
 use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Business;
-use App\Models\Manager;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Validation\Rule;
@@ -19,28 +15,27 @@ class CreateNewBusiness extends Component
 
     public User $user;
     public $name;
-    public $type;
+    public $type = ['store'];
+    protected $validTypes = ['store', 'service'];
 
     public function create()
     {
         $this->name = trim($this->name);
         $this->validate($this->rules());
-        $manager_access = $this->user->isManager;
-        if (!$manager_access->id) {
-            $manager_access = $this->user->isManager()->save(new Manager());
-        }
+        $manager_access = $this->user->is_business_owner;
+
         $this->name = ucwords($this->name);
-        $business = $manager_access->businesses()->save(new Business());
-
-        if ($business) {
-            $this->assignType($business);
-            $team = $this->createTeam();
-
-            if ($business->businessable) {
-                $this->create_profile($business);
-            }
+        $business = $this->user->businesses()->create(
+            ['type' => $this->type]
+        );
+        if (!$manager_access) {
+            $manager_access = $this->user->is_business_owner = true;
+            $this->user->save();
         }
-
+        if ($business) {
+            $team = $this->createTeam();
+            $this->create_profile($business);
+        }
         $this->emitSelf('created');
         $this->emit('newBusiness');
         return $business->team()->save($team);
@@ -52,7 +47,7 @@ class CreateNewBusiness extends Component
 
         $business->profile()->create([
             'name' => $this->name,
-            'tag' => (is_object(Profile::where('tag', $name_slug)->get()->first())) ? null : $name_slug,
+            'tag' => (Profile::where('tag', $name_slug)->exists()) ? null : $name_slug,
             'description' => ($business->isStore()) ?
                 "{$this->name} sells quality products, we look forward to satisfying your purchase needs." :
                 "{$this->name} offers quality services, we look forward to making you happy."
@@ -78,7 +73,7 @@ class CreateNewBusiness extends Component
                 'max:255',
             ],
 
-            'type' => 'required'
+            'type' => ['required', Rule::in($this->validTypes)]
         ];
     }
 
@@ -87,22 +82,6 @@ class CreateNewBusiness extends Component
         return $this->user->ownedTeams()->create([
             'name' => $this->name . "'s Team",
         ]);
-    }
-
-    protected function assignType(Business $business)
-    {
-        switch ($this->type) {
-            case 'service':
-                $service = Service::create([]);
-                $service->business()->save($business);
-                break;
-            case 'store':
-                $store = Store::create([]);
-                $store->business()->save($business);
-                break;
-            default:
-                break;
-        }
     }
 
     public function updated($propertyName)

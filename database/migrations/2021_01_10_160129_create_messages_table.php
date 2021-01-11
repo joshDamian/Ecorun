@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBusinessesTable extends Migration
+class CreateMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateBusinessesTable extends Migration
      */
     public function up()
     {
-        Schema::create('businesses', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->softDeletes();
-            $table->foreignIdFor(\App\Models\User::class)
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->string("type");
+            $table->foreignIdFor(\App\Models\Profile::class, 'sender_id');
+            $table->foreignIdFor(\App\Models\Conversation::class, 'conversation_id')->nullable();
+            $table->string('privacy_level')->default('all_members');
+            $table->text('content');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateBusinessesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('businesses');
+        Schema::dropIfExists('messages');
     }
 }

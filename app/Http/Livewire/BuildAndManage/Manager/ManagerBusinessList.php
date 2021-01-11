@@ -14,7 +14,7 @@ class ManagerBusinessList extends Component
 
     public function render()
     {
-        $businesses = $this->user->loadMissing('isManager.businesses')->isManager->businesses;
+        $businesses = $this->user->loadMissing('businesses')->businesses;
         return view('livewire.build-and-manage.manager.manager-business-list', [
             'businesses' => $businesses,
             'businesses_count' => $businesses->count()

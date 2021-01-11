@@ -16,8 +16,8 @@ class AssociatedProfilesDataBank implements DataBank
 
     public function fetch()
     {
-        $this->user = $this->user->loadMissing('profile', 'teams.business.profile', 'isManager.businesses.profile', 'currentProfile');
-        $business_profiles = $this->user->isManager->businesses->pluck('profile');
+        $this->user = $this->user->loadMissing('profile', 'teams.business.profile', 'businesses.profile', 'currentProfile');
+        $business_profiles = $this->user->businesses->pluck('profile');
         $team_business_profiles = $this->user->teams->pluck('business.profile');
         return collect(['personal_profile' => $this->user->profile, 'owned_business_profiles' => $business_profiles, 'team_business_profiles' => $team_business_profiles, 'current_profile_id' => $this->user->currentProfile->id]);
     }

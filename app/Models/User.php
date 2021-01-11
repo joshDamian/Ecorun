@@ -46,6 +46,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_business_owner' => 'boolean'
     ];
     /**
      * The accessors to append to the model's array form.
@@ -58,9 +59,9 @@ class User extends Authenticatable
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function isManager()
+    public function businesses()
     {
-        return $this->hasOne(Manager::class)->withDefault();
+        return $this->hasMany(Business::class);
     }
 
     public function orders()
@@ -121,10 +122,5 @@ class User extends Authenticatable
         return $this->belongsTo(Profile::class, 'current_profile_id')->withDefault([
             'name' => 'Guest',
         ]);
-    }
-
-    public function revokeManager()
-    {
-        return $this->isManager->revoke();
     }
 }

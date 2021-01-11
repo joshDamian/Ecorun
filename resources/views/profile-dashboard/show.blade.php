@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div>
+            <div class="mt-1">
                 @if($profile->isBusiness())
                 <div>
                     @livewire('connect.profile-dashboard.business-profile-data', ['profile' => $profile, 'action_route'

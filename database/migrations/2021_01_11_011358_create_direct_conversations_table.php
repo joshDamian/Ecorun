@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStoresTable extends Migration
+class CreateDirectConversationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateStoresTable extends Migration
      */
     public function up()
     {
-        Schema::create(
-            'stores',
-            function (Blueprint $table) {
-                $table->id();
-                $table->timestamps();
-            }
-        );
+        Schema::create('direct_conversations', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -29,6 +26,6 @@ class CreateStoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stores');
+        Schema::dropIfExists('direct_conversations');
     }
 }

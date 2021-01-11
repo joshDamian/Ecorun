@@ -16,7 +16,7 @@
         <x-loader_2 />
     </div>
 
-    <div wire:loading.remove class="mt-2 md:my-3 md:mt-0 pb-11 md:pb-0">
+    <div wire:loading.remove class="mt-2 md:mb-2 pb-11 md:pb-0">
         @switch($active_view['title'])
         @case('posts')
         @can('update', $profile)

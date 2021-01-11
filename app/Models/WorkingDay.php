@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ServiceWorkingDay extends Model
+class WorkingDay extends Model
 {
     use HasFactory;
 
@@ -13,8 +13,8 @@ class ServiceWorkingDay extends Model
         'day', 'kickoff', 'close'
     ];
 
-    public function service()
+    public function business()
     {
-        return $this->belongsTo(Service::class);
+        return $this->belongsTo(Business::class);
     }
 }

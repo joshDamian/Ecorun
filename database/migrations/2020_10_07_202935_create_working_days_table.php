@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateServiceWorkingDaysTable extends Migration
+class CreateWorkingDaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateServiceWorkingDaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('service_working_days', function (Blueprint $table) {
+        Schema::create('working_days', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')
-                ->index()
+            $table->foreignIdFor(\App\Models\Business::class)
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-
             $table->string('day');
             $table->string('kickoff');
             $table->string('close');

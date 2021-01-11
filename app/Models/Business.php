@@ -15,24 +15,19 @@ class Business extends Model
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function manager()
+    public function owner()
     {
-        return $this->belongsTo(Manager::class);
-    }
-
-    public function businessable()
-    {
-        return $this->morphTo();
+        return $this->belongsTo(User::class);
     }
 
     public function isStore()
     {
-        return $this->businessable_type === Store::class;
+        return $this->type === "store";
     }
 
     public function isService()
     {
-        return $this->businessable_type === Service::class;
+        return $this->type === "service";
     }
 
     public function products()

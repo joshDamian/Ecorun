@@ -12,38 +12,46 @@ class FeedPresenter
     protected Profile $profile;
     protected $feed;
 
-    public function __construct(Profile $profile) {
+    public function __construct(Profile $profile)
+    {
         $this->profile = $profile;
         $this->feed = (new FeedDataBank($this->profile))->fetch();
     }
 
-    public function __get($key) {
+    public function __get($key)
+    {
         if (method_exists($this, $key)) {
             return $this->$key();
         }
         return $this->$key;
     }
 
-    public function all() {
+    public function all()
+    {
         return $this->feed->flatten();
     }
 
-    public function products() {
+    public function products()
+    {
         return $this->feed[Product::class];
     }
 
-    public function posts() {
+    public function posts()
+    {
         return $this->feed[Post::class];
     }
 
-    public function photos() {
-        return $this->feed[Post::class]->filter(function($post) {
+    public function photos()
+    {
+        return $this->feed[Post::class]->filter(function ($post) {
             return $post->gallery->count() > 0;
         });
     }
 
-    public function mentions() {
-        return $this->feed[Post::class]->filter(function($post) {
+    public function mentions()
+    {
+        return $this->feed[Post::class]->filter(function ($post) {
+            dump($post->mentions);
             return $post->mentions->contains($this->profile->id);
         });
     }

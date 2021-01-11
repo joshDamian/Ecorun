@@ -30,7 +30,8 @@
             </a>
 
             @auth
-            <div class="flex-shrink-0 px-2 py-2 text-xl sm:cursor-pointer md:px-4 hover:text-blue-500">
+            <a href="{{ route('chat.index') }}"
+                class="flex-shrink-0 px-2 py-2 text-xl sm:cursor-pointer md:px-4 hover:text-blue-500">
                 <i class="fas fa-comments"></i>
                 <sup class="sm:hidden">
                     <span class="-mt-2 -ml-5 fa-stack fa-1x">
@@ -47,7 +48,7 @@
                         <span class="text-xs font-extrabold text-white fa-stack-1x">10</span>
                     </span>
                 </sup>
-            </div>
+            </a>
 
             <div @click=" function nav() {
                 if(window.outerWidth < 768) {

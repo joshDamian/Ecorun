@@ -1,6 +1,6 @@
 @props(['photos', 'type'])
 <div x-data="{ ready: false }"
-    x-init="() => { Livewire.on('addedContent', () => { ready = false; }); $watch('ready', value => Livewire.emit('toggled', ready)) }"
+    x-init="() => { Livewire.on('addedContent', () => { ready = false; }); $watch('ready', value =>  Livewire.emit('toggled', ready)) }"
     x-cloak>
     <div x-show="!ready">
         {{ $trigger }}

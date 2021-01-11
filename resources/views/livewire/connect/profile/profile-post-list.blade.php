@@ -10,12 +10,12 @@
         </div>
         @empty
         <div>
-            <div class="bg-white">
+            <div>
                 <div class="flex items-center justify-center p-3">
                     <i style="font-size: 6rem;" class="text-blue-700 fas fa-pencil-alt">
                     </i>
                 </div>
-                <div class="px-3 pb-3 text-lg font-medium text-center text-blue-700 bg-white">
+                <div class="px-3 pb-3 text-lg font-medium text-center text-blue-700">
                     <div>
                         @can('update', $this->profile)
                         make your first post
