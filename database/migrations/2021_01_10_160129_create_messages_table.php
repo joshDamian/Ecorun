@@ -7,29 +7,28 @@ use Illuminate\Support\Facades\Schema;
 class CreateMessagesTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+    * Run the migrations.
+    *
+    * @return void
+    */
+    public function up() {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\Profile::class, 'sender_id');
             $table->foreignIdFor(\App\Models\Conversation::class, 'conversation_id')->nullable();
             $table->string('privacy_level')->default('all_members');
-            $table->text('content');
-            $table->timestamps();
-        });
-    }
+                $table->text('content');
+                $table->timestamp('read_at')->nullable();
+                $table->timestamps();
+            });
+        }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('messages');
+        /**
+        * Reverse the migrations.
+        *
+        * @return void
+        */
+        public function down() {
+            Schema::dropIfExists('messages');
+        }
     }
-}
