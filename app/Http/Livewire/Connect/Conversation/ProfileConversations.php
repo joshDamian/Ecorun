@@ -8,7 +8,16 @@ use Livewire\Component;
 class ProfileConversations extends Component
 {
     public Profile $profile;
+    public $activeConversation;
     public string $sortBy = 'all';
+    protected $listeners = [
+        'showAll'
+    ];
+
+    public function showAll()
+    {
+        $this->activeConversation = null;
+    }
 
     public function getConversationsProperty()
     {
@@ -18,6 +27,11 @@ class ProfileConversations extends Component
     public function setSortBy(string $key)
     {
         $this->sortBy = $key;
+    }
+
+    public function switchActiveConv($id)
+    {
+        return $this->activeConversation = $this->conversations->all->firstWhere("id", $id);
     }
 
     public function getCurrentConversationsProperty()

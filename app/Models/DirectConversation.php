@@ -14,7 +14,8 @@ class DirectConversation extends Model
         //
     ];
     protected $appends = [
-        'pair'
+        'pair',
+        'pair_ids'
     ];
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
@@ -34,10 +35,15 @@ class DirectConversation extends Model
         return collect([$this->initiator, $this->joined]);
     }
 
+    public function getPairIdsAttribute()
+    {
+        return [$this->initiator_id, $this->joined_id];
+    }
+
     public function getUnreadFor($profile)
     {
         return $this->messages->filter(function ($message) use ($profile) {
-            return  $message->sender_id !== $profile->id && $message->seenBy->contains($profile);
+            return $message->sender_id !== $profile->id && (!$message->seenBy->contains($profile));
         })->count();
     }
 

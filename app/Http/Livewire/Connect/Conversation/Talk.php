@@ -3,42 +3,43 @@
 namespace App\Http\Livewire\Connect\Conversation;
 
 use App\Models\Profile;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Message;
-use App\Models\Conversation;
 use Livewire\Component;
 
 class Talk extends Component
 {
-    public Profile $talkTo;
+    public $conversation;
     public Profile $me;
     public $message;
     protected $rules = [
         'message' => ['required']
     ];
+    protected $listeners = [
+        'newMessage' => '$refresh'
+    ];
 
-    public function mount()
+    public function getPartnerProperty()
     {
-        $this->me = Auth::user()->profile;
-        $this->talkTo = Profile::where('id', '!=', $this->me->id)->first();
+        return $this->conversation->pair->firstWhere('id', '!==', $this->me->id);
     }
 
     public function sendMessage()
     {
         $this->validate();
         $message = new Message();
-        $message->content = $this->message;
-        $message->privacy_level = "all_members";
-        $message = $this->me->messages()->save($message);
-        $this->me->conversations->all->first()->messages()->save($message);
+        $message->forceFill([
+            'content' => $this->message,
+            'sender_id' => $this->me->id,
+            'messageable_type' => get_class($this->conversation),
+            'messageable_id' => $this->conversation->id
+        ])->save();
+        $this->done();
+        $this->emitSelf('newMessage');
     }
 
-    public function createConversation()
+    public function done()
     {
-        Conversation::create([
-            'members' => [$this->me->id, $this->talkTo->id],
-            'type' => "direct_conversation"
-        ]);
+        $this->reset('message');
     }
 
     public function render()

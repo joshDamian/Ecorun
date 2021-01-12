@@ -16,11 +16,11 @@
             <div class="px-4 py-4 bg-gray-100 border-t-2 border-gray-200">
                 <div class="flex flex-wrap items-start justify-between">
                     <div class="flex-1 mr-3">
-                        <div class="text-lg text-blue-800 font-semibold sm:text-xl">
+                        <div class="text-lg font-semibold text-blue-800 sm:text-xl">
                             {{ $profile->name }}
                         </div>
 
-                        <div class="truncate text-gray-600 text-sm">
+                        <div class="text-sm text-gray-600 truncate">
                             {{ $profile->full_tag() }}
                         </div>
                     </div>
@@ -30,8 +30,23 @@
                             @livewire('connect.profile.follow-profile', ['profile' => $profile], key('follow_button'))
                         </div>
                         @cannot('update', $profile)
+                        @php
+                        $user = Auth::user();
+                        $current_profile = $user->currentProfile;
+                        @endphp
                         <div class="flex-shrink-0 ml-3">
-                            @livewire('connect.direct-conversation.initiate-conversation', ['initiator' => Auth::user()->currentProfile, 'joined' => $profile])
+                            @if($user->can('create', [\App\Models\DirectConversation::class,
+                            $current_profile,
+                            $profile]))
+                            @livewire('connect.direct-conversation.initiate-conversation', ['initiator' =>
+                            $current_profile, 'joined' => $profile])
+                            @else
+                            <div>
+                                <x-jet-button class="bg-blue-600">
+                                    <i class="text-lg fas fa-envelope"></i>
+                                </x-jet-button>
+                            </div>
+                            @endif
                         </div>
                         @endcannot
                     </div>
@@ -42,7 +57,7 @@
                         @livewire('connect.profile.following-followers-counter',
                         ['profile'=> $profile])
                     </span>
-                    <span class="mt-2">
+                    <span class="mt-2 text-gray-900">
                         Joined {{ $profile->created_at->diffForHumans() }}
                     </span>
                 </div>
