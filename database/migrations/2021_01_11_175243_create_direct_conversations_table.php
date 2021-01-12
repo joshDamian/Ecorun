@@ -17,6 +17,7 @@ class CreateDirectConversationsTable extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Profile::class, 'initiator_id');
             $table->foreignIdFor(\App\Models\Profile::class, 'joined_id');
+            $table->uuid('secret_key')->unique();
             $table->timestamps();
         });
     }

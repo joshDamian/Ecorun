@@ -7,7 +7,7 @@
         <x-jet-modal wire:model="should_display">
             @if($display_sent)
             <div class="grid grid-cols-1 gap-2 p-8 text-blue-700 bg-gray-100">
-                <div class="text-2xl font-bold text-center">
+                <div class="text-xl font-bold text-center sm:text-2xl">
                     <span class="text-gray-700">you created a conversation with</span> {{ $joined->full_tag() }}
                 </div>
 

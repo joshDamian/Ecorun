@@ -41,41 +41,42 @@
                             @livewire('connect.direct-conversation.initiate-conversation', ['initiator' =>
                             $current_profile, 'joined' => $profile])
                             @else
-                            <div>
+                            <a
+                                href="{{ route('chat.index', ['activeConversation' => $current_profile->direct_conversationWith($profile)->secret_key]) }}">
                                 <x-jet-button class="bg-blue-600">
                                     <i class="text-lg fas fa-envelope"></i>
                                 </x-jet-button>
-                            </div>
-                            @endif
                         </div>
-                        @endcannot
+                        @endif
                     </div>
-                </div>
-
-                <div class="grid grid-cols-1">
-                    <span class="">
-                        @livewire('connect.profile.following-followers-counter',
-                        ['profile'=> $profile])
-                    </span>
-                    <span class="mt-2 text-gray-900">
-                        Joined {{ $profile->created_at->diffForHumans() }}
-                    </span>
+                    @endcannot
                 </div>
             </div>
 
-            <div class="mt-1">
-                @if($profile->isBusiness())
-                <div>
-                    @livewire('connect.profile-dashboard.business-profile-data', ['profile' => $profile, 'action_route'
-                    => $action_route ?? 'products'])
-                </div>
-                @else
-                <div>
-                    @livewire('connect.profile-dashboard.user-profile-data', ['profile' => $profile, 'action_route' =>
-                    $action_route ?? 'posts'])
-                </div>
-                @endif
+            <div class="grid grid-cols-1">
+                <span class="">
+                    @livewire('connect.profile.following-followers-counter',
+                    ['profile'=> $profile])
+                </span>
+                <span class="mt-2 text-gray-900">
+                    Joined {{ $profile->created_at->diffForHumans() }}
+                </span>
             </div>
         </div>
+
+        <div class="mt-1">
+            @if($profile->isBusiness())
+            <div>
+                @livewire('connect.profile-dashboard.business-profile-data', ['profile' => $profile, 'action_route'
+                => $action_route ?? 'products'])
+            </div>
+            @else
+            <div>
+                @livewire('connect.profile-dashboard.user-profile-data', ['profile' => $profile, 'action_route' =>
+                $action_route ?? 'posts'])
+            </div>
+            @endif
+        </div>
+    </div>
     </div>
 </x-social-layout>

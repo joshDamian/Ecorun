@@ -4,10 +4,13 @@ namespace App\Http\Livewire\Connect\Conversation;
 
 use App\Models\Profile;
 use App\Models\Message;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class Talk extends Component
 {
+    use AuthorizesRequests;
+
     public $conversation;
     public Profile $me;
     public $message;
@@ -18,6 +21,11 @@ class Talk extends Component
         'newMessage' => '$refresh'
     ];
 
+    public function mount()
+    {
+        $this->authorize('view', [$this->conversation, $this->me]);
+    }
+
     public function getPartnerProperty()
     {
         return $this->conversation->pair->firstWhere('id', '!==', $this->me->id);
@@ -26,13 +34,12 @@ class Talk extends Component
     public function sendMessage()
     {
         $this->validate();
-        $message = new Message();
-        $message->forceFill([
+        $message = Message::forceCreate([
             'content' => $this->message,
             'sender_id' => $this->me->id,
             'messageable_type' => get_class($this->conversation),
             'messageable_id' => $this->conversation->id
-        ])->save();
+        ]);
         $this->done();
         $this->emitSelf('newMessage');
     }

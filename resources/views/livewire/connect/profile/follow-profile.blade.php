@@ -8,7 +8,7 @@
         @else
         @auth
         <x-jet-button wire:click="follow" class="bg-blue-700">
-            <i class="fas fa-plus"></i> &nbsp; <span class="font-extrabold">{{ __('follow') }}</span>
+            <i class="fas fa-user-plus"></i> &nbsp; <span class="font-extrabold">{{ __('follow') }}</span>
         </x-jet-button>
         @endauth
         @guest

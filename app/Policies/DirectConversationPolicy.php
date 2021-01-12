@@ -27,6 +27,7 @@ class DirectConversationPolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\DirectConversation  $directConversation
+     * @param \App\Models\Profile $profile
      * @return mixed
      */
     public function view(User $user, DirectConversation $directConversation, Profile $profile)
@@ -40,14 +41,11 @@ class DirectConversationPolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function create(User $user, Profile $profile, Profile $patner)
+    public function create(User $user, Profile $profile, Profile $partner)
     {
-        if ($profile->is($patner)) return false;
+        if ($profile->is($partner)) return false;
         if (!$user->can('access', $profile)) return false;
-        $pair = [$profile->id, $patner->id];
-        $pair_reverse = [$patner->id, $profile->id];
-        $existing_conversations = $profile->conversations->directConversations;
-        $pair_exists = $existing_conversations->firstWhere('pair_ids', $pair) ?? $existing_conversations->firstWhere('pair_ids', $pair_reverse);
+        $pair_exists = $profile->direct_conversationWith($partner);
         if ($pair_exists !== null) return false;
         return true;
     }

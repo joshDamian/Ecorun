@@ -47,19 +47,16 @@ class InitiateConversation extends Component
     {
         $this->authorize('create', [DirectConversation::class, $this->initiator, $this->joined]);
         $this->validate();
-        $conversation = (new DirectConversation())->forceFill([
+        $conversation = DirectConversation::forceCreate([
             'initiator_id' => $this->initiator->id,
             'joined_id' => $this->joined->id
         ]);
-        $conversation->save();
-        $message = new Message();
-        $message->forceFill([
+        Message::forceCreate([
             'content' => $this->message,
             'sender_id' => $this->initiator->id,
             'messageable_type' => get_class($conversation),
             'messageable_id' => $conversation->id
         ]);
-        $message->save();
         $this->emit('newConvo');
         return;
     }

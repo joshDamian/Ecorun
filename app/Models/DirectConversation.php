@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Rennokki\QueryCache\Traits\QueryCacheable;
+use Illuminate\Support\Str;
 
 class DirectConversation extends Model
 {
@@ -45,6 +46,14 @@ class DirectConversation extends Model
         return $this->messages->filter(function ($message) use ($profile) {
             return $message->sender_id !== $profile->id && (!$message->seenBy->contains($profile));
         })->count();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($d_conv) {
+            $d_conv->secret_key = (string) Str::uuid();
+        });
     }
 
     public function joined()

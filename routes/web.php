@@ -13,6 +13,7 @@ use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Connect\Profile\UpdateProfile;
 use App\Http\Livewire\BuildAndManage\Manager\ManagerDashboard;
+use App\Models\DirectConversation;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,7 +70,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         );
 
         Route::get('/chat', function () {
-            return view('chat.index', ['profile' => Auth::user()->profile]);
+            return view('chat.index', ['profile' => Auth::user()->profile, 'activeConversation' => (request()->input('active_conversation')) ? DirectConversation::firstWhere('secret_key', request()->input('active_conversation')) : null]);
         })->name('chat.index');
 
         Route::get('/post/{post}', [PostController::class, 'show'])->name('post.show');
