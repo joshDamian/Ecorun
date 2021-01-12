@@ -13,7 +13,7 @@
     @if($profile_gallery->isEmpty())
     <div class="p-4 text-blue-700">
         <div class="flex items-center justify-center justify-items-center">
-            <i style="font-size: 6rem;" class="far fa-images"></i>
+            <i style="font-size: 4rem;" class="far fa-images"></i>
         </div>
         <div class="px-3 pt-3 text-center">
             {{ $profile->name }}'s gallery is empty <i class="far fa-smile"></i>

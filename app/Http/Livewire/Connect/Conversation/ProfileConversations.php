@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Connect\Conversations;
+namespace App\Http\Livewire\Connect\Conversation;
 
 use App\Models\Profile;
 use Livewire\Component;
@@ -43,6 +43,6 @@ class ProfileConversations extends Component
 
     public function render()
     {
-        return view('livewire.connect.conversations.profile-conversations');
+        return view('livewire.connect.conversation.profile-conversations');
     }
 }
