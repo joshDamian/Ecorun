@@ -6,6 +6,7 @@ use App\Models\Profile;
 use App\Models\Message;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
+use App\Events\SentMessage;
 
 class Talk extends Component
 {
@@ -21,18 +22,15 @@ class Talk extends Component
         'newMessage' => '$refresh'
     ];
 
-    public function mount()
-    {
+    public function mount() {
         $this->authorize('view', [$this->conversation, $this->me]);
     }
 
-    public function getPartnerProperty()
-    {
+    public function getPartnerProperty() {
         return $this->conversation->pair->firstWhere('id', '!==', $this->me->id);
     }
 
-    public function sendMessage()
-    {
+    public function sendMessage() {
         $this->validate();
         $message = Message::forceCreate([
             'content' => $this->message,
@@ -41,16 +39,15 @@ class Talk extends Component
             'messageable_id' => $this->conversation->id
         ]);
         $this->done();
+        broadcast(new SentMessage($message))->toOthers();
         $this->emitSelf('newMessage');
     }
 
-    public function done()
-    {
+    public function done() {
         $this->reset('message');
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.connect.conversation.talk');
     }
 }

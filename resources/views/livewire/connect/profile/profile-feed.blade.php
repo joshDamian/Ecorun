@@ -7,26 +7,26 @@
         console.log(document);
 
         }
-        }" :class="(collapsed) ? 'md:top-12' : 'md:top-32'">
+        }" :class="(collapsed) ? 'md:top-16' : 'md:top-32'">
         <div onclick="window.scrollTo(0, 0)" wire:click="setSortBy('{{ __('all') }}')"
-            class="py-2 text-center flex-shrink-0 md:flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'all') bg-white text-blue-700 @else text-gray-700 @endif">
+            class="py-2 text-center select-none flex-shrink-0 md:flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'all') bg-white text-blue-700 @else text-gray-700 @endif">
             {{ __('All') }}
         </div>
 
         @foreach($feed_types as $key => $card)
         <div onclick="window.scrollTo(0, 0)" wire:click="setSortBy('{{ $card['name'] }}')"
-            class="py-2 text-center flex-shrink-0 md:flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === $card['name']) bg-white text-blue-700 @else text-gray-700 @endif">
+            class="py-2 select-none text-center flex-shrink-0 md:flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === $card['name']) bg-white text-blue-700 @else text-gray-700 @endif">
             {{ ucwords($card['name']) }}
         </div>
         @endforeach
 
         <div onclick="window.scrollTo(0, 0)" wire:click="setSortBy('{{ __('photos') }}')"
-            class="py-2 text-center md:flex-grow flex-shrink-0 font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'photos') bg-white text-blue-700 @else text-gray-700 @endif">
+            class="py-2 select-none text-center md:flex-grow flex-shrink-0 font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'photos') bg-white text-blue-700 @else text-gray-700 @endif">
             {{ __('Photos') }}
         </div>
 
         <div onclick="window.scrollTo(0, 0)" wire:click="setSortBy('{{ __('mentions') }}')"
-            class="py-2 text-center flex-shrink-0 md:flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'mentions') bg-white text-blue-700 @else text-gray-700 @endif">
+            class="py-2 select-none text-center flex-shrink-0 md:flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'mentions') bg-white text-blue-700 @else text-gray-700 @endif">
             {{ __('Mentions') }}
         </div>
     </div>

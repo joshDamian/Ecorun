@@ -29,6 +29,7 @@
                         <div class="flex-1 flex-shrink-0">
                             @livewire('connect.profile.follow-profile', ['profile' => $profile], key('follow_button'))
                         </div>
+
                         @cannot('update', $profile)
                         @php
                         $user = Auth::user();
@@ -46,22 +47,24 @@
                                 <x-jet-button class="bg-blue-600">
                                     <i class="text-lg fas fa-envelope"></i>
                                 </x-jet-button>
+                            </a>
+                            @endif
                         </div>
-                        @endif
+                        @endcannot
                     </div>
-                    @endcannot
+                </div>
+
+                <div class="grid grid-cols-1">
+                    <span class="">
+                        @livewire('connect.profile.following-followers-counter',
+                        ['profile'=> $profile])
+                    </span>
+                    <span class="mt-2 text-gray-900">
+                        Joined {{ $profile->created_at->diffForHumans() }}
+                    </span>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1">
-                <span class="">
-                    @livewire('connect.profile.following-followers-counter',
-                    ['profile'=> $profile])
-                </span>
-                <span class="mt-2 text-gray-900">
-                    Joined {{ $profile->created_at->diffForHumans() }}
-                </span>
-            </div>
         </div>
 
         <div class="mt-1">
@@ -78,5 +81,5 @@
             @endif
         </div>
     </div>
-    </div>
+</div>
 </x-social-layout>

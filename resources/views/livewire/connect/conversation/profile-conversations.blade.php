@@ -14,7 +14,7 @@
         @if($conversation instanceof \App\Models\DirectConversation)
         @php $partner = $conversation->pair->firstWhere('id', '!==', $profile->id); @endphp
         <div wire:click="switchActiveConv('{{ $conversation->id }}')"
-            class="flex items-center px-3 py-2 bg-gray-100 cursor-pointer">
+            class="flex items-center select-none px-3 py-2 bg-gray-100 cursor-pointer">
             <div style="background-image: url('{{ $partner->profile_photo_url }}'); background-size: cover; background-position: center center;"
                 class="flex-shrink-0 w-12 h-12 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
             </div>
