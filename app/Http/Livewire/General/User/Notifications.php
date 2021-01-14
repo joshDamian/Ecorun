@@ -4,11 +4,11 @@ namespace App\Http\Livewire\General\User;
 
 use Livewire\Component;
 use App\Models\Profile;
-use Illuminate\Support\Facades\Cache;
 
 class Notifications extends Component
 {
     public $user;
+    public $activeProfile;
     public bool $display = false;
     protected $listeners = [
         'showNotifications', 'hideNotifications',
@@ -37,9 +37,14 @@ class Notifications extends Component
         return $this->render();
     }
 
+    public function mount()
+    {
+        $this->activeProfile = $this->profiles->current_profile;
+    }
+
     public function switchProfile($profile): void
     {
-        Cache::put($this->user->id . "active_profile_for_notif_", $profile);
+        $this->activeProfile = $this->profiles->all->firstWhere('id', $profile);
         $this->emit('switchedProfile', $this->activeProfile)->to('general.user.notification-sorter');
         return;
     }
@@ -49,14 +54,9 @@ class Notifications extends Component
         return $this->user->custom_notifications;
     }
 
-    public function getActiveProfileProperty()
-    {
-        return $this->profiles->firstWhere("id", Cache::get($this->user->id . "active_profile_for_notif_", $this->user->currentProfile->id));
-    }
-
     public function getProfilesProperty()
     {
-        return $this->user->associated_profiles->all;
+        return $this->user->associated_profiles;
     }
 
     public function unreadCount(Profile $profile)
@@ -73,6 +73,6 @@ class Notifications extends Component
 
     public function render()
     {
-        return view('livewire.general.user.notifications', ['profiles' => $this->profiles]);
+        return view('livewire.general.user.notifications', ['profiles' => $this->profiles->all]);
     }
 }

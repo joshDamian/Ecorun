@@ -34,7 +34,7 @@ class MentionParser implements InlineParserInterface
             return false;
         }
         app('mentionqueue')->addMention($profile->id);
-        $inlineContext->getContainer()->appendChild(new Link($profile->url->visit, '@' . $mention));
+        $inlineContext->getContainer()->appendChild(new Link("/@{$mention}", '@' . $mention));
         return true;
     }
 }

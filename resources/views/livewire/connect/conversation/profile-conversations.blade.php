@@ -1,20 +1,28 @@
 <div class="leading-snug">
-    <div wire:loading class="w-full">
+    @if(!$activeConversation)
+    <div
+        class="sticky w-full p-3 text-lg font-semibold text-blue-700 bg-gray-100 border-b border-gray-300 sm:text-xl bg-opactiy-75 top-12">
+        <i class="far fa-comments"></i> Conversations
+    </div>
+    <div wire:loading wire:target="switchActiveConv" class="w-full">
         <x-loader_2 />
     </div>
+    @endif
+
     @if($activeConversation)
     @livewire('connect.conversation.talk', ['me' => $profile, 'conversation' => $activeConversation])
     @else
-    <div class="grid grid-cols-1 gap-2 bg-gray-200">
-        @foreach($this->current_conversations as $conversation)
+    <div class="grid grid-cols-1 gap-1 bg-gray-200">
+        @forelse($this->current_conversations as $conversation)
         @php
         $last_message = $conversation->messages->last();
         $unread_count = $conversation->getUnreadFor($profile);
         @endphp
         @if($conversation instanceof \App\Models\DirectConversation)
         @php $partner = $conversation->pair->firstWhere('id', '!==', $profile->id); @endphp
-        <div wire:click="switchActiveConv('{{ $conversation->id }}')"
-            class="flex items-center select-none px-3 py-2 bg-gray-100 cursor-pointer">
+        <div onclick="window.modifyUrl.modify('?activeConversation={{ $conversation->secret_key }}')"
+            wire:click="switchActiveConv('{{ $conversation->id }}')"
+            class="flex items-center px-3 py-2 bg-gray-100 cursor-pointer select-none">
             <div style="background-image: url('{{ $partner->profile_photo_url }}'); background-size: cover; background-position: center center;"
                 class="flex-shrink-0 w-12 h-12 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
             </div>
@@ -33,10 +41,7 @@
                             {{ $conversation->updated_at->diffForHumans(null, true, true) }}
                         </div>
                         @if($unread_count > 0)
-                        <span class="fa-stack fa-1x">
-                            <i style="font-size: 23px;" class="text-red-600 far fa-circle fa-stack-1x"></i>
-                            <span class="text-xs font-extrabold text-red-600 fa-stack-1x">{{ $unread_count  }}</span>
-                        </span>
+                        <span class="text-xs font-extrabold text-red-600">{{ $unread_count  }} unread</span>
                         @endif
                     </div>
                 </div>
@@ -44,7 +49,11 @@
         </div>
         @continue
         @endif
-        @endforeach
+        @empty
+        <div class="flex items-center justify-center p-3 text-blue-700">
+            <i style="font-size: 6rem;" class="far fa-comments"></i>
+        </div>
+        @endforelse
     </div>
     @endif
 </div>

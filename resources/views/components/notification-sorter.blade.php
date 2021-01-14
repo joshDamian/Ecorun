@@ -10,7 +10,6 @@
         @include($this->viewIncludeFolder . $notification_type['display-card'], ['model' => $model])
     </div>
     @endif
-    @continue
     @empty
     <div class="p-3 text-blue-700">
         <div class="flex items-center justify-center justify-items-center">

@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Message;
+use App\Models\Profile;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,21 +11,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SentMessage implements ShouldBroadcast
+class NewMessageForProfile implements ShouldBroadcast
 {
-    use Dispatchable,
-        InteractsWithSockets,
-        SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
+    public Profile $profile;
     /**
+     *
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Message $message)
+    public function __construct(Profile $profile)
     {
-        $this->message = $message;
+        $this->profile = $profile;
     }
 
     /**
@@ -35,7 +34,7 @@ class SentMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('private_conversation.' . $this->message->messageable_id);
+        return new PrivateChannel('App.Models.Profile.' . $this->profile->id);
     }
 
     /**

@@ -12,7 +12,7 @@
         <div class="flex items-center flex-1">
             @foreach($actions as $key => $action)
             <div wire:click="switchView('{{$key}}')"
-                class="cursor-pointer font-semibold text-md flex-shrink-0 select-none hover:bg-white hover:text-blue-700 px-3 py-2 @if($active_action['title'] === $action['title']) bg-white text-blue-700 @else text-gray-700 @endif">
+                class="cursor-pointer font-semibold text-md flex-shrink-0 select-none hover:bg-white hover:text-blue-700 px-3 sm:px-5 py-2 @if($active_action['title'] === $action['title']) bg-white text-blue-700 @else text-gray-700 @endif">
                 <i class="{{ $action['icon'] }}"></i>&nbsp; {{ ucwords($action['title']) }}
             </div>
             @endforeach

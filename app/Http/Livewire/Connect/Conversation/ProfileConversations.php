@@ -10,9 +10,27 @@ class ProfileConversations extends Component
     public Profile $profile;
     public $activeConversation;
     public string $sortBy = 'all';
-    protected $listeners = [
-        'showAll'
-    ];
+
+    public function switchedChatProfile(Profile $profile)
+    {
+        $this->activeConversation = null;
+        $this->profile = $profile;
+    }
+
+    public function getListeners()
+    {
+        return [
+            'showAll',
+            'switchedChatProfile',
+            "echo-private:App.Models.Profile.{$this->profile->id},NewMessageForProfile" => '$refresh'
+        ];
+    }
+
+    public function mount(?string $activeConversation = null)
+    {
+        $this->activeConversation = $this->conversations->all->firstWhere("secret_key", $activeConversation) ?? $activeConversation;
+        return;
+    }
 
     public function showAll()
     {

@@ -16,28 +16,28 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 class User extends Authenticatable
 {
     use HasProfile,
-    HasApiTokens,
-    HasFactory,
-    HasTeams,
-    Notifiable,
-    TwoFactorAuthenticatable,
-    QueryCacheable;
+        HasApiTokens,
+        HasFactory,
+        HasTeams,
+        Notifiable,
+        TwoFactorAuthenticatable,
+        QueryCacheable;
 
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'email',
         'password',
     ];
 
     /**
-    * The attributes that should be hidden for arrays.
-    *
-    * @var array
-    */
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -46,50 +46,57 @@ class User extends Authenticatable
     ];
 
     /**
-    * The attributes that should be cast to native types.
-    *
-    * @var array
-    */
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'is_business_owner' => 'boolean'
     ];
     /**
-    * The accessors to append to the model's array form.
-    *
-    * @var array
-    */
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
-        //
+        'unread_messages_count'
     ];
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function businesses() {
+    public function businesses()
+    {
         return $this->hasMany(Business::class);
     }
 
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany(Order::class);
     }
 
-    public function cart() {
+    public function cart()
+    {
         return $this->hasMany(Cart::class);
     }
 
-    public function view_history() {
+    public function view_history()
+    {
         return $this->hasMany(RecentlyViewed::class);
     }
 
-    public function getAssociatedProfilesAttribute() {
+    public function getAssociatedProfilesAttribute()
+    {
         return (new AssociatedProfilesPresenter($this));
     }
 
-    public function getCustomNotificationsAttribute() {
+    public function getCustomNotificationsAttribute()
+    {
         return (new NotificationsPresenter($this));
     }
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
         static::created(
             function ($user) {
@@ -106,7 +113,8 @@ class User extends Authenticatable
         );
     }
 
-    public function switchProfile($profile) {
+    public function switchProfile($profile)
+    {
         if (!$this->can('access', $profile)) {
             return false;
         }
@@ -115,7 +123,15 @@ class User extends Authenticatable
         return $profile->save();
     }
 
-    public function currentProfile() {
+    public function getUnreadMessagesCountAttribute()
+    {
+        return $this->associated_profiles->all->map(function ($profile) {
+            return $profile->unread_messages_count;
+        })->sum();
+    }
+
+    public function currentProfile()
+    {
         return $this->belongsTo(Profile::class, 'current_profile_id')->withDefault([
             'name' => 'Guest',
         ]);

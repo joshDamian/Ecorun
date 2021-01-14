@@ -15,7 +15,7 @@ class CreateNewBusiness extends Component
 
     public User $user;
     public $name;
-    public $type = ['store'];
+    public $type = 'store';
     protected $validTypes = ['store', 'service'];
 
     public function create()

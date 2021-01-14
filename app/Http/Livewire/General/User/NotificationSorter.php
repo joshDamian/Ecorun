@@ -6,7 +6,7 @@ use App\Mappers\NotificationMapper;
 use App\Models\Profile;
 use App\Models\User;
 use Livewire\Component;
-use Illuminate\Notifications\DatabaseNotification;
+use App\Models\DatabaseNotification;
 
 class NotificationSorter extends Component
 {

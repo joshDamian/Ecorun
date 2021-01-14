@@ -28,19 +28,19 @@
             Livewire.emit('newNotification', notification);
             Livewire.emit('shouldRefresh');
         });
-        @continue
-        @endif
+        @else
         Echo.private('App.Models.Profile.{{$profile->id}}').notification((notification) => {
         Livewire.emit('newNotification', notification);
         });
+        @endif
         @endforeach
         }">
     </div>
 
     @if($profiles->count() > 1)
-    <div class="sticky flex flex-wrap bg-gray-200 bg-opacity-75 border-b border-gray-300 top-12 md:top-0">
+    <div class="sticky flex flex-wrap items-center bg-gray-200 bg-opacity-75 border-b border-gray-300 top-12 md:top-0">
         @foreach($profiles as $key => $profile)
-        <div class="@if(!$loop->last) mb-2 @endif">
+        <div class="">
             <x-connect.profile.switch-profile-for-notif :profile="$profile" :unreadCount="$this->unreadCount($profile)"
                 :active="$profile->is($this->activeProfile)" />
         </div>
@@ -55,7 +55,6 @@
     @if($display)
     @if($this->activeProfile)
     <div class="bg-gray-100">
-        {{--  <x-notification-sorter :notifications="$this->notifsForProfile($activeProfile)" /> --}}
         @livewire('general.user.notification-sorter', ['notifications_incoming' =>
         $this->notifications->all(), 'profile' => $this->activeProfile])
     </div>

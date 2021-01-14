@@ -17,10 +17,10 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 class Profile extends Model
 {
     use Notifiable,
-    HasFactory,
-    HasProfilePhoto,
-    QueryCacheable,
-    StringManipulations;
+        HasFactory,
+        HasProfilePhoto,
+        QueryCacheable,
+        StringManipulations;
 
     protected $fillable = [
         'name',
@@ -31,46 +31,57 @@ class Profile extends Model
     public const TAG_PREFIX = '@';
 
     /**
-    * The accessors to append to the model's array form.
-    *
-    * @var array
-    */
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
         'profile_photo_url',
         'url',
+        'unread_messages_count',
     ];
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function direct_conversationWith(Profile $profile) {
-        $pair = [$this->id,
-            $profile->id];
-        $pair_reverse = [$profile->id,
-            $this->id];
+    public function direct_conversationWith(Profile $profile)
+    {
+        $pair = [
+            $this->id,
+            $profile->id
+        ];
+        $pair_reverse = [
+            $profile->id,
+            $this->id
+        ];
         $conversations = $profile->conversations->directConversations;
         $pair_exists = $conversations->firstWhere('pair_ids', $pair) ?? $conversations->firstWhere('pair_ids', $pair_reverse);
         return $pair_exists;
     }
 
-    public function followers() {
+    public function followers()
+    {
         return $this->belongsToMany(Profile::class, 'profile_follower', 'follower_id', 'profile_id')->withTimestamps();;
     }
 
-    public function owned_groups() {
+    public function owned_groups()
+    {
         return $this->hasMany(GroupConversation::class, 'creator_id');
     }
 
-    public function following() {
+    public function following()
+    {
         return $this->belongsToMany(Profile::class, 'profile_follower', 'profile_id', 'follower_id')->withTimestamps();;
     }
 
-    public function slugData() {
+    public function slugData()
+    {
         return [
             'name' => $this->name,
         ];
     }
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
         static::creating(
             function ($profile) {
@@ -80,48 +91,66 @@ class Profile extends Model
         );
     }
 
-    public function profileable() {
+    public function profileable()
+    {
         return $this->morphTo();
     }
 
-    public function getConversationsAttribute() {
+    public function getConversationsAttribute()
+    {
         return (new ConversationsPresenter($this));
     }
 
-    public function isBusiness() {
+    public function getUnreadMessagesCountAttribute()
+    {
+        return $this->conversations->all->map(function ($conv) {
+            return $conv->getUnreadFor($this);
+        })->sum();
+    }
+
+    public function isBusiness()
+    {
         return $this->profileable_type === Business::class;
     }
 
-    public function full_tag() {
+    public function full_tag()
+    {
         return Profile::TAG_PREFIX . $this->tag;
     }
 
-    public function feedbacks() {
+    public function feedbacks()
+    {
         return $this->hasMany(Feedback::class);
     }
 
-    public function messages() {
+    public function messages()
+    {
         return $this->hasMany(Message::class, 'sender_id');
     }
 
-    public function getFeedAttribute() {
+    public function getFeedAttribute()
+    {
         return (new FeedPresenter($this));
     }
 
-    public function getUrlAttribute() {
+    public function getUrlAttribute()
+    {
         return (new UrlPresenter($this));
     }
 
-    public function isUser() {
+    public function isUser()
+    {
         return $this->profileable_type === User::class;
     }
 
 
-    public function getGalleryAttribute() {
+    public function getGalleryAttribute()
+    {
         return $this->posts()->has('gallery')->with('gallery')->get();
     }
 
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class)->latest();
     }
 }

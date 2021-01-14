@@ -1,5 +1,5 @@
 <x-social-layout>
     <div>
-        @livewire('connect.conversation.profile-conversations', ['profile' => $profile])
+        @livewire('general.user.chat-engine')
     </div>
 </x-social-layout>

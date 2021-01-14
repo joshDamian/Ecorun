@@ -1,7 +1,7 @@
 <div x-data x-init="() => { Livewire.on('shouldRefresh', () => {
         @this.call('refreshNotification');
     }) }">
-    <div class="w-full" wire:loading wire:target="mount, refreshNotification">
+    <div class="w-full" wire:loading wire:target="mount">
         <x-loader_2 />
     </div>
     <div class="grid grid-cols-1 gap-1 bg-gray-300">

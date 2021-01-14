@@ -63,7 +63,7 @@ class CreateNewProduct extends Component
 
     public function mount()
     {
-        $this->business_is_store = $this->business->loadMissing('businessable')->isStore();
+        $this->business_is_store = $this->business->isStore();
     }
 
     public function render()

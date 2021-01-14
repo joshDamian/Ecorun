@@ -14,6 +14,9 @@ class Business extends Model
 
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
+    protected $fillable = [
+        'type'
+    ];
 
     public function owner()
     {

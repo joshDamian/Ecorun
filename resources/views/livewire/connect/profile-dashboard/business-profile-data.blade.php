@@ -4,7 +4,7 @@
         <ul class="flex overflow-x-auto">
             @foreach($views as $key => $view)
             <li onclick=" window.modifyUrl.modify('{{ $key }}') " wire:click="switchView('{{ $key }}')" class="text-center @if($view === $active_view) text-blue-800 bg-white @else text-gray-800 @endif
-                hover:bg-white flex-shrink-0 hover:text-blue-800 hover:border-transparent md:cursor-pointer
+                hover:bg-white md:flex-1 flex-shrink-0 hover:text-blue-800 hover:border-transparent md:cursor-pointer
                 text-lg py-2 select-none px-3">
                 <i class="{{ $view['icon'] }}"></i>&nbsp; {{ ucwords($key) }}
             </li>

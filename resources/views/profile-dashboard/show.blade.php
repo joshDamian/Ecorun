@@ -8,7 +8,7 @@
                 </div>
             </div>
             @else
-            <div class="w-full h-56 sm:h-96 md:h-80"
+            <div class="w-full h-56 sm:h-96 md:h-72"
                 style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
             </div>
             @endif
@@ -81,5 +81,5 @@
             @endif
         </div>
     </div>
-</div>
+    </div>
 </x-social-layout>
