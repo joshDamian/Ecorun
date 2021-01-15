@@ -1,9 +1,8 @@
-@php
-$post = $model;
-$profile = $post->profile;
-@endphp
-<div class="cursor-pointer"
-    wire:click="handle('{{$notification->id}}',  '{{route('post.show', ['post' => $post->id])}}')">
+<div>
+    @php
+    $post = $model;
+    $profile = $post->profile;
+    @endphp
     <div class="p-2 @if($notification->read_at) bg-gray-200 @else bg-white @endif">
         <div class="flex flex-wrap">
             <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;"

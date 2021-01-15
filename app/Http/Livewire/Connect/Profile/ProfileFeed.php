@@ -22,9 +22,6 @@ class ProfileFeed extends Component
             'name' => 'products'
         ]
     ];
-    protected $listeners = [
-        'newPost' => '$refresh',
-    ];
     public Profile $profile;
 
     public function setDisplayReady()
@@ -57,7 +54,7 @@ class ProfileFeed extends Component
 
     public function getSortByProperty()
     {
-        return cache()->remember($this->profile->id . "sort_feed_by", now()->addDays(60), function () {
+        return cache()->rememberForever($this->profile->id . "sort_feed_by", function () {
             return 'all';
         });
     }

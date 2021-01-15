@@ -34,7 +34,7 @@ class ProfileConversations extends Component
 
     public function showAll()
     {
-        $this->activeConversation = null;
+        return $this->activeConversation = false;
     }
 
     public function getConversationsProperty()

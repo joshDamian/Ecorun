@@ -60,7 +60,7 @@ class Profile extends Model
 
     public function followers()
     {
-        return $this->belongsToMany(Profile::class, 'profile_follower', 'follower_id', 'profile_id')->withTimestamps();;
+        return $this->belongsToMany(Profile::class, 'profile_follower', 'follower_id', 'profile_id')->withTimestamps();
     }
 
     public function owned_groups()
@@ -70,7 +70,7 @@ class Profile extends Model
 
     public function following()
     {
-        return $this->belongsToMany(Profile::class, 'profile_follower', 'profile_id', 'follower_id')->withTimestamps();;
+        return $this->belongsToMany(Profile::class, 'profile_follower', 'profile_id', 'follower_id')->withTimestamps();
     }
 
     public function slugData()

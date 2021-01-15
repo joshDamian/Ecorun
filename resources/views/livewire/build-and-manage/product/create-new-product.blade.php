@@ -9,7 +9,8 @@
             {{ __('Add Another') }}
         </x-jet-secondary-button>
 
-        <a href="{{ route('business.dashboard', ['profile' => $this->business->profile->tag, 'action_route' => 'products']) }}">
+        <a
+            href="{{ route('business.dashboard', ['profile' => $this->business->profile->tag, 'action_route' => 'products']) }}">
             <x-jet-button class="bg-blue-800">
                 done
             </x-jet-button>
@@ -30,10 +31,15 @@
 
             <x-slot name="form">
                 <!-- Photos -->
-                <div x-data="{isUploading: false, progress: 0, photosArray: []}" x-on:livewire-upload-start="isUploading = true" x-on:livewire-upload-finish="isUploading = false" x-on:livewire-upload-error="isUploading = false" x-on:livewire-upload-progress="progress = $event.detail.progress" class="col-span-12 md:col-span-8 sm:col-span-6">
+                <div x-data="{isUploading: false, progress: 0, photosArray: []}"
+                    x-on:livewire-upload-start="isUploading = true" x-on:livewire-upload-finish="isUploading = false"
+                    x-on:livewire-upload-error="isUploading = false"
+                    x-on:livewire-upload-progress="progress = $event.detail.progress"
+                    class="col-span-12 md:col-span-8 sm:col-span-6">
 
                     <!-- Product Photos File Input -->
-                    <input type="file" class="hidden" accept="image/*" wire:model="photos" multiple x-ref="photos" x-on:change="
+                    <input type="file" class="hidden" accept="image/*" wire:model="photos" multiple x-ref="photos"
+                        x-on:change="
                     const files = $refs.photos.files;
                     photosArray = [];
                     for(var i = 0; i < files.length; i++) {
@@ -47,9 +53,11 @@
                     <!-- Product Photos Preview -->
                     @if(count($photos) > 0)
                     <div class="mt-2" x-show.transition="photosArray.length > 0">
-                        <div class="grid @if(count($photos) < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-3 sm:gap-2 gap-2">
+                        <div
+                            class="grid @if(count($photos) < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-3 sm:gap-2 gap-2">
                             <template x-for="photo in photosArray">
-                                <div x-bind:style="'width: 100%; height: 130px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
+                                <div
+                                    x-bind:style="'width: 100%; height: 130px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
                                 </div>
                             </template>
                         </div>
@@ -70,25 +78,19 @@
                 </div>
 
                 <!-- Name -->
-                <div class="col-span-12 md:col-span-3 sm:col-span-4">
+                <div class="col-span-12 md:col-span-6 sm:col-span-4">
                     <x-jet-label for="name" value="{{ __('Product Name') }}" />
-                    <x-jet-input id="name" type="text" class="block w-full mt-1" wire:model="product._name" placeholder="product name" autocomplete="name" />
+                    <x-jet-input id="name" type="text" class="block w-full mt-1" wire:model="product._name"
+                        placeholder="product name" autocomplete="name" />
                     <x-jet-input-error for="product._name" class="mt-2" />
                 </div>
 
                 <!-- Price -->
-                <div x-data class="static col-span-6 sm:col-span-4 md:col-span-3">
+                <div x-data class="col-span-6 sm:col-span-4 md:col-span-3">
                     <x-jet-label for="price" value="{{ __('Product Price') }}" />
-                    <div class="relative">
-                        <div class="absolute top-0 left-0 hidden w-10 h-full border border-transparent sm:flex">
-                            <div class="z-10 flex items-center justify-center w-full h-full text-lg text-gray-600 bg-gray-100 rounded-tl rounded-bl">
-                                &#8358;
-                            </div>
-                        </div>
 
-                        <x-jet-input id="price" step="100" type="number" class="relative block w-full mt-1 sm:py-2 sm:pr-2 sm:pl-12" placeholder="product price" wire:model.defer="product._price" autocomplete="price" />
-                    </div>
-
+                    <x-jet-input id="price" step="100" type="number" class="relative block w-full mt-1"
+                        placeholder="product price" wire:model.defer="product._price" autocomplete="price" />
                     <x-jet-input-error for="product._price" class="mt-2" />
                 </div>
 
@@ -102,14 +104,17 @@
                         </span>
                         @endif
                     </x-jet-label>
-                    <x-jet-input id="available_stock" placeholder="available stock" type="number" class="block w-full mt-1" wire:model.defer="product._available stock" autocomplete="available stock" />
+                    <x-jet-input id="available_stock" placeholder="available stock" type="number"
+                        class="block w-full mt-1" wire:model.defer="product._available stock"
+                        autocomplete="available stock" />
                     <x-jet-input-error for="product._available stock" class="mt-2" />
                 </div>
 
                 <!-- Description -->
-                <div class="col-span-12 md:col-span-3 sm:col-span-4">
+                <div class="col-span-12 md:col-span-6 sm:col-span-4">
                     <x-jet-label for="description" value="{{ __('Product Description') }}" />
-                    <textarea placeholder="product description" rows="3" class="block w-full mt-1 form-input" wire:model.defer="product._description" autocomplete="description"></textarea>
+                    <textarea placeholder="product description" rows="3" class="block w-full mt-1 form-input"
+                        wire:model.defer="product._description" autocomplete="description"></textarea>
                     <x-jet-input-error for="product._description" class="mt-2" />
                 </div>
             </x-slot>

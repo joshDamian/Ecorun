@@ -20,11 +20,12 @@ class CreateNewPost extends Component
             'content' => trim(htmlentities($this->text_content . PHP_EOL . $generator->paragraph)) ?? '',
             'visibility' => $this->visibility
         ]);
-        $this->uploadPhotos('post-photos', $post, 'post_photo', array(1400, 1400));
         $this->emit('newPost');
         $this->emit('addedContent');
-        $this->done();
-        return;
+        if (count($this->photos) > 0) {
+            $this->uploadPhotos('post-photos', $post, 'post_photo', array(1400, 1400));
+        }
+        return $this->done();
     }
 
     public function render()

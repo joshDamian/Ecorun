@@ -13,8 +13,8 @@
 
 
     <!-- Fonts -->
-    <link preload rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
-    />
+    <link preload rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" />
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
     <link preload rel="stylesheet" href="/css/webfonts.css" defer>
@@ -46,15 +46,6 @@
     @stack('modals')
     @livewireScripts
     @stack('scripts')
-    {{-- <script>
-        document.addEventListener('livewire:load', () => {
-            Echo.channel('posts').listen('PostCreated', (e) => {
-                console.log(e.post.content);
-            });
-        })
-
-    </script>
-    --}}
 </body>
 
 </html>

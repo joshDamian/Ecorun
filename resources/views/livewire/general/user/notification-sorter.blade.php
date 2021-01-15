@@ -1,7 +1,12 @@
-<div x-data x-init="() => { Livewire.on('shouldRefresh', () => {
-        @this.call('refreshNotification');
-    }) }">
-    <div class="w-full" wire:loading wire:target="mount">
+<div x-data x-init="() => {
+    Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewMessageForProfile', () => {
+        Livewire.emit('newMessage')
+    }).notification((notification) => {
+        Livewire.emit('newNotification', notification);
+        @this.call('$refresh');
+    });
+}">
+    <div class="w-full" wire:loading wire:target="mount,profile">
         <x-loader_2 />
     </div>
     <div class="grid grid-cols-1 gap-1 bg-gray-300">
@@ -9,15 +14,13 @@
         @if($this->model_notification_types->has($notification->type))
         @php
         $notification_type = $this->model_notification_types->get($notification->type);
-        $modelName = $notification_type['model'];
-        $model = $this->data_for_models[$modelName]->find($notification->data['model_key']);
         @endphp
-        <div
-            onclick="@if(is_null($notification->read_at)) Livewire.emit('markAsRead', '{{ $notification->id }}'); @endif window.location = '{{ $model->url->show }}'">
-            @include($this->viewIncludeFolder . $notification_type['display-card'], ['model' => $model])
+        <div class="cursor-pointer"
+            onclick="@if(is_null($notification->read_at)) @this.call('markAsRead', '{{ $notification->id }}'); @endif @this.call('switchUserProfile', '{{ $notification->notifiable_id }}'); window.location='{{ $notification->model->url->show }}'">
+            @include($this->viewIncludeFolder . $notification_type['display-card'], ['model' => $notification->model])
         </div>
-        @endif
         @continue
+        @endif
         @empty
         <div class="p-3 text-blue-700 bg-gray-100">
             <div class="flex items-center justify-center justify-items-center">

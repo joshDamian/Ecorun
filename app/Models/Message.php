@@ -34,7 +34,7 @@ class Message extends Model
 
     public function seenBy()
     {
-        return $this->belongsToMany(Profile::class, 'message_reader', 'profile_id', 'message_id');
+        return $this->belongsToMany(Profile::class, 'message_reader', 'reader_id', 'message_id')->withTimestamps();
     }
 
     public function sender()

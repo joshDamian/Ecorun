@@ -1,7 +1,8 @@
 <div>
     <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
         <div class="flex items-center justify-between">
-            <i @click=" open_menu = false" class="mr-3 text-2xl fas fa-times"></i>
+            <i @click=" open_menu = false"
+                class="mr-3 text-2xl cursor-pointer active:text-blue-500 hover:text-blue-500 fas fa-times"></i>
             <div class="flex-1 text-lg font-bold text-center">
                 Menu
             </div>
@@ -158,7 +159,8 @@
         </div>
 
         <div class="grid grid-cols-1 gap-2 px-4">
-            <x-connect.profile.switchable-profile :active="$currentProfile->is($personalProfile)" :profile="$personalProfile" />
+            <x-connect.profile.switchable-profile :active="$currentProfile->is($personalProfile)"
+                :profile="$personalProfile" />
             @foreach($other_profiles as $profile)
             <x-connect.profile.switchable-profile :profile="$profile" :active="$currentProfile->is($profile)" />
             @endforeach

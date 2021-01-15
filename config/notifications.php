@@ -10,7 +10,7 @@ return [
     'types' => [
         PostCreated::class => [
             'model' => Post::class,
-            'with' => ['profile'],
+            'with' => ['profile', 'gallery'],
             'count' => ['gallery'],
             'display-card' => 'post-created-display'
         ],

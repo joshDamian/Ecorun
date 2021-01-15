@@ -10,31 +10,27 @@
 </style>
 @endpush
 @endonce
-<div>
+<div wire:init="loadNotifications">
     <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
         <div class="flex items-center justify-between">
             <div class="flex-1 text-lg font-bold text-center">
                 Notifications
             </div>
-            <i @click=" open_notifications = false; Livewire.emit('hideNotifications')"
-                class="ml-3 text-2xl fas fa-times"></i>
+            <i @click=" open_notifications = false;"
+                class="ml-3 text-2xl cursor-pointer active:text-blue-500 hover:text-blue-500 fas fa-times"></i>
         </div>
     </div>
 
     <div x-data x-init="() => {
-        @foreach($profiles as $key => $profile)
-        @if($profile->is($this->activeProfile))
-        Echo.private('App.Models.Profile.{{$profile->id}}').notification((notification) => {
+        @foreach($profiles as $profile)
+        @continue($profile->id === $this->activeProfile->id)
+        Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewMessageForProfile', () => {
+            Livewire.emit('newMessage')
+        }).notification((notification) => {
             Livewire.emit('newNotification', notification);
-            Livewire.emit('shouldRefresh');
         });
-        @else
-        Echo.private('App.Models.Profile.{{$profile->id}}').notification((notification) => {
-        Livewire.emit('newNotification', notification);
-        });
-        @endif
         @endforeach
-        }">
+    }">
     </div>
 
     @if($profiles->count() > 1)
@@ -42,7 +38,7 @@
         @foreach($profiles as $key => $profile)
         <div class="">
             <x-connect.profile.switch-profile-for-notif :profile="$profile" :unreadCount="$this->unreadCount($profile)"
-                :active="$profile->is($this->activeProfile)" />
+                :active="$profile->id === $this->activeProfile->id" />
         </div>
         @endforeach
     </div>
@@ -55,8 +51,7 @@
     @if($display)
     @if($this->activeProfile)
     <div class="bg-gray-100">
-        @livewire('general.user.notification-sorter', ['notifications_incoming' =>
-        $this->notifications->all(), 'profile' => $this->activeProfile])
+        @livewire('general.user.notification-sorter', ['profile' => $this->activeProfile])
     </div>
     @endif
     @endif

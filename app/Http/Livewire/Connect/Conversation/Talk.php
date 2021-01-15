@@ -16,6 +16,7 @@ class Talk extends Component
     public $conversation;
     public Profile $me;
     public $message;
+    public int $perPage = 10;
     protected $rules = [
         'message' => ['required']
     ];
@@ -24,7 +25,7 @@ class Talk extends Component
     {
         return [
             "echo-private:private_conversation.{$this->conversation->id},SentMessage" => '$refresh',
-            'newSentMessage' => '$refresh'
+            'SentAMessage' => '$refresh'
         ];
     }
 
@@ -39,13 +40,22 @@ class Talk extends Component
         return $this->conversation->pair->firstWhere('id', '!==', $this->me->id);
     }
 
+    public function markReceivedMessagesRead()
+    {
+        return $this->conversation->messages->where('sender_id', '!==', $this->me->id)->each(function ($message) {
+            if (!$message->seenBy->pluck('id')->contains($this->me->id)) {
+                return $message->seenBy()->save($this->me);
+            }
+        });
+    }
+
     public function sendMessage($body)
     {
         $this->message = $body;
         $this->validate();
         $this->new_message->content = $this->message;
         $this->conversation->messages->push($this->new_message);
-        $this->emit('newSentMessage');
+        $this->emit('SentAMessage');
         $this->new_message->save();
         broadcast(new SentMessage($this->new_message))->toOthers();
         return $this->done();
@@ -67,10 +77,16 @@ class Talk extends Component
         $this->reset('message');
     }
 
+    public function loadOlderMessages()
+    {
+        return $this->perPage = $this->perPage + 10;
+    }
+
     public function render()
     {
         return view('livewire.connect.conversation.talk', [
-            'messages' => $this->conversation->messages->sortByDesc('created_at')->take(10)->reverse()
+            'messages' => $this->conversation->messages->sortByDesc('created_at')->take($this->perPage)->reverse(),
+            'messages_count' => $this->conversation->messages->count()
         ]);
     }
 }

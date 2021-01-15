@@ -1,5 +1,6 @@
-<div x-data="{ unread: null }"
-    x-init="() => { @if($count > 0) unread = true; @endif Livewire.on('newNotification', () => { unread = true; }) }">
+<div x-data="{ unread: false }" x-init="() => { @if($count > 0) unread = true; @endif Livewire.on('newMessage', () => { Livewire.hook('element.updated', (el, comp) => {
+        unread = true;
+    }) }) }">
     <a href="{{ route('chat.index') }}"
         class="flex-shrink-0 px-2 py-2 text-xl sm:cursor-pointer md:px-4 hover:text-blue-500">
         <i class="fas fa-comments"></i>

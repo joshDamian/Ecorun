@@ -44,8 +44,7 @@
                     if (window.outerWidth > 768) {
                         setTimeout(() => {
                         this.open_notifications = true;
-                        Livewire.emit('showNotifications');
-                        }, 2000);
+                        }, 1000);
                         return this.open_menu = true;
                     }
                 }

@@ -4,24 +4,25 @@ namespace App\Http\Livewire\General\User;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class ChatEngine extends Component
 {
-    public $activeProfile;
-
-    public function mount()
-    {
-        $this->activeProfile = $this->profiles->current_profile;
-    }
-
     public function getProfilesProperty()
     {
         return Auth::user()->associated_profiles;
     }
 
+    public function getActiveProfileProperty()
+    {
+        return Cache::rememberForever('activeProfileForChat' . Auth::user()->id, function () {
+            return $this->profiles->current_profile;
+        });
+    }
+
     public function switchProfile($profile)
     {
-        $this->activeProfile = $this->profiles->all->firstWhere('id', $profile);
+        Cache::put('activeProfileForChat' . Auth::user()->id, $this->profiles->all->firstWhere('id', $profile));
         $this->emit('switchedChatProfile', $this->activeProfile);
     }
 

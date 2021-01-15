@@ -8,7 +8,7 @@
     <input type="hidden" name="profile_id" value="{{ $profile->id }}">
     @if($active)
     <div class="flex items-center">
-        <span class="truncate mr-2 flex-shrink-0 text-blue-700 font-medium">
+        <span class="flex-shrink-0 mr-2 font-medium text-blue-700 truncate">
             {{ $profile->full_tag() }}
         </span>
 
@@ -21,31 +21,30 @@
     </div>
 
     @else
-    <div class="grid grid-cols-5 gap-2">
-        <div onclick="this.closest('form').submit();" class="cursor-pointer text-blue-700 font-medium col-span-3 mr-3 truncate">
+    <div class="grid grid-cols-5 gap-1">
+        <div onclick="this.closest('form').submit();"
+            class="col-span-2 mr-2 font-medium text-blue-700 truncate cursor-pointer">
             {{ $profile->full_tag() }}
         </div>
 
-        <div class="col-span-2 flex justify-center items-center">
-            <a class="text-blue-600 mr-3" href="{{ $profile->url->visit }}">
+        <div class="flex flex-wrap items-center justify-start col-span-3">
+            <a class="mr-2 text-blue-600" href="{{ $profile->url->visit }}">
                 <i class="fas fa-eye"></i>
             </a>
-            <a class="text-blue-600 mr-3" href="{{ $profile->url->edit }}">
+            <a class="mr-2 text-blue-600" href="{{ $profile->url->edit }}">
                 <i class="far fa-edit"></i>
             </a>
             @if($profile->isBusiness())
-            <a class="text-blue-600 mr-3" href="{{ $profile->url->products }}">
+            <a class="mr-2 text-blue-600" href="{{ $profile->url->products }}">
                 <i class="fas fa-shopping-bag"></i>
             </a>
-            <a class="text-blue-600 mr-3" href="{{ $profile->url->add_product }}">
+            <a class="mr-2 text-blue-600" href="{{ $profile->url->add_product }}">
                 <i class="fas fa-plus-circle"></i>
             </a>
-
-            <a class="text-blue-600 mr-3" href="{{ $profile->url->team }}">
+            <a class="mr-2 text-blue-600" href="{{ $profile->url->team }}">
                 <i class="fas fa-users"></i>
             </a>
-
-            <a class="text-blue-600 mr-3" href="{{ $profile->url->orders }}">
+            <a class="text-blue-600" href="{{ $profile->url->orders }}">
                 <i class="fas fa-clipboard-check"></i>
             </a>
             @endif

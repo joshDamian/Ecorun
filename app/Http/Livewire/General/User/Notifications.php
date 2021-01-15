@@ -11,30 +11,14 @@ class Notifications extends Component
     public $activeProfile;
     public bool $display = false;
     protected $listeners = [
-        'showNotifications', 'hideNotifications',
-        'toggleNotifications', 'modifiedNotifs' => '$refresh',
-        'newNotification',
+        'modifiedNotifs' => '$refresh',
+        'newNotification' => '$refresh'
     ];
 
-    public function toggleNotifications(): void
+    public function loadNotifications(): void
     {
-        $this->display = !$this->display;
+        $this->display = true;
         return;
-    }
-
-    public function showNotifications(): bool
-    {
-        return $this->display = true;
-    }
-
-    public function hideNotifications(): bool
-    {
-        return $this->display = false;
-    }
-
-    public function newNotification($notification)
-    {
-        return $this->render();
     }
 
     public function mount()
