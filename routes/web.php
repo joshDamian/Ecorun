@@ -91,5 +91,5 @@ Route::get('category/{slug}', [CategoryController::class, 'show'])
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
 Route::get('/search/{data}', function ($data) {
-    return dd(App\Models\Post::withAnyTags([$data])->get());
+    return back(); //'Incoming feature';
 })->name('search');
