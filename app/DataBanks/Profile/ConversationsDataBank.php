@@ -8,7 +8,7 @@ use App\Models\GroupConversation;
 use App\Models\Profile;
 use Illuminate\Support\Facades\DB;
 
-class ConversationsDatabank implements DataBank
+class ConversationsDataBank implements DataBank
 {
     protected Profile $profile;
 
