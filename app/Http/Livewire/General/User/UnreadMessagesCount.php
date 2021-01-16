@@ -9,10 +9,10 @@ class UnreadMessagesCount extends Component
 {
     public User $user;
     protected $listeners = [
-        'newMessage' => '$refresh'
+        'newMessage' => '$refresh',
+        'readMessages' => '$refresh'
     ];
-    public function render()
-    {
+    public function render() {
         return view('livewire.general.user.unread-messages-count', [
             'count' => $this->user->unread_messages_count
         ]);

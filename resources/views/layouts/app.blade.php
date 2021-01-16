@@ -14,7 +14,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" />
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" />
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
     <link preload rel="stylesheet" href="/css/webfonts.css" defer>
@@ -24,6 +24,15 @@
         .text-content a {
             color: rgb(18, 18, 151);
             font-weight: 900;
+        }
+
+        .dont-break-out {
+            /* These are technically the same, but use both */
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+
+            /* Instead use this non-standard one: */
+            word-break: break-word;
         }
     </style>
     @livewireStyles

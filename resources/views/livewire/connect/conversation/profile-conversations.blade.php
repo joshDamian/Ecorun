@@ -1,18 +1,18 @@
 <div class="leading-snug">
-    @if(!$activeConversation)
-    <div
-        class="sticky w-full p-3 text-lg font-semibold text-blue-700 bg-gray-100 border-b border-gray-300 sm:text-xl bg-opactiy-75 top-12">
-        <i class="far fa-comments"></i> Conversations
-    </div>
-    <div wire:loading wire:target="switchActiveConv" class="w-full">
-        <x-loader_2 />
-    </div>
-    @endif
 
     @if($activeConversation)
     @livewire('connect.conversation.talk', ['me' => $profile, 'conversation' => $activeConversation])
     @else
     <div class="grid grid-cols-1 gap-1 bg-gray-200">
+        <div
+            class="sticky w-full p-3 text-lg font-semibold text-blue-700 bg-gray-100 border-b border-gray-300 sm:text-xl bg-opactiy-75 top-12">
+            <i class="far fa-comments"></i> Conversations
+        </div>
+
+        <div wire:loading class="w-full">
+            <x-loader_2 />
+        </div>
+
         @forelse($this->current_conversations as $conversation)
         @php
         $last_message = $conversation->messages->last();
@@ -20,8 +20,7 @@
         @endphp
         @if($conversation instanceof \App\Models\DirectConversation)
         @php $partner = $conversation->pair->firstWhere('id', '!==', $profile->id); @endphp
-        <div onclick="Livewire.emit('hide', true); window.modifyUrl.modify('?activeConversation={{ $conversation->secret_key }}')"
-            wire:click="switchActiveConv('{{ $conversation->id }}')"
+        <div @click="@this.call('switchActiveConv', '{{ $conversation->id }}'); Livewire.emit('hide', true); window.modifyUrl.modify('?activeConversation={{ $conversation->secret_key }}')"
             class="flex items-center px-3 py-2 bg-gray-100 cursor-pointer select-none">
             <div style="background-image: url('{{ $partner->profile_photo_url }}'); background-size: cover; background-position: center center;"
                 class="flex-shrink-0 w-12 h-12 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
@@ -32,6 +31,11 @@
                     <div class="flex-1 flex-shrink-0 font-semibold text-blue-700 truncate">
                         {{ $partner->full_tag() }}
                         <div class="font-medium text-gray-900 truncate">
+                            @if($last_message->sender_id === $profile->id)
+                            <span class="text-sm text-blue-700">
+                                <x-connect.message.message-status-display :status="$last_message->status" />
+                            </span>
+                            @endif
                             {{ $last_message->content }}
                         </div>
                     </div>

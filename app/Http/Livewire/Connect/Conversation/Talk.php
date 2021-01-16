@@ -21,39 +21,39 @@ class Talk extends Component
         'message' => ['required']
     ];
 
-    public function getListeners()
-    {
+    public function getListeners() {
         return [
             "echo-private:private_conversation.{$this->conversation->id},SentMessage" => '$refresh',
             'SentAMessage' => '$refresh'
         ];
     }
 
-    public function mount()
-    {
+    public function mount() {
         $this->authorize('view', [$this->conversation, $this->me]);
     }
 
-    public function getPartnerProperty()
-    {
+    public function getPartnerProperty() {
 
         return $this->conversation->pair->firstWhere('id', '!==', $this->me->id);
     }
 
-    public function markReceivedMessagesRead()
-    {
-        return $this->conversation->messages->where('sender_id', '!==', $this->me->id)->each(function ($message) {
-            if (!$message->seenBy->pluck('id')->contains($this->me->id)) {
-                return $message->seenBy()->save($this->me);
-            }
-        });
+    public function markReceivedMessagesRead() {
+        $marked_count = $this->conversation->messages->where('sender_id', '!==', $this->me->id)->reject(function($message) {
+            return $message->seenBy->pluck('id')->contains($this->me->id);
+        })->each(function ($message) {
+            $message->seenBy()->save($this->me);
+            $message->flushQueryCache();
+        })->count();
+        if ($marked_count > 0) {
+            return $this->emit('readMessages');
+        }
+        return;
     }
 
-    public function sendMessage($body)
-    {
+    public function sendMessage($body) {
         $this->message = $body;
         $this->validate();
-        $this->new_message->content = $this->message;
+        $this->new_message->content = trim($this->message);
         $this->conversation->messages->push($this->new_message);
         $this->emit('SentAMessage');
         $this->new_message->save();
@@ -61,32 +61,30 @@ class Talk extends Component
         return $this->done();
     }
 
-    public function getNewMessageProperty()
-    {
-        return  Cache::rememberForever('new_message_model_for_sender_' . $this->me->id, function () {
-            return (new Message())->forceFill([
-                'sender_id' => $this->me->id,
-                'messageable_type' => get_class($this->conversation),
-                'messageable_id' => $this->conversation->id
-            ]);
-        });
+    public function getNewMessageProperty() {
+        return  Cache::rememberForever('new_message_model_for_sender_' . $this->me->id,
+            function () {
+                return (new Message())->forceFill([
+                    'sender_id' => $this->me->id,
+                    'messageable_type' => get_class($this->conversation),
+                    'messageable_id' => $this->conversation->id
+                ]);
+            });
     }
 
-    public function done()
-    {
+    public function done() {
         $this->reset('message');
     }
 
-    public function loadOlderMessages()
-    {
+    public function loadOlderMessages() {
         return $this->perPage = $this->perPage + 10;
     }
 
-    public function render()
-    {
-        return view('livewire.connect.conversation.talk', [
-            'messages' => $this->conversation->messages->sortByDesc('created_at')->take($this->perPage)->reverse(),
-            'messages_count' => $this->conversation->messages->count()
-        ]);
+    public function render() {
+        return view('livewire.connect.conversation.talk',
+            [
+                'messages' => $this->conversation->messages->sortByDesc('created_at')->take($this->perPage)->reverse(),
+                'messages_count' => $this->conversation->messages->count()
+            ]);
     }
 }

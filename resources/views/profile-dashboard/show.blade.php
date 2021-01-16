@@ -31,6 +31,7 @@
                         </div>
 
                         @cannot('update', $profile)
+                        @auth
                         @php
                         $user = Auth::user();
                         $current_profile = $user->currentProfile;
@@ -50,6 +51,7 @@
                             </a>
                             @endif
                         </div>
+                        @endauth
                         @endcannot
                     </div>
                 </div>
@@ -81,5 +83,5 @@
             @endif
         </div>
     </div>
-    </div>
+</div>
 </x-social-layout>
