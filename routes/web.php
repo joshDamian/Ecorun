@@ -77,8 +77,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
     }
 );
 
-Route::get('/browsing-history', [RecentlyViewedController::class, 'index'])
-    ->name('view-history.index');
+/* Route::get('/browsing-history', [RecentlyViewedController::class, 'index'])
+    ->name('view-history.index'); */
 
 Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
     ->name('product.show');
