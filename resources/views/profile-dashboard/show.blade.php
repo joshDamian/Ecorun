@@ -25,7 +25,7 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center">
+                    <div class="flex justify-end items-center">
                         <div class="flex-1 flex-shrink-0">
                             @livewire('connect.profile.follow-profile', ['profile' => $profile], key('follow_button'))
                         </div>
@@ -36,7 +36,7 @@
                         $user = Auth::user();
                         $current_profile = $user->currentProfile;
                         @endphp
-                        <div class="flex-shrink-0 ml-3">
+                        <div class="flex-shrink-0 flex-1 ml-3">
                             @if($user->can('create', [\App\Models\DirectConversation::class,
                             $current_profile,
                             $profile]))
