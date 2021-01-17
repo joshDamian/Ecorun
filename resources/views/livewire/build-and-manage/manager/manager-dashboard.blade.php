@@ -10,13 +10,13 @@
             <div class="flex mb-2 overflow-x-auto">
                 <div @click="show_create = false; show_list = true;"
                     :class="show_list ? 'text-blue-700 bg-white' : 'text-gray-700 bg-gray-200'"
-                    class="flex items-center justify-center flex-1 flex-shrink-0 px-3 py-2 text-lg font-semibold cursor-pointer sm:flex-none">
+                    class="text-center flex-1 flex-shrink-0 px-3 py-2 text-lg font-semibold cursor-pointer sm:flex-none">
                     Businesses
                 </div>
 
                 <div @click="show_list = false; show_create = true;"
                     :class="show_create ? 'text-blue-700 bg-white' : 'text-gray-700 bg-gray-200'"
-                    class="flex items-center justify-center flex-1 flex-shrink-0 px-3 py-2 font-semibold cursor-pointer sm:flex-none">
+                    class="text-center flex-1 flex-shrink-0 px-3 py-2 font-semibold cursor-pointer sm:flex-none">
                     Create New Business
                 </div>
             </div>
