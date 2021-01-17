@@ -39,7 +39,7 @@ return [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                  //'useTLS' => true,
                  'encrypted' => true,
-                 'host' => 'https://ecorun.com.ng',
+                 'host' => '157.245.7.41',
                  'port' => 6001,
                  'scheme' => 'https'
             ],
