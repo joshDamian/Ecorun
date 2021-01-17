@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Traits;
 
 use App\Http\Livewire\Traits\UploadPhotos;
 use App\Models\Profile;
-use Faker\Generator;
 use Illuminate\Validation\Rule;
 
 trait CreatesSocialContent
@@ -29,7 +28,7 @@ trait CreatesSocialContent
         ]);
     }
 
-    abstract public function create(Generator $generator);
+    abstract public function create();
 
     public function defaulRules(): array
     {

@@ -42,9 +42,7 @@
                 },
                 expand() {
                     if (window.outerWidth > 768) {
-                        setTimeout(() => {
                         this.open_notifications = true;
-                        }, 1000);
                         return this.open_menu = true;
                     }
                 }
