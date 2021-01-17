@@ -13,7 +13,7 @@
             </div>
             @endif
 
-            <div class="px-4 py-4 bg-gray-100 border-t-2 border-gray-200">
+            <div class="px-3 py-3 bg-gray-100 border-t-2 border-gray-200">
                 <div class="flex items-start justify-between">
                     <div class="flex-1 mr-3">
                         <div class="text-lg font-semibold text-blue-800 dont-break-out sm:text-xl">
