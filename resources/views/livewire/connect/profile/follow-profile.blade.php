@@ -29,7 +29,7 @@
 
     @can('update', $profile)
     <a href="{{ $profile->url->edit }}">
-        <x-jet-button wire:click="follow" class="bg-blue-700 rounded">
+        <x-jet-button wire:click="follow" class="bg-blue-700 p-2 rounded">
             {{ __('edit profile') }} &nbsp; <i class="fas fa-user-edit"></i>
         </x-jet-button>
     </a>

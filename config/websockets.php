@@ -5,8 +5,8 @@ use BeyondCode\LaravelWebSockets\Dashboard\Http\Middleware\Authorize;
 return [
 
     /*
-         * Set a custom dashboard configuration
-         */
+     * Set a custom dashboard configuration
+     */
     'dashboard' => [
         'port' => env('LARAVEL_WEBSOCKETS_PORT', 6001),
     ],
@@ -27,7 +27,7 @@ return [
             'name' => env('APP_NAME'),
             'key' => env('PUSHER_APP_KEY'),
             'secret' => env('PUSHER_APP_SECRET'),
-            'path' => env('PUSHER_APP_PATH'),
+            //'path' => env('PUSHER_APP_PATH'),
             //'capacity' => null,
             'enable_client_messages' => true,
             'enable_statistics' => true,
