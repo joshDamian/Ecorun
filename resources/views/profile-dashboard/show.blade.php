@@ -14,9 +14,9 @@
             @endif
 
             <div class="px-4 py-4 bg-gray-100 border-t-2 border-gray-200">
-                <div class="flex flex-wrap items-start justify-between">
+                <div class="flex items-start justify-between">
                     <div class="flex-1 mr-3">
-                        <div class="text-lg font-semibold text-blue-800 truncate sm:text-xl">
+                        <div class="text-lg font-semibold text-blue-800 dont-break-out sm:text-xl">
                             {{ $profile->name }}
                         </div>
 
@@ -25,7 +25,7 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center">
+                    <div class="flex flex-1 flex-shrink-0 items-center">
                         <div class="flex-1 flex-shrink-0">
                             @livewire('connect.profile.follow-profile', ['profile' => $profile], key('follow_button'))
                         </div>
