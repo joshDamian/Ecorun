@@ -2,7 +2,7 @@
     Livewire.on('hide', (value) => { hide = value; })
 }">
     @if($profiles->count() > 1)
-    <div x-show="!hide" class="flex overflow-x-auto border-b border-gray-300">
+    <div x-show="! hide" class="flex overflow-x-auto border-b border-gray-300">
         @foreach($profiles as $profile)
         @php $unread_count = $profile->unread_messages_count @endphp
         <div onclick="window.modifyUrl.modify('/chat')" wire:click="switchProfile('{{ $profile->id }}')"

@@ -1,5 +1,4 @@
 <div class="leading-snug">
-
     @if($activeConversation)
     @livewire('connect.conversation.talk', ['me' => $profile, 'conversation' => $activeConversation])
     @else
@@ -9,7 +8,7 @@
             <i class="far fa-comments"></i> Conversations
         </div>
 
-        <div wire:loading class="w-full">
+        <div wire:loading wire:target="switchActiveConv" class="w-full">
             <x-loader_2 />
         </div>
 
@@ -20,7 +19,7 @@
         @endphp
         @if($conversation instanceof \App\Models\DirectConversation)
         @php $partner = $conversation->pair->firstWhere('id', '!==', $profile->id); @endphp
-        <div @click="@this.call('switchActiveConv', '{{ $conversation->id }}'); Livewire.emit('hide', true); window.modifyUrl.modify('?activeConversation={{ $conversation->secret_key }}')"
+        <div onclick="@this.call('switchActiveConv', '{{ $conversation->id }}'); Livewire.emit('hide', true); window.modifyUrl.modify('?activeConversation={{ $conversation->secret_key }}')"
             class="flex items-center px-3 py-2 bg-gray-100 cursor-pointer select-none">
             <div style="background-image: url('{{ $partner->profile_photo_url }}'); background-size: cover; background-position: center center;"
                 class="flex-shrink-0 w-12 h-12 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
@@ -55,7 +54,10 @@
         @endif
         @empty
         <div class="flex items-center justify-center p-3 text-blue-700">
-            <i style="font-size: 6rem;" class="far fa-comments"></i>
+            <i style="font-size: 5rem;" class="far fa-comments"></i>
+        </div>
+        <div class="font-semibold text-center text-blue-700">
+            you have no active conversations.
         </div>
         @endforelse
     </div>
