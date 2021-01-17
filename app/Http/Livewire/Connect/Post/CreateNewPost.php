@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Connect\Post;
 
 use App\Http\Livewire\Traits\CreatesSocialContent;
-use Faker\Generator;
 use Livewire\Component;
 
 class CreateNewPost extends Component
@@ -13,11 +12,11 @@ class CreateNewPost extends Component
     public string $view;
     public $visibility = "public";
 
-    public function create(Generator $generator)
+    public function create()
     {
         $this->validate($this->defaulRules());
         $post = $this->profile->posts()->create([
-            'content' => trim(htmlentities($this->text_content . PHP_EOL . $generator->paragraph)) ?? '',
+            'content' => trim(htmlentities($this->text_content)) ?? '',
             'visibility' => $this->visibility
         ]);
         $this->emit('newPost');

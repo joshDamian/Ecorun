@@ -32,10 +32,10 @@
 </head>
 
 <body class="font-sans leading-normal tracking-normal">
-    <nav class="bg-white border-b-4 border-blue-800">
+    <nav class="bg-white border-b-4 border-blue-800 md:sticky md:top-0">
         <div>
             <ul class="flex items-center px-3 py-2">
-                <li class="flex-1 text-xl font-bold text-blue-800">{{ config('app.name') }}</li>
+                <li class="flex-1 text-2xl font-bold text-blue-800">{{ config('app.name') }}</li>
                 <li class="text-right">
                     <div class="flex flex-wrap">
                         <a class="mr-4" href="/login">
@@ -67,8 +67,10 @@
                         Ecorun naturally blends social interaction with doing business.
                     </h3>
                 </div>
-                <div class="p-3 bg-white">
-
+                <div class="flex items-center justify-center p-4 bg-gray-100 bg-opacity-75">
+                    <h4 class="text-5xl font-extrabold text-blue-800 animate-pulse sm:text-5xl md:text-6xl">
+                        Ecorun.
+                    </h4>
                 </div>
             </div>
         </div>
@@ -108,7 +110,7 @@
 
                             <li>
                                 <span class="text-gray-700">
-                                    Share photos and videos.
+                                    Share photos.
                                 </span>
                             </li>
                         </ul>

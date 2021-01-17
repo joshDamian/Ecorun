@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Connect\Post\Comment;
 
 use App\Http\Livewire\Traits\CreatesSocialContent;
 use Livewire\Component;
-use App\Models\Profile;
 
 class CreateNewComment extends Component
 {

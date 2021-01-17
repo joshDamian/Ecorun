@@ -16,7 +16,7 @@
             <div class="px-4 py-4 bg-gray-100 border-t-2 border-gray-200">
                 <div class="flex flex-wrap items-start justify-between">
                     <div class="flex-1 mr-3">
-                        <div class="text-lg font-semibold text-blue-800 sm:text-xl">
+                        <div class="text-lg font-semibold text-blue-800 truncate sm:text-xl">
                             {{ $profile->name }}
                         </div>
 
@@ -83,5 +83,5 @@
             @endif
         </div>
     </div>
-</div>
+    </div>
 </x-social-layout>
