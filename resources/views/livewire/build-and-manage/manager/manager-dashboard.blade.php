@@ -16,7 +16,7 @@
 
                 <div @click="show_list = false; show_create = true;"
                     :class="show_create ? 'text-blue-700 bg-white' : 'text-gray-700 bg-gray-200'"
-                    class="text-center flex-shrink-0 px-3 py-2 font-semibold cursor-pointer sm:flex-none">
+                    class="text-center flex-1 flex-shrink-0 px-3 py-2 font-semibold cursor-pointer sm:flex-none">
                     Create New Business
                 </div>
             </div>
