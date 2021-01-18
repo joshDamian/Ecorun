@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-<link rel="manifest" href="manifest.json"></link>
+    <link rel="manifest" href="manifest.json"></link>
 
 
     <!-- Fonts -->
