@@ -1,0 +1,18 @@
+{
+  "dir": "ltr",
+  "lang": "en",
+  "name": "Ecorun",
+  "short_name": "Ecorun",
+  "scope": "/",
+  "display": "browser",
+  "start_url": "https://ecorun.com.ng/",
+  "background_color": "#000000",
+  "theme_color": "transparent",
+  "description": "",
+  "orientation": "any",
+  "related_applications": [],
+  "prefer_related_applications": "false",
+  "icons": [],
+  "url": "https://ecorun.com.ng",
+  "generated": true
+}
