@@ -37,9 +37,14 @@ class ProfileFeed extends Component
     public function getDisplayingFeedProperty()
     {
         if ($this->display_ready) {
-            return $this->sortFeed($this->sortBy)->sortByDesc('created_at')->take($this->perPage);
+            return $this->all_from_sort_by->take($this->perPage);
         }
         return collect([]);
+    }
+
+    public function getAllFromSortByProperty()
+    {
+        return $this->sortFeed($this->sortBy)->sortByDesc('created_at');
     }
 
     public function loadMore()

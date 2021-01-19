@@ -37,10 +37,7 @@
         @empty
         @if($display_ready)
         <div class="text-blue-700">
-            <div class="flex items-center justify-center p-4">
-                <i style="font-size: 6rem;" class="fas fa-home-user"></i>
-            </div>
-            <div class="text-center">
+            <div class="font-semibold text-center">
                 <div class="flex items-center justify-center p-4">
                     <i style="font-size: 5rem;" class="far fa-folder"></i>
                 </div>
@@ -51,3 +48,16 @@
         @endforelse
     </div>
 </div>
+@once
+@push('scripts')
+<script>
+    document.addEventListener('livewire:load', function () {
+            window.onscroll = function() {
+                if(document.body.scrollHeight - document.body.scrollTop === document.body.clientHeight) {
+                    console.log('bottom')
+                }
+            }
+        })
+</script>
+@endpush
+@endonce

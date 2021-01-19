@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 use App\Events\ProductCreated;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use App\Presenters\Product\UrlPresenter;
 use Rennokki\QueryCache\Traits\QueryCacheable;
+use Spatie\Tags\HasTags;
 
 class Product extends Model
 {
-    use Searchable, SoftDeletes, StringManipulations, QueryCacheable, HasFactory;
+    use Searchable, SoftDeletes, StringManipulations, QueryCacheable, HasFactory, HasTags;
 
     /**
      * The event map for the model.
@@ -54,6 +56,18 @@ class Product extends Model
     public function business()
     {
         return $this->belongsTo(Business::class);
+    }
+
+    public static function getTagClassName(): string
+    {
+        return Tag::class;
+    }
+
+    public function tags(): MorphToMany
+    {
+        return $this
+            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
+            ->orderBy('order_column');
     }
 
     public function category()
@@ -116,6 +130,15 @@ class Product extends Model
             $product_view_history = session()->get('product_view_history', []);
             (!in_array($this->id, $product_view_history)) ? session()->push("product_view_history", $this->id) : true;
         }
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+            'description' => $this->description,
+            'category_title' => $this->category_title,
+        ];
     }
 
     public function getUrlAttribute()

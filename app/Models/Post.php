@@ -122,7 +122,6 @@ class Post extends Model
     {
         return [
             'content' => $this->content,
-            'mentions' => $this->mentions
         ];
     }
 

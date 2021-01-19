@@ -18,7 +18,7 @@ class CreateNewProduct extends Component
     public $product = ['_name', '_description', '_price', '_available stock'];
     public $business_is_store;
 
-    public function create(Generator $faker)
+    public function create()
     {
         $this->validate();
 
@@ -26,7 +26,7 @@ class CreateNewProduct extends Component
             ->products()->create(
                 [
                     'name' => ucwords(strtolower($this->product['_name'])),
-                    'description' => $this->product['_description'] . PHP_EOL . $faker->paragraph,
+                    'description' => $this->product['_description'],
                     'price' => $this->product['_price'],
                     'available_stock' => $this->product['_available stock'],
                 ]
