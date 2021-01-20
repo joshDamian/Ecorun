@@ -91,4 +91,4 @@ Route::get('category/{slug}', [CategoryController::class, 'show'])
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
-Route::get('/search/{data}', [SearchEngineController::class, 'search'])->name('search');
+Route::get('/search/{data?}', [SearchEngineController::class, 'index'])->name('search.index');

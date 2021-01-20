@@ -7,18 +7,15 @@ use Illuminate\Support\Facades\App;
 
 class SearchEngine
 {
-    private array $data_sets = [
-        'profiles' => Profile::class,
-        'posts' => Post::class,
-        'products' => Product::class,
-        'categories' => Category::class
-    ];
     private $query;
+    private array $data_sets = [
+        'all', 'posts', 'products', 'profiles', 'hashtags'
+    ];
     private $data_set = 'all';
 
     public function setQuery($query)
     {
-        $this->query = $query;
+        $this->query = trim($query);
         return $this;
     }
 
@@ -32,8 +29,13 @@ class SearchEngine
 
     public function setDataSet(?string $data_set = 'all')
     {
-        $this->data_set = $data_set;
+        $this->data_set = (in_array($data_set, $this->data_sets)) ? $data_set : 'all';
         return $this;
+    }
+
+    public function results()
+    {
+        return $this->crawl()->results();
     }
 
     public function __get($key)

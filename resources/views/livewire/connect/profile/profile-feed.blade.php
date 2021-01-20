@@ -52,12 +52,14 @@
 @push('scripts')
 <script>
     document.addEventListener('livewire:load', function () {
-            window.onscroll = function() {
-                if(document.body.scrollHeight - document.body.scrollTop === document.body.clientHeight) {
-                    console.log('bottom')
+        window.onscroll = function(ev) {
+            if((window.innerHeight + window.scrollY + 100) >= document.body.offsetHeight) {
+                if(parseInt('{{ $this->all_count() }}', 10) > @this.perPage) {
+                    @this.perPage = @this.perPage + 5;
                 }
             }
-        })
+        }
+    })
 </script>
 @endpush
 @endonce

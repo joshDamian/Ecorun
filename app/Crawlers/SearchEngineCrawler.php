@@ -2,21 +2,32 @@
 
 namespace App\Crawlers;
 
-use App\Models\Post;
+use App\Models\Post, App\Models\Product;
+use App\Models\Profile;
 
 class SearchEngineCrawler
 {
-    private $results;
+    private $results = [];
 
     public function crawl()
     {
         switch (app('search_engine')->data_set) {
             case ('all'):
-                $this->results = 'all of me';
+                $models_with_tag = $this->crawlForTags();
+                $this->results = collect(['posts' => $this->crawlForPosts()->merge($models_with_tag['posts'])->unique(), 'products' => $this->crawlForProducts()->merge($models_with_tag['products'])->unique(), 'profiles' => $this->crawlForProfiles()])->flatten();
                 break;
-
             case ('posts'):
                 $this->results = $this->crawlForPosts();
+                break;
+            case ('products'):
+                $this->results = $this->crawlForProducts();
+                break;
+            case ('hashtags'):
+                $this->results = $this->crawlForTags()->flatten();
+                break;
+            case ('profiles'):
+                $this->results = $this->crawlForProfiles();
+                break;
         }
         return $this;
     }
@@ -24,6 +35,21 @@ class SearchEngineCrawler
     private function crawlForPosts()
     {
         return Post::search(app('search_engine')->query)->get();
+    }
+
+    public function crawlForProducts()
+    {
+        return Product::search(app('search_engine')->query)->get();
+    }
+
+    public function crawlForTags()
+    {
+        return collect(['posts' => Post::withAnyTags([app('search_engine')->query])->get(), 'products' => Product::withAnyTags([app('search_engine')->query])->get()]);
+    }
+
+    public function crawlForProfiles()
+    {
+        return Profile::search(app('search_engine')->query)->get();
     }
 
     public function __get($key)
@@ -36,6 +62,6 @@ class SearchEngineCrawler
 
     public function results()
     {
-        return $this->results;
+        return is_array($this->results) ? collect($this->results) : $this->results;
     }
 }

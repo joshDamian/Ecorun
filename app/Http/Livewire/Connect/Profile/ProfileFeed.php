@@ -47,13 +47,14 @@ class ProfileFeed extends Component
         return $this->sortFeed($this->sortBy)->sortByDesc('created_at');
     }
 
-    public function loadMore()
+    public function all_count()
     {
-        return $this->perPage = $this->perPage + 5;
+        return $this->all_from_sort_by->count();
     }
 
     public function setSortBy(string $sortBy)
     {
+        $this->reset('perPage');
         return cache()->put($this->profile->id . "sort_feed_by", $sortBy);
     }
 
