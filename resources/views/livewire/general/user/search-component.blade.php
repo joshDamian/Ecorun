@@ -8,7 +8,9 @@
     </div>
 
     <div class="flex items-start mt-3">
-        <div class="flex-shrink-0 mr-3 text-xl font-bold text-blue-700">search in:</div>
+        <div class="flex-shrink-0 mr-3 text-xl font-bold text-blue-700">
+            search in:
+        </div>
         <select class="form-select" wire:model="data_set"> search in
             <option value="all">all</option>
             <option value="posts">posts</option>
@@ -22,7 +24,7 @@
         <x-loader_2 />
     </div>
 
-    <div class="mt-3">
+    <div class="mt-3 grid grid-cols-1 gap-3">
         @forelse($this->results as $key => $result)
         @continue($result instanceof App\Models\Profile)
         @include($this->view_for_search_models[get_class($result)], ['model' =>
