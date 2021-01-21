@@ -20,9 +20,9 @@ class RecentlyViewedProducts extends Component
 
         if (Auth::user()) {
             $view_history = Auth::user()->view_history()->whereNotIn('product_id', [$this->product->id])->orderBy('updated_at', 'DESC')->get()->pluck('product_id');
-            $this->products = Product::whereIn('id', $view_history)->where('is_published', true)->get()->take(6);
+            $this->products = Product::whereIn('id', $view_history)->get()->take(6);
         } else {
-            $this->products = Product::whereIn('id', $this->session->get('product_view_history'))->where('id', '!=', $this->product->id)->where('is_published', true)->get()->take(6);
+            $this->products = Product::whereIn('id', $this->session->get('product_view_history'))->where('id', '!=', $this->product->id)->get()->take(6);
         }
     }
 

@@ -4,6 +4,8 @@ namespace App\Http\Livewire\BuildAndManage\Business;
 
 use App\Models\Business;
 use App\Models\Product;
+use App\Scopes\ProductAccessibleScope;
+use App\Scopes\ProductViewableScope;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -26,7 +28,10 @@ class BusinessProductList extends Component
 
     public function switchActiveProduct($product)
     {
-        return $this->active_product = Product::find($product);
+        return $this->active_product = Product::withoutGlobalScopes([
+            ProductViewableScope::class,
+            ProductAccessibleScope::class
+        ])->find($product);
     }
 
     public function viewAll()
@@ -36,7 +41,10 @@ class BusinessProductList extends Component
 
     public function render()
     {
-        $products = $this->business->loadMissing('products')->products()->latest()->paginate(12);
+        $products = $this->business->loadMissing('products')->products()->withoutGlobalScopes([
+            ProductViewableScope::class,
+            ProductAccessibleScope::class
+        ])->latest()->paginate(12);
 
         return view(
             'livewire.build-and-manage.business.business-product-list',

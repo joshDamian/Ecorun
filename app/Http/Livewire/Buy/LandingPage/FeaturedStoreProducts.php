@@ -13,7 +13,7 @@ class FeaturedStoreProducts extends Component
         $stores = Store::all()->pluck('business.id');
 
         return view('livewire.buy.landing-page.featured-store-products', [
-            'store_products' => Product::whereIn('business_id', $stores)->where('is_published', true)->latest()->paginate(8)
+            'store_products' => Product::whereIn('business_id', $stores)->latest()->paginate(8)
         ]);
     }
 }

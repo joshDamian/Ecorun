@@ -11,11 +11,13 @@ class FeedDataBank implements DataBank
 {
     protected Profile $profile;
 
-    public function __construct(Profile $profile) {
+    public function __construct(Profile $profile)
+    {
         $this->profile = $profile->loadMissing('following');
     }
 
-    public function fetch() {
+    public function fetch()
+    {
         $profile_sources = $this->profile->following->concat([$this->profile]);
         $business_sources = $profile_sources->filter(
             function ($profile) {
@@ -37,7 +39,7 @@ class FeedDataBank implements DataBank
                 return [$relation => function ($query) {
                     return $query->cacheFor(2592000);
                 }];
-            })->toArray())->whereIn('business_id', $business_sources->pluck('profileable_id'))->where('is_published', true)->latest()->get()->unique()
+            })->toArray())->whereIn('business_id', $business_sources->pluck('profileable_id'))->latest()->get()->unique()
         ]);
     }
 }
