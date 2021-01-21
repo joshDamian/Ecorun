@@ -13,7 +13,7 @@ class FeaturedServiceProducts extends Component
         $services = Service::all()->pluck('business.id');
 
         return view('livewire.buy.landing-page.featured-service-products', [
-            'service_products' => Product::whereIn('business_id', $services)->where('is_published', true)->latest()->paginate(10)
+            'service_products' => Product::whereIn('business_id', $services)->latest()->paginate(10)
         ]);
     }
 }

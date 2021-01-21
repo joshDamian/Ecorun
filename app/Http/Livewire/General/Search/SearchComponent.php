@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\General\User;
+namespace App\Http\Livewire\General\Search;
 
 use App\Engines\SearchEngine;
 use Illuminate\Support\Facades\App;
@@ -35,6 +35,6 @@ class SearchComponent extends Component
 
     public function render()
     {
-        return view('livewire.general.user.search-component');
+        return view('livewire.general.search.search-component');
     }
 }

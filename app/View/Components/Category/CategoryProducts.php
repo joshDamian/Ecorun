@@ -21,13 +21,13 @@ class CategoryProducts extends Component
         $this->pagination = $pagination;
 
         if ($this->pagination) {
-            $this->products = $this->category->products()->where('is_published', true)->latest()->paginate(12);
+            $this->products = $this->category->products()->latest()->paginate(12);
         } else {
-            $this->products = $this->category->products()->where('is_published', true)->latest()->get()->take(6);
+            $this->products = $this->category->products()->latest()->get()->take(6);
         }
     }
 
-    /** 
+    /**
      * Get the view / contents that represent the component.
      *
      * @return \Illuminate\Contracts\View\View|string

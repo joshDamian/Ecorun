@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 use App\Events\ProductCreated;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use App\Presenters\Product\UrlPresenter;
+use App\Scopes\ProductAccessibleScope;
+use App\Scopes\ProductViewableScope;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\Tags\HasTags;
 
@@ -139,6 +142,17 @@ class Product extends Model
             'description' => $this->description,
             'category_title' => $this->category_title,
         ];
+    }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope(new ProductAccessibleScope);
+        static::addGlobalScope(new ProductViewableScope);
     }
 
     public function getUrlAttribute()

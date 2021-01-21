@@ -14,7 +14,6 @@ class CategoryRelatedProducts extends Component
     {
         $this->product = $product;
         $this->products = $this->product->category->products()->whereNotIn('id', [$this->product->id])
-            ->where('is_published', true)
             ->latest()->get()->take(6);
     }
 
@@ -22,7 +21,6 @@ class CategoryRelatedProducts extends Component
     {
         return
             $this->product->category->products()->whereNotIn('id', [$this->product->id])
-            ->where('is_published', true)
             ->latest()->get()->count();
     }
 
