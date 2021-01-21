@@ -50,7 +50,7 @@ class Post extends Model
     protected $fillable = [
         'content',
         'visibility',
-        'mentions'
+        'mentions',
     ];
     protected $attributes = [
         'mentions' => "[]"
@@ -92,6 +92,11 @@ class Post extends Model
         $this->gallery()->delete();
         $this->delete();
         return true;
+    }
+
+    public function shares()
+    {
+        return $this->morphMany(Share::class, 'shareable');
     }
 
     public function getSafeHtmlAttribute()
