@@ -10,7 +10,7 @@
 
         <x-slot name="form">
             <!-- Name -->
-            <div class="col-span-12 md:col-span-3 sm:col-span-4">
+            <div class="col-span-12 md:col-span-6 sm:col-span-4">
                 <x-jet-label for="name" value="{{ __('Product Name') }}" />
                 <x-jet-input id="name" type="text" class="block w-full mt-1" wire:model="product.name"
                     placeholder="product name" autocomplete="name" />
@@ -41,7 +41,7 @@
             </div>
 
             <!-- Description -->
-            <div class="col-span-12 md:col-span-3 sm:col-span-4">
+            <div class="col-span-12 md:col-span-6 sm:col-span-4">
                 <x-jet-label for="description" value="{{ __('Product Description') }}" />
                 <textarea placeholder="product description" rows="3" class="block w-full mt-1 form-input"
                     wire:model="product.description" autocomplete="description"></textarea>

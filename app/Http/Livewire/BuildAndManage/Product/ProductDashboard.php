@@ -8,6 +8,9 @@ use Livewire\Component;
 class ProductDashboard extends Component
 {
     public Product $product;
+    protected $listeners = [
+        'unpublishedMe' => '$refresh'
+    ];
 
     public function render()
     {

@@ -9,6 +9,9 @@
         <x-jet-button wire:click="publish">
             {{ __('Publish') }}
         </x-jet-button>
+        <x-jet-action-message on="publishingError">
+            <x-jet-input-error for="publishing" />
+        </x-jet-action-message>
         @endif
     </div>
 </div>

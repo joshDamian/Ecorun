@@ -35,6 +35,11 @@ class Business extends Model
 
     public function products()
     {
+        return $this->hasMany(Product::class)->latest('updated_at');
+    }
+
+    public function published_products()
+    {
         return $this->hasMany(Product::class)->where('is_published', true)->latest('updated_at');
     }
 

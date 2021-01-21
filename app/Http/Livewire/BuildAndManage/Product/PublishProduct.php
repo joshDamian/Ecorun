@@ -11,8 +11,12 @@ class PublishProduct extends Component
 
     public function publish()
     {
+        if ($this->product->gallery->count() < 1) {
+            $this->emitSelf('publishingError');
+            return $this->addError('publishing', 'you cannot publish a product with no images');
+        }
         $this->product->is_published = true;
-        $this->product->save();
+        return $this->product->save();
     }
 
     public function unpublish()

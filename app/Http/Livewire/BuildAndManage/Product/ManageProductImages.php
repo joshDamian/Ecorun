@@ -28,9 +28,16 @@ class ManageProductImages extends Component
 
     public function deleteImage($image)
     {
-        Storage::disk('public')->delete($this->product->gallery()->find($image)->image_url);
-        $this->product->gallery()->find($image)->delete();
-        $this->emitSelf('refresh');
+        $image = $this->product->gallery->find($image);
+        Storage::disk('public')->delete($image->image_url);
+        $image->delete();
+        if ($this->product->gallery->count() === 0) {
+            $this->product->forceFill([
+                'is_published' => false
+            ])->save();
+            $this->emitTo('build-and-manage.product.product-dashboard', 'unpublishedMe');
+        }
+        return $this->emitSelf('refresh');
     }
 
     public function saveImages()
