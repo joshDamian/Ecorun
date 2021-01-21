@@ -20,7 +20,7 @@
         @switch($active_view['title'])
         @case('products')
         @php
-        $products = $profile->loadMissing('profileable.products')->profileable->published_products()->paginate(12);
+        $products = $profile->loadMissing('profileable.products')->profileable->products()->paginate(12);
         @endphp
         <div class="mb-2">
             <x-product.user-product-list :products="$products" />
