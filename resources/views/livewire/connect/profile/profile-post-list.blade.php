@@ -1,4 +1,4 @@
-<div>
+<div x-data="profile_post_data()" x-init="loadMore()">
     <div wire:loading class="w-full">
         <x-loader_2 />
     </div>
@@ -30,18 +30,27 @@
             </div>
         </div>
         @endforelse
+        <div class="w-full" wire:loading wire:target="loadMore">
+            <x-loader_2 />
+        </div>
     </div>
 </div>
-
+@once
 @push('scripts')
 <script>
-    document.addEventListener('livewire:load', function() {
-        window.onscroll = function() {
-            if ((window.innerHeight + window.scrollY + 20) >= document.body.offsetHeight) {
-                //Livewire.emit('loadOlderPosts', '{{ $posts->count() }}');
+    function profile_post_data() {
+        return {
+            loadMore: function() {
+                window.onscroll = function(ev) {
+                    if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                        if(parseInt('{{ $this->posts_count() }}', 10) > @this.perPage) {
+                            @this.call('loadMore');
+                        }
+                    }
+                }
             }
-        };
-    });
-
+        }
+    }
 </script>
 @endpush
+@endonce

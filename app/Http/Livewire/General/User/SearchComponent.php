@@ -16,7 +16,7 @@ class SearchComponent extends Component
     public $view_for_search_models = [
         Post::class => 'includes.feed-display-cards.post-display',
         Product::class => 'includes.feed-display-cards.product-display',
-        Profile::class => ''
+        Profile::class => 'includes.profile-display-cards.search-result-display-card'
     ];
     public $display = false;
 

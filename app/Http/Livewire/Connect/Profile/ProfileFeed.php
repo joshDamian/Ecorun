@@ -9,7 +9,7 @@ use App\Models\Product;
 
 class ProfileFeed extends Component
 {
-    public $perPage = 5;
+    public $perPage = 10;
     public $display_ready = false;
     public string $viewIncludeFolder = 'includes.feed-display-cards.';
     public $feed_types = [
@@ -27,6 +27,11 @@ class ProfileFeed extends Component
     public function setDisplayReady()
     {
         return $this->display_ready = true;
+    }
+
+    public function loadMore()
+    {
+        $this->perPage = $this->perPage + 10;
     }
 
     public function getFeedProperty()

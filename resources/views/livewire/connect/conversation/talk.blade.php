@@ -18,9 +18,9 @@
         this.$refs.content.rows = '1';
     }
 }" x-init="() => {
-    Livewire.emit('hide', true);
     Echo.join('private_conversation.{{ $conversation->id }}')
     .here((profiles) => {
+        Livewire.emit('hide', true);
         console.log(profiles);
         @this.call('markReceivedMessagesRead');
     })

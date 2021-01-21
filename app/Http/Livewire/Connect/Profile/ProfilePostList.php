@@ -5,33 +5,28 @@ namespace App\Http\Livewire\Connect\Profile;
 use Livewire\Component;
 use App\Models\Profile;
 
-/**
- * Class ProfilePostList a component that fetches the posts related to a profile
- */
 class ProfilePostList extends Component
 {
     public Profile $profile;
     public string $view;
-    public int $perPage = 30;
-    protected $posts_lazy;
+    public int $perPage = 10;
     protected $listeners = [
-        //'loadOlderPosts',
-        'newPost'
+        'newPost' => '$refresh'
     ];
 
-    public function loadOlderPosts()
+    public function loadMore()
     {
-        $this->perPage = $this->perPage + 5;
+        $this->perPage = $this->perPage + 10;
     }
 
-    public function newPost()
+    public function posts_count()
     {
-        $this->posts_lazy = $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
+        return $this->posts_lazy->count();
     }
 
-    public function mount()
+    public function getPostsLazyProperty()
     {
-        $this->posts_lazy = $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
+        return $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
     }
 
     public function render()
