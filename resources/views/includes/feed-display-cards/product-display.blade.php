@@ -45,7 +45,8 @@
     </div>
     <div class="flex items-center justify-end px-3 py-3 text-right bg-gray-100 sm:px-5 sm:py-3 sm:p-0">
         <div class="mr-3">
-            <livewire:buy.cart.add-to-cart :product="$product" :key="microtime() . 'add_to_ff_cart_' . $product->id" />
+            @livewire('buy.cart.cart-trigger', ['product' => $product], key('trigger_cart_item' . $product->id .
+            microtime()))
         </div>
 
         <a href="{{ $product->url->show }}">

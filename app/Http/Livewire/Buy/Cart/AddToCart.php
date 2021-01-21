@@ -18,7 +18,7 @@ class AddToCart extends Component
     public $specification_count;
     public $user;
     protected $listeners = [
-        'modifiedCart' => '$refresh'
+        'receiveCartItem'
     ];
 
     public function rules(): array
@@ -33,8 +33,9 @@ class AddToCart extends Component
         ];
     }
 
-    public function mount(Product $product)
+    public function receiveCartItem(Product $product)
     {
+        $this->add_specs = true;
         $this->product = $product->loadMissing('specifications');
         $this->quantity = 1;
         $this->indicated_specs = $this->product->specifications->filter(
@@ -54,33 +55,26 @@ class AddToCart extends Component
         }
     }
 
-    public function request_data()
-    {
-        $this->add_specs = true;
-    }
-
     public function add_prod()
     {
         $this->validate($this->rules());
-        if (!$this->existing()) {
-            ($this->user) ?
-                $this->product->cart_instances()->save(
-                    $this->user->cart()->create(
-                        [
-                            'quantity' => $this->quantity
-                        ]
-                    )
-                ) :
-                session()->put(
-                    "guest_cart.{$this->product->id}",
+        ($this->user) ?
+            $this->product->cart_instances()->save(
+                $this->user->cart()->create(
                     [
-                        'product_id' => $this->product->id,
                         'quantity' => $this->quantity
                     ]
-                );
-
-            $this->emit('modifiedCart');
-        }
+                )
+            ) :
+            session()->put(
+                "guest_cart.{$this->product->id}",
+                [
+                    'product_id' => $this->product->id,
+                    'quantity' => $this->quantity
+                ]
+            );
+        $this->add_specs = false;
+        return $this->emit('modifiedCart');
     }
 
     public function messages()
@@ -99,44 +93,28 @@ class AddToCart extends Component
             ]
         );
 
-        if (!$this->existing()) {
-            ($this->user) ?
-                $this->product->cart_instances()->save(
-                    $this->user->cart()->create(
-                        [
-                            'quantity' => $this->quantity,
-                            'specifications' => $this->specifications
-                        ]
-                    )
-                ) :
-                session()->put(
-                    "guest_cart.{$this->product->id}",
-                    [
-                        'product_id' => $this->product->id,
-                        'quantity' => $this->quantity,
-                        'specifications' => $this->specifications
-                    ]
-                );
-
-            $this->emit('modifiedCart');
-        }
+        ($this->user) ?
+            $this->product->cart_instances()->save(
+                $this->user->cart()->create([
+                    'quantity' => $this->quantity,
+                    'specifications' => $this->specifications
+                ])
+            ) :
+            session()->put(
+                "guest_cart.{$this->product->id}",
+                [
+                    'product_id' => $this->product->id,
+                    'quantity' => $this->quantity,
+                    'specifications' => $this->specifications
+                ]
+            );
+        $this->add_specs = true;
+        return $this->emit('modifiedCart');
     }
 
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName, $this->rules());
-    }
-
-    public function existing()
-    {
-        if ($this->user) {
-            $existing = $this->user->cart->where('product_id', $this->product->id)->isNotEmpty();
-        } else {
-            (session()->get('guest_cart')) ? true : session()->put('guest_cart', []);
-            $guest_cart = session()->get('guest_cart');
-            $existing = array_key_exists($this->product->id, $guest_cart);
-        }
-        return $existing;
     }
 
     public function render()

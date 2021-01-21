@@ -20,7 +20,18 @@
             @forelse ($products as $product)
             <div wire:click="switchActiveProduct('{{ $product->id }}')" class="px-3 py-3 bg-gray-100 cursor-pointer">
                 <div class="flex items-center justify-center">
+                    @if($product->gallery->first()->image_url ?? false)
                     <img src="/storage/{{ $product->gallery->first()->image_url }}" width="150" height="150" />
+                    @else
+                    <div class="text-blue-700">
+                        <div class="flex justify-center">
+                            <i style="font-size: 5.5rem;" class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="text-center">
+                            no image
+                        </div>
+                    </div>
+                    @endif
                 </div>
 
                 <div class="pt-2 text-center">
