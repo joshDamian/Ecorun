@@ -9,6 +9,7 @@ use App\Http\Livewire\BuildAndManage\Business\BusinessDashboard;
 use App\Http\Livewire\UserComponents\Cart\ViewCart;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchEngineController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Connect\Profile\UpdateProfile;
@@ -90,6 +91,4 @@ Route::get('category/{slug}', [CategoryController::class, 'show'])
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
-Route::get('/search/{data}', function ($data) {
-    return back();
-})->name('search');
+Route::get('/search/{data?}', [SearchEngineController::class, 'index'])->name('search.index');

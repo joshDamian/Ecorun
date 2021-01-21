@@ -30,8 +30,16 @@
                 <i class="text-xl fas fa-shopping-bag"></i> <span class="@auth hidden @endauth sm:inline">Shop</span>
             </a>
 
+            <a class="flex-shrink-0 px-2 py-2 text-xl cursor-pointer md:px-4 hover:text-blue-500"
+                href="{{ route('search.index') }}">
+                <i class="fas fa-search"></i> <span class="hidden sm:inline">Search</span>
+            </a>
+
             @auth
-            @livewire('general.user.unread-messages-count', ['user' => $user])
+            <a href="{{ route('chat.index') }}"
+                class="flex-shrink-0 px-2 py-2 text-xl sm:cursor-pointer md:px-4 hover:text-blue-500">
+                @livewire('general.user.unread-messages-count', ['user' => $user])
+            </a>
 
             <div @click=" function nav() {
                 if(window.outerWidth < 768) {

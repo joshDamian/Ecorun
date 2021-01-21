@@ -1,4 +1,4 @@
-<div wire:init="setDisplayReady">
+<div x-data="profile_feed_data()" x-init="loadMore()" wire:init="setDisplayReady">
     <div class="fixed bottom-0 flex w-full overflow-x-auto font-semibold bg-gray-100 bg-gray-200 border-t border-gray-300 md:bg-opacity-75 md:border-b md:sticky"
         x-data="{ collapsed: false }" x-init="() => {
         Livewire.on('toggled', (toggle) => { collapsed = toggle; }); Livewire.on('newPost', () => { @this.call('setSortBy', 'all') })
@@ -37,10 +37,7 @@
         @empty
         @if($display_ready)
         <div class="text-blue-700">
-            <div class="flex items-center justify-center p-4">
-                <i style="font-size: 6rem;" class="fas fa-home-user"></i>
-            </div>
-            <div class="text-center">
+            <div class="font-semibold text-center">
                 <div class="flex items-center justify-center p-4">
                     <i style="font-size: 5rem;" class="far fa-folder"></i>
                 </div>
@@ -49,5 +46,27 @@
         </div>
         @endif
         @endforelse
+        <div class="w-full" wire:loading wire:target="loadMore">
+            <x-loader_2 />
+        </div>
     </div>
 </div>
+@once
+@push('scripts')
+<script>
+    function profile_feed_data() {
+        return {
+            loadMore: function() {
+                window.onscroll = function(ev) {
+                    if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                        if(parseInt('{{ $this->all_count() }}', 10) > @this.perPage) {
+                            @this.call('loadMore');
+                        }
+                    }
+                }
+            }
+        }
+    }
+</script>
+@endpush
+@endonce

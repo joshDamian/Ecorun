@@ -1,59 +1,59 @@
 <div x-data="{ large_content: false, autosize: function(){
-    this.$refs.content.style.cssText = 'height:auto;';
-    var scrollHeight = this.$refs.content.scrollHeight;
-    if(scrollHeight <= 140) {
-    this.$refs.content.style.cssText = 'height:' + scrollHeight + 'px;';
-    this.large_content = false;
-    } else {
-    this.large_content = true;
-    this.$refs.content.style.cssText = 'height:' + 140 + 'px;';
-    }
+        this.$refs.content.style.cssText = 'height:auto;';
+        var scrollHeight = this.$refs.content.scrollHeight;
+        if(scrollHeight <= 140) {
+            this.$refs.content.style.cssText = 'height:' + scrollHeight + 'px;';
+            this.large_content = false;
+        } else {
+            this.large_content = true;
+            this.$refs.content.style.cssText = 'height:' + 140 + 'px;';
+        }
     },
     message: '',
     resetHeight: function(){
-    this.large_content = false;
-    this.$refs.content.style.cssText = 'height:auto;';
-    this.message = '';
-    this.$refs.content.focus();
-    this.$refs.content.rows = '1';
+        this.large_content = false;
+        this.$refs.content.style.cssText = 'height:auto;';
+        this.message = '';
+        this.$refs.content.focus();
+        this.$refs.content.rows = '1';
     }
-    }" x-init="() => {
-    Livewire.emit('hide', true);
+}" x-init="() => {
     Echo.join('private_conversation.{{ $conversation->id }}')
     .here((profiles) => {
-    console.log(profiles);
-    @this.call('markReceivedMessagesRead');
+        Livewire.emit('hide', true);
+        console.log(profiles);
+        @this.call('markReceivedMessagesRead');
     })
     .joining((profile) => {
-    console.log(profile.name + ' just joined');
-    @this.call('markReceivedMessagesRead');
+        console.log(profile.name + ' just joined');
+        @this.call('markReceivedMessagesRead');
     })
     .leaving((profile) => {
-    console.log(profile.name + ' is leaving');
+        console.log(profile.name + ' is leaving');
     }).listen('SentMessage', (e) => {
-    @this.call('$refresh')
-    @this.call('markReceivedMessagesRead');
-    Livewire.hook('element.initialized', (el, compo) => {
-    if($refs.messages.scrollHeight - $refs.messages.scrollTop === $refs.messages.clientHeight) {
-    window.scrollTo(0, $refs.messages.scrollHeight);
-    }
-    })
+        @this.call('$refresh')
+        Livewire.hook('element.initialized', (el, compo) => {
+            if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        })
+        @this.call('markReceivedMessagesRead');
     }).listenForWhisper('typing', () => {
-    $refs.status.innerText = 'typing...';
+        $refs.status.innerText = 'typing...';
     }).listenForWhisper('done_typing', () => {
-    $refs.status.innerText = '';
+        $refs.status.innerText = '';
     }).listenForWhisper('readMessages', () => {
-    @this.call('$refresh')
+        @this.call('$refresh')
     });
     Livewire.on('SentAMessage', () =>  {
-    window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
     })
     Livewire.on('readMessages', () => {
-    Echo.join('private_conversation.{{ $conversation->id }}')
-    .whisper('readMessages')
+        Echo.join('private_conversation.{{ $conversation->id }}')
+        .whisper('readMessages')
     })
     window.scrollTo(0, $refs.messages.scrollHeight);
-    }">
+}" x-cloak>
     <div class="fixed top-0 flex items-center w-full p-3 bg-gray-100 md:sticky md:top-12">
         <div class="mr-3">
             <i @click="Livewire.emit('showAll'); window.modifyUrl.modify('/chat'); Livewire.emit('hide', false);"

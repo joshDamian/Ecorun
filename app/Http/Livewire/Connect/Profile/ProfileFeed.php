@@ -9,7 +9,7 @@ use App\Models\Product;
 
 class ProfileFeed extends Component
 {
-    public $perPage = 5;
+    public $perPage = 10;
     public $display_ready = false;
     public string $viewIncludeFolder = 'includes.feed-display-cards.';
     public $feed_types = [
@@ -29,6 +29,11 @@ class ProfileFeed extends Component
         return $this->display_ready = true;
     }
 
+    public function loadMore()
+    {
+        $this->perPage = $this->perPage + 10;
+    }
+
     public function getFeedProperty()
     {
         return $this->profile->feed;
@@ -37,18 +42,24 @@ class ProfileFeed extends Component
     public function getDisplayingFeedProperty()
     {
         if ($this->display_ready) {
-            return $this->sortFeed($this->sortBy)->sortByDesc('created_at')->take($this->perPage);
+            return $this->all_from_sort_by->take($this->perPage);
         }
         return collect([]);
     }
 
-    public function loadMore()
+    public function getAllFromSortByProperty()
     {
-        return $this->perPage = $this->perPage + 5;
+        return $this->sortFeed($this->sortBy)->sortByDesc('created_at');
+    }
+
+    public function all_count()
+    {
+        return $this->all_from_sort_by->count();
     }
 
     public function setSortBy(string $sortBy)
     {
+        $this->reset('perPage');
         return cache()->put($this->profile->id . "sort_feed_by", $sortBy);
     }
 

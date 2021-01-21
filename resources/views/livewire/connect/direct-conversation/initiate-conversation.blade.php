@@ -1,4 +1,10 @@
-<div x-data="initiate_convo_data()" x-init="() => { Livewire.on('close', () => { should_display = false; }) }">
+<div x-data="{
+    should_display: false,
+    open() {
+        @this.should_display = true;
+        this.should_display = true;
+    }
+}" x-init="() => { Livewire.on('close', () => { should_display = false; }) }">
     <x-jet-button @click="open()" class="bg-blue-600">
         <i class="text-lg fas fa-envelope"></i>
     </x-jet-button>
@@ -58,16 +64,3 @@
         </x-jet-modal>
     </div>
 </div>
-@push('scripts')
-<script>
-    function initiate_convo_data() {
-        return {
-            should_display: false,
-            open() {
-                @this.should_display = true;
-                this.should_display = true;
-            }
-        }
-    }
-</script>
-@endpush
