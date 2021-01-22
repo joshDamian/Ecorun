@@ -30,7 +30,7 @@
         <x-loader_2 />
     </div>
 
-    <div class="grid grid-cols-1 gap-3 pb-11 md:pb-0 sm:gap-4">
+    <div class="grid grid-cols-1 gap-3 pb-13 md:pb-0 sm:gap-4">
         @forelse($this->displaying_feed as $key => $feed_item)
         @include($this->viewIncludeFolder . $this->feed_types[get_class($feed_item)]['view'], ['model' =>
         $feed_item])
@@ -58,8 +58,8 @@
         return {
             loadMore: function() {
                 window.onscroll = function(ev) {
-                    if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                        if(parseInt('{{ $this->all_count() }}', 10) > @this.perPage) {
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                        if (parseInt('{{ $this->all_count() }}', 10) > @this.perPage) {
                             @this.call('loadMore');
                         }
                     }
