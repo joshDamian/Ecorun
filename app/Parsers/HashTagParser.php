@@ -28,7 +28,7 @@ class HashTagParser implements InlineParserInterface
             return false;
         }
         app('tagqueue')->addTag($tag);
-        $tagUrl = route('search', ['data' => $tag, 'data-set' => 'hashtags']);
+        $tagUrl = route('search.index', ['data' => $tag, 'data-set' => 'hashtags']);
         $inlineContext->getContainer()->appendChild(new Link($tagUrl, '#' . $tag));
         return true;
     }
