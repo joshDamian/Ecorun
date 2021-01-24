@@ -40,9 +40,9 @@
     </div>
 
     <div x-show="show_button" class="sticky flex items-center justify-center p-2 top-16 md:top-40">
-        <x-jet-button wire:click="$refresh" @click="show_button = false; window.scrollTo(0, 0)"
+        <x-jet-button wire:click="$refresh" @click="window.scrollTo(0, 0); show_button = false"
             class="bg-blue-700 rounded-full">
-            load new content
+            load new content &nbsp; <i class="fas animate-bounce fa-arrow-up"></i>
         </x-jet-button>
     </div>
 
