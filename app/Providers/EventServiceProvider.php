@@ -9,6 +9,9 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use App\Events\PostCreated;
 use App\Events\ProductCreated;
 use App\Events\SentMessage;
+use App\Events\ContentShared;
+use App\Events\NewFeedContentForProfile;
+use App\Listeners\SendContentSharedNotification;
 use App\Events\NewMessageForProfile;
 use App\Listeners\SendPostCreatedNotificaton;
 use App\Listeners\SendDirectMessageNotification;
@@ -34,7 +37,11 @@ class EventServiceProvider extends ServiceProvider
         SentMessage::class => [
             SendDirectMessageNotification::class
         ],
-        NewMessageForProfile::class => []
+        NewMessageForProfile::class => [],
+        NewFeedContentForProfile::class => [],
+        ContentShared::class => [
+            SendContentSharedNotification::class
+        ]
     ];
 
     /**

@@ -29,7 +29,8 @@
 
                     <div class="mt-3">
                         <input class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple>
-                        <span @click=" $refs.photos.click() " class="font-semibold text-blue-800 cursor-pointer">
+                        <span @click=" $refs.photos.click() "
+                            class="font-semibold text-blue-800 cursor-pointer select-none">
                             <i class="fas fa-images"></i> &nbsp;Photos (Max 5MB)
                         </span>
                         @if(count($photos) > 0)

@@ -43,16 +43,7 @@
     <div class="flex items-center justify-center p-3 bg-gray-100 border-b border-gray-200 justify-items-center">
         <img class="h-64" src="/storage/{{ $product->gallery->first()->image_url }}" />
     </div>
-    <div class="flex items-center justify-end px-3 py-3 text-right bg-gray-100 sm:px-5 sm:py-3 sm:p-0">
-        <div class="mr-3">
-            @livewire('buy.cart.cart-trigger', ['product' => $product], key('trigger_cart_item' . $product->id .
-            microtime()))
-        </div>
 
-        <a href="{{ $product->url->show }}">
-            <x-jet-button class="bg-blue-700">
-                shop
-            </x-jet-button>
-        </a>
-    </div>
+    @livewire('connect.product.product-feedback', ['product' => $product], key($product->id . microtime()
+    . 'product_feedback'))
 </div>

@@ -73,6 +73,11 @@ class Profile extends Model
         return $this->belongsToMany(Profile::class, 'profile_follower', 'follower_id', 'profile_id')->withTimestamps();
     }
 
+    public function shares()
+    {
+        return $this->hasMany(Share::class);
+    }
+
     public function owned_groups()
     {
         return $this->hasMany(GroupConversation::class, 'creator_id');

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class CartTrigger extends Component
 {
     public Product $product;
+    public $view = 'product_page';
     protected $listeners = [
         'modifiedCart' => '$refresh'
     ];
