@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Connect\Profile;
 
 use App\Models\Post;
+use App\Models\Share;
 use App\Models\Profile;
 use Livewire\Component;
 use App\Models\Product;
@@ -20,13 +21,25 @@ class ProfileFeed extends Component
         Product::class => [
             'view' => 'product-display',
             'name' => 'products'
+        ],
+        Share::class => [
+            'view' => 'share-display',
+            'name' => 'shares'
         ]
     ];
+
     public Profile $profile;
 
     public function setDisplayReady()
     {
         return $this->display_ready = true;
+    }
+
+    public function getListeners()
+    {
+        return [
+            'sharedContent' => '$refresh',
+        ];
     }
 
     public function loadMore()
@@ -84,6 +97,9 @@ class ProfileFeed extends Component
                 break;
             case ('mentions'):
                 return $this->feed->mentions;
+                break;
+            case ('shares'):
+                return $this->feed->shares;
                 break;
             case ('all'):
             default:

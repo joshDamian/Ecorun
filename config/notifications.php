@@ -2,6 +2,8 @@
 
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\Share;
+use App\Notifications\ContentShared;
 use App\Notifications\PostCreated;
 use App\Notifications\ProductCreated;
 use App\Notifications\MentionedInPost;
@@ -24,5 +26,10 @@ return [
             'with' => ['profile'],
             'display-card' => 'mentioned-in-post-display'
         ],
+        ContentShared::class => [
+            'model' => Share::class,
+            'with' => ['profile', 'shareable'],
+            'display-card' => 'content-shared-display'
+        ]
     ]
 ];

@@ -22,13 +22,14 @@ class PostFeedback extends Component
     {
         return [
             'newFeedback' => '$refresh',
-            "newLike.{$this->post->id}" => 'likes',
-            "newShare.{$this->post->id}" => 'shares'
+            "newLike.{$this->feedback_id}." . str_replace('\\', '.', get_class($this->post)) => 'likes',
+            "newShare.{$this->feedback_id}." . str_replace('\\', '.', get_class($this->post)) => 'shares'
         ];
     }
 
     public function mount(): void
     {
+        $this->feedback_id = random_int(1, 918000982092) . $this->post->id;
         $this->profile = Auth::user()->loadMissing('currentProfile')->currentProfile;
         $this->shareable = $this->likeable = $this->post;
         $this->feedbackReady = ($this->view === 'post.show') ? true : null;

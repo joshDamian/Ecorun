@@ -10,7 +10,7 @@
                     <x-nav-content :associatedProfiles="$associatedProfiles" />
                 </div>
             </div>
-            <div :class="(open_menu || open_notifications) ? 'hidden md:block' : ''"
+            <div :class="(open_menu || open_notifications) ? 'hidden md:block' : 'block'"
                 class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:mr-1/4 md:pr-4 md:pl-6 sm:p-2 md:p-0">
                 <div>
                     {{-- @livewire('general.session.session-transport',

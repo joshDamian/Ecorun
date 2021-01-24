@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\NewFeedContentForProfile;
 use App\Events\ProductCreated;
 use App\Notifications\ProductCreated as NotificationsProductCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,5 +31,8 @@ class SendProductCreatedNotificaton
     {
         $notifiables = $event->product->loadMissing('business.profile.followers')->business->profile->followers->except([$event->product->business->profile->id]);
         Notification::send($notifiables, new NotificationsProductCreated($event->product));
+        foreach ($notifiables as $notifiable) {
+            broadcast(new NewFeedContentForProfile($notifiable))->toOthers();
+        }
     }
 }

@@ -66,6 +66,16 @@ class Product extends Model
         return Tag::class;
     }
 
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function shares()
+    {
+        return $this->morphMany(Share::class, 'shareable');
+    }
+
     public function tags(): MorphToMany
     {
         return $this

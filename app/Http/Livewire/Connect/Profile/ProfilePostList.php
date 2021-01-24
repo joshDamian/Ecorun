@@ -26,7 +26,7 @@ class ProfilePostList extends Component
 
     public function getPostsLazyProperty()
     {
-        return $this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery');
+        return collect([$this->profile->posts->loadMissing('gallery', 'likes', 'profile')->loadCount('gallery'), $this->profile->loadMissing('shares')->shares])->flatten()->unique()->sortByDesc('updated_at');
     }
 
     public function render()

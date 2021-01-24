@@ -9,6 +9,7 @@ trait HasLikes
 {
     public $likeable;
     public Profile $profile;
+    public $feedback_id;
 
     public function like(): void
     {
@@ -19,7 +20,8 @@ trait HasLikes
             $like->profile_id = $this->profile->id;
             $this->likeable->likes()->save($like);
         }
-        $this->emitSelf('newLike.' . $this->likeable->id);
+        $event = 'newLike.' . $this->feedback_id . '.' . str_replace('\\', '.', get_class($this->likeable));
+        $this->emitSelf($event);
         return;
     }
 

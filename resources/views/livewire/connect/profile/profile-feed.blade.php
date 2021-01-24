@@ -1,8 +1,22 @@
-<div x-data="profile_feed_data()" x-init="loadMore()" wire:init="setDisplayReady">
+<div x-data="{
+    show_button: false,
+    loadMore: function() {
+        window.onscroll = function(ev) {
+            if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                if(parseInt('{{ $this->all_count() }}', 10) > @this.perPage) {
+                    @this.call('loadMore');
+                }
+            }
+        }
+    }
+ }" x-init="() => { loadMore(); Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewFeedContentForProfile', () => {
+     alert('hey');
+    show_button = true;
+}) }" wire:init="setDisplayReady">
     <div class="fixed bottom-0 flex w-full overflow-x-auto font-semibold bg-gray-100 bg-gray-200 border-t border-gray-300 md:bg-opacity-75 md:border-b md:sticky"
         x-data="{ collapsed: false }" x-init="() => {
-        Livewire.on('toggled', (toggle) => { collapsed = toggle; }); Livewire.on('newPost', () => { @this.call('setSortBy', 'all') })
-        }" :class="(collapsed) ? 'md:top-16' : 'md:top-32'">
+        Livewire.on('toggled', (toggle) => { collapsed = toggle; }); Livewire.on('newPost', () => { @this.call('setSortBy', 'all') });
+        }" :class="(collapsed) ? 'md:top-16' : 'md:top-28'">
         <div onclick="window.scrollTo(0, 0)" wire:click="setSortBy('{{ __('all') }}')"
             class="py-2 text-center select-none flex-shrink-0 flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'all') bg-white text-blue-700 @else text-gray-700 @endif">
             {{ __('All') }}
@@ -24,6 +38,13 @@
             class="py-2 select-none text-center flex-shrink-0 flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'mentions') bg-white text-blue-700 @else text-gray-700 @endif">
             {{ __('Mentions') }}
         </div>
+    </div>
+
+    <div x-show="show_button" class="sticky flex items-center justify-center p-2 top-16 md:top-40">
+        <x-jet-button wire:click="$refresh" @click="show_button = false; window.scrollTo(0, 0)"
+            class="bg-blue-700 rounded-full">
+            load new content
+        </x-jet-button>
     </div>
 
     <div class="w-full" wire:loading wire:target="setSortBy, setDisplayReady">
@@ -51,22 +72,3 @@
         </div>
     </div>
 </div>
-@once
-@push('scripts')
-<script>
-    function profile_feed_data() {
-        return {
-            loadMore: function() {
-                window.onscroll = function(ev) {
-                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                        if (parseInt('{{ $this->all_count() }}', 10) > @this.perPage) {
-                            @this.call('loadMore');
-                        }
-                    }
-                }
-            }
-        }
-    }
-</script>
-@endpush
-@endonce

@@ -6,6 +6,7 @@ use App\DataBanks\DataBank;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\Profile;
+use App\Models\Share;
 
 class FeedDataBank implements DataBank
 {
@@ -26,20 +27,27 @@ class FeedDataBank implements DataBank
         );
         $post_relations = collect(['gallery', 'likes', 'comments']);
         $product_relations = collect(['business.profile', 'specifications', 'gallery']);
+        $share_relations = collect(['shareable', 'profile']);
 
         return collect([
             Post::class => Post::with($post_relations->mapWithKeys(function ($relation) {
                 return [$relation => function ($query) {
                     return $query->cacheFor(2592000);
                 }];
-            })->toArray())->whereIn('profile_id', $profile_sources->pluck('id'))->orWhereJsonContains('mentions', $profile_sources->pluck('id'))->latest()->get()->unique(),
+            })->toArray())->whereIn('profile_id', $profile_sources->pluck('id'))->orWhereJsonContains('mentions', $profile_sources->pluck('id'))->distinct()->latest('updated_at')->get()->unique(),
 
             Product::class =>
             Product::with($product_relations->mapWithKeys(function ($relation) {
                 return [$relation => function ($query) {
                     return $query->cacheFor(2592000);
                 }];
-            })->toArray())->whereIn('business_id', $business_sources->pluck('profileable_id'))->latest()->get()->unique()
+            })->toArray())->whereIn('business_id', $business_sources->pluck('profileable_id'))->distinct()->latest()->get()->unique(),
+
+            Share::class => Share::with($share_relations->mapWithKeys(function ($relation) {
+                return [$relation => function ($query) {
+                    return $query->cacheFor(2592000);
+                }];
+            })->toArray())->whereIn('profile_id', $profile_sources->pluck('id'))->distinct()->latest('updated_at')->get()->unique(),
         ]);
     }
 }

@@ -69,7 +69,7 @@
                 </div>
                 <div class="flex items-center justify-center p-4 bg-gray-100 bg-opacity-75">
                     <h4 class="text-5xl font-extrabold text-blue-800 animate-pulse sm:text-5xl md:text-6xl">
-                        Ecorun.
+                        Ecorun
                     </h4>
                 </div>
             </div>
