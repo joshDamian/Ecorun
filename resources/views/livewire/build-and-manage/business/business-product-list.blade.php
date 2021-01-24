@@ -11,7 +11,8 @@
         </div>
 
         <div>
-            @livewire('build-and-manage.product.product-dashboard', ['product' => $active_product])
+            @livewire('build-and-manage.product.product-dashboard', ['product' => $active_product],
+            key(md5("product_dashboard_for_{$active_product->id}")))
         </div>
 
         @else

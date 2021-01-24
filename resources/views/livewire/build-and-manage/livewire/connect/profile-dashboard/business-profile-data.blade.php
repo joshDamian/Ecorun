@@ -44,11 +44,13 @@
         @case('posts')
         @can('update', $profile)
         <div class="mb-2 ml-0 md:ml-0 md:mb-3">
-            @livewire('connect.post.create-new-post', ['profile' => $profile, 'view' => 'timeline'])
+            @livewire('connect.post.create-new-post', ['profile' => $profile, 'view' => 'timeline'],
+            key(md5("create_new_post_for_{$profile->id}")))
         </div>
         @endcan
         <div>
-            @livewire('connect.profile.profile-post-list', ['profile' => $profile, 'view' => 'timeline'])
+            @livewire('connect.profile.profile-post-list', ['profile' => $profile, 'view' => 'timeline'],
+            key(md5("profile_post_list_for_{$profile->id}")))
         </div>
         @break
 

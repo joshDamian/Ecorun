@@ -57,7 +57,8 @@
                 </div>
                 @endif
                 <div class="bg-gray-100 border-t border-gray-200">
-                    @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.show'])
+                    @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.show'],
+                    key(md5("post_feedback_for_{$post->id}_view_post.show")))
                 </div>
 
                 <div class="box-content sticky bottom-0 bg-gray-100 bg-opacity-75">

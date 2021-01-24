@@ -25,7 +25,7 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-end items-center">
+                    <div class="flex items-center justify-end">
                         <div class="flex-1 flex-shrink-0">
                             @livewire('connect.profile.follow-profile', ['profile' => $profile], key('follow_button'))
                         </div>
@@ -36,12 +36,13 @@
                         $user = Auth::user();
                         $current_profile = $user->currentProfile;
                         @endphp
-                        <div class="flex-shrink-0 flex-1 ml-3">
+                        <div class="flex-1 flex-shrink-0 ml-3">
                             @if($user->can('create', [\App\Models\DirectConversation::class,
                             $current_profile,
                             $profile]))
                             @livewire('connect.direct-conversation.initiate-conversation', ['initiator' =>
-                            $current_profile, 'joined' => $profile])
+                            $current_profile, 'joined' => $profile],
+                            key(md5("initiate_conversation_with_{$profile->id}")))
                             @else
                             <a
                                 href="{{ route('chat.index', ['activeConversation' => $current_profile->direct_conversationWith($profile)->secret_key]) }}">
@@ -59,7 +60,7 @@
                 <div class="grid grid-cols-1">
                     <span class="">
                         @livewire('connect.profile.following-followers-counter',
-                        ['profile'=> $profile])
+                        ['profile'=> $profile], key(md5("following_followers_for_{$profile->id}")))
                     </span>
                     <span class="mt-2 text-gray-900">
                         Joined {{ $profile->created_at->diffForHumans() }}
@@ -73,12 +74,12 @@
             @if($profile->isBusiness())
             <div>
                 @livewire('connect.profile-dashboard.business-profile-data', ['profile' => $profile, 'action_route'
-                => $action_route ?? 'products'])
+                => $action_route ?? 'products'], key(md5("business_profile_data_for_{$profile->id}")))
             </div>
             @else
             <div>
                 @livewire('connect.profile-dashboard.user-profile-data', ['profile' => $profile, 'action_route' =>
-                $action_route ?? 'posts'])
+                $action_route ?? 'posts'], key(md5("user_profile_data_for_{$profile->id}")))
             </div>
             @endif
         </div>

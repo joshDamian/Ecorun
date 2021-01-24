@@ -12,11 +12,13 @@
             <div class="sm:col-span-4">
                 @if($profile)
                 <div>
-                    @livewire('connect.profile.edit-profile', ['profileId' => $profile->id])
+                    @livewire('connect.profile.edit-profile', ['profileId' => $profile->id],
+                    key(md5("edit_profile_{$profile->id}")))
                 </div>
                 @else
                 <div>
-                    @livewire('connect.profile.create-new-profile', ['profileable' => $profile->loadMissing('profileable')->profileable])
+                    @livewire('connect.profile.create-new-profile', ['profileable' =>
+                    $profile->loadMissing('profileable')->profileable])
                 </div>
                 @endif
             </div>

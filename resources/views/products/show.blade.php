@@ -63,7 +63,7 @@
                                     {!! $product->price() !!}
                                 </p>
                                 <div>
-                                    @livewire('buy.cart.add-to-cart', ['productId' => $product->id],
+                                    @livewire('buy.cart.cart-trigger', ['product' => $product],
                                     key(md5('add_to_cart'.$product->id)))
                                 </div>
                             </div>

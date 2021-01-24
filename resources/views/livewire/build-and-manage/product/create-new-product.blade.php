@@ -16,7 +16,8 @@
             </x-jet-button>
         </a>
     </div>
-    @livewire('build-and-manage.product.product-dashboard', ['product' => $product])
+    @livewire('build-and-manage.product.product-dashboard', ['product' => $product],
+    key(md5("product_dashboard__for_{$product->id}")))
 
     @else
     <div x-data x-init="() => { window.scrollTo(0, 0); }">

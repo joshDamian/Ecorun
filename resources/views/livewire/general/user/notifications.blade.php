@@ -51,7 +51,8 @@
     @if($display)
     @if($this->activeProfile)
     <div class="bg-gray-100">
-        @livewire('general.user.notification-sorter', ['profile' => $this->activeProfile])
+        @livewire('general.user.notification-sorter', ['profile' => $this->activeProfile],
+        key(md5("notification_sorter_for_{$activeProfile->id}")))
     </div>
     @endif
     @endif

@@ -12,7 +12,8 @@
             <div class="sm:col-span-4">
                 @if($user->profile)
                 <div>
-                    @livewire('connect.profile.edit-profile', ['profileId' => $user->profile->id])
+                    @livewire('connect.profile.edit-profile', ['profileId' => $user->profile->id],
+                    key(md5("edit_profile_for_{$user->profile->id}")))
                 </div>
 
                 @else

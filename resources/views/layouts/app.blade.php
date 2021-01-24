@@ -53,7 +53,7 @@
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
-    @livewire('buy.cart.add-to-cart')
+    @livewire('buy.cart.add-to-cart', key(md5('add_a_product_to_cart')))
     {{$slot}}
     @stack('modals')
     @livewireScripts

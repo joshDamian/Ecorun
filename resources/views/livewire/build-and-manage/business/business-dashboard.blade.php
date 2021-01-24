@@ -35,7 +35,8 @@
         @case('products')
         <div>
             @livewire('build-and-manage.business.business-product-list', ['business' =>
-            $business->loadCount('products'), 'active_product' => $action_route_resource])
+            $business->loadCount('products'), 'active_product' => $action_route_resource],
+            key(md5("business_product_list_for_{$business->id}")))
         </div>
         @break
 

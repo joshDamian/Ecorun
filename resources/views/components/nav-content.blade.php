@@ -39,7 +39,8 @@
                 </div>
                 @auth
                 @livewire('connect.profile.following-followers-counter', ['profile' =>
-                $currentProfile->loadMissing('following', 'followers')])
+                $currentProfile->loadMissing('following', 'followers')],
+                key(md5("displays_following_and_followers_count_for_{$currentProfile->id}")))
                 @endauth
             </div>
         </div>
