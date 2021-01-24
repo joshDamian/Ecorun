@@ -53,7 +53,7 @@
         .whisper('readMessages')
     })
     window.scrollTo(0, $refs.messages.scrollHeight);
-}" x-cloak>
+}">
     <div class="fixed top-0 flex items-center w-full p-3 bg-gray-100 md:sticky md:top-12">
         <div class="mr-3">
             <i @click="Livewire.emit('showAll'); window.modifyUrl.modify('/chat'); Livewire.emit('hide', false);"

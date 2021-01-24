@@ -21,6 +21,6 @@
 
     @if($this->activeProfile)
     @livewire('connect.conversation.profile-conversations', ['profile' => $this->activeProfile, 'activeConversation' =>
-    request()->input('activeConversation')])
+    request()->input('activeConversation')], key($this->activeProfile->id . microtime() . random_int(1, 98876577899)))
     @endif
 </div>

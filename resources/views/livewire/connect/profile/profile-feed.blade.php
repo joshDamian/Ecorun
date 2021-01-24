@@ -10,7 +10,6 @@
         }
     }
  }" x-init="() => { loadMore(); Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewFeedContentForProfile', () => {
-     alert('hey');
     show_button = true;
 }) }" wire:init="setDisplayReady">
     <div class="fixed bottom-0 flex w-full overflow-x-auto font-semibold bg-gray-100 bg-gray-200 border-t border-gray-300 md:bg-opacity-75 md:border-b md:sticky"
