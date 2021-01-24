@@ -1,6 +1,7 @@
 <div class="leading-snug">
     @if($activeConversation)
-    @livewire('connect.conversation.talk', ['me' => $profile, 'conversation' => $activeConversation])
+    @livewire('connect.conversation.talk', ['me' => $profile, 'conversation' => $activeConversation],
+    key([$activeConversation->id . get_class($activeConversation) . microtime() . random_int(200, 1000000)]))
     @else
     <div class="grid grid-cols-1 gap-1 bg-gray-200">
         <div

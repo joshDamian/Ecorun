@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Profile;
 use App\Models\DirectConversation;
 use App\Models\Message;
+use App\Events\SentMessage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class InitiateConversation extends Component
@@ -51,13 +52,14 @@ class InitiateConversation extends Component
             'initiator_id' => $this->initiator->id,
             'joined_id' => $this->joined->id
         ]);
-        Message::forceCreate([
+        $message = Message::forceCreate([
             'content' => $this->message,
             'sender_id' => $this->initiator->id,
             'messageable_type' => get_class($conversation),
             'messageable_id' => $conversation->id
         ]);
         $this->emit('newConvo');
+        broadcast(new SentMessage($message))->toOthers();
         return;
     }
 
