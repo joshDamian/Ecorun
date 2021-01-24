@@ -38,7 +38,7 @@
             @auth
             <a href="{{ route('chat.index') }}"
                 class="flex-shrink-0 px-2 py-2 text-xl sm:cursor-pointer md:px-4 hover:text-blue-500">
-                @livewire('general.user.unread-messages-count', ['user' => $user])
+                @livewire('general.user.unread-messages-count', ['user' => $user], key(md5('i_count_unread_messages')))
             </a>
 
             <div @click=" function nav() {
@@ -49,7 +49,8 @@
                 }
                 } nav();"
                 class="flex-shrink-0 px-2 py-2 text-xl cursor-pointer active:text-blue-500 md:px-4 hover:text-blue-500">
-                @livewire('general.user.unread-notifs-display', ['user' => $user])
+                @livewire('general.user.unread-notifs-display', ['user' => $user],
+                key(md5('i_count_unread_notifications_yes')))
             </div>
             @endauth
         </div>
