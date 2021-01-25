@@ -8,7 +8,8 @@
             microtime()))
         </div>
 
-        <a class="px-2 py-2 font-bold text-center text-blue-700 bg-white rounded-full" href="{{ $product->url->show }}">
+        <a class="flex items-center justify-center px-2 py-2 font-bold text-center text-blue-700 bg-white rounded-full"
+            href="{{ $product->url->show }}">
             <i class="text-xl text-blue-700 fas fa-shopping-bag"></i> <span class="hidden sm:inline">&nbsp; Shop</span>
         </a>
 
