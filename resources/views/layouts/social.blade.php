@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div x-on:resize.window="expand()" x-data="nav_data()" x-init="init_nav()" x-cloak>
+    <div x-on:resize.window="expand()" x-data="nav_data()" x-init="init_nav()">
         <!--Nav-->
         <x-navbar :user="$user" />
         <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div :class="(open_menu || open_notifications) ? 'hidden md:block' : 'block'"
-                class="flex-1 flex-grow flex-shrink-0 w-full md:ml-1/4 md:mr-1/4 md:pr-4 md:pl-6 sm:p-2 md:p-0">
+                class="flex-1 flex-grow flex-shrink-0 block w-full md:ml-1/4 md:mr-1/4 md:pr-4 md:pl-6 sm:p-2 md:p-0">
                 <div>
                     {{-- @livewire('general.session.session-transport',
                     key('session_transport')) --}}
