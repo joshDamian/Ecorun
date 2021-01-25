@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div x-on:resize.window="expand()" x-data="nav_data()" x-init="init_nav()">
+    <div x-on:resize.window="expand()" x-data="nav_data()" x-init="init_nav()" x-cloak>
         <!--Nav-->
         <x-navbar :user="$user" />
 
