@@ -11,7 +11,7 @@ use App\Models\Product;
 class ProfileFeed extends Component
 {
     public $perPage = 10;
-    public $display_ready = false;
+    public $display_ready = true;
     public string $viewIncludeFolder = 'includes.feed-display-cards.';
     public $feed_types = [
         Post::class => [

@@ -23,7 +23,8 @@
             @endphp
             @if($conversation instanceof \App\Models\DirectConversation)
             @php $partner = $conversation->pair->firstWhere('id', '!==', $profile->id); @endphp
-            <div onclick="@this.call('switchActiveConv', '{{ $conversation->id }}'); Livewire.emit('hide', true); window.modifyUrl.modify('?activeConversation={{ $conversation->secret_key }}')"
+            <div wire:click="switchActiveConv('{{ $conversation->id }}')"
+                onclick="Livewire.emit('hide', true); window.modifyUrl.modify('?activeConversation={{ $conversation->secret_key }}')"
                 class="flex items-center px-3 py-2 bg-gray-100 cursor-pointer select-none">
                 <div style="background-image: url('{{ $partner->profile_photo_url }}'); background-size: cover; background-position: center center;"
                     class="flex-shrink-0 w-12 h-12 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
