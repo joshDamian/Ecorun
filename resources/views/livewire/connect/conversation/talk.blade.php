@@ -22,28 +22,28 @@
     .here((profiles) => {
         Livewire.emit('hide', true);
         console.log(profiles);
-        @this.call('markReceivedMessagesRead');
+        Livewire.emit('markReceivedMessagesRead');
     })
     .joining((profile) => {
         console.log(profile.name + ' just joined');
-        @this.call('markReceivedMessagesRead');
+        Livewire.emit('markReceivedMessagesRead');
     })
     .leaving((profile) => {
         console.log(profile.name + ' is leaving');
     }).listen('SentMessage', (e) => {
-        @this.call('$refresh')
+        Livewire.emit('refresh')
         Livewire.hook('element.initialized', (el, compo) => {
-            if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            {{-- if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) { --}}
                 window.scrollTo(0, document.body.scrollHeight);
-            }
+           {{--  } --}}
         })
-        @this.call('markReceivedMessagesRead');
+        Livewire.emit('markReceivedMessagesRead');
     }).listenForWhisper('typing', () => {
         $refs.status.innerText = 'typing...';
     }).listenForWhisper('done_typing', () => {
         $refs.status.innerText = '';
     }).listenForWhisper('readMessages', () => {
-        @this.call('$refresh')
+        Livewire.emit('refresh')
     });
     Livewire.on('SentAMessage', () =>  {
         window.scrollTo(0, document.body.scrollHeight);
