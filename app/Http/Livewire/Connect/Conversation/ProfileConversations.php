@@ -23,7 +23,7 @@ class ProfileConversations extends Component
         return [
             'showAll',
             'switchedChatProfile',
-            //"echo-private:App.Models.Profile.{$this->profile->id},NewMessageForProfile" => '$refresh'
+            "echo-private:App.Models.Profile.{$this->profile->id},NewMessageForProfile" => '$refresh'
         ];
     }
 
