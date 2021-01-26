@@ -11,7 +11,7 @@
             <div class="flex items-center flex-1">
                 <a class="mr-3" href="{{ $profile_visit_url }}">
                     <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;"
-                        class="w-12 h-12 border-t-2 border-b-2 border-blue-700 rounded-full">
+                        class="w-10 h-10 border-t-2 border-b-2 border-blue-700 rounded-full">
                     </div>
                 </a>
 
