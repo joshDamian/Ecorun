@@ -6,15 +6,14 @@
         <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
 
             <div x-show="open_menu"
-                class="fixed top-0 z-50 flex-grow-0 flex-shrink w-full h-full overflow-y-auto pb-2 bg-white md:h-10/12 md:w-1/4 md:pb-1/12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
+                class="fixed top-0 z-50 flex-grow-0 flex-shrink w-full h-full pb-2 overflow-y-auto bg-white md:z-0 md:h-10/12 md:w-1/4 md:pb-1/12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
                 <div>
                     @php $associatedProfiles = $user->associated_profiles; @endphp
                     <x-nav-content :associatedProfiles="$associatedProfiles" />
                 </div>
             </div>
 
-            <div
-                class="flex-1 flex-grow flex-shrink-0 md:ml-1/4 md:pl-6 sm:p-2 md:p-0">
+            <div class="flex-1 flex-grow flex-shrink-0 md:ml-1/4 md:pl-6 sm:p-2 md:p-0">
                 <div>
                     {{-- @livewire('general.session.session-transport', key('session_transport')) --}}
                 </div>
@@ -26,7 +25,7 @@
 
             @auth
             <div x-show="open_notifications"
-                class="fixed top-0 flex-grow-0 z-50 pb-2 flex-shrink h-full overflow-y-auto bg-white md:h-10/12 md:pb-1/12 w-full md:w-1/4 md:top-16 md:bg-transparent md:pl-2 md:right-5">
+                class="fixed top-0 z-50 flex-grow-0 flex-shrink w-full h-full pb-2 overflow-y-auto bg-white md:z-0 md:h-10/12 md:pb-1/12 md:w-1/4 md:top-16 md:bg-transparent md:pl-2 md:right-5">
                 <livewire:general.user.notifications :user="$user"
                     :activeProfile="$associatedProfiles->current_profile" />
             </div>
