@@ -19,20 +19,18 @@
         </div>
 
         <div class="flex flex-1 md:text-lg justify-between items-center font-medium">
-            <a href="{{ route('home') }}">
-                <div class="flex-shrink-0 px-2 py-2 text-xl cursor-pointer md:px-4 hover:text-blue-500">
-                    <i class="fas fa-house-user"></i> <span class="hidden sm:inline">Home</span>
-                </div>
+            <a class="flex-shrink-0 px-2 py-2 text-xl cursor-pointer md:px-4 hover:text-blue-500" href="{{ route('home') }}">
+                <i class="fas fa-house-user"></i> <span class="hidden md:inline">Home</span>
             </a>
 
             <a class="flex-shrink-0 px-2 py-2 text-xl cursor-pointer md:px-4 hover:text-blue-500"
                 href="{{ route('shop.index') }}">
-                <i class="text-xl fas fa-shopping-bag"></i> <span class="hidden sm:inline">Shop</span>
+                <i class="text-xl fas fa-shopping-bag"></i> <span class="hidden md:inline">Shop</span>
             </a>
 
             <a class="flex-shrink-0 px-2 py-2 text-xl cursor-pointer md:px-4 hover:text-blue-500"
                 href="{{ route('search.index') }}">
-                <i class="fas fa-search"></i> <span class="hidden sm:inline">Search</span>
+                <i class="fas fa-search"></i> <span class="hidden md:inline">Search</span>
             </a>
 
             @auth
