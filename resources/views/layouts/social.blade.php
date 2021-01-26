@@ -5,7 +5,7 @@
         <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
             @php $associatedProfiles = $user->associated_profiles; @endphp
             <div x-show="open_menu"
-                class="absolute top-0 z-50 flex-1 flex-grow-0 flex-shrink w-full h-full overflow-y-auto bg-white md:h-10/12 md:w-1/4 md:pb-1/12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
+                class="fixed top-0 z-50 flex-grow-0 flex-shrink w-full pb-2 h-full overflow-y-auto bg-white md:h-10/12 md:w-1/4 md:pb-1/12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
                 <div>
                     <x-nav-content :associatedProfiles="$associatedProfiles" />
                 </div>
@@ -20,8 +20,8 @@
                 </main>
             </div>
             @auth
-            <div x-show="open_notifications" :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'"
-                class="fixed top-0 flex-1 flex-grow-0 flex-shrink h-full overflow-y-auto bg-white md:h-10/12 md:pb-1/12 md:top-16 md:bg-transparent md:pl-2 md:right-5">
+            <div x-show="open_notifications"
+                class="fixed top-0 pb-2 flex-grow-0 z-50 flex-shrink h-full overflow-y-auto bg-white md:h-10/12 md:pb-1/12 w-full md:w-1/4 md:top-16 md:bg-transparent md:pl-2 md:right-5">
                 <div>
                     <livewire:general.user.notifications :user="$user"
                         :activeProfile="$associatedProfiles->current_profile" />
