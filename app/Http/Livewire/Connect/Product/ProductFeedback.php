@@ -17,7 +17,9 @@ class ProductFeedback extends Component
     public function mount()
     {
         $this->feedback_id = random_int(1, 918000982092) . $this->product->id;
-        $this->profile = Auth::user()->loadMissing('currentProfile')->currentProfile;
+        if (Auth::check()) {
+            $this->profile = Auth::user()->currentProfile;
+        }
         $this->shareable = $this->likeable = $this->product;
     }
 

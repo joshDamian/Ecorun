@@ -33,7 +33,7 @@
         </div>
         <div class="px-3 py-3 border-b border-gray-300 sm:px-5">
             <a href="{{ $profile->url->visit }}"
-                class="font-bold text-blue-700">{{ ($profile->id === Auth::user()->currentProfile->id) ? 'You' : $profile->name }}</a>
+                class="font-bold text-blue-700">{{ (Auth::check() && $profile->id === Auth::user()->currentProfile->id) ? 'You' : $profile->name }}</a>
             shared a
             {{ strtolower(last(explode('\\', get_class($share->shareable)))) }}.
         </div>

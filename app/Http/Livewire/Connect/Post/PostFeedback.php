@@ -29,8 +29,10 @@ class PostFeedback extends Component
 
     public function mount(): void
     {
+        if (Auth::check()) {
+            $this->profile = Auth::user()->currentProfile;
+        }
         $this->feedback_id = random_int(1, 918000982092) . $this->post->id;
-        $this->profile = Auth::user()->loadMissing('currentProfile')->currentProfile;
         $this->shareable = $this->likeable = $this->post;
         $this->feedbackReady = ($this->view === 'post.show') ? true : null;
         return;
