@@ -6,7 +6,7 @@
     <div class="p-2 @if($notification->read_at) bg-gray-200 @else bg-white @endif">
         <div class="flex flex-wrap">
             <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;"
-                class="flex-shrink-0 w-12 h-12 mr-2 border border-blue-700 rounded-full">
+                class="flex-shrink-0 w-10 h-10 mr-2 border border-blue-700 rounded-full">
             </div>
             <div class="flex-1 flex-shrink-0">
                 <div class="grid grid-cols-1">

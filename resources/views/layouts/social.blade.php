@@ -4,14 +4,13 @@
         <x-navbar :user="$user" />
         <div class="justify-between md:flex md:px-4 md:pt-4 justify-items-center">
             @php $associatedProfiles = $user->associated_profiles; @endphp
-            <div x-show="open_menu" :class="(open_menu) ? 'w-full md:w-1/4' : 'w-0'"
-                class="fixed top-0 flex-1 flex-grow-0 flex-shrink h-full overflow-y-auto bg-white animate__animated animate__slideInLeft md:pb-1/12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
+            <div x-show="open_menu"
+                class="absolute top-0 z-50 flex-1 flex-grow-0 flex-shrink w-full h-full overflow-y-auto bg-white md:h-10/12 md:w-1/4 md:pb-1/12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
                 <div>
                     <x-nav-content :associatedProfiles="$associatedProfiles" />
                 </div>
             </div>
-            <div :class="(open_menu || open_notifications) ? 'hidden md:block' : 'block'"
-                class="flex-1 flex-grow flex-shrink-0 block w-full md:ml-1/4 md:mr-1/4 md:pr-4 md:pl-6 sm:p-2 md:p-0">
+            <div class="flex-1 flex-grow flex-shrink-0 w-full h-full md:ml-1/4 md:mr-1/4 md:pr-4 md:pl-6 sm:p-2 md:p-0">
                 <div>
                     {{-- @livewire('general.session.session-transport',
                     key('session_transport')) --}}
@@ -22,7 +21,7 @@
             </div>
             @auth
             <div x-show="open_notifications" :class="(open_notifications) ? 'w-full md:w-1/4' : 'w-0'"
-                class="fixed top-0 flex-1 flex-grow-0 flex-shrink h-full overflow-y-auto bg-white animate__animated animate__slideInLeft md:pb-1/12 md:top-16 md:bg-transparent md:pl-2 md:right-5">
+                class="fixed top-0 flex-1 flex-grow-0 flex-shrink h-full overflow-y-auto bg-white md:h-10/12 md:pb-1/12 md:top-16 md:bg-transparent md:pl-2 md:right-5">
                 <div>
                     <livewire:general.user.notifications :user="$user"
                         :activeProfile="$associatedProfiles->current_profile" />
