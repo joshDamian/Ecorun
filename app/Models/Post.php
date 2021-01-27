@@ -90,6 +90,7 @@ class Post extends Model
         $this->comments()->delete();
         $this->likes()->delete();
         $this->gallery()->delete();
+        $this->shares()->delete();
         $this->delete();
         return true;
     }

@@ -24,7 +24,7 @@ trait CreatesSocialContent
     public function updatedPhotos(): void
     {
         $this->validate([
-            'photos.*' => ['image', 'max:5120']
+            'photos.*' => ['image', 'max:10240']
         ]);
     }
 
@@ -35,7 +35,7 @@ trait CreatesSocialContent
         return [
             'text_content' => Rule::requiredIf(count($this->photos) < 1),
             'photos' => ['array', Rule::requiredIf(empty(trim($this->text_content)))],
-            'photos.*' => ['image', 'max:5120']
+            'photos.*' => ['image', 'max:10240']
         ];
     }
 }

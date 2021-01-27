@@ -10,7 +10,7 @@
 </style>
 @endpush
 @endonce
-<div wire:init="loadNotifications">
+<div>
     <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
         <div class="flex items-center justify-between">
             <div class="flex-1 text-lg font-bold text-center">

@@ -9,7 +9,7 @@ class ProfilePostList extends Component
 {
     public Profile $profile;
     public string $view;
-    public int $perPage = 10;
+    public int $perPage = 5;
     protected $listeners = [
         'newPost' => '$refresh'
     ];

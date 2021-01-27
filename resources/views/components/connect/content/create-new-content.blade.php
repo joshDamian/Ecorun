@@ -31,7 +31,7 @@
                         <input class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple>
                         <span @click=" $refs.photos.click() "
                             class="font-semibold text-blue-800 cursor-pointer select-none">
-                            <i class="fas fa-images"></i> &nbsp;Photos (Max 5MB)
+                            <i class="fas fa-images"></i> &nbsp;Photos
                         </span>
                         @if(count($photos) > 0)
                         <div class="grid grid-cols-3 gap-2 mt-3">

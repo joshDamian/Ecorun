@@ -20,7 +20,7 @@ class CreateNewComment extends Component
             ]
         );
         $this->post->comments()->save($comment);
-        $this->uploadPhotos('comment-photos', $comment, 'comment_photo', array(1400, 1400));
+        $this->uploadPhotos('comment-photos', $comment, 'comment_photo');
         $this->emit('addedContent');
         $this->emit('newFeedback');
         $this->done();

@@ -25,7 +25,7 @@
 
             @auth
             <div x-show="open_notifications"
-                class="fixed top-0 z-50 flex-grow-0 flex-shrink w-full h-full pb-2 overflow-y-auto bg-white md:z-0 md:h-10/12 md:pb-1/12 md:w-1/4 md:top-16 md:bg-transparent md:pl-2 md:right-5">
+                class="fixed top-0 z-50 flex-grow-0 flex-shrink w-full h-full pb-2 overflow-y-auto bg-white md:h-10/12 md:pb-1/12 md:w-1/4 md:top-16 md:bg-transparent md:pl-2 md:right-5">
                 <livewire:general.user.notifications :user="$user"
                     :activeProfile="$associatedProfiles->current_profile" />
             </div>

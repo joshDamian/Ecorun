@@ -7,7 +7,7 @@
     @endphp
     <div class="md:mb-3">
         <div class="grid grid-cols-1 gap-0 sm:gap-2">
-            <div class="sticky px-3 py-3 bg-gray-100 bg-opacity-75 top-12 sm:px-5">
+            <div class="sticky px-3 py-1 bg-gray-100 bg-opacity-75 top-12 sm:px-5">
                 <div class="flex">
                     <a class="mr-4" href="{{ route('home') }}">
                         <div class="text-xl text-blue-700">

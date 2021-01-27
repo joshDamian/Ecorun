@@ -22,7 +22,7 @@ class CreateNewPost extends Component
         $this->emit('newPost');
         $this->emit('addedContent');
         if (count($this->photos) > 0) {
-            $this->uploadPhotos('post-photos', $post, 'post_photo', array(1400, 1400));
+            $this->uploadPhotos('post-photos', $post, 'post_photo');
         }
         return $this->done();
     }
