@@ -15,7 +15,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" />
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" />
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
     <link preload rel="stylesheet" href="/css/webfonts.css" defer>
@@ -27,6 +27,10 @@
             font-weight: 900;
         }
 
+        .rm-p-bottom-gap p {
+            margin-bottom: -0.86rem;
+        }
+
         .dont-break-out {
             /* These are technically the same, but use both */
             overflow-wrap: break-word;
@@ -34,6 +38,17 @@
 
             /* Instead use this non-standard one: */
             word-break: break-word;
+        }
+
+        .form-textarea {
+            margin-bottom: -0.5rem;
+        }
+
+        .line-clamp {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
     </style>
     @livewireStyles

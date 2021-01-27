@@ -13,13 +13,11 @@ class ExtractMentionsAndTags
 {
     protected Post $post;
 
-    public function __construct(Post $post)
-    {
+    public function __construct(Post $post) {
         $this->post = $post;
     }
 
-    public function act()
-    {
+    public function act() {
         $environment = Environment::createCommonMarkEnvironment();
         $environment->addInlineParser(new HashTagParser());
         $environment->addInlineParser(new MentionParser());
