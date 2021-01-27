@@ -5,7 +5,7 @@
     $profile_visit_url = $profile->url->visit;
     $image_count = $post->gallery_count ?? $gallery->count();
     @endphp
-    <div class="md:mb-3">
+    <div x-data="post_data()" class="md:mb-3">
         <div class="grid grid-cols-1 gap-0 sm:gap-2">
             <div class="sticky px-3 py-1 bg-gray-100 bg-opacity-75 top-12 sm:px-5">
                 <div class="flex">
@@ -48,24 +48,38 @@
                 </div>
 
                 @if($post->content)
-                <x-display-text-content class="px-3 pt-3 sm:px-5" :content="$post->safe_html" />
+                <x-display-text-content class="px-3 pt-3 rm-p-bottom-gap sm:px-5" :content="$post->safe_html" />
                 @endif
 
                 @if($image_count > 0)
-                <div class="flex items-center justify-center">
-                    <img src="/storage/{{ $gallery->first()->image_url }}" />
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="flex items-center justify-center">
+                        <img class="w-full" :src="'/storage/' + activeImage" />
+                    </div>
                 </div>
                 @endif
+
                 <div class="bg-gray-100 border-t border-gray-200">
                     @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.show'],
                     key(md5("post_feedback_for_{$post->id}_view_post.show")))
                 </div>
 
-                <div class="box-content sticky bottom-0 bg-gray-100 bg-opacity-75">
+                <div class="box-content sticky bottom-0 bg-gray-100 px-3 py-2 border-t border-gray-300">
                     @livewire('connect.post.comment.create-new-comment', ['post' => $post, 'profile' =>
                     Auth::user()->currentProfile],
                     key(time().$post->id.'_comment'))
                 </div>
             </div>
         </div>
+    </div>
+    <script>
+        function post_data() {
+            return {
+                activeImage: '{{ $gallery->first()->image_url }}',
+                changeActiveImage: function(image) {
+                    this.activeImage = image;
+                }
+            }
+        }
+    </script>
 </x-social-layout>

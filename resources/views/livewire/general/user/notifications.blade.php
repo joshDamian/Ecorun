@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @once
 @push('styles')
 <style>
@@ -11,6 +12,9 @@
 @endpush
 @endonce
 <div>
+=======
+<div wire:init="loadNotifications">
+>>>>>>> a0bdf9a4c59e89014ceab59ba3e9d1d9d519840e
     <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
         <div class="flex items-center justify-between">
             <div class="flex-1 text-lg font-bold text-center">
@@ -25,16 +29,16 @@
         @foreach($profiles as $profile)
         @continue($profile->id === $this->activeProfile->id)
         Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewMessageForProfile', () => {
-            Livewire.emit('newMessage')
+        Livewire.emit('newMessage')
         }).notification((notification) => {
-            Livewire.emit('newNotification', notification);
+        Livewire.emit('newNotification', notification);
         });
         @endforeach
-    }">
+        }">
     </div>
 
     @if($profiles->count() > 1)
-    <div class="sticky flex flex-wrap items-center bg-gray-200 bg-opacity-75 border-b border-gray-300 top-12 md:top-0">
+    <div class="sticky flex flex-wrap items-center bg-gray-200 bg-opacity-75 border-b border-gray-300 top-11 md:top-0">
         @foreach($profiles as $key => $profile)
         <div class="">
             <x-connect.profile.switch-profile-for-notif :profile="$profile" :unreadCount="$this->unreadCount($profile)"
