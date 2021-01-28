@@ -13,7 +13,7 @@
                 $likes_count = $this->likes();
                 @endphp
                 @if($likes_count > 0)
-                <div class="ml-2 text-gray-700 text-md">
+                <div class="ml-2 font-bold text-gray-700 text-md">
                     {{ $likes_count }}
                 </div>
                 @endif
@@ -24,6 +24,14 @@
             !=='post.show' ) href="{{ route('post.show', ['post' => $post->id]) }}" @else wire:click="toogleFeedback"
             @endif>
             <i class="text-xl text-blue-700 cursor-pointer far fa-comment"></i>
+            @php
+            $feedback_count = $this->feedbacks();
+            @endphp
+            @if($feedback_count > 0)
+            <div class="ml-2 font-bold text-gray-700 text-md">
+                {{ $feedback_count }}
+            </div>
+            @endif
         </a>
 
         <div class="flex items-center justify-center px-2 py-2 bg-white rounded-full">
@@ -32,7 +40,7 @@
             $shares_count = $this->shares();
             @endphp
             @if($shares_count > 0)
-            <div class="ml-2 text-gray-700 text-md">
+            <div class="ml-2 font-bold text-gray-700 text-md">
                 {{ $shares_count }}
             </div>
             @endif

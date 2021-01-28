@@ -9,7 +9,7 @@ class Notifications extends Component
 {
     public $user;
     public $activeProfile;
-    public bool $display = true;
+    public bool $display = false;
     protected $listeners = [
         'modifiedNotifs' => '$refresh',
         'newNotification' => '$refresh'

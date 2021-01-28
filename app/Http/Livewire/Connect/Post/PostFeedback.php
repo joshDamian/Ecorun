@@ -33,7 +33,7 @@ class PostFeedback extends Component
             $this->profile = Auth::user()->currentProfile;
         }
         $this->feedback_id = random_int(1, 918000982092) . $this->post->id;
-        $this->shareable = $this->likeable = $this->post;
+        $this->shareable = $this->likeable = $this->feedbackable = $this->post;
         $this->feedbackReady = ($this->view === 'post.show') ? true : null;
         return;
     }

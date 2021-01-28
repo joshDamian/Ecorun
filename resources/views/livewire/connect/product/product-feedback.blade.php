@@ -26,7 +26,7 @@
                 $likes_count = $this->likes();
                 @endphp
                 @if($likes_count > 0)
-                <div class="ml-2 text-gray-700 text-md">
+                <div class="ml-2 font-bold text-gray-700 text-md">
                     {{ $likes_count }}
                 </div>
                 @endif
@@ -39,7 +39,7 @@
             $shares_count = $this->shares();
             @endphp
             @if($shares_count > 0)
-            <div class="ml-2 text-gray-700 text-md">
+            <div class="ml-2 font-bold text-gray-700 text-md">
                 {{ $shares_count }}
             </div>
             @endif
