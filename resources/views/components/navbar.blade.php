@@ -1,5 +1,5 @@
 @props(['user'])
-<nav class="sticky top-0 w-full text-white bg-blue-800 shadow">
+<nav class="sticky top-0 z-40 w-full text-white bg-blue-800 shadow">
     <div class="flex items-center overflow-x-auto overflow-y-hidden select-none">
         <div @click=" function nav() {
             if(window.outerWidth < 768) {
@@ -12,14 +12,15 @@
             <i class="fas fa-bars"></i>
         </div>
 
-        <div class="text-gray-200 w-1/4 text-xl px-2 py-2 font-extrabold">
+        <div class="w-1/4 px-2 py-2 text-xl font-extrabold text-gray-200">
             <a href="{{ route('home') }}">
                 {{ config('app.name') }}
             </a>
         </div>
 
-        <div class="flex flex-1 md:text-lg justify-between items-center font-medium">
-            <a class="flex-shrink-0 px-2 py-2 text-xl cursor-pointer md:px-4 hover:text-blue-500" href="{{ route('home') }}">
+        <div class="flex items-center justify-between flex-1 font-medium md:text-lg">
+            <a class="flex-shrink-0 px-2 py-2 text-xl cursor-pointer md:px-4 hover:text-blue-500"
+                href="{{ route('home') }}">
                 <i class="fas fa-house-user"></i> <span class="hidden md:inline">Home</span>
             </a>
 

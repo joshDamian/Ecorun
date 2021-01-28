@@ -125,7 +125,7 @@
             <div class="flex-1 flex-shrink-0">
                 <textarea x-ref="content" x-model="message" onfocusout="Echo.join('private_conversation.{{ $conversation->id }}')
                         .whisper('done_typing')"
-                    :class="(message === '') ? 'rounded-full overflow-hidden' : 'rounded-md'"
+                    :class="{ 'overflow-hidden': !large_content, 'rounded-full': message === '' }"
                     placeholder="Type a message" @input="autosize()" @keydown="autosize(); Echo.join('private_conversation.{{ $conversation->id }}')
                         .whisper('typing')" rows="1"
                     class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1882e8f1d34dced1d71863486b0324fd",
+    "content-hash": "d98dba445b7433136f1e0283707b22cb",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2958,61 +2958,6 @@
             "time": "2020-04-05T10:47:18+00:00"
         },
         {
-            "name": "ps/image-optimizer",
-            "version": "2.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/psliwa/image-optimizer.git",
-                "reference": "a4b53744b8cf83d018adcc03464fbd226a4079fd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/psliwa/image-optimizer/zipball/a4b53744b8cf83d018adcc03464fbd226a4079fd",
-                "reference": "a4b53744b8cf83d018adcc03464fbd226a4079fd",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1",
-                "psr/log": "^1.0",
-                "symfony/options-resolver": "~3.3 | ~4.0 | ~5.0",
-                "symfony/process": "~3.3 | ~4.0 | ~5.0"
-            },
-            "require-dev": {
-                "ext-gd": "*",
-                "phpunit/phpunit": "^7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "ImageOptimizer": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Piotr Sliwa",
-                    "email": "peter.pl7@gmail.com"
-                }
-            ],
-            "description": "Image optimization / compression library. This library is able to optimize png, jpg and gif files in very easy and handy way. It uses optipng, pngquant, pngcrush, pngout, gifsicle, jpegoptim and jpegtran tools.",
-            "keywords": [
-                "compression",
-                "image",
-                "image optimizer",
-                "jpegoptim",
-                "optimization",
-                "optipng"
-            ],
-            "support": {
-                "issues": "https://github.com/psliwa/image-optimizer/issues",
-                "source": "https://github.com/psliwa/image-optimizer/tree/master"
-            },
-            "time": "2020-01-11T21:47:34+00:00"
-        },
-        {
             "name": "psr/container",
             "version": "1.0.0",
             "source": {
@@ -5729,75 +5674,6 @@
                 }
             ],
             "time": "2020-12-09T18:54:12+00:00"
-        },
-        {
-            "name": "symfony/options-resolver",
-            "version": "v5.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "87a2a4a766244e796dd9cb9d6f58c123358cd986"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/87a2a4a766244e796dd9cb9d6f58c123358cd986",
-                "reference": "87a2a4a766244e796dd9cb9d6f58c123358cd986",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.5",
-                "symfony/deprecation-contracts": "^2.1",
-                "symfony/polyfill-php73": "~1.0",
-                "symfony/polyfill-php80": "^1.15"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\OptionsResolver\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony OptionsResolver Component",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "config",
-                "configuration",
-                "options"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/options-resolver/tree/v5.2.1"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-10-24T12:08:07+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

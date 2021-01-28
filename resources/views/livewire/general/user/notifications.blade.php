@@ -1,20 +1,4 @@
-<<<<<<< HEAD
-@once
-@push('styles')
-<style>
-    .line-clamp {
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-</style>
-@endpush
-@endonce
-<div>
-=======
 <div wire:init="loadNotifications">
->>>>>>> a0bdf9a4c59e89014ceab59ba3e9d1d9d519840e
     <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
         <div class="flex items-center justify-between">
             <div class="flex-1 text-lg font-bold text-center">
@@ -29,9 +13,9 @@
         @foreach($profiles as $profile)
         @continue($profile->id === $this->activeProfile->id)
         Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewMessageForProfile', () => {
-        Livewire.emit('newMessage')
+            Livewire.emit('newMessage')
         }).notification((notification) => {
-        Livewire.emit('newNotification', notification);
+            Livewire.emit('newNotification', notification);
         });
         @endforeach
         }">
