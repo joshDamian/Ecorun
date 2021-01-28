@@ -1,9 +1,8 @@
 <x-social-layout>
     <style>
         .carousel-cell {
-            width: 66%;
+            width: 100%;
             height: 400px;
-            margin-right: 10px;
         }
 
         .carousel-cell-image {
@@ -76,11 +75,11 @@
 
                 @if($image_count > 0)
                 <div class="bg-gray-100">
-                    <div class="carousel" data-flickity='{ "lazyLoad": true, "wrapAround": true }'>
+                    <div class="carousel" data-flickity='{ "lazyLoad": true }'>
                         @foreach($gallery as $key => $image)
                         <div class="flex items-center bg-black carousel-cell">
                             <img class="carousel-cell-image" data-flickity-lazyload="/storage/{{ $image->image_url }}"
-                                alt="post image" />
+                            alt="post image" />
                         </div>
                         @endforeach
                     </div>

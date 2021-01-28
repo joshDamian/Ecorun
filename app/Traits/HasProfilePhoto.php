@@ -10,19 +10,22 @@ use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 trait HasProfilePhoto
 {
     /**
-     * Update the user's profile photo.
-     *
-     * @param  \Illuminate\Http\UploadedFile  $photo
-     * @return void
-     */
-    public function updateProfilePhoto(UploadedFile $photo)
-    {
+    * Update the user's profile photo.
+    *
+    * @param  \Illuminate\Http\UploadedFile  $photo
+    * @return void
+    */
+    public function updateProfilePhoto(UploadedFile $photo) {
         tap($this->profile_photo_path, function ($previous) use ($photo) {
+            $photo_path = $photo->storePublicly(
+                'profile-photos',
+                ['disk' => $this->profilePhotoDisk()]
+            );
+
+            ImageOptimizer::optimize(public_path("/storage/{$photo_path}"));
+
             $this->forceFill([
-                'profile_photo_path' => ImageOptimizer::optimize($photo->storePublicly(
-                    'profile-photos',
-                    ['disk' => $this->profilePhotoDisk()]
-                )),
+                'profile_photo_path' => $photo_path,
             ])->save();
 
             if ($previous) {
@@ -32,12 +35,11 @@ trait HasProfilePhoto
     }
 
     /**
-     * Delete the user's profile photo.
-     *
-     * @return void
-     */
-    public function deleteProfilePhoto()
-    {
+    * Delete the user's profile photo.
+    *
+    * @return void
+    */
+    public function deleteProfilePhoto() {
         if (!Features::managesProfilePhotos()) {
             return;
         }
@@ -50,34 +52,31 @@ trait HasProfilePhoto
     }
 
     /**
-     * Get the URL to the user's profile photo.
-     *
-     * @return string
-     */
-    public function getProfilePhotoUrlAttribute()
-    {
+    * Get the URL to the user's profile photo.
+    *
+    * @return string
+    */
+    public function getProfilePhotoUrlAttribute() {
         return $this->profile_photo_path
-            ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
-            : $this->defaultProfilePhotoUrl();
+        ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
+        : $this->defaultProfilePhotoUrl();
     }
 
     /**
-     * Get the default profile photo URL if no profile photo has been uploaded.
-     *
-     * @return string
-     */
-    protected function defaultProfilePhotoUrl()
-    {
+    * Get the default profile photo URL if no profile photo has been uploaded.
+    *
+    * @return string
+    */
+    protected function defaultProfilePhotoUrl() {
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&color=7F9CF5&background=EBF4FF';
     }
 
     /**
-     * Get the disk that profile photos should be stored on.
-     *
-     * @return string
-     */
-    protected function profilePhotoDisk()
-    {
+    * Get the disk that profile photos should be stored on.
+    *
+    * @return string
+    */
+    protected function profilePhotoDisk() {
         return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : 'public';
     }
 }

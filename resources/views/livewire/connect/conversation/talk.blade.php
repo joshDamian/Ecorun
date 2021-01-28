@@ -1,60 +1,63 @@
 <div x-data="{ large_content: false, autosize: function(){
-        this.$refs.content.style.cssText = 'height:auto;';
-        var scrollHeight = this.$refs.content.scrollHeight;
-        if(scrollHeight <= 140) {
-            this.$refs.content.style.cssText = 'height:' + scrollHeight + 'px;';
-            this.large_content = false;
-        } else {
-            this.large_content = true;
-            this.$refs.content.style.cssText = 'height:' + 140 + 'px;';
-        }
+    this.$refs.content.style.cssText = 'height:auto;';
+    var scrollHeight = this.$refs.content.scrollHeight;
+    if(scrollHeight <= 140) {
+    this.$refs.content.style.cssText = 'height:' + scrollHeight + 'px;';
+    this.large_content = false;
+    } else {
+    this.large_content = true;
+    this.$refs.content.style.cssText = 'height:' + 140 + 'px;';
+    }
     },
     message: '',
     resetHeight: function(){
-        this.large_content = false;
-        this.$refs.content.style.cssText = 'height:auto;';
-        this.message = '';
-        this.$refs.content.focus();
-        this.$refs.content.rows = '1';
+    this.large_content = false;
+    this.$refs.content.style.cssText = 'height:auto;';
+    this.message = '';
+    this.$refs.content.focus();
+    this.$refs.content.rows = '1';
     }
-}" x-init="() => {
+    }" x-init="() => {
     Echo.join('private_conversation.{{ $conversation->id }}')
     .here((profiles) => {
-        Livewire.emit('hide', true);
-        console.log(profiles);
-        Livewire.emit('markReceivedMessagesRead');
+    Livewire.emit('hide', true);
+    console.log(profiles);
+    Livewire.emit('markReceivedMessagesRead');
     })
     .joining((profile) => {
-        console.log(profile.name + ' just joined');
-        Livewire.emit('markReceivedMessagesRead');
+    console.log(profile.name + ' just joined');
+    Livewire.emit('markReceivedMessagesRead');
     })
     .leaving((profile) => {
-        console.log(profile.name + ' is leaving');
+    console.log(profile.name + ' is leaving');
     }).listen('SentMessage', (e) => {
-        Livewire.emit('refresh')
-        Livewire.hook('element.initialized', (el, compo) => {
-            {{-- if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) { --}}
-                window.scrollTo(0, document.body.scrollHeight);
-           {{--  } --}}
-        })
-        Livewire.emit('markReceivedMessagesRead');
+    Livewire.emit('refresh')
+    Livewire.hook('element.initialized', (el, compo) => {
+    if((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
+    window.scrollTo(0, document.body.scrollHeight);
+    }
+    })
+    Livewire.emit('markReceivedMessagesRead');
     }).listenForWhisper('typing', () => {
-        $refs.status.innerText = 'typing...';
+    $refs.status.innerText = 'typing...';
     }).listenForWhisper('done_typing', () => {
-        $refs.status.innerText = '';
+    $refs.status.innerText = '';
     }).listenForWhisper('readMessages', () => {
-        Livewire.emit('refresh')
+    Livewire.emit('refresh')
     });
     Livewire.on('SentAMessage', () =>  {
-        window.scrollTo(0, document.body.scrollHeight);
+    window.scrollTo(0, document.body.scrollHeight);
     })
     Livewire.on('readMessages', () => {
-        Echo.join('private_conversation.{{ $conversation->id }}')
-        .whisper('readMessages')
+    Echo.join('private_conversation.{{ $conversation->id }}')
+    .whisper('readMessages')
     })
     window.scrollTo(0, $refs.messages.scrollHeight);
-}">
-    <div class="fixed top-0 flex items-center w-full p-3 bg-gray-100 md:sticky md:top-12">
+    setTimeout(() => {
+    Livewire.emit('hide', true);
+    }, 100)
+    }">
+    <div class="fixed top-0 z-50 flex items-center w-full p-3 bg-gray-100 md:sticky md:top-12">
         <div class="mr-3">
             <i @click="Livewire.emit('showAll'); window.modifyUrl.modify('/chat'); Livewire.emit('hide', false);"
                 class="text-xl text-blue-700 cursor-pointer fas fa-arrow-left"></i>
@@ -77,8 +80,8 @@
         </div>
     </div>
 
-    <div style="scroll-behavior: auto;" x-ref="messages"
-        class="grid grid-cols-1 gap-3 px-3 pt-6 pb-2 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
+    <div x-ref="messages"
+        class="grid relative z-30 grid-cols-1 gap-3 px-3 pt-6 pb-2 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
         @if($messages_count > $messages->count())
         <div class="flex justify-center">
             <x-jet-button wire:click="loadOlderMessages" class="bg-blue-700 rounded-xl">
@@ -124,10 +127,10 @@
             </div>
             <div class="flex-1 flex-shrink-0">
                 <textarea x-ref="content" x-model="message" onfocusout="Echo.join('private_conversation.{{ $conversation->id }}')
-                        .whisper('done_typing')"
+                    .whisper('done_typing')"
                     :class="{ 'overflow-hidden': !large_content, 'rounded-full': message === '' }"
                     placeholder="Type a message" @input="autosize()" @keydown="autosize(); Echo.join('private_conversation.{{ $conversation->id }}')
-                        .whisper('typing')" rows="1"
+                    .whisper('typing')" rows="1"
                     class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
             </div>
 

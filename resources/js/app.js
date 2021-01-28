@@ -14,7 +14,7 @@ class ModifyUrl {
 
 class Carousel {
     build(el, options) {
-        return new Flickity( el, options);
+        return new Flickity(el, options);
     }
 }
 

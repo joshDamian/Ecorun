@@ -44,6 +44,12 @@
             margin-bottom: -0.5rem;
         }
 
+@-moz-document url-prefix() {
+            .form-textarea {
+                margin-bottom: -0.1rem;
+            }
+        }
+
         .line-clamp {
             display: -webkit-box;
             -webkit-line-clamp: 1;

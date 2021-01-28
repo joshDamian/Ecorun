@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <x-connect.post.post-options :post="$post" />
+            {{-- <x-connect.post.post-options :post="$post" /> --}}
         </div>
         @if($post->content)
         <x-display-text-content class="px-3 pt-3 rm-p-bottom-gap sm:px-5" :content="$post->safe_html" />

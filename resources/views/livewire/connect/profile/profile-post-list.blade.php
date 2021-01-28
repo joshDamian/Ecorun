@@ -1,14 +1,14 @@
 <div x-data="{
     loadMore: function() {
-        window.onscroll = function(ev) {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                if (parseInt('{{ $this->posts_count() }}', 10) > @this.perPage) {
-                    @this.call('loadMore');
-                }
-            }
-        }
+    window.onscroll = function(ev) {
+    if ((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
+    if (parseInt('{{ $this->posts_count() }}', 10) > @this.perPage) {
+    @this.call('loadMore');
     }
-}" x-init="loadMore()">
+    }
+    }
+    }
+    }" x-init="loadMore()">
     <div wire:loading class="w-full">
         <x-loader_2 />
     </div>
