@@ -32,7 +32,7 @@
     console.log(profile.name + ' is leaving');
     }).listen('SentMessage', (e) => {
     Livewire.emit('refresh')
-    Livewire.hook('element.initialized', (el, compo) => {
+    Livewire.hook('element.updated', (el, compo) => {
     if((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
     window.scrollTo(0, document.body.scrollHeight);
     }
