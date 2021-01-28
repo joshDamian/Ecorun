@@ -81,7 +81,7 @@
     </div>
 
     <div x-ref="messages"
-        class="grid relative z-30 grid-cols-1 gap-3 px-3 pt-6 pb-2 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
+        class="grid grid-cols-1 gap-3 px-3 pt-6 pb-2 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
         @if($messages_count > $messages->count())
         <div class="flex justify-center">
             <x-jet-button wire:click="loadOlderMessages" class="bg-blue-700 rounded-xl">
@@ -120,7 +120,7 @@
         @endforeach
     </div>
 
-    <div class="sticky bottom-0 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
+    <div class="sticky z-50 bottom-0 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
         <div :class="large_content ? 'items-baseline' : 'items-center'" class="flex">
             <div class="flex items-center mr-3 text-2xl text-blue-700">
                 <i class="cursor-pointer far fa-images"></i>
