@@ -38,33 +38,15 @@
         @endif
 
         @if($image_count > 0)
-        <div class="@if($image_count > 1) grid grid-cols-2 gap-1 @endif bg-white">
-            <div>
-                <img class="w-full" src="/storage/{{ $gallery->first()->image_url }}" />
-            </div>
-            @if($image_count > 1 )
-            <div class="grid gap-1 @if($image_count > 1 && $image_count < 4) grid-cols-1 @else grid-cols-2 @endif">
+        <div class="bg-gray-100">
+            <div class="main-carousel" data-flickity='{ "lazyLoad": true }'>
                 @foreach($gallery as $key => $image)
-                @continue($image->is($gallery->first()))
-                @if($image_count > 2)
-                @break($key === 6)
-                <div style="background-image: url('/storage/{{ $image->image_url }}'); background-size: cover; background-position: center center;"
-                    class="w-full">
+                <div class="flex items-center bg-black carousel-post-feed">
+                    <img class="carousel-cell-image" data-flickity-lazyload="/storage/{{ $image->image_url }}"
+                    alt="post image" />
                 </div>
-                @else
-                <img class="w-full" src="/storage/{{ $image->image_url }}" />
-                @endif
                 @endforeach
-                @if($image_count > 6)
-                <div class="flex items-center justify-center bg-black">
-                    <div class="text-white">
-                        <i class="text-2xl fas fa-plus"></i> &nbsp; <span
-                            class="text-2xl font-bold">{{ $image_count - 6 }}</span>
-                    </div>
-                </div>
-                @endif
             </div>
-            @endif
         </div>
         @endif
     </div>

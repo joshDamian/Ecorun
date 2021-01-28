@@ -21,6 +21,7 @@
     <link preload rel="stylesheet" href="/css/webfonts.css" defer>
 
     @stack('styles')
+
     <style>
         .text-content a {
             color: rgb(18, 18, 151);
@@ -42,6 +43,32 @@
 
         .form-textarea {
             margin-bottom: -0.5rem;
+        }
+
+        .carousel-cell {
+            width: 100%;
+            height: 400px;
+        }
+
+        .carousel-post-feed {
+            width: 100%;
+            height: 200px;
+        }
+
+        .carousel-cell-image {
+            display: block;
+            max-height: 100%;
+            margin: 0 auto;
+            max-width: 100%;
+            opacity: 0;
+            -webkit-transition: opacity 0.4s;
+            transition: opacity 0.4s;
+        }
+
+        /* fade in lazy loaded image */
+        .carousel-cell-image.flickity-lazyloaded,
+        .carousel-cell-image.flickity-lazyerror {
+            opacity: 1;
         }
 
 @-moz-document url-prefix() {
