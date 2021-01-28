@@ -5,12 +5,11 @@ namespace App\Http\Livewire\BuildAndManage\Product;
 use Livewire\Component;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use Livewire\WithFileUploads;
+use App\Http\Livewire\Traits\UploadPhotos;
 
 class ManageProductImages extends Component
 {
-    use WithFileUploads;
+    use UploadPhotos;
     public Product $product;
     public $photos = [];
 
@@ -18,7 +17,7 @@ class ManageProductImages extends Component
         'photos.*' => [
             'required',
             'image',
-            'max:4096'
+            'max:5120'
         ],
     ];
 
@@ -43,18 +42,7 @@ class ManageProductImages extends Component
     public function saveImages()
     {
         $this->validate();
-
-        foreach ($this->photos as $photo) {
-            $photo_path = $photo->store('product-photos', 'public');
-            $photo = Image::make(public_path("/storage/{$photo_path}"))->fit(1600, 1600);
-            $photo->save();
-
-            $this->product->gallery()->create([
-                'image_url' => $photo_path,
-                'label' => 'product_image'
-            ]);
-        }
-
+        $this->uploadPhotos('product-photos', $this->product, 'product_image', array(1600, 1600));
         $this->emitSelf('refresh');
     }
 

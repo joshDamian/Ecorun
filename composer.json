@@ -18,12 +18,12 @@
         "laravel/jetstream": "^1.3",
         "laravel/sanctum": "^2.6",
         "laravel/scout": "^8.3",
-        "laravel/telescope": "^4.0",
         "laravel/tinker": "^2.0",
         "league/commonmark": "^1.5",
         "livewire/livewire": "^2.3",
         "pusher/pusher-php-server": "~3.0",
         "rennokki/laravel-eloquent-query-cache": "^2.5",
+        "spatie/laravel-image-optimizer": "^1.6",
         "spatie/laravel-tags": "^3.0",
         "yab/laravel-scout-mysql-driver": "^3.0"
     },
@@ -31,6 +31,7 @@
         "facade/ignition": "^2.3.6",
         "fzaninotto/faker": "^1.9.1",
         "laravel/dusk": "^6.7",
+        "laravel/telescope": "^4.4",
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3",
@@ -43,7 +44,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "autoload": {

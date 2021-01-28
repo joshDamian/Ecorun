@@ -2,13 +2,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@import 'animate.css/animate.compat.css';
-
 @import './loader.css';
-
 @import './loader_2.css';
 
 @import './scroll-bar.css';
+
+@import 'flickity/css/flickity.css';
 
 [x-cloak] {
             display: none;

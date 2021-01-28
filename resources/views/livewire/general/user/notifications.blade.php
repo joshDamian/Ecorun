@@ -1,15 +1,3 @@
-@once
-@push('styles')
-<style>
-    .line-clamp {
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-</style>
-@endpush
-@endonce
 <div wire:init="loadNotifications">
     <div class="sticky top-0 p-2 text-left text-white bg-blue-800 md:hidden">
         <div class="flex items-center justify-between">
@@ -30,11 +18,11 @@
             Livewire.emit('newNotification', notification);
         });
         @endforeach
-    }">
+        }">
     </div>
 
     @if($profiles->count() > 1)
-    <div class="sticky flex flex-wrap items-center bg-gray-200 bg-opacity-75 border-b border-gray-300 top-12 md:top-0">
+    <div class="sticky flex flex-wrap items-center bg-gray-200 bg-opacity-75 border-b border-gray-300 top-11 md:top-0">
         @foreach($profiles as $key => $profile)
         <div class="">
             <x-connect.profile.switch-profile-for-notif :profile="$profile" :unreadCount="$this->unreadCount($profile)"

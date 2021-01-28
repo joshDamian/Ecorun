@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Traits;
 
 use Intervention\Image\Facades\Image;
 use Livewire\WithFileUploads;
+use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 trait UploadPhotos
 {
@@ -14,6 +15,7 @@ trait UploadPhotos
         if (count($this->photos) > 0) {
             foreach ($this->photos as $photo) {
                 $photo_path = $photo->store($folder, 'public');
+                ImageOptimizer::optimize(public_path("/storage/{$photo_path}"));
                 if ($sizes) {
                     $photo = Image::make(public_path("/storage/{$photo_path}"))->fit($sizes[0], $sizes[1], function ($constraint) {
                         $constraint->upsize();

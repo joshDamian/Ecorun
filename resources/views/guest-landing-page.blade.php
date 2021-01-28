@@ -14,25 +14,10 @@
     <!-- Styles -->
     <link rel="stylesheet" href="/css/app.css" defer>
     <link rel="stylesheet" href="/css/webfonts.css" defer>
-
-    {{-- <link href="https://afeld.github.io/emoji-css/emo7ji.css" rel="stylesheet">
-    <style>
-        [x-cloak] {
-            display: none;
-        }
-
-    </style>
-
-    @stack('styles')
-    @livewireStyles
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
-    --}}
 </head>
 
 <body class="font-sans leading-normal tracking-normal">
-    <nav class="bg-white border-b-4 border-blue-800 md:sticky md:top-0">
+    <nav class="sticky top-0 z-50 bg-white border-b-4 border-blue-800">
         <div>
             <ul class="flex items-center px-3 py-2">
                 <li class="flex-1 text-2xl font-bold text-blue-800">{{ config('app.name') }}</li>

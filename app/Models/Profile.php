@@ -6,7 +6,7 @@ use App\Presenters\Profile\ConversationsPresenter;
 use App\Traits\StringManipulations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Jetstream\HasProfilePhoto;
+use App\Traits\HasProfilePhoto;
 use Illuminate\Support\Str;
 use App\Tools\GeneratorTool;
 use Illuminate\Notifications\Notifiable;

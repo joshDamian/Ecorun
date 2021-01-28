@@ -1,7 +1,7 @@
 <div wire:init="initialize">
     <div class="sticky p-3 bg-gray-200 bg-opacity-75 top-12">
         <div class="flex items-center justify-between">
-            <x-jet-input wire:model="query" placeholder="search for people, products, businesses"
+            <x-jet-input wire:model="query" type="search" placeholder="search for people, products, businesses"
                 class="w-full mr-3 placeholder-blue-700 rounded-full" />
             <x-jet-button wire:click="$refresh" class="bg-blue-700 rounded-full shadow">
                 <i class="text-lg fas fa-search"></i>

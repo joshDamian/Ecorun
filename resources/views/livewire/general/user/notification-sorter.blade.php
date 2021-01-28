@@ -15,7 +15,7 @@
         @php
         $notification_type = $this->model_notification_types->get($notification->type);
         @endphp
-        <div class="cursor-pointer"
+        <div class="cursor-pointer select-none"
             onclick="@if(is_null($notification->read_at)) @this.call('markAsRead', '{{ $notification->id }}'); @endif @this.call('switchUserProfile', '{{ $notification->notifiable_id }}'); window.location='{{ (get_class($notification->model) === 'App\Models\Share') ? $notification->model->shareable->url->show : $notification->model->url->show }}'">
             @include($this->viewIncludeFolder . $notification_type['display-card'], ['model' => $notification->model])
         </div>

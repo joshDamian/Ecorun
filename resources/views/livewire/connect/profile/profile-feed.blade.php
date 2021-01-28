@@ -1,21 +1,21 @@
 <div x-data="{
     show_button: false,
     loadMore: function() {
-        window.onscroll = function(ev) {
-            if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                if(parseInt('{{ $this->all_count() }}', 10) > @this.perPage) {
-                    @this.call('loadMore');
-                }
-            }
-        }
+    window.onscroll = function(ev) {
+    if ((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
+    if(parseInt('{{ $this->all_count() }}', 10) > @this.perPage) {
+    @this.call('loadMore');
     }
- }" x-init="() => { loadMore(); Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewFeedContentForProfile', () => {
+    }
+    };
+    }
+    }" x-init="() => { loadMore(); Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewFeedContentForProfile', () => {
     show_button = true;
-}) }">
+    }) }">
     <div class="fixed bottom-0 flex w-full overflow-x-auto font-semibold bg-gray-100 bg-gray-200 border-t border-gray-300 md:bg-opacity-75 md:border-b md:sticky"
         x-data="{ collapsed: false }" x-init="() => {
         Livewire.on('toggled', (toggle) => { collapsed = toggle; }); Livewire.on('newPost', () => { @this.call('setSortBy', 'all') });
-        }" :class="(collapsed) ? 'md:top-16' : 'md:top-28'">
+        }" :class="(collapsed) ? 'md:top-12' : 'md:top-28'">
         <div onclick="window.scrollTo(0, 0)" wire:click="setSortBy('{{ __('all') }}')"
             class="py-2 text-center select-none flex-shrink-0 flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'all') bg-white text-blue-700 @else text-gray-700 @endif">
             {{ __('All') }}
@@ -50,7 +50,7 @@
         <x-loader_2 />
     </div>
 
-    <div class="grid grid-cols-1 gap-3 pb-16 md:pb-0 sm:gap-4">
+    <div class="grid grid-cols-1 gap-3 pb-11 md:pb-0 sm:gap-4">
         @forelse($this->displaying_feed as $key => $feed_item)
         @include($this->viewIncludeFolder . $this->feed_types[get_class($feed_item)]['view'], ['model' =>
         $feed_item])

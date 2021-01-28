@@ -43,7 +43,7 @@
 
         @case('posts')
         @can('update', $profile)
-        <div class="mb-2 ml-0 md:ml-0 md:mb-3">
+        <div class="px-3 mb-2">
             @livewire('connect.post.create-new-post', ['profile' => $profile, 'view' => 'timeline'],
             key(md5("create_new_post_for_{$profile->id}_view_timeline")))
         </div>

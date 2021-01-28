@@ -33,15 +33,15 @@
     <script>
         function nav_data() {
             return {
-                open_menu: null,
-                open_notifications: null,
+                open_menu: false,
+                open_notifications: false,
                 init_nav() {
-                    return this.expand()
+                    this.expand()
                 },
                 expand() {
-                    if (window.outerWidth > 768) {
+                    if (window.outerWidth >= 768) {
                         this.open_notifications = true;
-                        return this.open_menu = true;
+                        this.open_menu = true;
                     }
                 }
             }

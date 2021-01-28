@@ -68,9 +68,10 @@ class NotificationSorter extends Component
 
     public function valid_notifications()
     {
-        return $this->notifications->filter(function ($notif) {
+        $data_for_models = $this->data_for_models;
+        return $this->notifications->filter(function ($notif) use ($data_for_models) {
             if ($this->model_notification_types->has($notif->type)) {
-                return $this->modelValidityTest($notif);
+                return $this->modelValidityTest($notif, $data_for_models);
             }
             return true;
         });
@@ -95,11 +96,11 @@ class NotificationSorter extends Component
         });
     }
 
-    public function modelValidityTest($notification)
+    public function modelValidityTest($notification, $data_for_models)
     {
         $notification_type = $this->model_notification_types->get($notification->type);
         $modelName = $notification_type['model'];
-        $model = $this->data_for_models[$modelName]->find($notification->data['model_key']);
+        $model = $data_for_models[$modelName]->find($notification->data['model_key']);
         if ($model) {
             $notification->model = $model;
             return true;
