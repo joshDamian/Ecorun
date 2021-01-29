@@ -20,7 +20,11 @@
     </div>
 
     @if($this->activeProfile)
+    @php
+    $rand_profile_conversations_key = $this->activeProfile->id . microtime() . random_int(1, 98876577899) .
+    'profile_conversations';
+    @endphp
     @livewire('connect.conversation.profile-conversations', ['profile' => $this->activeProfile, 'activeConversation' =>
-    request()->input('activeConversation')], key([$this->activeProfile->id . microtime() . random_int(1, 98876577899)]))
+    request()->input('activeConversation')], key($rand_profile_conversations_key))
     @endif
 </div>

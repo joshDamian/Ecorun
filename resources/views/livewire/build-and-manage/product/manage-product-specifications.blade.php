@@ -15,8 +15,9 @@
             <div
                 class="grid sm:gap-4 gap-2 @if($specifications_count < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-2">
                 @foreach ($specifications as $specification)
+                @php $spec_rand_key = $specification->id . random_int(2, 2000000) . 'product_specification'; @endphp
                 @livewire('build-and-manage.product-specification.manage-specification', ['specification' =>
-                $specification], key([$specification->id . random_int(2, 2000000) . 'product_specification']))
+                $specification], key($spec_rand_key))
                 @endforeach
             </div>
         </div>
