@@ -43,7 +43,7 @@
             <x-connect.image.carousel :gallery="$gallery" />
         </div>
         @else
-        <div class="flex items-center justify-center bg-black carousel-post-feed">
+        <div class="flex items-center justify-center bg-gray-100 carousel-post-feed">
             <img class="max-w-full max-h-full" src="/storage/{{ $gallery->first()->image_url }}" />
         </div>
         @endif
