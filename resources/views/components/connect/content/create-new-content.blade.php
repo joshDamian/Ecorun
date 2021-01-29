@@ -10,6 +10,20 @@
             this.large_content = true;
         }
     },
+    mentions: $wire.entangle('mentions'),
+    hashtags: $wire.entangle('hashtags'),
+    hashtag_match: /(^|\s)#(\w*(?:\s*\w*))$/,
+    mentions_match: /(^|\s)@(\w*(?:\s*\w*))$/,
+    hint: function(){
+        var mention_matches = this.message.match(this.mentions_match);
+        var hashtag_matches = this.message.match(this.hashtag_match);
+        if(mention_matches && mention_matches.length > 0) {
+            @this.call('hintMentions', mention_matches[0]);
+        }
+        if(hashtag_matches && hashtag_matches.length > 0) {
+            @this.call('hintHashtags', hashtag_matches[0]);
+        }
+    },
     resetHeight: function(){
         this.message = '';
         this.large_content = false;
@@ -17,9 +31,11 @@
         this.$refs.content.rows = '1';
     },
     message: '',
+    hashtags_to_display: [],
+    mentions_to_display: [],
     large_content: false
     }"
-    x-init="() => { Livewire.on('addedContent', () => { ready = false; resetHeight(); }); $watch('ready', value =>  Livewire.emit('toggled', ready)) }"
+    x-init="() => { Livewire.on('addedContent', () => { ready = false; resetHeight(); }); $watch('ready', value =>  Livewire.emit('toggled', ready)); $watch('mentions', value => { mentions_to_display = JSON.parse(value); console.log(mentions_to_display) } ); $watch('hashtags', value => { hashtags_to_display = JSON.parse(value); console.log(hashtags_to_display) } ) }"
     x-cloak>
     <div :class="ready ? '' : 'flex items-center'">
         <div x-show="!ready"
@@ -48,8 +64,26 @@
                         <textarea
                             :class="{ 'rounded-full': !ready,  'overflow-hidden': !large_content, 'rounded-full': message === '' }"
                             @focus="ready = true" x-ref="content" rows="1" wire:model.defer="text_content"
-                            placeholder="say something" x-model="message" @input="autosize()" @keydown="autosize();"
+                            placeholder="say something" x-model="message" @input="autosize(); hint()"
+                            @keydown="autosize();"
                             class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
+                        <template x-if="mentions_to_display.length > 0">
+                            <div>
+                                <template x-for="mention in mentions_to_display" :key="mention.id">
+                                    <div x-text="mention.name" class="p-3 font-bold text-blue-700"></div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <div>
+                            <template x-if="hashtags_to_display.length > 0">
+                                <div>
+                                    <template x-for="hashtag in hashtags_to_display" :key="hashtag.id">
+                                        <div x-text="'#' + hashtag.slug.en" class="p-3 font-bold text-blue-700"></div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
                     </div>
 
                     <div x-show="ready" :class="ready ? 'mt-2' : ''" class="grid grid-cols-1 gap-2">

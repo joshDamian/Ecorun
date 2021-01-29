@@ -11,6 +11,8 @@ trait CreatesSocialContent
     use UploadPhotos;
 
     public Profile $profile;
+    public $mentions;
+    public $hashtags;
     public $text_content;
     public $photos = [];
 
@@ -26,6 +28,18 @@ trait CreatesSocialContent
         $this->validate([
             'photos.*' => ['image', 'max:10240']
         ]);
+    }
+
+    public function hintMentions($mention)
+    {
+        $mention = trim($mention, "@");
+        return $this->mentions = \App\Models\Profile::search($mention)->get()->toJson();
+    }
+
+    public function hintHashtags($hashtag)
+    {
+        $hashtag = trim($hashtag, "#");
+        return $this->hashtags = dump(\App\Models\Tag::search($hashtag)->get()->toJson());
     }
 
     abstract public function create();
