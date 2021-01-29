@@ -38,19 +38,19 @@
         @endif
 
         @if($image_count > 0)
-        <div class="bg-gray-100">
-            <div class="main-carousel" data-flickity='{ "lazyLoad": true }'>
-                @foreach($gallery as $key => $image)
-                <div class="flex items-center bg-black carousel-post-feed">
-                    <img class="carousel-cell-image" data-flickity-lazyload="/storage/{{ $image->image_url }}"
-                    alt="post image" />
-                </div>
-                @endforeach
-            </div>
+        @if($image_count > 1)
+        <div wire:ignore>
+            <x-connect.image.carousel :gallery="$gallery" />
+        </div>
+        @else
+        <div class="flex items-center justify-center bg-gray-100 carousel-post-feed">
+            <img class="max-w-full max-h-full" src="/storage/{{ $gallery->first()->image_url }}" />
         </div>
         @endif
+        @endif
     </div>
-    <div class="bg-gray-100 border-t border-gray-200">
+
+    <div class="@if($image_count > 1) mt-8 @endif bg-gray-100 border-t border-gray-200">
         @auth
         <div>
             @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.index'],

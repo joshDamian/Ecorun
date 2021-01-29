@@ -1,8 +1,12 @@
 <div class="leading-snug">
     @if($activeConversation)
     <div>
+        @php
+        $random_conv_key = $activeConversation->secret_key . get_class($activeConversation) . microtime() .
+        random_int(200, 1000000);
+        @endphp
         @livewire('connect.conversation.talk', ['me' => $profile, 'conversation' => $activeConversation],
-        key([$activeConversation->id . get_class($activeConversation) . microtime() . random_int(200, 1000000)]))
+        key($random_conv_key))
     </div>
     @else
     <div class="grid grid-cols-1 gap-1 bg-gray-200">

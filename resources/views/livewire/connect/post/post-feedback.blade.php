@@ -1,8 +1,9 @@
 <div x-data="{ shared: false, timeout: null, event: 'newShare.{{ $feedback_id . '.' . str_replace('\\', '.', get_class($post)) }}' }"
     x-init="Livewire.on(event, () => { clearTimeout(timeout); shared = true; timeout = setTimeout(() => { shared = false }, 2000);  })">
     <div
-        class="px-3 py-4 border-t  @if($feedbackReady) border-b @endif border-gray-200 grid grid-cols-3 gap-3 sm:gap-4 sm:px-5 sm:py-3">
-        <div x-data="{ liked: '{{ $this->liked() }}', clicked: null }" class="px-2 py-2 bg-white rounded-full">
+        class="px-3 py-4 border-t  @if($feedbackReady) border-b @endif border-gray-200 flex justify-between sm:px-5 sm:py-3">
+        <div x-data="{ liked: '{{ $this->liked() }}', clicked: null }"
+            class="flex-grow px-2 py-2 mr-3 bg-white rounded-full">
             <div class="flex items-center justify-center">
                 <div class="flex items-center justify-center justify-items-center">
                     <i @click=" liked = (liked === '1') ? null : '1';"
@@ -20,9 +21,9 @@
             </div>
         </div>
 
-        <a class="flex items-center justify-center px-2 py-2 bg-white rounded-full cursor-pointer" @if($view
-            !=='post.show' ) href="{{ route('post.show', ['post' => $post->id]) }}" @else wire:click="toogleFeedback"
-            @endif>
+        <a class="flex items-center justify-center flex-grow px-2 py-2 mr-3 bg-white rounded-full cursor-pointer"
+            @if($view !=='post.show' ) href="{{ route('post.show', ['post' => $post->id]) }}" @else
+            wire:click="toogleFeedback" @endif>
             <i class="text-xl text-blue-700 cursor-pointer far fa-comment"></i>
             @php
             $feedback_count = $this->feedbacks();
@@ -34,7 +35,7 @@
             @endif
         </a>
 
-        <div class="flex items-center justify-center px-2 py-2 bg-white rounded-full">
+        <div class="flex items-center justify-center flex-grow px-2 py-2 bg-white rounded-full">
             <i wire:click="share" class="text-xl text-blue-700 cursor-pointer fas fa-share-alt"></i>
             @php
             $shares_count = $this->shares();

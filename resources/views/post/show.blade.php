@@ -52,19 +52,24 @@
                 @endif
 
                 @if($image_count > 0)
-                <div class="bg-gray-100">
+                <div
+                    class="bg-gray-100 @if($image_count > 0 && ($image_count < 2)) flex justify-center items-center @endif">
+                    @if($image_count > 1)
                     <div class="carousel" data-flickity='{ "lazyLoad": true }'>
                         @foreach($gallery as $key => $image)
                         <div class="flex items-center bg-black carousel-cell">
                             <img class="carousel-cell-image" data-flickity-lazyload="/storage/{{ $image->image_url }}"
-                            alt="post image" />
+                                alt="post image" />
                         </div>
                         @endforeach
                     </div>
+                    @else
+                    <img src="/storage/{{ $gallery->first()->image_url }}" />
+                    @endif
                 </div>
                 @endif
 
-                <div class="mt-8 bg-gray-100 border-t border-gray-200">
+                <div class="@if($image_count > 1) mt-8 @endif bg-gray-100 border-t border-gray-200">
                     @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.show'],
                     key(md5("post_feedback_for_{$post->id}_view_post.show")))
                 </div>

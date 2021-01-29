@@ -15,7 +15,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" />
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
     <link preload rel="stylesheet" href="/css/webfonts.css" defer>
@@ -52,7 +52,8 @@
 
         .carousel-post-feed {
             width: 100%;
-            height: 200px;
+            margin-right: 10px;
+            height: 350px;
         }
 
         .carousel-cell-image {
@@ -71,7 +72,7 @@
             opacity: 1;
         }
 
-@-moz-document url-prefix() {
+        @-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
