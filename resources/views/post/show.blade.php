@@ -52,8 +52,7 @@
                 @endif
 
                 @if($image_count > 0)
-                <div
-                    class="bg-black @if($image_count > 0 && ($image_count < 2)) flex justify-center items-center @endif">
+                <div class="bg-black">
                     @if($image_count > 1)
                     <div class="carousel">
                         @foreach($gallery as $key => $image)

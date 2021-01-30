@@ -10,19 +10,16 @@
             this.large_content = true;
         }
     },
-    mentions: $wire.entangle('mentions'),
-    hashtags: $wire.entangle('hashtags'),
-    hashtag_match: /(^|\s)#(\w*(?:\s*\w*))$/,
-    mentions_match: /(^|\s)@(\w*(?:\s*\w*))$/,
-    hint: function(){
-        var mention_matches = this.message.match(this.mentions_match);
-        var hashtag_matches = this.message.match(this.hashtag_match);
-        if(mention_matches && mention_matches.length > 0) {
-            @this.call('hintMentions', mention_matches[0]);
-        }
-        if(hashtag_matches && hashtag_matches.length > 0) {
-            @this.call('hintHashtags', hashtag_matches[0]);
-        }
+    mentions: [],
+    hashtags: [],
+    hashtag_match: /(^|\s)#([A-Za-z0-9_-]{1,100}(?!\w))$/,
+    mentions_match: /(^|\s)@([A-Za-z0-9_-]{1,30}(?!\w))$/,
+    mention_matches: [],
+    hashtag_matches: [],
+    match: function(){
+        this.mention_matches = this.message.match(this.mentions_match);
+        this.hashtag_matches = this.message.match(this.hashtag_match);
+        console.log(this.mention_matches, this.hashtag_matches)
     },
     resetHeight: function(){
         this.message = '';
@@ -31,12 +28,15 @@
         this.$refs.content.rows = '1';
     },
     message: '',
-    hashtags_to_display: [],
-    mentions_to_display: [],
     large_content: false
-    }"
-    x-init="() => { Livewire.on('addedContent', () => { ready = false; resetHeight(); }); $watch('ready', value =>  Livewire.emit('toggled', ready)); $watch('mentions', value => { mentions_to_display = JSON.parse(value); console.log(mentions_to_display) } ); $watch('hashtags', value => { hashtags_to_display = JSON.parse(value); console.log(hashtags_to_display) } ) }"
-    x-cloak>
+    }" x-init="() => {
+        Livewire.on('addedContent', () => {
+            ready = false; resetHeight();
+        });
+        $watch('ready', value => { Livewire.emit('toggled', ready); if(!value) mentions = []; hashtags = [] });
+        $watch('mention_matches', value => { (value && value.length > 0) ? $wire.hintMentions(value[2]).then(result => { mentions = result }) : mentions = [] });
+        $watch('hashtag_matches', value => { (value && value.length > 0) ? $wire.hintHashtags(value[2]).then(result => { hashtags = result }) : hashtags = [] })
+    }" x-cloak>
     <div :class="ready ? '' : 'flex items-center'">
         <div x-show="!ready"
             style="background-image: url('{{ $profilePhotoUrl }}'); background-size: cover; background-position: center center;"
@@ -60,28 +60,27 @@
                         @enderror
                     </div>
 
-                    <div>
+                    <div class="relative">
                         <textarea
                             :class="{ 'rounded-full': !ready,  'overflow-hidden': !large_content, 'rounded-full': message === '' }"
                             @focus="ready = true" x-ref="content" rows="1" wire:model.defer="text_content"
-                            placeholder="say something" x-model="message" @input="autosize(); hint()"
-                            @keydown="autosize();"
+                            placeholder="say something" x-model="message" @input="autosize(); match()"
+                            @cut="autosize();" @copy="autosize();" @paste="autosize();"
                             class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
-                        <template x-if="mentions_to_display.length > 0">
-                            <div>
-                                <template x-for="mention in mentions_to_display" :key="mention.id">
-                                    <div x-text="mention.name" class="p-3 font-bold text-blue-700"></div>
-                                </template>
-                            </div>
-                        </template>
+                        <div class="absolute z-50 grid grid-cols-1 gap-1 w-52 inset-8"
+                            x-show="ready && mentions.length > 0">
+                            <template x-if="mention_matches && mention_matches.length > 0"
+                                x-for="(mention, index) in mentions" :key="index">
+                                <div onclick="console.log(this.innerText)" x-text="'@' + mention.tag"
+                                    class="p-3 font-bold text-blue-700 bg-white cursor-pointer hover:bg-blue-200"></div>
+                            </template>
+                        </div>
 
-                        <div>
-                            <template x-if="hashtags_to_display.length > 0">
-                                <div>
-                                    <template x-for="hashtag in hashtags_to_display" :key="hashtag.id">
-                                        <div x-text="'#' + hashtag.slug.en" class="p-3 font-bold text-blue-700"></div>
-                                    </template>
-                                </div>
+                        <div class="absolute z-50 w-52 inset-8" x-show="ready && hashtags.length > 0">
+                            <template x-if="hashtags && hashtags.length > 0" x-for="(hashtag, index) in hashtags"
+                                :key="index">
+                                <div x-text="'#' + hashtag.slug.en"
+                                    class="p-3 font-bold text-blue-700 bg-white cursor-pointer hover:bg-blue-200"></div>
                             </template>
                         </div>
                     </div>

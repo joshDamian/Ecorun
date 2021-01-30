@@ -11,9 +11,7 @@ trait CreatesSocialContent
     use UploadPhotos;
 
     public Profile $profile;
-    public $mentions;
-    public $hashtags;
-    public $text_content;
+    public $text_content = '';
     public $photos = [];
 
     public function done()
@@ -32,14 +30,12 @@ trait CreatesSocialContent
 
     public function hintMentions($mention)
     {
-        $mention = trim($mention, "@");
-        return $this->mentions = \App\Models\Profile::search($mention)->get()->toJson();
+        return \App\Models\Profile::search($mention)->get()->all();
     }
 
     public function hintHashtags($hashtag)
     {
-        $hashtag = trim($hashtag, "#");
-        return $this->hashtags = dump(\App\Models\Tag::search($hashtag)->get()->toJson());
+        return \App\Models\Tag::search($hashtag)->get()->all();
     }
 
     abstract public function create();

@@ -16,6 +16,9 @@
     this.message = '';
     this.$refs.content.focus();
     this.$refs.content.rows = '1';
+    },
+    whisper: function() {
+        Echo.join('private_conversation.{{$conversation->id}}').whisper('typing')
     }
     }" x-init="() => {
     Echo.join('private_conversation.{{ $conversation->id }}')
@@ -32,10 +35,10 @@
     console.log(profile.name + ' is leaving');
     }).listen('SentMessage', (e) => {
     Livewire.emit('refresh')
-    Livewire.hook('element.updated', (el, compo) => {
-    if((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
-    window.scrollTo(0, document.body.scrollHeight);
-    }
+    Livewire.hook('message.processed', (message, compo) => {
+        if((window.innerHeight + Math.ceil(window.pageYOffset + ($refs.content.scrollHeight + 1))) >= document.body.offsetHeight) {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
     })
     Livewire.emit('markReceivedMessagesRead');
     }).listenForWhisper('typing', () => {
@@ -120,7 +123,7 @@
         @endforeach
     </div>
 
-    <div class="sticky z-50 bottom-0 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
+    <div class="sticky bottom-0 z-50 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
         <div :class="large_content ? 'items-baseline' : 'items-center'" class="flex">
             <div class="flex items-center mr-3 text-2xl text-blue-700">
                 <i class="cursor-pointer far fa-images"></i>
@@ -129,8 +132,8 @@
                 <textarea x-ref="content" x-model="message" onfocusout="Echo.join('private_conversation.{{ $conversation->id }}')
                     .whisper('done_typing')"
                     :class="{ 'overflow-hidden': !large_content, 'rounded-full': message === '' }"
-                    placeholder="Type a message" @input="autosize()" @keydown="autosize(); Echo.join('private_conversation.{{ $conversation->id }}')
-                    .whisper('typing')" rows="1"
+                    placeholder="Type a message" @input="autosize(); whisper();" @cut="autosize(); whisper();"
+                    @copy="autosize(); whisper();" @paste="autosize(); whisper();" rows="1"
                     class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
             </div>
 
