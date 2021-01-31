@@ -60,7 +60,11 @@ class Talk extends Component
     {
         $this->message = $body;
         $this->validate();
+        $this->new_message = new Message();
+        $this->new_message->sender_id = $this->me->id;
+        $this->new_message->messageable_type = get_class($this->conversation);
         $this->new_message->content = trim($this->message);
+        $this->new_message->messageable_id = $this->conversation->id;
         $this->conversation->messages->push($this->new_message);
         $this->emit('SentAMessage');
         $this->new_message->save();
@@ -68,7 +72,7 @@ class Talk extends Component
         return $this->done();
     }
 
-    public function getNewMessageProperty()
+   /* public function getNewMessageProperty()
     {
         return  Cache::rememberForever(
             'new_message_model_for_sender_' . $this->me->id,
@@ -80,7 +84,7 @@ class Talk extends Component
                 ]);
             }
         );
-    }
+    }*/
 
     public function done()
     {
