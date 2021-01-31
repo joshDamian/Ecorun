@@ -31,7 +31,7 @@ class Post extends Model
      * @var array
      */
     protected $dispatchesEvents = [
-        //'created' => PostCreated::class,
+        'created' => PostCreated::class,
     ];
 
     /**

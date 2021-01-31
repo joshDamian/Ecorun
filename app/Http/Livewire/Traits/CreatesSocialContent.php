@@ -30,12 +30,12 @@ trait CreatesSocialContent
 
     public function hintMentions($mention)
     {
-        return \App\Models\Profile::search($mention)->get()->all();
+        return \App\Models\Profile::search($mention)->get()->unique()->all();
     }
 
     public function hintHashtags($hashtag)
     {
-        return \App\Models\Tag::search($hashtag)->get()->all();
+        return \App\Models\Tag::search($hashtag)->get()->pluck('slug')->unique()->all();
     }
 
     abstract public function create();

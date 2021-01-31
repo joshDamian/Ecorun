@@ -19,7 +19,6 @@
     match: function(){
         this.mention_matches = this.message.match(this.mentions_match);
         this.hashtag_matches = this.message.match(this.hashtag_match);
-        console.log(this.mention_matches, this.hashtag_matches)
     },
     resetHeight: function(){
         this.message = '';
@@ -28,14 +27,47 @@
         this.$refs.content.rows = '1';
     },
     message: '',
+    replaceText: function(initial, replacement) {
+        this.message = this.message.replace(new RegExp(initial + '$'), replacement + ' ');
+    },
+    current_mention: '',
+    current_hashtag: '',
     large_content: false
     }" x-init="() => {
         Livewire.on('addedContent', () => {
             ready = false; resetHeight();
         });
         $watch('ready', value => { Livewire.emit('toggled', ready); if(!value) mentions = []; hashtags = [] });
-        $watch('mention_matches', value => { (value && value.length > 0) ? $wire.hintMentions(value[2]).then(result => { mentions = result }) : mentions = [] });
-        $watch('hashtag_matches', value => { (value && value.length > 0) ? $wire.hintHashtags(value[2]).then(result => { hashtags = result }) : hashtags = [] })
+
+        /** autosuggest mentions **/
+        $watch('mention_matches', value => {
+            if(value && value.length > 0) {
+                current_mention = value[2];
+                return $wire.hintMentions(current_mention).then(result => { mentions = result });
+            } else {
+                current_mention = '';
+                mentions = [];
+            }
+        });
+
+        /** autosuggest hashtags **/
+        $watch('hashtag_matches', value => {
+            if(value && value.length > 0) {
+                current_hashtag = value[2];
+                $wire.hintHashtags(current_hashtag).then(result => { hashtags = result });
+            } else {
+                current_hashtag = '';
+                hashtags = [];
+            }
+        });
+
+        /** watch message **/
+        $watch('message', value => {
+            if(value !== '') {
+                autosize();
+                match();
+            }
+        })
     }" x-cloak>
     <div :class="ready ? '' : 'flex items-center'">
         <div x-show="!ready"
@@ -60,28 +92,45 @@
                         @enderror
                     </div>
 
-                    <div class="relative">
+                    <div wire:ignore class="relative">
                         <textarea
                             :class="{ 'rounded-full': !ready,  'overflow-hidden': !large_content, 'rounded-full': message === '' }"
-                            @focus="ready = true" x-ref="content" rows="1" wire:model.defer="text_content"
-                            placeholder="say something" x-model="message" @input="autosize(); match()"
-                            @cut="autosize();" @copy="autosize();" @paste="autosize();"
-                            class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
-                        <div class="absolute z-50 grid grid-cols-1 gap-1 w-52 inset-8"
-                            x-show="ready && mentions.length > 0">
-                            <template x-if="mention_matches && mention_matches.length > 0"
-                                x-for="(mention, index) in mentions" :key="index">
-                                <div onclick="console.log(this.innerText)" x-text="'@' + mention.tag"
-                                    class="p-3 font-bold text-blue-700 bg-white cursor-pointer hover:bg-blue-200"></div>
-                            </template>
+                            @focus="ready = true; $refs.content.setSelectionRange(message.length, message.length)"
+                            x-ref="content" rows="1" wire:model="text_content" placeholder="say something"
+                            x-model="message" class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
+                        <div class="mt-2 mb-2" x-show="ready && mentions.length > 0 && mention_matches">
+                            <h3 class="mb-1 font-semibold text-blue-600 text-md">profile suggestions:</h3>
+                            <div class="grid grid-cols-3">
+                                <template x-if="mention_matches && mention_matches.length > 0"
+                                    x-for="(mention, index) in mentions" :key="index">
+                                    <div x-on:click="replaceText('@' + current_mention, '@' + mention.tag); mentions = []; $refs.content.focus();"
+                                        class="flex items-center px-2 py-1 bg-gray-100 border border-gray-300 cursor-pointer hover:bg-blue-200">
+                                        <div :style="'background-image: url(' + mention.profile_photo_url +'); background-size: cover; background-position: center center;'"
+                                            class="flex-shrink-0 mr-2 border-t-2 border-b-2 border-blue-700 rounded-full w-7 h-7">
+                                        </div>
+
+                                        <div class="grid grid-cols-1 text-sm font-bold text-blue-700">
+                                            <div class="mr-2 truncate" x-text="mention.name"></div>
+                                            <div class="flex-shrink-0 -mt-2" x-text="'@' + mention.tag">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
                         </div>
 
-                        <div class="absolute z-50 w-52 inset-8" x-show="ready && hashtags.length > 0">
-                            <template x-if="hashtags && hashtags.length > 0" x-for="(hashtag, index) in hashtags"
-                                :key="index">
-                                <div x-text="'#' + hashtag.slug.en"
-                                    class="p-3 font-bold text-blue-700 bg-white cursor-pointer hover:bg-blue-200"></div>
-                            </template>
+                        <div class="mt-2 mb-2" x-show="ready && hashtags.length > 0 && hashtag_matches">
+                            <h3 class="mb-1 font-semibold text-blue-600 text-md">hashtag suggestions:</h3>
+                            <div class="flex">
+                                <template x-if="hashtag_matches && hashtag_matches.length > 0"
+                                    x-for="(hashtag, index) in hashtags" :key="index">
+                                    <div :class="{ 'flex-grow': hashtags.length > 1, 'mr-2': index !== hashtags.length - 1 }"
+                                        x-on:click="replaceText('#' + current_hashtag, event.target.innerText); hashtags = []; $refs.content.focus();"
+                                        x-text="'#' + hashtag"
+                                        class="px-2 py-1 font-bold text-blue-700 bg-gray-100 border border-gray-300 cursor-pointer hover:bg-blue-200">
+                                    </div>
+                                </template>
+                            </div>
                         </div>
                     </div>
 

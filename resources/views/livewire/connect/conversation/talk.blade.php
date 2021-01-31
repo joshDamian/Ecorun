@@ -129,7 +129,8 @@
                 <i class="cursor-pointer far fa-images"></i>
             </div>
             <div class="flex-1 flex-shrink-0">
-                <textarea x-ref="content" x-model="message" onfocusout="Echo.join('private_conversation.{{ $conversation->id }}')
+                <textarea @focus="$refs.content.setSelectionRange(message.length, message.length)" x-ref="content"
+                    x-model="message" onfocusout="Echo.join('private_conversation.{{ $conversation->id }}')
                     .whisper('done_typing')"
                     :class="{ 'overflow-hidden': !large_content, 'rounded-full': message === '' }"
                     placeholder="Type a message" @input="autosize(); whisper();" @cut="autosize(); whisper();"
