@@ -1,5 +1,5 @@
 <div class="leading-snug">
-    @if($activeConversation)
+    @if(is_object($activeConversation))
     <div>
         @php
         $random_conv_key = $activeConversation->secret_key . get_class($activeConversation) . microtime() .

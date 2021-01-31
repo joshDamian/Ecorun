@@ -18,12 +18,11 @@
     this.$refs.content.rows = '1';
     },
     whisper: function() {
-        Echo.join('private_conversation.{{$conversation->id}}').whisper('typing')
+    Echo.join('private_conversation.{{$conversation->id}}').whisper('typing')
     }
     }" x-init="() => {
     Echo.join('private_conversation.{{ $conversation->id }}')
     .here((profiles) => {
-    Livewire.emit('hide', true);
     console.log(profiles);
     Livewire.emit('markReceivedMessagesRead');
     })
@@ -36,9 +35,9 @@
     }).listen('SentMessage', (e) => {
     Livewire.emit('refresh')
     Livewire.hook('message.processed', (message, compo) => {
-        if((window.innerHeight + Math.ceil(window.pageYOffset + ($refs.content.scrollHeight + 1))) >= document.body.offsetHeight) {
-            window.scrollTo(0, document.body.scrollHeight);
-        }
+    if((window.innerHeight + Math.ceil(window.pageYOffset + ($refs.content.scrollHeight + 1))) >= document.body.offsetHeight) {
+    window.scrollTo(0, document.body.scrollHeight);
+    }
     })
     Livewire.emit('markReceivedMessagesRead');
     }).listenForWhisper('typing', () => {
