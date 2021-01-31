@@ -93,7 +93,7 @@
         @php
         $my_message = ($message->sender_id === $me->id);
         @endphp
-        @if($message !== $messages->first() && ($message->created_at->day > $messages->get($key -
+        @if($message !== $messages->first() && is_object($messages->get($key - 1)) && ($message->created_at->day > $messages->get($key -
         1)->created_at->day))
         <div class="p-3 font-black text-center text-blue-700 uppercase bg-gray-300 text-md">
             @if($message->created_at->day === now()->day)
