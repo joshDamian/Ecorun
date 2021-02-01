@@ -1,7 +1,6 @@
 @props(['gallery'])
-<div wire:ignore class="bg-gray-100" x-data="{
-    carousel: window.Carousel }" x-init="() => {
-      carousel.build( $refs.gallery, {
+<div wire:ignore class="bg-gray-100" x-data x-init="() => {
+        window.UiHelpers.buildCarousel( $refs.gallery, {
             lazyLoad: 2,
             imagesLoaded: true,
         });

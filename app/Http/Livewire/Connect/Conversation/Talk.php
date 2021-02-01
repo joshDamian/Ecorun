@@ -56,9 +56,8 @@ class Talk extends Component
         return;
     }
 
-    public function sendMessage($body)
+    public function sendMessage()
     {
-        $this->message = $body;
         $this->validate();
         $this->new_message->content = trim($this->message);
         $this->conversation->messages->push($this->new_message);
