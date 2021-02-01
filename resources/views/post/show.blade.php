@@ -52,9 +52,11 @@
                 @endif
 
                 @if($image_count > 0)
-                <div class="bg-black">
+                
+                <div
+                    class="bg-black">
                     @if($image_count > 1)
-                    <div class="carousel">
+                    <div class="carousel bg-black" data-flickity='{ "lazyLoad": true }'>
                         @foreach($gallery as $key => $image)
                         <div class="flex items-center bg-gray-100 carousel-cell">
                             <img class="carousel-cell-image" data-flickity-lazyload="/storage/{{ $image->image_url }}"
@@ -63,7 +65,7 @@
                         @endforeach
                     </div>
                     @else
-                    <img src="/storage/{{ $gallery->first()->image_url }}" />
+                    <img class="w-full" src="/storage/{{ $gallery->first()->image_url }}" />
                     @endif
                 </div>
                 @endif
