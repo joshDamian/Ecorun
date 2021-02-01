@@ -1,22 +1,7 @@
 require('./bootstrap');
 require('flickity/js/flickity.js');
 
-import Flickity from 'flickity';
-
-class ModifyUrl {
-    modify(url) {
-        var state = {
-            id: "100"
-        }
-        return window.history.replaceState(state, url, url);
-    }
-}
-
-class Carousel {
-    build(el, options) {
-        new Flickity(el, options);
-    }
-}
-
-window.modifyUrl = new ModifyUrl();
-window.Carousel = new Carousel();
+import Uihelpers from './uihelpers';
+import Chatbox from './chatbox';
+window.UiHelpers = new Uihelpers();
+window.ChatBox = new Chatbox();

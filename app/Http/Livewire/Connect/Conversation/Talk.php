@@ -56,9 +56,8 @@ class Talk extends Component
         return;
     }
 
-    public function sendMessage($body)
+    public function sendMessage()
     {
-        $this->message = $body;
         $this->validate();
         $this->new_message = new Message();
         $this->new_message->sender_id = $this->me->id;

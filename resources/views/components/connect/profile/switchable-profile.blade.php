@@ -7,7 +7,7 @@
     <!-- Hidden Profile ID -->
     <input type="hidden" name="profile_id" value="{{ $profile->id }}">
     @if($active)
-    <div class="flex select-none items-center">
+    <div class="flex items-center select-none">
         <span class="flex-shrink-0 mr-2 font-medium text-blue-700 truncate">
             {{ $profile->full_tag() }}
         </span>
@@ -21,9 +21,9 @@
     </div>
 
     @else
-    <div class="grid select-none grid-cols-5 gap-1">
+    <div class="grid grid-cols-5 gap-1 select-none">
         <div onclick="this.closest('form').submit();"
-            class="col-span-2 mr-2 font-medium text-blue-700 truncate cursor-pointer">
+            class="col-span-2 mr-2 font-medium text-blue-700 truncate cursor-pointer hover:bg-blue-200">
             {{ $profile->full_tag() }}
         </div>
 

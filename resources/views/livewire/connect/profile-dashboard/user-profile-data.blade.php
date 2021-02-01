@@ -2,7 +2,7 @@
     <div class="fixed bottom-0 w-full bg-gray-200 md:sticky md:top-12">
         <ul class="flex overflow-x-auto">
             @foreach($views as $key => $view)
-            <li onclick=" window.scrollTo(0, 0); window.modifyUrl.modify('{{ $key }}'); "
+            <li onclick=" window.scrollTo(0, 0); window.UiHelpers.modifyUrl('{{ $key }}'); "
                 wire:click="switchView('{{ $key }}')" class="text-center @if($view === $active_view) text-blue-800 bg-white @else text-gray-800 @endif
                 hover:bg-white hover:text-blue-800 hover:border-transparent flex-shrink-0 flex-grow md:cursor-pointer
                 text-lg py-2 select-none px-3">
@@ -49,7 +49,7 @@
 
 <script>
     document.addEventListener('livewire:load', function() {
-        window.modifyUrl.modify("/{{ $profile->full_tag() }}/{{ $action_route ?? 'posts' }}")
+        window.UiHelpers.modifyUrl("/{{ $profile->full_tag() }}/{{ $action_route ?? 'posts' }}")
     })
 
 </script>

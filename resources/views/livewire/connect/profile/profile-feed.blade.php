@@ -13,7 +13,7 @@
         show_button = true;
     });
 }">
-    <div class="fixed bottom-0 z-30 flex w-full overflow-x-auto font-semibold bg-gray-100 bg-gray-200 border-t border-gray-300 md:bg-opacity-75 md:border-b md:sticky"
+    <div class="fixed bottom-0 z-20 flex w-full overflow-x-auto font-semibold bg-gray-100 bg-gray-200 border-t border-gray-300 md:z-30 md:bg-opacity-75 md:border-b md:sticky"
         x-data="{ collapsed: false }" x-init="() => {
         Livewire.on('toggled', (toggle) => { collapsed = toggle; }); Livewire.on('newPost', () => { @this.call('setSortBy', 'all') });
         }" :class="(collapsed) ? 'md:top-12' : 'md:top-28'">

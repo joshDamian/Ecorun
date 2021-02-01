@@ -81,7 +81,7 @@
     @if($active_product)
     <script>
         setTimeout(() => {
-            window.modifyUrl.modify("/biz/{{$business->profile->full_tag()}}/products/{{$active_product->id}}")
+            window.UiHelpers.modifyUrl("/biz/{{$business->profile->full_tag()}}/products/{{$active_product->id}}")
         }, 100);
 
     </script>
@@ -89,7 +89,7 @@
     @else
     <script>
         setTimeout(() => {
-            window.modifyUrl.modify("/biz/{{$business->profile->full_tag()}}/products")
+            window.UiHelpers.modifyUrl("/biz/{{$business->profile->full_tag()}}/products")
         }, 100);
 
     </script>

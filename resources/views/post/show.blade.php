@@ -52,6 +52,7 @@
                 @endif
 
                 @if($image_count > 0)
+                
                 <div
                     class="bg-black">
                     @if($image_count > 1)

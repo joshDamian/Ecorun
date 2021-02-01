@@ -61,6 +61,11 @@ class Product extends Model
         return $this->belongsTo(Business::class);
     }
 
+    public function shouldBeSearchable()
+    {
+        return $this->is_published === true;
+    }
+
     public static function getTagClassName(): string
     {
         return Tag::class;
