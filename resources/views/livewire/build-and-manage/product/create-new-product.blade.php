@@ -40,25 +40,23 @@
 
                     <!-- Product Photos File Input -->
                     <input type="file" class="hidden" accept="image/*" wire:model="photos" multiple x-ref="photos"
-                        x-on:change="
+                    x-on:change="
                     const files = $refs.photos.files;
                     photosArray = [];
                     for(var i = 0; i < files.length; i++) {
                     photosArray[i] = {'url': URL.createObjectURL(files[i])}
                     }
-                    console.log(files.length);
                     " />
 
                     <x-jet-label for="photos" value="{{ __('Product Photos') }}" />
 
                     <!-- Product Photos Preview -->
-                    @if(count($photos) > 0)
                     <div class="mt-2" x-show.transition="photosArray.length > 0">
                         <div
-                            class="grid @if(count($photos) < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-3 sm:gap-2 gap-2">
+                            class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                             <template x-for="photo in photosArray">
                                 <div
-                                    x-bind:style="'width: 100%; height: 130px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
+                                    x-bind:style="'width: 100%; height: 140px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
                                 </div>
                             </template>
                         </div>
@@ -67,7 +65,7 @@
                             <progress max="100" x-bind:value="progress"></progress>
                         </div>
                     </div>
-                    @endif
+
 
                     <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photos.click();">
                         {{ __('Select Product Photos') }}

@@ -63,9 +63,10 @@ class Post extends Model
         return $this->morphMany('App\Models\Feedback', 'feedbackable');
     }
 
-    public static function getTagClassName(): string
-    {
-        return Tag::class;
+    public static function boot() {
+        parent::boot();
+        self::saving(function ($model) {});
+        self::saved(function ($model) {});
     }
 
     public function gallery() {
@@ -95,40 +96,12 @@ class Post extends Model
         return $this->morphMany(Share::class, 'shareable');
     }
 
-    public function getSafeHtmlAttribute() {
-        $converter = new CommonMarkConverter(['allow_unsafe_links' => false]);
-        return $converter->convertToHtml($this->html);
-    }
-
-    public static function boot() {
-        parent::boot();
-        self::saving(function ($post) {
-            App::singleton('tagqueue', function () {
-                return new TagQueue;
-            });
-            App::singleton('mentionqueue', function () {
-                return new MentionQueue;
-            });
-            $post->html = (new ExtractMentionsAndTags($post))->act();
-            $post->mentions = app('mentionqueue')->getMentions();
-        });
-        self::saved(function ($post) {
-            $post->syncTags(app('tagqueue')->getTags());
-        });
-    }
 
     public function toSearchableArray(): array
     {
         return [
             'content' => $this->content,
         ];
-    }
-
-    public function tags(): MorphToMany
-    {
-        return $this
-        ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
-        ->orderBy('order_column');
     }
 
     public function getUrlAttribute() {

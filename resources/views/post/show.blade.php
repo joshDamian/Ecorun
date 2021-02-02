@@ -7,7 +7,7 @@
     @endphp
     <div class="md:mb-3">
         <div class="grid grid-cols-1 gap-0 sm:gap-2">
-            <div class="sticky z-50 px-3 py-1 bg-gray-100 bg-opacity-75 top-12 sm:px-5">
+            <div class="sticky z-40 px-3 py-1 bg-gray-100 bg-opacity-75 top-12 sm:px-5">
                 <div class="flex">
                     <a class="mr-4" href="{{ route('home') }}">
                         <div class="text-xl text-blue-700">
@@ -52,15 +52,14 @@
                 @endif
 
                 @if($image_count > 0)
-                
-                <div
-                    class="bg-black">
+
+                <div>
                     @if($image_count > 1)
-                    <div class="carousel bg-black" data-flickity='{ "lazyLoad": true }'>
+                    <div class="carousel" data-flickity='{ "lazyLoad": true }'>
                         @foreach($gallery as $key => $image)
                         <div class="flex items-center bg-gray-100 carousel-cell">
                             <img class="carousel-cell-image" data-flickity-lazyload="/storage/{{ $image->image_url }}"
-                                alt="post image" />
+                            alt="post image" />
                         </div>
                         @endforeach
                     </div>

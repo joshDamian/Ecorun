@@ -18,7 +18,7 @@ export default class Chatbox {
             console.log(profile.name + ' is leaving');
         })
         .listen('SentMessage', (e) => {
-            var atBottom = (window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight;
+            var atBottom = this.atBottom();
             Livewire.emit('refresh');
             Livewire.hook('message.processed', (message, compo) => {
                 if (atBottom) {
@@ -36,7 +36,6 @@ export default class Chatbox {
     }
     whisper(message) {
         Echo.join('private_conversation.' + this.options.conversation_id).whisper(message);
-        console.log(message)
     }
     close() {
         Livewire.emit('showAll');
@@ -45,5 +44,8 @@ export default class Chatbox {
     }
     goToBottom() {
         window.scrollTo(0, document.body.scrollHeight)
+    }
+    atBottom() {
+        return (window.innerHeight + Math.ceil(window.pageYOffset + 1 + this.options.textbox_cont.scrollHeight)) >= document.body.offsetHeight;
     }
 }

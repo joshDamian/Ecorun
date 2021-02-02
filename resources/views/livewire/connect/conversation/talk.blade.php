@@ -1,6 +1,7 @@
 <div x-data="{
     large_content: false,
     message: '',
+    isSticky: true,
     chatBox: window.ChatBox.build({
     conversation_id: '{{ $conversation->id }}',
     whispers_callback: {
@@ -11,6 +12,7 @@
     document.getElementById('status_for_chat_box').innerText = ''
     }
     },
+    textbox_cont: document.getElementById('text_box_container'),
     }),
 
     resetHeight: function(){
@@ -23,8 +25,10 @@
     /** x-init **/
     initialize_chat_box: function() {
     Livewire.on('SentAMessage', () =>  {
+    this.$refs.content.value = '';
     this.chatBox.goToBottom();
-    })
+    });
+
     Livewire.on('readMessages', () => {
     this.chatBox.whisper('readMessages')
     })
@@ -37,6 +41,9 @@
     this.$watch('message', value => {
     window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
     if(this.$refs.content === document.activeElement && this.message.length > 0) {
+    if(this.chatBox.atBottom()) {
+    this.chatBox.goToBottom();
+    }
     this.chatBox.whisper('typing');
     }
     if(this.$refs.content.scrollHeight > 140) {
@@ -45,6 +52,7 @@
     this.large_content = false;
     }
     });
+
     }
     }" x-init="initialize_chat_box()">
     <div class="fixed top-0 z-40 flex items-center w-full p-3 bg-gray-100 md:sticky md:top-12">
@@ -108,21 +116,21 @@
         @endforeach
     </div>
 
-    <div class="sticky bottom-0 z-40 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
+    <div id="text_box_container" :class="{ 'sticky bottom-0': isSticky }" class="z-40 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
         <div :class="large_content ? 'items-baseline' : 'items-center'" class="flex">
             <div class="flex items-center mr-3 text-2xl text-blue-700">
                 <i class="cursor-pointer far fa-images"></i>
             </div>
             <div wire:ignore class="flex-1 flex-shrink-0">
                 <textarea wire:model="message" id="textarea_for_chat_box"
-                    @focus="$refs.content.setSelectionRange(message.length, message.length)" x-ref="content"
+                    @focus="$refs.content.setSelectionRange(message.length, message.length); isSticky = false; setTimeout(() => { isSticky = true; }, 500)" x-ref="content"
                     x-model="message" @focusout="chatBox.whisper('doneTyping')"
                     :class="{ 'overflow-hidden': !large_content, 'rounded-full': message === '' }"
                     placeholder="Type a message" rows="1"
                     class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
             </div>
 
-            <div x-show="message !== ''" class="flex-shrink-0 ml-3">
+            <div x-show="message.trim() !== ''" class="flex-shrink-0 ml-3">
                 <button wire:click="sendMessage"
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-600 border border-transparent hover:bg-gray-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 rounded-2xl focus:shadow-outline-gray disabled:opacity-25"
                     @click=" resetHeight() ">
@@ -130,6 +138,10 @@
                 </button>
             </div>
         </div>
+        @if(count($photos) > 0)
+        @foreach($photos as $photo)
+        @endforeach
+        @endif
         <x-jet-input-error for="message" />
     </div>
 </div>

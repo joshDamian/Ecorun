@@ -1,7 +1,7 @@
 <div x-data="{ shared: false, timeout: null, event: 'newShare.{{ $feedback_id . '.' . str_replace('\\', '.', get_class($product)) }}' }"
     x-init="
     Livewire.on(event, () => { clearTimeout(timeout); shared = true; timeout = setTimeout(() => { shared = false }, 2000);  })">
-    <div class="flex justify-between px-3 py-4 bg-gray-100 border-t border-gray-200 sm:px-5 sm:py-3">
+    <div class="flex justify-between items-center px-3 py-4 bg-gray-100 border-t border-gray-200 sm:px-5 sm:py-3">
         <div class="flex-grow mr-3">
             @livewire('buy.cart.cart-trigger', ['product' => $product, 'view' => 'feed'], key('trigger_cart_item' .
             $product->id .
@@ -26,7 +26,7 @@
                 $likes_count = $this->likes();
                 @endphp
                 @if($likes_count > 0)
-                <div class="ml-2 font-bold text-gray-700 text-md">
+                <div class="ml-2 font-bold text-gray-700 text-sm">
                     {{ $likes_count }}
                 </div>
                 @endif
@@ -48,7 +48,7 @@
     </div>
 
     @auth
-    <div x-show.transition.opacity.out.duration.1500ms="shared"
+    <div x-ref="shareMessage" x-show.transition.opacity.out.duration.1500ms="shared"
         class="px-3 py-1 font-bold text-center text-white bg-blue-800 text-md">
         you shared this product on your timeline &nbsp; <i class="text-white fas fa-check"></i>
     </div>

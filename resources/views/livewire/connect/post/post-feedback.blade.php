@@ -1,7 +1,7 @@
 <div x-data="{ shared: false, timeout: null, event: 'newShare.{{ $feedback_id . '.' . str_replace('\\', '.', get_class($post)) }}' }"
     x-init="Livewire.on(event, () => { clearTimeout(timeout); shared = true; timeout = setTimeout(() => { shared = false }, 2000);  })">
     <div
-        class="px-3 py-4 border-t  @if($feedbackReady) border-b @endif border-gray-200 flex justify-between sm:px-5 sm:py-3">
+        class="px-3 py-4 border-t @if($feedbackReady) border-b @endif border-gray-200 flex justify-between items-center sm:px-5 sm:py-3">
         <div x-data="{ liked: '{{ $this->liked() }}', clicked: null }"
             class="flex-grow px-2 py-2 mr-3 bg-white rounded-full">
             <div class="flex items-center justify-center">

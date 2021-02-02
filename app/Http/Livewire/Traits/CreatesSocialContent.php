@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 trait CreatesSocialContent
 {
     use UploadPhotos;
+    use MultipleImageSelector;
 
     public Profile $profile;
     public $text_content = '';
