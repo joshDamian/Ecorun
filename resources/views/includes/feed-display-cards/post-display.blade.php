@@ -44,7 +44,7 @@
         </div>
         @else
         <div wire:ignore class="bg-gray-100">
-            <img src="/storage/{{ $gallery->first()->image_url }}" />
+            <img class="w-full" src="/storage/{{ $gallery->first()->image_url }}" />
         </div>
         @endif
         @endif
