@@ -12,14 +12,10 @@
     }
     },
     }),
-    sendMessage: function() {
-    this.$wire.message = this.message;
-    return this.$wire.sendMessage();
-    },
+
     resetHeight: function(){
     this.large_content = false;
     this.$refs.content.style.cssText = 'height:auto;';
-    this.message = '';
     this.$refs.content.focus();
     this.$refs.content.rows = '1';
     },
@@ -117,8 +113,8 @@
             <div class="flex items-center mr-3 text-2xl text-blue-700">
                 <i class="cursor-pointer far fa-images"></i>
             </div>
-            <div class="flex-1 flex-shrink-0">
-                <textarea id="textarea_for_chat_box"
+            <div wire:ignore class="flex-1 flex-shrink-0">
+                <textarea wire:model="message" id="textarea_for_chat_box"
                     @focus="$refs.content.setSelectionRange(message.length, message.length)" x-ref="content"
                     x-model="message" @focusout="chatBox.whisper('doneTyping')"
                     :class="{ 'overflow-hidden': !large_content, 'rounded-full': message === '' }"
@@ -127,9 +123,9 @@
             </div>
 
             <div x-show="message !== ''" class="flex-shrink-0 ml-3">
-                <button
+                <button wire:click="sendMessage"
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-600 border border-transparent hover:bg-gray-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 rounded-2xl focus:shadow-outline-gray disabled:opacity-25"
-                    @click="sendMessage(); resetHeight()">
+                    @click=" resetHeight() ">
                     send
                 </button>
             </div>
