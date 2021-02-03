@@ -2,7 +2,6 @@
 
 namespace App\Actions\Ecorun\Post;
 
-use App\Models\Post;
 use App\Parsers\HashTagParser;
 use App\Parsers\MentionParser;
 use League\CommonMark\DocParser;
@@ -11,10 +10,10 @@ use League\CommonMark\HtmlRenderer;
 
 class ExtractMentionsAndTags
 {
-    protected Post $post;
+    protected string $content;
 
-    public function __construct(Post $post) {
-        $this->post = $post;
+    public function __construct(string $content) {
+        $this->content = $content;
     }
 
     public function act() {
@@ -23,7 +22,7 @@ class ExtractMentionsAndTags
         $environment->addInlineParser(new MentionParser());
         $parser = new DocParser($environment);
         $htmlRender = new HtmlRenderer($environment);
-        $text = $parser->parse($this->post->content);
+        $text = $parser->parse($this->content);
         return $htmlRender->renderBlock($text);
     }
 }

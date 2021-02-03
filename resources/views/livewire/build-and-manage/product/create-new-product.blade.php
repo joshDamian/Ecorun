@@ -32,49 +32,31 @@
 
             <x-slot name="form">
                 <!-- Photos -->
-                <div x-data="{isUploading: false, progress: 0, photosArray: []}"
-                    x-on:livewire-upload-start="isUploading = true" x-on:livewire-upload-finish="isUploading = false"
-                    x-on:livewire-upload-error="isUploading = false"
+                <div x-data="{isUploading: false, progress: 0}" x-on:livewire-upload-start="isUploading = true"
+                    x-on:livewire-upload-finish="isUploading = false" x-on:livewire-upload-error="isUploading = false"
                     x-on:livewire-upload-progress="progress = $event.detail.progress"
                     class="col-span-12 md:col-span-8 sm:col-span-6">
 
                     <!-- Product Photos File Input -->
-                    <input type="file" class="hidden" accept="image/*" wire:model="photos" multiple x-ref="photos"
-                        x-on:change="
-                    const files = $refs.photos.files;
-                    photosArray = [];
-                    for(var i = 0; i < files.length; i++) {
-                    photosArray[i] = {'url': URL.createObjectURL(files[i])}
-                    }
-                    console.log(files.length);
-                    " />
+                    <input type="file" class="hidden" accept="image/*" wire:model="photos" multiple x-ref="photos" />
 
                     <x-jet-label for="photos" value="{{ __('Product Photos') }}" />
 
                     <!-- Product Photos Preview -->
-                    @if(count($photos) > 0)
-                    <div class="mt-2" x-show.transition="photosArray.length > 0">
-                        <div
-                            class="grid @if(count($photos) < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-3 sm:gap-2 gap-2">
-                            <template x-for="photo in photosArray">
-                                <div
-                                    x-bind:style="'width: 100%; height: 130px; background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photo.url + '\');'">
-                                </div>
-                            </template>
-                        </div>
-
+                    @if(count($this->valid_photos) > 0)
+                    <div class="mt-2">
+                        <x-connect.image.multiple-selector :photos="$photos" />
                         <div class="mt-2" x-show.transition="isUploading">
                             <progress max="100" x-bind:value="progress"></progress>
                         </div>
                     </div>
-                    @endif
-
+                    @else
                     <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photos.click();">
                         {{ __('Select Product Photos') }}
                     </x-jet-secondary-button>
+                    @endif
                     <div class="mt-2">
                         <x-jet-input-error for="photos" />
-                        <x-jet-input-error for="photos.*" />
                     </div>
                 </div>
 

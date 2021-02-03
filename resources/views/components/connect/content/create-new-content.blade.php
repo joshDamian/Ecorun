@@ -23,8 +23,8 @@
                         @enderror
                     </div>
 
-                    <div wire:ignore>
-                        <textarea name="text_content"
+                    <div>
+                        <textarea wire:ignore name="text_content"
                             :class="{ 'rounded-full': !ready,  'overflow-hidden': !large_content, 'rounded-full': message.length < 1 }"
                             @focus="ready = true; $refs.content.setSelectionRange(message.length, message.length)"
                             x-ref="content" rows="1" placeholder="say something" x-model="message"
@@ -52,11 +52,10 @@
 
                         <div class="mt-2 mb-2" x-show="ready && hashtags.length > 0 && hashtag_matches">
                             <h3 class="mb-1 font-semibold text-blue-600 text-md">hashtag suggestions:</h3>
-                            <div class="flex">
+                            <div class="grid grid-cols-1 gap-1 sm:grid-cols-3">
                                 <template x-if="hashtag_matches && hashtag_matches.length > 0"
                                     x-for="(hashtag, index) in hashtags" :key="index">
-                                    <div :class="{ 'flex-grow': hashtags.length > 1, 'mr-2': index !== hashtags.length - 1 }"
-                                        x-on:click="replaceText('#' + current_hashtag, event.target.innerText)"
+                                    <div x-on:click="replaceText('#' + current_hashtag, event.target.innerText)"
                                         x-text="'#' + hashtag"
                                         class="px-2 py-1 font-bold text-blue-700 bg-gray-100 border border-gray-300 cursor-pointer hover:bg-blue-200">
                                     </div>
@@ -67,23 +66,27 @@
 
                     <div x-show="ready" :class="ready ? 'mt-2' : ''" class="grid grid-cols-1 gap-2">
                         <div>
-                            <input class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos"
-                                multiple>
+                            @php $photos_count = count($this->valid_photos); @endphp
+                            <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
+                            wire:model="photos" multiple />
+
+                            @if($photos_count === 0)
                             <span @click="$refs.photos.click()"
                                 class="font-semibold text-blue-800 cursor-pointer select-none">
-                                <i class="fas fa-images"></i> &nbsp;Photos (Max 10MB)
+                                <i class="fas fa-images"></i> &nbsp;Photos
                             </span>
+                            @endif
 
-                            @if(count($photos) > 0)
-                            <div class="grid grid-cols-3 gap-2 mt-3">
-                                @foreach ($photos as $photo)
-                                <div style="background-image: url('{{ $photo->temporaryUrl() }}'); background-size: cover; background-position: center center;"
-                                    class="w-full h-20 sm:h-36">
-                                </div>
-                                @endforeach
+                            @if($photos_count > 0)
+                            <div>
+                                <x-connect.image.multiple-selector :photos="$photos" />
                             </div>
                             @endif
-                            <x-jet-input-error for="photos.*" class="mt-2" />
+
+                            <div class="flex justify-center w-full text-blue-600" wire:target="addedImages"
+                                wire:loading>
+                                <x-loader_2 />
+                            </div>
                         </div>
 
                         <div class="flex justify-end">
@@ -120,11 +123,11 @@
                 mentions_match: /(^|\s)@([A-Za-z0-9_-]{1,30}(?!\w))$/,
                 mention_matches: [],
                 hashtag_matches: [],
-                match: function(){
+                match: function() {
                     this.mention_matches = this.message.match(this.mentions_match);
                     this.hashtag_matches = this.message.match(this.hashtag_match);
                 },
-                resetHeight: function(){
+                resetHeight: function() {
                     this.message = '';
                     this.large_content = false;
                     this.$refs.content.style.cssText = 'height:auto;';
@@ -142,45 +145,56 @@
                         this.ready = false;
                         this.resetHeight();
                     });
+
                     this.$watch('ready', value => {
                         Livewire.emit('toggled', this.ready);
-                        if(!value) {
+                        if (!value) {
                             this.mentions = [];
                             this.hashtags = []
                         }
                     });
                     /** autosuggest mentions **/
-                    this.$watch('mention_matches', value => {
-                        if(value && value.length > 0) {
-                            this.current_mention = value[2];
-                            this.$wire.hintMentions(this.current_mention).then(result => { this.mentions = result });
-                        } else {
-                            this.current_mention = '';
-                            this.mentions = [];
+                    this.$watch('mention_matches',
+                        value => {
+                            if (value && value.length > 0) {
+                                this.current_mention = value[2];
+                                this.$wire.hintMentions(this.current_mention).then(result => {
+                                    this.mentions = result
+                                });
+                            } else {
+                                this.current_mention = '';
+                                this.mentions = [];
+                            }
                         }
-                    });
+                    );
                     /** autosuggest hashtags **/
-                    this.$watch('hashtag_matches', value => {
-                        if(value && value.length > 0) {
-                            this.current_hashtag = value[2];
-                            this.$wire.hintHashtags(this.current_hashtag).then(result => { this.hashtags = result });
-                        } else {
-                            this.current_hashtag = '';
-                            this.hashtags = [];
+                    this.$watch('hashtag_matches',
+                        value => {
+                            if (value && value.length > 0) {
+                                this.current_hashtag = value[2];
+                                this.$wire.hintHashtags(this.current_hashtag).then(result => {
+                                    this.hashtags = result
+                                });
+                            } else {
+                                this.current_hashtag = '';
+                                this.hashtags = [];
+                            }
                         }
-                    });
+                    );
                     /** watch message **/
-                    this.$watch('message', value => {
-                        window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
-                        if(value !== '') {
-                            this.match();
+                    this.$watch('message',
+                        value => {
+                            window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
+                            if (value !== '') {
+                                this.match();
+                            }
+                            if (this.$refs.content.scrollHeight > 140) {
+                                this.large_content = true;
+                            } else {
+                                this.large_content = false;
+                            }
                         }
-                        if(this.$refs.content.scrollHeight > 140) {
-                            this.large_content = true;
-                        } else {
-                            this.large_content = false;
-                        }
-                    });
+                    );
                 }
             }
         }

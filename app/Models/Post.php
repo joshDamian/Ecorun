@@ -2,43 +2,37 @@
 
 namespace App\Models;
 
-use App\Actions\Ecorun\Post\ExtractMentionsAndTags;
 use App\Events\PostCreated;
 use App\Presenters\Post\UrlPresenter;
-use App\Queues\MentionQueue;
-use App\Queues\TagQueue;
+use App\Traits\HasMentionsAndTags;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
-use League\CommonMark\CommonMarkConverter;
 use Rennokki\QueryCache\Traits\QueryCacheable;
-use Spatie\Tags\HasTags;
-use App\Models\Tag;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+
 
 class Post extends Model
 {
     use HasFactory,
-    QueryCacheable,
-    HasTags,
-    Searchable;
+        QueryCacheable,
+        HasMentionsAndTags,
+        Searchable;
 
     /**
-    * The event map for the model.
-    *
-    * @var array
-    */
+     * The event map for the model.
+     *
+     * @var array
+     */
     protected $dispatchesEvents = [
         'created' => PostCreated::class,
     ];
 
     /**
-    * The accessors to append to the model's array form.
-    *
-    * @var array
-    */
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
         'url',
     ];
@@ -59,24 +53,34 @@ class Post extends Model
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function comments() {
+    public function comments()
+    {
         return $this->morphMany('App\Models\Feedback', 'feedbackable');
     }
 
-    public static function getTagClassName(): string
+    public static function boot()
     {
-        return Tag::class;
+        parent::boot();
+        self::saving(function ($model) {
+            self::parseMentionsAndTags($model);
+        });
+        self::saved(function ($model) {
+            self::syncWithTags($model);
+        });
     }
 
-    public function gallery() {
+    public function gallery()
+    {
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 
-    public function likes() {
+    public function likes()
+    {
         return $this->morphMany('App\Models\Like', 'likeable');
     }
 
-    public function profile() {
+    public function profile()
+    {
         return $this->belongsTo(Profile::class);
     }
 
@@ -91,31 +95,11 @@ class Post extends Model
         return true;
     }
 
-    public function shares() {
+    public function shares()
+    {
         return $this->morphMany(Share::class, 'shareable');
     }
 
-    public function getSafeHtmlAttribute() {
-        $converter = new CommonMarkConverter(['allow_unsafe_links' => false]);
-        return $converter->convertToHtml($this->html);
-    }
-
-    public static function boot() {
-        parent::boot();
-        self::saving(function ($post) {
-            App::singleton('tagqueue', function () {
-                return new TagQueue;
-            });
-            App::singleton('mentionqueue', function () {
-                return new MentionQueue;
-            });
-            $post->html = (new ExtractMentionsAndTags($post))->act();
-            $post->mentions = app('mentionqueue')->getMentions();
-        });
-        self::saved(function ($post) {
-            $post->syncTags(app('tagqueue')->getTags());
-        });
-    }
 
     public function toSearchableArray(): array
     {
@@ -124,14 +108,8 @@ class Post extends Model
         ];
     }
 
-    public function tags(): MorphToMany
+    public function getUrlAttribute()
     {
-        return $this
-        ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
-        ->orderBy('order_column');
-    }
-
-    public function getUrlAttribute() {
         return (new UrlPresenter($this));
     }
 }

@@ -2,17 +2,24 @@
 
 namespace App\Models;
 
+use App\Traits\HasMentionsAndTags;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Feedback extends Model
 {
-    use HasFactory, QueryCacheable;
+    use HasFactory, QueryCacheable, HasMentionsAndTags;
 
     protected $fillable = [
         'content',
         'title',
+    ];
+    protected $casts = [
+        'mentions' => 'collection'
+    ];
+    protected $attributes = [
+        'mentions' => "[]"
     ];
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
@@ -20,6 +27,17 @@ class Feedback extends Model
     public function profile()
     {
         return $this->belongsTo(Profile::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::saving(function ($model) {
+            self::parseMentionsAndTags($model);
+        });
+        self::saved(function ($model) {
+            self::syncWithTags($model);
+        });
     }
 
     public function feedbackable()

@@ -39,7 +39,7 @@
 
         @if($image_count > 0)
         @if($image_count > 1)
-        <div wire:ignore>
+        <div>
             <x-connect.image.carousel :gallery="$gallery" />
         </div>
         @else

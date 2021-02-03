@@ -1,52 +1,59 @@
 <div x-data="{
     large_content: false,
     message: '',
+    isSticky: true,
     chatBox: window.ChatBox.build({
-    conversation_id: '{{ $conversation->id }}',
-    whispers_callback: {
-    typing_callback: () => {
-    document.getElementById('status_for_chat_box').innerText = 'typing...'
-    },
-    doneTyping_callback: () => {
-    document.getElementById('status_for_chat_box').innerText = ''
-    }
-    },
+        conversation_id: '{{ $conversation->id }}',
+        whispers_callback: {
+            typing_callback: () => {
+                document.getElementById('status_for_chat_box').innerText = 'typing...'
+            },
+            doneTyping_callback: () => {
+                document.getElementById('status_for_chat_box').innerText = ''
+            }
+        },
+        textbox_cont: document.getElementById('text_box_container'),
     }),
 
     resetHeight: function(){
-    this.large_content = false;
-    this.$refs.content.style.cssText = 'height:auto;';
-    this.$refs.content.focus();
-    this.$refs.content.rows = '1';
+        this.large_content = false;
+        this.$refs.content.style.cssText = 'height:auto;';
+        this.$refs.content.focus();
+        this.$refs.content.rows = '1';
     },
 
     /** x-init **/
     initialize_chat_box: function() {
-    Livewire.on('SentAMessage', () =>  {
-    this.chatBox.goToBottom();
-    })
-    Livewire.on('readMessages', () => {
-    this.chatBox.whisper('readMessages')
-    })
+        Livewire.on('SentAMessage', () =>  {
+            this.$refs.content.value = '';
+            this.chatBox.goToBottom();
+        });
 
-    setTimeout(() => {
-    history.scrollRestoration = 'manual';
-    Livewire.emit('hide', true);
-    this.chatBox.goToBottom();
-    }, 100)
-    this.$watch('message', value => {
-    window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
-    if(this.$refs.content === document.activeElement && this.message.length > 0) {
-    this.chatBox.whisper('typing');
+        Livewire.on('readMessages', () => {
+            this.chatBox.whisper('readMessages')
+        })
+
+        setTimeout(() => {
+            history.scrollRestoration = 'manual';
+            Livewire.emit('hide', true);
+            this.chatBox.goToBottom();
+        }, 100);
+        this.$watch('message', value => {
+            window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
+            if(this.$refs.content === document.activeElement && this.message.length > 0) {
+                if(this.chatBox.atBottom()) {
+                    this.chatBox.goToBottom();
+                }
+                this.chatBox.whisper('typing');
+            }
+            if(this.$refs.content.scrollHeight > 140) {
+                this.large_content = true;
+            } else {
+                this.large_content = false;
+            }
+        });
     }
-    if(this.$refs.content.scrollHeight > 140) {
-    this.large_content = true;
-    } else {
-    this.large_content = false;
-    }
-    });
-    }
-    }" x-init="initialize_chat_box()">
+}" x-init="initialize_chat_box()">
     <div class="fixed top-0 z-40 flex items-center w-full p-3 bg-gray-100 md:sticky md:top-12">
         <div class="mr-3">
             <i @click="chatBox.close()" class="text-xl text-blue-700 cursor-pointer fas fa-arrow-left"></i>
@@ -82,7 +89,8 @@
         @php
         $my_message = ($message->sender_id === $me->id);
         @endphp
-        @if($message !== $messages->first() && is_object($messages->get($key - 1)) && ($message->created_at->day > $messages->get($key -
+        @if($message !== $messages->first() && is_object($messages->get($key - 1)) && ($message->created_at->day >
+        $messages->get($key -
         1)->created_at->day))
         <div class="p-3 font-black text-center text-blue-700 uppercase bg-gray-300 text-md">
             @if($message->created_at->day === now()->day)
@@ -108,21 +116,35 @@
         @endforeach
     </div>
 
-    <div class="sticky bottom-0 z-40 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
+    <div id="text_box_container" :class="{ 'sticky bottom-0': isSticky }"
+        class="z-40 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
         <div :class="large_content ? 'items-baseline' : 'items-center'" class="flex">
+            @php $photos_count = count($photos); @endphp
+            <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos"
+                multiple />
+
+            {{-- @if($photos_count === 0)
             <div class="flex items-center mr-3 text-2xl text-blue-700">
-                <i class="cursor-pointer far fa-images"></i>
+                <i x-on:click="$refs.photos.click()" class="cursor-pointer far fa-images"></i>
             </div>
+            @endif --}}
+
             <div wire:ignore class="flex-1 flex-shrink-0">
                 <textarea wire:model="message" id="textarea_for_chat_box"
-                    @focus="$refs.content.setSelectionRange(message.length, message.length)" x-ref="content"
-                    x-model="message" @focusout="chatBox.whisper('doneTyping')"
+                    @focus="$refs.content.setSelectionRange(message.length, message.length); isSticky = false; setTimeout(() => { isSticky = true; }, 500)"
+                    x-ref="content" x-model="message" @focusout="chatBox.whisper('doneTyping')"
                     :class="{ 'overflow-hidden': !large_content, 'rounded-full': message === '' }"
                     placeholder="Type a message" rows="1"
                     class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
+
+                @if($photos_count > 0)
+                <div>
+                    <x-connect.image.multiple-selector :photos="$photos" />
+                </div>
+                @endif
             </div>
 
-            <div x-show="message !== ''" class="flex-shrink-0 ml-3">
+            <div x-show="message.trim() !== ''" class="flex-shrink-0 ml-3">
                 <button wire:click="sendMessage"
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-600 border border-transparent hover:bg-gray-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 rounded-2xl focus:shadow-outline-gray disabled:opacity-25"
                     @click=" resetHeight() ">
