@@ -2,15 +2,17 @@
 
 <div>
     <div class="grid grid-cols-3 gap-2">
-        @foreach ($this->valid_photos as $key => $photo)
-        <div>
+        @foreach ($photos as $key => $photo)
+        @php $wire_key = 'selected_' . mt_rand(1, 4000000); @endphp
+
+        <div wire:key="{{$wire_key}}" id="{{$wire_key}}">
             <div class="text-right">
                 <x-jet-secondary-button wire:click="removeFromPhotos({{$key}})" class="p-0 text-red-600">
                     <i class="text-sm fas fa-times"></i>
                 </x-jet-secondary-button>
             </div>
             <div class="p-1 border border-gray-300">
-                <div id="selected_{{$key}}" wire:ignore
+                <div wire:ignore.self
                     style="background-image: url('{{ $photo->temporaryUrl() }}'); background-size: cover; background-position: center center;"
                     class="w-full h-20 sm:h-36">
                 </div>

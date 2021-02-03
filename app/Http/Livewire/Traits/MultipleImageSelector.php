@@ -14,8 +14,16 @@ trait MultipleImageSelector
     ];
 
     public function updatedAddedImages() {
-        $this->photos = collect($this->photos)->merge($this->addedImages)->all();
+        $this->photos = collect($this->photos)->merge($this->addedImages)->unique()->all();
         return;
+    }
+
+    public function updatedPhotos(): void
+    {
+        $this->filterImages();
+        $this->validate([
+            'photos.*' => $this->image_validation
+        ]);
     }
 
     public function removeFromPhotos($key) {
@@ -23,18 +31,20 @@ trait MultipleImageSelector
         return;
     }
 
-    public function validPreviewUrl($photo) {
+    protected function filterImages() {
+        collect($this->photos)->each(function($photo, $key) {
+            if ($this->validPreviewUrl($photo) === null) {
+                $this->removeFromPhotos($key);
+            }
+        });
+        return;
+    }
+
+    protected function validPreviewUrl($photo) {
         try {
             return $photo->temporaryUrl();
         } catch (\Throwable $th) {
             return null;
         }
-    }
-
-    public function getValidPhotosProperty() {
-        $this->photos = collect($this->photos)->filter(function($photo) {
-            return $this->validPreviewUrl($photo);
-        })->values()->all();
-        return $this->photos;
     }
 }

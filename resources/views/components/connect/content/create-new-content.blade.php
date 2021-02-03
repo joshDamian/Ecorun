@@ -66,7 +66,7 @@
 
                     <div x-show="ready" :class="ready ? 'mt-2' : ''" class="grid grid-cols-1 gap-2">
                         <div>
-                            @php $photos_count = count($this->valid_photos); @endphp
+                            @php $photos_count = count($photos); @endphp
                             <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
                             wire:model="photos" multiple />
 

@@ -15,27 +15,17 @@ trait CreatesSocialContent
     public $text_content = '';
     public $photos = [];
 
-    public function done()
-    {
+    public function done() {
         $this->reset('photos', 'text_content');
         $this->resetErrorBag();
         return;
     }
 
-    public function updatedPhotos(): void
-    {
-        $this->validate([
-            'photos.*' => $this->image_validation
-        ]);
-    }
-
-    public function hintMentions($mention)
-    {
+    public function hintMentions($mention) {
         return \App\Models\Profile::search($mention)->get()->unique()->all();
     }
 
-    public function hintHashtags($hashtag)
-    {
+    public function hintHashtags($hashtag) {
         return \App\Models\Tag::search($hashtag)->get()->pluck('name')->unique()->all();
     }
 
