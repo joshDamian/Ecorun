@@ -63,7 +63,7 @@ class Talk extends Component
         $this->emit('SentAMessage');
         $this->done();
         $this->new_message->save();
-        // broadcast(new SentMessage($this->new_message))->toOthers();
+        broadcast(new SentMessage($this->new_message))->toOthers();
         return;
     }
 
