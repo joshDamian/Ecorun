@@ -68,7 +68,7 @@
                         <div>
                             @php $photos_count = count($photos); @endphp
                             <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
-                                wire:model="photos" multiple />
+                            wire:model="photos" multiple />
 
                             @if($photos_count === 0)
                             <span @click="$refs.photos.click()"
@@ -111,88 +111,92 @@
     </div>
     <script>
         function content_data() {
-                return {
-                    ready: false,
-                    message: '',
-                    current_mention: '',
-                    current_hashtag: '',
-                    large_content: false,
-                    mentions: [],
-                    hashtags: [],
-                    hashtag_match: /(^|\s)#([A-Za-z0-9_-]{1,100}(?!\w))$/,
-                    mentions_match: /(^|\s)@([A-Za-z0-9_-]{1,30}(?!\w))$/,
-                    mention_matches: [],
-                    hashtag_matches: [],
-                    match: function() {
-                        this.mention_matches = this.message.match(this.mentions_match);
-                        this.hashtag_matches = this.message.match(this.hashtag_match);
-                    },
-                    resetHeight: function() {
-                        this.message = '';
-                        this.large_content = false;
-                        this.$refs.content.style.cssText = 'height:auto;';
-                        this.$refs.content.rows = '1';
-                    },
-                    replaceText: function(initial, replacement) {
-                        this.message = this.message.replace(new RegExp(initial + '$'), replacement + ' ');
-                        this.$refs.content.focus();
-                    },
-                    create: function() {
-                        this.$wire.text_content = this.message;
-                    },
-                    initialize: function() {
-                        Livewire.on('addedContent', () => {
-                            this.ready = false;
-                            this.resetHeight();
-                        });
-                        this.$watch('ready', value => {
-                            Livewire.emit('toggled', this.ready);
-                            if (!value) {
+            return {
+                ready: false,
+                message: '',
+                current_mention: '',
+                current_hashtag: '',
+                large_content: false,
+                mentions: [],
+                hashtags: [],
+                hashtag_match: /(^|\s)#([A-Za-z0-9_-]{1,100}(?!\w))$/,
+                mentions_match: /(^|\s)@([A-Za-z0-9_-]{1,30}(?!\w))$/,
+                mention_matches: [],
+                hashtag_matches: [],
+                match: function() {
+                    this.mention_matches = this.message.match(this.mentions_match);
+                    this.hashtag_matches = this.message.match(this.hashtag_match);
+                },
+                resetHeight: function() {
+                    this.message = '';
+                    this.large_content = false;
+                    this.$refs.content.style.cssText = 'height:auto;';
+                    this.$refs.content.rows = '1';
+                },
+                replaceText: function(initial, replacement) {
+                    this.message = this.message.replace(new RegExp(initial + '$'), replacement + ' ');
+                    this.$refs.content.focus();
+                },
+                create: function() {
+                    this.$wire.text_content = this.message;
+                },
+                initialize: function() {
+                    Livewire.on('addedContent', () => {
+                        this.ready = false;
+                        this.resetHeight();
+                    });
+
+                    this.$watch('ready', value => {
+                        Livewire.emit('toggled', this.ready);
+                        if (!value) {
+                            this.mentions = [];
+                            this.hashtags = []
+                        }
+                    });
+                    /** autosuggest mentions **/
+                    this.$watch('mention_matches',
+                        value => {
+                            if (value && value.length > 0) {
+                                this.current_mention = value[2];
+                                this.$wire.hintMentions(this.current_mention).then(result => {
+                                    this.mentions = result
+                                });
+                            } else {
+                                this.current_mention = '';
                                 this.mentions = [];
-                                this.hashtags = []
                             }
-                        });
-                        /** autosuggest mentions **/
-                        this.$watch('mention_matches',
-                            value => {
-                                if (value && value.length > 0) {
-                                    this.current_mention = value[2];
-                                    this.$wire.hintMentions(this.current_mention).then(result => {
-                                        this.mentions = result
-                                    });
-                                } else {
-                                    this.current_mention = '';
-                                    this.mentions = [];
-                                }
-                            });
-                        /** autosuggest hashtags **/
-                        this.$watch('hashtag_matches',
-                            value => {
-                                if (value && value.length > 0) {
-                                    this.current_hashtag = value[2];
-                                    this.$wire.hintHashtags(this.current_hashtag).then(result => {
-                                        this.hashtags = result
-                                    });
-                                } else {
-                                    this.current_hashtag = '';
-                                    this.hashtags = [];
-                                }
-                            });
-                        /** watch message **/
-                        this.$watch('message',
-                            value => {
-                                window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
-                                if (value !== '') {
-                                    this.match();
-                                }
-                                if (this.$refs.content.scrollHeight > 140) {
-                                    this.large_content = true;
-                                } else {
-                                    this.large_content = false;
-                                }
-                            });
-                    }
+                        }
+                    );
+                    /** autosuggest hashtags **/
+                    this.$watch('hashtag_matches',
+                        value => {
+                            if (value && value.length > 0) {
+                                this.current_hashtag = value[2];
+                                this.$wire.hintHashtags(this.current_hashtag).then(result => {
+                                    this.hashtags = result
+                                });
+                            } else {
+                                this.current_hashtag = '';
+                                this.hashtags = [];
+                            }
+                        }
+                    );
+                    /** watch message **/
+                    this.$watch('message',
+                        value => {
+                            window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
+                            if (value !== '') {
+                                this.match();
+                            }
+                            if (this.$refs.content.scrollHeight > 140) {
+                                this.large_content = true;
+                            } else {
+                                this.large_content = false;
+                            }
+                        }
+                    );
                 }
             }
+        }
     </script>
 </div>

@@ -46,6 +46,6 @@ export default class Chatbox {
         window.scrollTo(0, document.body.scrollHeight)
     }
     atBottom() {
-        return (window.innerHeight + Math.ceil(window.pageYOffset + 1 + this.options.textbox_cont.scrollHeight)) >= document.body.offsetHeight;
+        return (window.innerHeight + Math.ceil(window.pageYOffset + 100 + this.options.textbox_cont.scrollHeight)) >= document.body.offsetHeight;
     }
 }
