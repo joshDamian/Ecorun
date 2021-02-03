@@ -15,7 +15,8 @@ trait CreatesSocialContent
     public $text_content = '';
     public $photos = [];
 
-    public function done() {
+    public function done()
+    {
         $this->reset('photos', 'text_content');
         $this->resetErrorBag();
         return;
@@ -24,15 +25,17 @@ trait CreatesSocialContent
     public function updatedPhotos(): void
     {
         $this->validate([
-            'photos.*' => ['image', 'max:10240']
+            'photos.*' => $this->image_validation
         ]);
     }
 
-    public function hintMentions($mention) {
+    public function hintMentions($mention)
+    {
         return \App\Models\Profile::search($mention)->get()->unique()->all();
     }
 
-    public function hintHashtags($hashtag) {
+    public function hintHashtags($hashtag)
+    {
         return \App\Models\Tag::search($hashtag)->get()->pluck('name')->unique()->all();
     }
 
@@ -42,10 +45,11 @@ trait CreatesSocialContent
     {
         return [
             'text_content' => Rule::requiredIf(count($this->photos) < 1),
-            'photos' => ['array',
-                Rule::requiredIf(empty(trim($this->text_content)))],
-            'photos.*' => ['image',
-                'max:10240']
+            'photos' => [
+                'array',
+                Rule::requiredIf(empty(trim($this->text_content)))
+            ],
+            'photos.*' => $this->image_validation
         ];
     }
 }

@@ -2,15 +2,15 @@
 
 namespace App\Http\Livewire\BuildAndManage\Product;
 
+use App\Http\Livewire\Traits\MultipleImageSelector;
 use App\Http\Livewire\Traits\UploadPhotos;
 use App\Models\Category;
 use App\Models\Product;
-use Faker\Generator;
 use Livewire\Component;
 
 class CreateNewProduct extends Component
 {
-    use UploadPhotos;
+    use UploadPhotos, MultipleImageSelector;
 
     public $business;
     public $photos = [];
@@ -41,7 +41,7 @@ class CreateNewProduct extends Component
     public function getRules(): array
     {
         return [
-            'photos.*' => ['image', 'max:7168'],
+            'photos.*' => $this->image_validation,
             'photos' => 'required',
             'product._name' => ['required', 'min:4', 'string'],
             'product._description' => ['required', 'min:20'],
@@ -54,6 +54,13 @@ class CreateNewProduct extends Component
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
+    }
+
+    public function updatedPhotos(): void
+    {
+        $this->validate([
+            'photos.*' => ['image', 'max:10240']
+        ]);
     }
 
     public function resetData()

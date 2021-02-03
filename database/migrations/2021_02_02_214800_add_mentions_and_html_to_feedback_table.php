@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRenderedHtmlColumnToPostsTable extends Migration
+class AddMentionsAndHtmlToFeedbackTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ class AddRenderedHtmlColumnToPostsTable extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
+        Schema::table('feedback', function (Blueprint $table) {
+            $table->json('mentions')->nullable();
             $table->text('html')->nullable();
         });
     }
@@ -25,7 +26,8 @@ class AddRenderedHtmlColumnToPostsTable extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table) {
+        Schema::table('feedback', function (Blueprint $table) {
+            $table->dropColumn('mentions');
             $table->dropColumn('html');
         });
     }

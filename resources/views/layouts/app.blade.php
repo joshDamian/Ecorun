@@ -56,6 +56,15 @@
             height: 350px;
         }
 
+        progress[value] {
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        progress[value]::-webkit-progress-value {
+            background: rgb(9, 36, 160);
+        }
+
         .carousel-cell-image {
             display: block;
             max-height: 100%;

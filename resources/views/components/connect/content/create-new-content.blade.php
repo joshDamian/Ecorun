@@ -55,8 +55,7 @@
                             <div class="grid grid-cols-1 gap-1 sm:grid-cols-3">
                                 <template x-if="hashtag_matches && hashtag_matches.length > 0"
                                     x-for="(hashtag, index) in hashtags" :key="index">
-                                    <div
-                                        x-on:click="replaceText('#' + current_hashtag, event.target.innerText)"
+                                    <div x-on:click="replaceText('#' + current_hashtag, event.target.innerText)"
                                         x-text="'#' + hashtag"
                                         class="px-2 py-1 font-bold text-blue-700 bg-gray-100 border border-gray-300 cursor-pointer hover:bg-blue-200">
                                     </div>
@@ -68,50 +67,50 @@
                     <div x-show="ready" :class="ready ? 'mt-2' : ''" class="grid grid-cols-1 gap-2">
                         <div>
                             @php $photos_count = count($photos); @endphp
-                            <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos"
-                            multiple />
+                            <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
+                                wire:model="photos" multiple />
 
-                            @if($photos_count < 1)
-                                <span @click="$refs.photos.click()"
-                                    class="font-semibold text-blue-800 cursor-pointer select-none">
-                                    <i class="fas fa-images"></i> &nbsp;Photos
-                                </span>
-                                @endif
+                            @if($photos_count === 0)
+                            <span @click="$refs.photos.click()"
+                                class="font-semibold text-blue-800 cursor-pointer select-none">
+                                <i class="fas fa-images"></i> &nbsp;Photos
+                            </span>
+                            @endif
 
-                                @if($photos_count > 0)
-                                <div>
-                                    <x-connect.image.multiple-selector :photos="$photos" />
-                                </div>
-                                @endif
+                            @if($photos_count > 0)
+                            <div>
+                                <x-connect.image.multiple-selector :photos="$photos" />
+                            </div>
+                            @endif
 
-                                <div class="flex justify-center w-full text-blue-600" wire:target="addedImages" wire:loading>
-                                    <x-loader_2 />
-                                </div>
-                                <x-jet-input-error for="photos.*" class="mt-2" />
+                            <div class="flex justify-center w-full text-blue-600" wire:target="addedImages"
+                                wire:loading>
+                                <x-loader_2 />
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <div class="mr-4">
+                                <x-jet-secondary-button @click="ready = false; resetHeight()" wire:click="done"
+                                    class="font-semibold text-red-700">
+                                    cancel
+                                </x-jet-secondary-button>
                             </div>
 
-                            <div class="flex justify-end">
-                                <div class="mr-4">
-                                    <x-jet-secondary-button @click="ready = false; resetHeight()" wire:click="done"
-                                        class="font-semibold text-red-700">
-                                        cancel
-                                    </x-jet-secondary-button>
-                                </div>
-
-                                <div>
-                                    <x-jet-button @click="create()" class="bg-blue-600">
-                                        <i wire:loading wire:target="create" class="font-black fas fa-spin fa-spinner"></i>
-                                        &nbsp;{{ $type }}
-                                    </x-jet-button>
-                                </div>
+                            <div>
+                                <x-jet-button @click="create()" class="bg-blue-600">
+                                    <i wire:loading wire:target="create" class="font-black fas fa-spin fa-spinner"></i>
+                                    &nbsp;{{ $type }}
+                                </x-jet-button>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
-        <script>
-            function content_data() {
+    </div>
+    <script>
+        function content_data() {
                 return {
                     ready: false,
                     message: '',
@@ -195,5 +194,5 @@
                     }
                 }
             }
-        </script>
-    </div>
+    </script>
+</div>

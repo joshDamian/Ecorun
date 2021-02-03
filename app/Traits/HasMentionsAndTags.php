@@ -2,15 +2,20 @@
 
 namespace App\Traits;
 
-trait HasMentionsAndTags {
+use Spatie\Tags\HasTags;
+use App\Models\Tag;
+use App\Queues\MentionQueue;
+use App\Queues\TagQueue;
+use App\Actions\Ecorun\Post\ExtractMentionsAndTags;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\App;
+use League\CommonMark\CommonMarkConverter;
 
-    public static function boot() {
-        parent::boot();
-        self::saving(function ($model) {});
-        self::saved(function ($model) {});
-    }
-
-    public static function parseMentionsAndTags($model) {
+trait HasMentionsAndTags
+{
+    use HasTags;
+    public static function parseMentionsAndTags($model)
+    {
         App::singleton('tagqueue', function () {
             return new TagQueue;
         });
@@ -22,11 +27,13 @@ trait HasMentionsAndTags {
         $model->mentions = app('mentionqueue')->getMentions();
     }
 
-    protected static function syncTags($model) {
+    protected static function syncWithTags($model)
+    {
         $model->syncTags(app('tagqueue')->getTags());
     }
 
-    public function getSafeHtmlAttribute() {
+    public function getSafeHtmlAttribute()
+    {
         $converter = new CommonMarkConverter(['allow_unsafe_links' => false]);
         return $converter->convertToHtml($this->html);
     }
@@ -39,7 +46,7 @@ trait HasMentionsAndTags {
     public function tags(): MorphToMany
     {
         return $this
-        ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
-        ->orderBy('order_column');
+            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
+            ->orderBy('order_column');
     }
 }
