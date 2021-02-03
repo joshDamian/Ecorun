@@ -5,7 +5,7 @@ export default class Chatbox {
     build(options) {
         this.options = options;
 
-        Echo.join('private_conversation.' + this.options.conversation_id)
+        Echo.join(`private_conversation.${this.options.conversation_id}`)
         .here((profiles) => {
             console.log(profiles);
             Livewire.emit('markReceivedMessagesRead');
@@ -35,7 +35,7 @@ export default class Chatbox {
         return this;
     }
     whisper(message) {
-        Echo.join('private_conversation.' + this.options.conversation_id).whisper(message);
+        Echo.private(`private_conversation.${this.options.conversation_id}`).whisper(message);
     }
     close() {
         Livewire.emit('showAll');

@@ -28,7 +28,7 @@ return [
             'key' => env('PUSHER_APP_KEY'),
             'secret' => env('PUSHER_APP_SECRET'),
             'path' => env('PUSHER_APP_PATH'),
-            //'capacity' => null,
+            'capacity' => null,
             'enable_client_messages' => true,
             'enable_statistics' => true,
         ],
@@ -54,7 +54,7 @@ return [
     /*
      * The maximum request size in kilobytes that is allowed for an incoming WebSocket request.
      */
-    'max_request_size_in_kb' => 250,
+    'max_request_size_in_kb' => 500,
 
     /*
      * This path will be used to register the necessary routes for the package.
