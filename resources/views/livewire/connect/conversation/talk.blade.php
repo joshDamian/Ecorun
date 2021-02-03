@@ -15,17 +15,17 @@
     textbox_cont: document.getElementById('text_box_container'),
     }),
 
-    resetHeight: function(){
+    resetHeight: function() {
+    this.message = '';
     this.large_content = false;
     this.$refs.content.style.cssText = 'height:auto;';
-    this.$refs.content.focus();
     this.$refs.content.rows = '1';
+    this.$refs.content.focus();
     },
 
     /** x-init **/
     initialize_chat_box: function() {
     Livewire.on('SentAMessage', () =>  {
-    this.message = '';
     this.chatBox.goToBottom();
     });
 
@@ -129,8 +129,8 @@
             </div>
             @endif --}}
 
-            <div wire:ignore class="flex-1 flex-shrink-0">
-                <textarea wire:model="message" id="textarea_for_chat_box"
+            <div class="flex-1 flex-shrink-0">
+                <textarea name="content" wire:ignore.self wire:model="message" id="textarea_for_chat_box"
                     @focus="$refs.content.setSelectionRange(message.length, message.length); isSticky = false; setTimeout(() => { isSticky = true; }, 500)"
                     x-ref="content" x-model="message" @focusout="chatBox.whisper('doneTyping')"
                     :class="{ 'overflow-hidden': !large_content, 'rounded-full': message === '' }"
@@ -147,7 +147,7 @@
             <div x-show="message.trim() !== ''" class="flex-shrink-0 ml-3">
                 <button wire:click="sendMessage"
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-600 border border-transparent hover:bg-gray-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 rounded-2xl focus:shadow-outline-gray disabled:opacity-25"
-                    @click=" resetHeight() ">
+                    @click=" resetHeight(); ">
                     send
                 </button>
             </div>
