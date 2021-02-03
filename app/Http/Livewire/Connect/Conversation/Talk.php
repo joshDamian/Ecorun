@@ -58,17 +58,21 @@ class Talk extends Component
 
     public function sendMessage() {
         $this->validate();
-        $this->new_message = new Message();
-        $this->new_message->sender_id = $this->me->id;
-        $this->new_message->messageable_type = get_class($this->conversation);
         $this->new_message->content = trim($this->message);
-        $this->new_message->messageable_id = $this->conversation->id;
         $this->conversation->messages->push($this->new_message);
         $this->emit('SentAMessage');
         $this->done();
         $this->new_message->save();
-        broadcast(new SentMessage($this->new_message))->toOthers();
+        // broadcast(new SentMessage($this->new_message))->toOthers();
         return;
+    }
+
+    public function getNewMessageProperty() {
+        return (new Message())->forceFill([
+            'sender_id' => $this->me->id,
+            'messageable_type' => get_class($this->conversation),
+            'messageable_id' => $this->conversation->id
+        ]);
     }
 
 
