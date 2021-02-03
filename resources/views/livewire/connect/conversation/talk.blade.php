@@ -3,57 +3,57 @@
     message: '',
     isSticky: true,
     chatBox: window.ChatBox.build({
-        conversation_id: '{{ $conversation->id }}',
-        whispers_callback: {
-            typing_callback: () => {
-                document.getElementById('status_for_chat_box').innerText = 'typing...'
-            },
-            doneTyping_callback: () => {
-                document.getElementById('status_for_chat_box').innerText = ''
-            }
-        },
-        textbox_cont: document.getElementById('text_box_container'),
+    conversation_id: '{{ $conversation->id }}',
+    whispers_callback: {
+    typing_callback: () => {
+    document.getElementById('status_for_chat_box').innerText = 'typing...'
+    },
+    doneTyping_callback: () => {
+    document.getElementById('status_for_chat_box').innerText = ''
+    }
+    },
+    textbox_cont: document.getElementById('text_box_container'),
     }),
 
     resetHeight: function(){
-        this.large_content = false;
-        this.$refs.content.style.cssText = 'height:auto;';
-        this.$refs.content.focus();
-        this.$refs.content.rows = '1';
+    this.large_content = false;
+    this.$refs.content.style.cssText = 'height:auto;';
+    this.$refs.content.focus();
+    this.$refs.content.rows = '1';
     },
 
     /** x-init **/
     initialize_chat_box: function() {
-        Livewire.on('SentAMessage', () =>  {
-            this.$refs.content.value = '';
-            this.chatBox.goToBottom();
-        });
+    Livewire.on('SentAMessage', () =>  {
+    this.message = '';
+    this.chatBox.goToBottom();
+    });
 
-        Livewire.on('readMessages', () => {
-            this.chatBox.whisper('readMessages')
-        })
+    Livewire.on('readMessages', () => {
+    this.chatBox.whisper('readMessages')
+    })
 
-        setTimeout(() => {
-            history.scrollRestoration = 'manual';
-            Livewire.emit('hide', true);
-            this.chatBox.goToBottom();
-        }, 100);
-        this.$watch('message', value => {
-            window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
-            if(this.$refs.content === document.activeElement && this.message.length > 0) {
-                if(this.chatBox.atBottom()) {
-                    this.chatBox.goToBottom();
-                }
-                this.chatBox.whisper('typing');
-            }
-            if(this.$refs.content.scrollHeight > 140) {
-                this.large_content = true;
-            } else {
-                this.large_content = false;
-            }
-        });
+    setTimeout(() => {
+    history.scrollRestoration = 'manual';
+    Livewire.emit('hide', true);
+    this.chatBox.goToBottom();
+    }, 100);
+    this.$watch('message', value => {
+    window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
+    if(this.$refs.content === document.activeElement && this.message.length > 0) {
+    if(this.chatBox.atBottom()) {
+    this.chatBox.goToBottom();
     }
-}" x-init="initialize_chat_box()">
+    this.chatBox.whisper('typing');
+    }
+    if(this.$refs.content.scrollHeight > 140) {
+    this.large_content = true;
+    } else {
+    this.large_content = false;
+    }
+    });
+    }
+    }" x-init="initialize_chat_box()">
     <div class="fixed top-0 z-40 flex items-center w-full p-3 bg-gray-100 md:sticky md:top-12">
         <div class="mr-3">
             <i @click="chatBox.close()" class="text-xl text-blue-700 cursor-pointer fas fa-arrow-left"></i>
@@ -121,7 +121,7 @@
         <div :class="large_content ? 'items-baseline' : 'items-center'" class="flex">
             @php $photos_count = count($photos); @endphp
             <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos"
-                multiple />
+            multiple />
 
             {{-- @if($photos_count === 0)
             <div class="flex items-center mr-3 text-2xl text-blue-700">

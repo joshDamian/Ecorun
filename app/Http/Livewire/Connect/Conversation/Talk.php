@@ -13,7 +13,9 @@ use App\Http\Livewire\Traits\UploadPhotos;
 
 class Talk extends Component
 {
-    use AuthorizesRequests, UploadPhotos, MultipleImageSelector;
+    use AuthorizesRequests,
+    UploadPhotos,
+    MultipleImageSelector;
 
     public $conversation;
     public Profile $me;
@@ -24,29 +26,24 @@ class Talk extends Component
         'message' => ['required']
     ];
 
-    public function getListeners()
-    {
+    public function getListeners() {
         return [
-            //"echo-private:private_conversation.{$this->conversation->id},SentMessage" => '$refresh',
             'SentAMessage' => '$refresh',
             'refresh' => '$refresh',
             'markReceivedMessagesRead'
         ];
     }
 
-    public function mount()
-    {
+    public function mount() {
         $this->authorize('view', [$this->conversation, $this->me]);
     }
 
-    public function getPartnerProperty()
-    {
+    public function getPartnerProperty() {
 
         return $this->conversation->pair->firstWhere('id', '!==', $this->me->id);
     }
 
-    public function markReceivedMessagesRead()
-    {
+    public function markReceivedMessagesRead() {
         $marked_count = $this->conversation->messages->where('sender_id', '!==', $this->me->id)->reject(function ($message) {
             return $message->seenBy->pluck('id')->contains($this->me->id);
         })->each(function ($message) {
@@ -59,8 +56,7 @@ class Talk extends Component
         return;
     }
 
-    public function sendMessage()
-    {
+    public function sendMessage() {
         $this->validate();
         $this->new_message = new Message();
         $this->new_message->sender_id = $this->me->id;
@@ -69,24 +65,22 @@ class Talk extends Component
         $this->new_message->messageable_id = $this->conversation->id;
         $this->conversation->messages->push($this->new_message);
         $this->emit('SentAMessage');
+        $this->done();
         $this->new_message->save();
         broadcast(new SentMessage($this->new_message))->toOthers();
-        return $this->done();
+        return;
     }
 
 
-    public function done()
-    {
+    public function done() {
         $this->reset('message');
     }
 
-    public function loadOlderMessages()
-    {
+    public function loadOlderMessages() {
         return $this->perPage = $this->perPage + 10;
     }
 
-    public function render()
-    {
+    public function render() {
         return view(
             'livewire.connect.conversation.talk',
             [
