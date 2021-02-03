@@ -35,7 +35,7 @@ export default class Chatbox {
         return this;
     }
     whisper(message) {
-        Echo.join('private_conversation.' + this.options.conversation_id).whisper(message);
+        Echo.private('private_conversation.' + this.options.conversation_id).whisper(message);
     }
     close() {
         Livewire.emit('showAll');
