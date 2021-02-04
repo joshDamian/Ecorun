@@ -35,7 +35,7 @@ class ProfileConversations extends Component
 
     public function showAll()
     {
-        return $this->activeConversation = false;
+        return $this->activeConversation = null;
     }
 
     public function getConversationsProperty()
@@ -48,9 +48,9 @@ class ProfileConversations extends Component
         $this->sortBy = $key;
     }
 
-    public function switchActiveConv($id)
+    public function switchActiveConv($secret)
     {
-        $this->activeConversation = $this->conversations->all->firstWhere("id", $id);
+        $this->activeConversation = $this->conversations->all->firstWhere("secret_key", $secret);
         return;
     }
 
