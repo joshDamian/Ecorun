@@ -24,7 +24,7 @@
                     </div>
 
                     <div>
-                        <textarea wire:ignore name="text_content"
+                        <textarea wire:model="text_content" wire:ignore name="text_content"
                             :class="{ 'rounded-full': !ready,  'overflow-hidden': !large_content, 'rounded-full': message.length < 1 }"
                             @focus="ready = true; $refs.content.setSelectionRange(message.length, message.length)"
                             x-ref="content" rows="1" placeholder="say something" x-model="message"
@@ -68,7 +68,7 @@
                         <div>
                             @php $photos_count = count($photos); @endphp
                             <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
-                            wire:model="photos" multiple />
+                                wire:model="photos" multiple />
 
                             @if($photos_count === 0)
                             <span @click="$refs.photos.click()"
@@ -98,7 +98,7 @@
                             </div>
 
                             <div>
-                                <x-jet-button @click="create()" class="bg-blue-600">
+                                <x-jet-button class="bg-blue-600">
                                     <i wire:loading wire:target="create" class="font-black fas fa-spin fa-spinner"></i>
                                     &nbsp;{{ $type }}
                                 </x-jet-button>
@@ -136,9 +136,6 @@
                 replaceText: function(initial, replacement) {
                     this.message = this.message.replace(new RegExp(initial + '$'), replacement + ' ');
                     this.$refs.content.focus();
-                },
-                create: function() {
-                    this.$wire.text_content = this.message;
                 },
                 initialize: function() {
                     Livewire.on('addedContent', () => {

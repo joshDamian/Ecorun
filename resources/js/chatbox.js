@@ -19,7 +19,7 @@ export default class Chatbox {
         })
         .listen('SentMessage', (e) => {
             var atBottom = this.atBottom();
-            Livewire.emit('refresh');
+            Livewire.emit('reloadMessages');
             Livewire.hook('message.processed', (message, compo) => {
                 if (atBottom) {
                     window.scrollTo(0, document.body.scrollHeight);
@@ -27,15 +27,19 @@ export default class Chatbox {
             });
             Livewire.emit('markReceivedMessagesRead');
         })
-        .listenForWhisper('typing', this.options.whispers_callback.typing_callback())
-        .listenForWhisper('doneTyping', this.options.whispers_callback.doneTyping_callback())
+        .listenForWhisper('typing', () => {
+            return this.options.whispers_callback.typing_callback();
+        })
+        .listenForWhisper('doneTyping', () => {
+            return this.options.whispers_callback.doneTyping_callback();
+        })
         .listenForWhisper('readMessages', () => {
-            Livewire.emit('refresh');
+            return this.options.whispers_callback.readMessages_callback();
         });
         return this;
     }
     whisper(message) {
-        Echo.private(`private_conversation.${this.options.conversation_id}`).whisper(message);
+        Echo.join(`private_conversation.${this.options.conversation_id}`).whisper(message);
     }
     close() {
         Livewire.emit('showAll');
@@ -46,6 +50,6 @@ export default class Chatbox {
         window.scrollTo(0, document.body.scrollHeight)
     }
     atBottom() {
-        return (window.innerHeight + Math.ceil(window.pageYOffset + 100 + this.options.textbox_cont.scrollHeight)) >= document.body.offsetHeight;
+        return (window.innerHeight + Math.ceil(window.pageYOffset + 1 + this.options.textbox_cont.scrollHeight)) >= document.body.offsetHeight;
     }
 }
