@@ -1,5 +1,5 @@
 <div>
-    <div class="fixed bottom-0 w-full bg-gray-200 md:sticky md:top-12">
+    <div class="fixed z-20 bottom-0 w-full bg-gray-200 md:sticky md:top-12">
         <ul class="flex overflow-x-auto">
             @foreach($views as $key => $view)
             <li onclick=" window.scrollTo(0, 0); window.UiHelpers.modifyUrl('{{ $key }}'); "

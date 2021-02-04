@@ -1,6 +1,6 @@
 <div x-data
     x-init="() => { setTimeout(() => { window.UiHelpers.modifyUrl('/{{ $profile->full_tag() }}/{{ $action_route }}')}, 1000); }">
-    <div class="fixed bottom-0 w-full bg-gray-200 md:sticky md:top-12">
+    <div class="fixed z-20 bottom-0 w-full bg-gray-200 md:sticky md:top-12">
         <ul class="flex overflow-x-auto">
             @foreach($views as $key => $view)
             <li onclick=" window.UiHelpers.modifyUrl('{{ $key }}') " wire:click="switchView('{{ $key }}')" class="text-center @if($view === $active_view) text-blue-800 bg-white @else text-gray-800 @endif
