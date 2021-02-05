@@ -19,13 +19,12 @@
                         <span class="font-bold text-black">{{ $profile->name }}</span>
                         mentioned you in a post.
                     </div>
-                    {{-- @if($post->content)
+                    @if($post->content)
                     <div class="flex items-center">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
-                        <x-display-text-content class="flex-1 flex-shrink-0 truncate line-clamp"
-                            :content="$post->safe_html" />
+                        <x-display-text-content class="line-clamp truncate flex-1 flex-grow" :content="$post->content" />
                     </div>
-                    @endif --}}
+                    @endif
                 </div>
             </div>
         </div>

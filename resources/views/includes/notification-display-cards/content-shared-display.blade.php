@@ -25,7 +25,7 @@
                         <div class="flex items-center">
                             <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
                             <x-display-text-content class="flex-1 flex-shrink-0 truncate line-clamp"
-                                :content="$share->shareable->safe_html" />
+                                :content="$share->shareable->content" />
                         </div>
                         @endif
                         @break

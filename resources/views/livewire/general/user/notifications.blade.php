@@ -13,9 +13,9 @@
         @foreach($profiles as $profile)
         @continue($profile->id === $this->activeProfile->id)
         Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewMessageForProfile', () => {
-            Livewire.emit('newMessage')
+        Livewire.emit('newMessage')
         }).notification((notification) => {
-            Livewire.emit('newNotification', notification);
+        Livewire.emit('newNotification', notification);
         });
         @endforeach
         }">
@@ -37,11 +37,14 @@
     </div>
 
     @if($display)
-    @if($this->activeProfile)
-    <div class="bg-gray-100">
-        @livewire('general.user.notification-sorter', ['profile' => $this->activeProfile],
-        key(md5("notification_sorter_for_{$activeProfile->id}")))
+    <div>
+        @if($this->activeProfile)
+        @php $key = random_int(12, 6543356726) . $activeProfile->id . $activeProfile->tag . 'notification-sorter'; @endphp
+        <div class="bg-gray-100">
+            @livewire('general.user.notification-sorter', ['profile' => $this->activeProfile],
+            key($key))
+        </div>
+        @endif
     </div>
-    @endif
     @endif
 </div>

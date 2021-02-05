@@ -12,7 +12,7 @@ trait CreatesSocialContent
     use MultipleImageSelector;
 
     public Profile $profile;
-    public $text_content = '';
+    public string $text_content = '';
     public $photos = [];
 
     public function done() {
