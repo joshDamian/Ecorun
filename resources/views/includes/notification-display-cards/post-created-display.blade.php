@@ -25,10 +25,9 @@
                         @endif
                     </div>
                     @if($post->content)
-                    <div class="flex items-center">
+                    <div class="flex items-baseline">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
-                        <x-display-text-content class="flex-1 flex-shrink-0 truncate line-clamp"
-                            :content="$post->safe_html" />
+                        <x-display-text-content class="line-clamp flex-1 flex-shrink-0 truncate" :content="$post->content" />
                     </div>
                     @endif
                 </div>
