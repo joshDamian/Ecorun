@@ -48,7 +48,7 @@
                 </div>
 
                 @if($post->content)
-                <x-display-text-content class="px-3 pt-3 rm-p-bottom-gap sm:px-5" :content="$post->safe_html" />
+                <x-display-text-content class="px-3 py-3 sm:px-5" :content="$post->safe_html" />
                 @endif
 
                 @if($image_count > 0)
