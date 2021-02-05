@@ -14,9 +14,8 @@
   "prefer_related_applications": false,
   "icons": [
     {
-        "src": "/logo.png",
-        "sizes": "192x192",
-        "type": "image/png"
+        "src": "icon/logo.svg",
+        "sizes": "80x80"
     }
   ],
   "url": "https://ecorun.com.ng",
