@@ -1,6 +1,6 @@
 @props(['profile'])
 <div>
-    <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 md:grid-cols-5">
+    <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
         @php $profile_gallery = $profile->gallery @endphp
         @foreach($profile_gallery as $key => $picture_post)
         @foreach($picture_post->gallery as $key => $image)

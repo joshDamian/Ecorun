@@ -4,15 +4,21 @@
   "name": "Ecorun",
   "short_name": "Ecorun",
   "scope": "/",
-  "display": "browser",
+  "display": "standalone",
   "start_url": "/",
   "background_color": "#000000",
   "theme_color": "transparent",
-  "description": "",
+  "description": "Ecorun naturally blends social interaction with doing business.",
   "orientation": "any",
   "related_applications": [],
   "prefer_related_applications": false,
-  "icons": [],
+  "icons": [
+    {
+        "src": "/logo.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    }
+  ],
   "url": "https://ecorun.com.ng",
   "generated": true
 }
