@@ -99,7 +99,6 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
     <script src="/js/app.js" defer></script>
-    <script type="module" src="/pwabuilder-sw-register.js"></script>
 
     @env('local')
     <script src="//cdn.jsdelivr.net/npm/eruda"></script>
@@ -117,6 +116,7 @@
     @livewireScripts
     @stack('scripts')
 
+    @env('production')
     <script>
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
@@ -126,6 +126,7 @@
             });
         }
     </script>
+    @endenv
 </body>
 
 </html>
