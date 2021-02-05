@@ -15,7 +15,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" />
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
     <link preload rel="stylesheet" href="/css/webfonts.css" defer>
@@ -81,7 +81,7 @@
             opacity: 1;
         }
 
-@-moz-document url-prefix() {
+        @-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
@@ -99,6 +99,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
     <script src="/js/app.js" defer></script>
+    <script type="module" src="/pwabuilder-sw-register.js"></script>
 
     @env('local')
     <script src="//cdn.jsdelivr.net/npm/eruda"></script>
@@ -115,6 +116,16 @@
     @stack('modals')
     @livewireScripts
     @stack('scripts')
+
+    {{-- <script>
+        // Check that service workers are supported
+        if ('serviceWorker' in navigator) {
+        // Use the window load event to keep the page load performant
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/pwabuilder-sw.js');
+        });
+        }
+    </script> --}}
 </body>
 
 </html>

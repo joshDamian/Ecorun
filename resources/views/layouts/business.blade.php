@@ -13,7 +13,8 @@
                 </div>
             </div>
 
-            <div :class="{ 'overflow-y-hidden': (open_menu || open_notifications) }" class="flex-1 flex-grow flex-shrink-0 md:ml-1/4 md:pl-6 sm:p-2 md:p-0">
+            <div :class="{ 'invisible h-0 overflow-hidden md:overflow-visible md:visible': (open_menu || open_notifications) }"
+                class="flex-1 flex-grow flex-shrink-0 w-full md:h-full md:ml-1/4 md:pl-6 sm:p-2 md:p-0">
                 <div>
                     {{-- @livewire('general.session.session-transport', key('session_transport')) --}}
                 </div>

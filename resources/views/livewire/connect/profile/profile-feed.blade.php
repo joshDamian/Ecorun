@@ -1,22 +1,23 @@
 <div x-data="{
     show_button: false,
     loadMore: function() {
-    window.onscroll = function(ev) {
-    if ((window.innerHeight + Math.ceil(window.pageYOffset + 100)) >= document.body.offsetHeight) {
-    if(parseInt('{{ $this->all_count() }}', 10) > @this.perPage) {
-    @this.call('loadMore');
-    }
-    }
-    };
-    }
-    }" x-init="() => { loadMore(); Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewFeedContentForProfile', () => {
-    show_button = true;
+        window.onscroll = function(ev) {
+            if ((window.innerHeight + Math.ceil(window.pageYOffset + 100)) >= document.body.offsetHeight) {
+                if(parseInt('{{ $this->all_count() }}', 10) > @this.perPage) {
+                    @this.call('loadMore');
+                }
+            }
+        };
+    },
+    collapsed: false
+}" x-init="() => { loadMore(); Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewFeedContentForProfile', () => {
+        show_button = true;
     });
-    }">
+    Livewire.on('toggled', (toggle) => { collapsed = toggle; });
+    Livewire.on('newPost', () => { @this.call('setSortBy', 'all') });
+}">
     <div class="fixed bottom-0 z-20 flex w-full overflow-x-auto font-semibold bg-gray-100 bg-gray-200 border-t border-gray-300 md:z-30 md:bg-opacity-75 md:border-b md:sticky"
-        x-data="{ collapsed: false }" x-init="() => {
-        Livewire.on('toggled', (toggle) => { collapsed = toggle; }); Livewire.on('newPost', () => { @this.call('setSortBy', 'all') });
-        }" :class="(collapsed) ? 'md:top-12' : 'md:top-28'">
+        :class="(collapsed) ? 'md:top-12' : 'md:top-28'">
         <div onclick="window.scrollTo(0, 0)" wire:click="setSortBy('{{ __('all') }}')"
             class="py-2 text-center select-none flex-shrink-0 flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'all') bg-white text-blue-700 @else text-gray-700 @endif">
             {{ __('All') }}

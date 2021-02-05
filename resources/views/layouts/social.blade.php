@@ -10,7 +10,8 @@
                     <x-nav-content :associatedProfiles="$associatedProfiles" />
                 </div>
             </div>
-            <div :class="{ 'overflow-y-hidden': (open_menu || open_notifications) }" class="flex-1 flex-grow flex-shrink-0 w-full h-full md:ml-1/4 md:mr-1/4 md:pr-4 md:pl-6 sm:p-2 md:p-0">
+            <div :class="{ 'invisible h-0 overflow-hidden md:overflow-visible md:visible': (open_menu || open_notifications) }"
+                class="flex-1 flex-grow flex-shrink-0 w-full md:h-full md:ml-1/4 md:mr-1/4 md:pr-4 md:pl-6 sm:p-2 md:p-0">
                 <div>
                     {{-- @livewire('general.session.session-transport',
                     key('session_transport')) --}}
@@ -36,7 +37,7 @@
                 open_menu: false,
                 open_notifications: false,
                 init_nav() {
-                    this.expand()
+                    this.expand();
                 },
                 expand() {
                     if (window.outerWidth >= 768) {
