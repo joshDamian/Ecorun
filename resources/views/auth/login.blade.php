@@ -49,7 +49,7 @@
         </form>
         <div class="grid grid-cols-1 gap-4 mt-4">
             <div class="flex justify-center text-gray-600">
-                _____________________ OR _____________________
+                _______ OR _______
             </div>
 
             <a href="/register" class="font-semibold text-center text-blue-700 underline">
