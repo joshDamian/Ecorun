@@ -127,7 +127,7 @@
     <div x-data="pwa_install_data()" x-init="init_pwa()" x-show="!hide" style="z-index: 45;"
         class="fixed bottom-0 flex justify-center w-full p-3 bg-gray-100 md:w-auto" x-cloak>
         <x-jet-button x-ref="pwa_btn" id="pwa_install" class="bg-blue-700">
-            Add To Home Screen
+            Add To Apps.
         </x-jet-button>
 
         <div class="ml-6">
