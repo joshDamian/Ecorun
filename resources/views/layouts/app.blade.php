@@ -11,6 +11,7 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon/logo.svg" type="image/x-icon">
 
 
     <!-- Fonts -->
@@ -94,33 +95,45 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+
+        pwa-install::part(openButton) {
+            background: black;
+        }
+
     </style>
     @livewireStyles
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
     <script src="/js/app.js" defer></script>
-    <script type="module" src="/pwabuilder-sw-register.js" defer></script>
 
-
-    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>
         eruda.init();
 
     </script>
 
-
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall@latest/dist/pwa-install.min.js" defer></script>
+    <script
+        type="module"
+        src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall"
+        ></script>
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
     @livewire('buy.cart.add-to-cart', key(md5('add_a_product_to_cart')))
     {{$slot}}
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"></script>
+
+    <div class="z-50 relative">
+        <pwa-update swpath="/pwabuilder-sw.js"></pwa-update>
+        <pwa-install id="pwa_install"></pwa-install>
+    </div>
     @stack('modals')
     @livewireScripts
     @stack('scripts')
 
-    @env('production')
+
     <script>
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
@@ -132,12 +145,11 @@
 
     </script>
 
-   <script async defer>
-        var installComponent = document.createElement("pwa-install");
-        document.body.appendChild(installComponent);   
-        console.log(installComponent.getInstalledStatus());
-    </script> 
-    @endenv
+    <script async defer>
+        var installComponent = document.getElementById('pwa_install');
+        console.log(installComponent)
+    </script>
+
 </body>
 
 </html>
