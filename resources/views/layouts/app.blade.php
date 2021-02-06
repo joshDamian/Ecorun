@@ -10,13 +10,13 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon/logo.svg" type="image/x-icon">
 
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
 
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
@@ -137,12 +137,12 @@
     <script>
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/pwabuilder-sw.js');
+            navigator.serviceWorker.register('/pwabuilder-sw.js').then(console.log('service worker registered'));
         }
 
         function pwa_install_data() {
             return {
-                hide: false,
+                hide: true,
                 init_pwa: function() {
                     let deferredPrompt;
                     window.addEventListener('beforeinstallprompt', (e) => {
@@ -151,11 +151,11 @@
                         // Stash the event so it can be triggered later.
                         deferredPrompt = e;
                         // Update UI to notify the user they can add to home screen
-                        this.hide = false;
+                        this.hide = true;
 
                         this.$refs.pwa_btn.addEventListener('click', (e) => {
                             // hide our user interface that shows our A2HS button
-                            this.hide = true;
+                            this.hide = false;
                             // Show the prompt
                             deferredPrompt.prompt();
                             // Wait for the user to respond to the prompt

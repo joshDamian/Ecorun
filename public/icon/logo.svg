@@ -1,16 +1,18 @@
 <svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
  <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
-
+ <defs>
+  <style type="text/css">@import url(https://fonts.googleapis.com/css2?family=Nunito:wght@900);</style>
+ </defs>
  <g>
   <title>background</title>
-  <rect fill="#fff" rx="20" id="canvas_background" height="152" width="152" y="-1" x="-1"/>
+  <rect fill="none" rx="15" id="canvas_background" height="150" width="150" y="-1" x="-1"/>
   <g display="none" id="canvasGrid">
    <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%" id="svg_2"/>
   </g>
  </g>
  <g>
   <title>Layer 1</title>
-  <rect rx="20" id="svg_1" height="150" width="150" stroke-width="2" fill="#0000ff" stroke="#ffffff"/>
-  <text transform="matrix(1,0,0,1,0,0) " font-style="normal" font-weight="bolder" xml:space="preserve" text-anchor="start" font-family="'Nunito'" font-size="90" id="svg_4" y="104.5" x="48.13282" stroke-width="0" stroke="#ffffff" fill="#ffffff">E</text>
+  <rect rx="15" id="svg_1" height="150" width="150" stroke-width="0" fill="#0000ff"/>
+  <text transform="matrix(1,0,0,1,0,0) " font-style="normal" font-weight="bolder" xml:space="preserve" text-anchor="start" font-family="'Nunito'" font-size="120" id="svg_4" y="114.5" x="39.1797" stroke-width="0" stroke="#ffffff" fill="#ffffff">E</text>
  </g>
 </svg>
