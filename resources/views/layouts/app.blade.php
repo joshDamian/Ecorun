@@ -135,6 +135,7 @@
 
 
     <script>
+
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
             // Use the window load event to keep the page load performant
@@ -145,7 +146,7 @@
 
         function pwa_install_data() {
             return {
-                hide: true,
+                hide: false,
                 init_pwa: function() {
                     let deferredPrompt;
                     window.addEventListener('beforeinstallprompt', (e) => {
