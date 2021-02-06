@@ -147,7 +147,7 @@
 
         function pwa_install_data() {
             return {
-                hide: false,
+                hide: true,
                 init_pwa: function() {
                     let deferredPrompt;
                     window.addEventListener('beforeinstallprompt', (e) => {
@@ -160,7 +160,7 @@
 
                         this.$refs.pwa_btn.addEventListener('click', (e) => {
                             // hide our user interface that shows our A2HS button
-                            this.hide = false;
+                            this.hide = true;
                             // Show the prompt
                             deferredPrompt.prompt();
                             // Wait for the user to respond to the prompt
