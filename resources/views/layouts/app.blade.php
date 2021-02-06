@@ -118,9 +118,16 @@
 
     <div class="z-50 relative">
         <pwa-update swpath="/pwabuilder-sw.js"></pwa-update>
-        <x-jet-button id="pwa_install" class="bg-blue-700">
+    </div>
+
+    <div x-data="pwa_install_data()" x-init="init_pwa()" x-show="!hide" style="z-index: 45;" class="bg-gray-100 w-full md:w-auto p-3 flex justify-center fixed bottom-0" x-cloak>
+        <x-jet-button x-ref="pwa_btn" id="pwa_install" class="bg-blue-700">
             Add To Home Screen
         </x-jet-button>
+
+        <div class="ml-6">
+            <i @click="hide = true;" class="fas text-gray-500 text-lg fa-times"></i>
+        </div>
     </div>
     @stack('modals')
     @livewireScripts
@@ -136,39 +143,39 @@
             });
         }
 
-    </script>
+        function pwa_install_data() {
+            return {
+                hide: true,
+                init_pwa: function() {
+                    let deferredPrompt;
+                    window.addEventListener('beforeinstallprompt', (e) => {
+                        // Prevent Chrome 67 and earlier from automatically showing the prompt
+                        e.preventDefault();
+                        // Stash the event so it can be triggered later.
+                        deferredPrompt = e;
+                        // Update UI to notify the user they can add to home screen
+                        this.hide = false;
 
-    <script>
-        let deferredPrompt;
-        const addBtn = document.querySelector('#pwa_install');
-        addBtn.style.display = 'none';
-        
-        window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevent Chrome 67 and earlier from automatically showing the prompt
-  e.preventDefault();
-  // Stash the event so it can be triggered later.
-  deferredPrompt = e;
-  // Update UI to notify the user they can add to home screen
-  addBtn.style.display = 'block';
-
-  addBtn.addEventListener('click', (e) => {
-    // hide our user interface that shows our A2HS button
-    addBtn.style.display = 'none';
-    // Show the prompt
-    deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
-    deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt');
-        } else {
-          console.log('User dismissed the A2HS prompt');
+                        this.$refs.pwa_btn.addEventListener('click', (e) => {
+                            // hide our user interface that shows our A2HS button
+                            this.hide = true;
+                            // Show the prompt
+                            deferredPrompt.prompt();
+                            // Wait for the user to respond to the prompt
+                            deferredPrompt.userChoice.then((choiceResult) => {
+                                if (choiceResult.outcome === 'accepted') {
+                                    console.log('User accepted the A2HS prompt');
+                                } else {
+                                    console.log('User dismissed the A2HS prompt');
+                                }
+                                deferredPrompt = null;
+                            });
+                        });
+                    });
+                }
+            }
         }
-        deferredPrompt = null;
-      });
-  });
-});
     </script>
-
 </body>
 
 </html>
