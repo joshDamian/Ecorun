@@ -116,7 +116,6 @@
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
     @livewire('buy.cart.add-to-cart', key(md5('add_a_product_to_cart')))
     {{$slot}}
-      <pwa-install></pwa-install>
     @stack('modals')
     @livewireScripts
     @stack('scripts')
@@ -133,11 +132,11 @@
 
     </script>
 
-   <!-- <script async defer>
+   <script async defer>
         var installComponent = document.createElement("pwa-install");
-        document.body.appendChild(installComponent);
-        console.log(installComponent) //.getInstalledStatus();
-    </script> -->
+        document.body.appendChild(installComponent);   
+        console.log(installComponent.getInstalledStatus());
+    </script> 
     @endenv
 </body>
 
