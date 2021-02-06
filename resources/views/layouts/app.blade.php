@@ -133,11 +133,11 @@
 
     </script>
 
-   /* <script async defer>
+   <!-- <script async defer>
         var installComponent = document.createElement("pwa-install");
         document.body.appendChild(installComponent);
         console.log(installComponent) //.getInstalledStatus();
-    </script> */
+    </script> -->
     @endenv
 </body>
 
