@@ -96,10 +96,6 @@
             overflow: hidden;
         }
 
-        pwa-install::part(openButton) {
-            background: black;
-        }
-
     </style>
     @livewireStyles
 
@@ -112,11 +108,6 @@
         eruda.init();
 
     </script>
-
-    <script
-        type="module"
-        src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall"
-        ></script>
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
@@ -127,7 +118,9 @@
 
     <div class="z-50 relative">
         <pwa-update swpath="/pwabuilder-sw.js"></pwa-update>
-        <pwa-install id="pwa_install"></pwa-install>
+        <x-jet-button id="pwa_install" class="bg-blue-700">
+            Add To Home Screen
+        </x-jet-button>
     </div>
     @stack('modals')
     @livewireScripts
@@ -145,9 +138,35 @@
 
     </script>
 
-    <script async defer>
-        var installComponent = document.getElementById('pwa_install');
-        console.log(installComponent)
+    <script>
+        let deferredPrompt;
+        const addBtn = document.querySelector('#pwa_install');
+        addBtn.style.display = 'none';
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  // Update UI to notify the user they can add to home screen
+  addBtn.style.display = 'block';
+
+  addBtn.addEventListener('click', (e) => {
+    // hide our user interface that shows our A2HS button
+    addBtn.style.display = 'none';
+    // Show the prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the A2HS prompt');
+        } else {
+          console.log('User dismissed the A2HS prompt');
+        }
+        deferredPrompt = null;
+      });
+  });
+});
     </script>
 
 </body>
