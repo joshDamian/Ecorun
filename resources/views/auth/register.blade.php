@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-app-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
             <x-logo />
@@ -38,10 +38,10 @@
                     {{ __('Already registered?') }}
                 </a>
 
-                <x-jet-button class="ml-4">
+                <x-jet-button class="ml-4 bg-blue-700">
                     {{ __('Register') }}
                 </x-jet-button>
             </div>
         </form>
     </x-jet-authentication-card>
-</x-guest-layout>
+</x-app-layout>
