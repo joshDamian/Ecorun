@@ -15,7 +15,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" />
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" />
 
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
@@ -82,7 +82,7 @@
             opacity: 1;
         }
 
-        @-moz-document url-prefix() {
+@-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
@@ -100,6 +100,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
     <script src="/js/app.js" defer></script>
+    <script type="module" src="/pwabuilder-sw-register.js" defer></script>
 
     @env('local')
     <script src="//cdn.jsdelivr.net/npm/eruda"></script>
@@ -109,7 +110,7 @@
     </script>
     @endenv
 
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall@latest/dist/pwa-install.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall@latest/dist/pwa-install.min.js" defer></script>
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
@@ -128,6 +129,13 @@
                 navigator.serviceWorker.register('/pwabuilder-sw.js');
             });
         }
+
+    </script>
+
+    <script async defer>
+        var installComponent = document.createElement("pwa-install");
+        document.body.appendChild(installComponent);
+        installComponent.getInstalledStatus();
     </script>
     @endenv
 </body>
