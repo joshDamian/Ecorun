@@ -16,7 +16,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" />
 
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
@@ -83,7 +83,7 @@
             opacity: 1;
         }
 
-@-moz-document url-prefix() {
+        @-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
@@ -95,7 +95,6 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-
     </style>
     @livewireStyles
 
@@ -116,17 +115,18 @@
 
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"></script>
 
-    <div class="z-50 relative">
+    <div class="relative z-50">
         <pwa-update swpath="/pwabuilder-sw.js"></pwa-update>
     </div>
 
-    <div x-data="pwa_install_data()" x-init="init_pwa()" x-show="!hide" style="z-index: 45;" class="bg-gray-100 w-full md:w-auto p-3 flex justify-center fixed bottom-0" x-cloak>
+    <div x-data="pwa_install_data()" x-init="init_pwa()" x-show="!hide" style="z-index: 45;"
+        class="fixed bottom-0 flex justify-center w-full p-3 bg-gray-100 md:w-auto" x-cloak>
         <x-jet-button x-ref="pwa_btn" id="pwa_install" class="bg-blue-700">
             Add To Home Screen
         </x-jet-button>
 
         <div class="ml-6">
-            <i @click="hide = true;" class="fas text-gray-500 text-lg fa-times"></i>
+            <i @click="hide = true;" class="text-lg text-gray-500 fas fa-times"></i>
         </div>
     </div>
     @stack('modals')
@@ -135,13 +135,9 @@
 
 
     <script>
-
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
-            // Use the window load event to keep the page load performant
-            /*window.addEventListener('load', () => { */
             navigator.serviceWorker.register('/pwabuilder-sw.js');
-            /* }); */
         }
 
         function pwa_install_data() {
