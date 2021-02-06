@@ -156,7 +156,7 @@
                         // Stash the event so it can be triggered later.
                         deferredPrompt = e;
                         // Update UI to notify the user they can add to home screen
-                        this.hide = true;
+                        this.hide = false;
 
                         this.$refs.pwa_btn.addEventListener('click', (e) => {
                             // hide our user interface that shows our A2HS button
