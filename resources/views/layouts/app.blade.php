@@ -102,13 +102,13 @@
     <script src="/js/app.js" defer></script>
     <script type="module" src="/pwabuilder-sw-register.js" defer></script>
 
-    @env('local')
+
     <script src="//cdn.jsdelivr.net/npm/eruda"></script>
     <script>
         eruda.init();
 
     </script>
-    @endenv
+
 
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall@latest/dist/pwa-install.min.js" defer></script>
 </head>
