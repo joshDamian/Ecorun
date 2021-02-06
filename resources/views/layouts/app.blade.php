@@ -6,12 +6,17 @@
     <meta name="description" content="Ecorun naturally blends social interaction with doing business.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="theme-color" content="#0000ff">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Ecorun" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#0000ff" />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Ecorun') }}</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon/logo.svg" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="/icon/logo.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/icon/logo_180.png">
 
 
     <!-- Fonts -->
