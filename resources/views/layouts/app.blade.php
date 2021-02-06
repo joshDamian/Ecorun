@@ -147,7 +147,7 @@
 
         function pwa_install_data() {
             return {
-                hide: true,
+                hide: false,
                 init_pwa: function() {
                     let deferredPrompt;
                     window.addEventListener('beforeinstallprompt', (e) => {
