@@ -43,7 +43,7 @@
                     <x-jet-label for="photos" value="{{ __('Product Photos') }}" />
 
                     <!-- Product Photos Preview -->
-                    @if(count($this->valid_photos) > 0)
+                    @if(count($photos) > 0)
                     <div class="mt-2">
                         <x-connect.image.multiple-selector :photos="$photos" />
                         <div class="mt-2" x-show.transition="isUploading">

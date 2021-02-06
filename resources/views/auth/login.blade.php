@@ -1,7 +1,8 @@
-<x-guest-layout>
+<x-app-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            <x-logo />
+            {{-- <x-jet-authentication-card-logo /> --}}
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />
@@ -41,10 +42,19 @@
                 </a>
                 @endif
 
-                <x-jet-button class="ml-4">
+                <x-jet-button class="ml-4 bg-blue-700">
                     {{ __('Login') }}
                 </x-jet-button>
             </div>
         </form>
+        <div class="grid grid-cols-1 gap-4 mt-4">
+            <div class="flex justify-center text-gray-600">
+                _______ OR _______
+            </div>
+
+            <a href="/register" class="font-semibold text-center text-blue-700 underline">
+                Signup
+            </a>
+        </div>
     </x-jet-authentication-card>
-</x-guest-layout>
+</x-app-layout>

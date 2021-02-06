@@ -1,22 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" defer>
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="/css/app.css" defer>
-    <link rel="stylesheet" href="/css/webfonts.css" defer>
-</head>
-
-<body class="font-sans leading-normal tracking-normal">
+<x-app-layout>
     <nav class="sticky top-0 z-50 bg-white border-b-4 border-blue-800">
         <div>
             <ul class="flex items-center px-3 py-2">
@@ -213,12 +195,4 @@
             </div>
         </div>
     </main>
-
-    @stack('modals')
-
-    @livewireScripts
-
-    @stack('scripts')
-</body>
-
-</html>
+</x-app-layout>
