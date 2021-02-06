@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="manifest.webmanifest">
     <link rel="icon" href="/icon/logo.svg" type="image/x-icon">
 
 
@@ -138,9 +138,9 @@
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
             // Use the window load event to keep the page load performant
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/pwabuilder-sw.js');
-            });
+            /*window.addEventListener('load', () => { */
+            navigator.serviceWorker.register('/pwabuilder-sw.js');
+            /* }); */
         }
 
         function pwa_install_data() {
