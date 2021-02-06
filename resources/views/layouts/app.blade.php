@@ -135,7 +135,7 @@
     <script async defer>
         var installComponent = document.createElement("pwa-install");
         document.body.appendChild(installComponent);
-        installComponent.getInstalledStatus();
+        console.log(installComponent) //.getInstalledStatus();
     </script>
     @endenv
 </body>
