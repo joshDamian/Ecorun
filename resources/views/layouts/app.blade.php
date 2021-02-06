@@ -107,11 +107,13 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
     <script src="/js/app.js" defer></script>
 
+    @env('local')
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>
         eruda.init();
 
     </script>
+    @endenv
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
@@ -138,7 +140,7 @@
     @livewireScripts
     @stack('scripts')
 
-
+    @env('production')
     <script>
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
@@ -178,6 +180,7 @@
             }
         }
     </script>
+    @endenv
 </body>
 
 </html>
