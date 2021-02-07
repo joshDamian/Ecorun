@@ -6,7 +6,7 @@
     <meta name="description" content="Ecorun naturally blends social interaction with doing business.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="theme-color" content="#0000ff">
+    <meta name="theme-color" content="#1E40AF">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Ecorun" />
     <meta name="apple-mobile-web-app-status-bar-style" content="#0000ff" />
@@ -21,7 +21,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
 
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
@@ -88,7 +88,7 @@
             opacity: 1;
         }
 
-        @-moz-document url-prefix() {
+@-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
