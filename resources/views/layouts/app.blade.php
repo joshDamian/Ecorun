@@ -126,7 +126,7 @@
         <pwa-update swpath="/pwabuilder-sw.js"></pwa-update>
     </div>
 
-    <div x-data="page_transition_loader()" x-init="init_page_transition_loader()" x-show="!hidden" x-cloak class="z-50 fixed w-full top-12 md:top-16 bg-gray-200 bg-opacity-50 p-3 h-screen">
+    <div x-data="page_transition_loader()" x-init="init_page_transition_loader()" x-show="!hidden" x-cloak class="z-50 fixed w-full top-0 bg-gray-200 bg-opacity-50 p-3 h-screen">
         <x-loader_2 />
     </div>
 
