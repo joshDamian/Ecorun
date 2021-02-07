@@ -116,7 +116,7 @@
     @endenv
 </head>
 
-<body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
+<body class="font-sans leading-normal tracking-normal bg-gray-200 bg-opacity-75">
     @livewire('buy.cart.add-to-cart', key(md5('add_a_product_to_cart')))
     {{$slot}}
 
@@ -126,6 +126,11 @@
         <pwa-update swpath="/pwabuilder-sw.js"></pwa-update>
     </div>
 
+    <div x-data="page_transition_loader()" x-init="init_page_transition_loader()" x-show="!hidden" x-cloak class="z-50 fixed w-full top-12 md:top-16 bg-gray-200 bg-opacity-50 p-3 h-screen">
+        <x-loader_2 />
+    </div>
+
+    @env('production')
     <div x-data="pwa_install_data()" x-init="init_pwa()" x-show="!hide" style="z-index: 45;"
         class="fixed bottom-0 flex justify-center w-full p-3 bg-gray-100 md:w-auto" x-cloak>
         <x-jet-button x-ref="pwa_btn" id="pwa_install" class="bg-blue-700">
@@ -136,6 +141,8 @@
             <i @click="hide = true;" class="text-lg text-gray-500 fas fa-times"></i>
         </div>
     </div>
+    @endenv
+
     @stack('modals')
     @livewireScripts
     @stack('scripts')
@@ -181,6 +188,19 @@
         }
     </script>
     @endenv
+
+    <script>
+        function page_transition_loader() {
+            return {
+                hidden: true,
+                init_page_transition_loader: function() {
+                    window.addEventListener('beforeunload', (event) => {
+                        this.hidden = false;
+                    });
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>
