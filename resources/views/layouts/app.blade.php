@@ -107,11 +107,13 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
     <script src="/js/app.js" defer></script>
 
+    @env('local')
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>
         eruda.init();
 
     </script>
+    @endenv
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
@@ -127,7 +129,7 @@
     <div x-data="pwa_install_data()" x-init="init_pwa()" x-show="!hide" style="z-index: 45;"
         class="fixed bottom-0 flex justify-center w-full p-3 bg-gray-100 md:w-auto" x-cloak>
         <x-jet-button x-ref="pwa_btn" id="pwa_install" class="bg-blue-700">
-            Add To Home Screen
+            Add To Apps.
         </x-jet-button>
 
         <div class="ml-6">
@@ -138,7 +140,7 @@
     @livewireScripts
     @stack('scripts')
 
-
+    @env('production')
     <script>
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
@@ -147,7 +149,7 @@
 
         function pwa_install_data() {
             return {
-                hide: false,
+                hide: true,
                 init_pwa: function() {
                     let deferredPrompt;
                     window.addEventListener('beforeinstallprompt', (e) => {
@@ -156,11 +158,11 @@
                         // Stash the event so it can be triggered later.
                         deferredPrompt = e;
                         // Update UI to notify the user they can add to home screen
-                        this.hide = true;
+                        this.hide = false;
 
                         this.$refs.pwa_btn.addEventListener('click', (e) => {
                             // hide our user interface that shows our A2HS button
-                            this.hide = false;
+                            this.hide = true;
                             // Show the prompt
                             deferredPrompt.prompt();
                             // Wait for the user to respond to the prompt
@@ -178,6 +180,7 @@
             }
         }
     </script>
+    @endenv
 </body>
 
 </html>
