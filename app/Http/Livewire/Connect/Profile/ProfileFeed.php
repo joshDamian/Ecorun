@@ -12,79 +12,73 @@ class ProfileFeed extends Component
 {
     public $perPage = 5;
     public $display_ready = true;
-    public string $viewIncludeFolder = 'includes.feed-display-cards.';
+    public string $viewIncludeFolder = 'includes.';
     public $feed_types = [
         Post::class => [
-            'view' => 'post-display',
+            'view' => 'feed-display-cards.post-display',
             'name' => 'posts'
         ],
         Product::class => [
-            'view' => 'product-display',
+            'view' => 'feed-display-cards.product-display',
             'name' => 'products'
         ],
         Share::class => [
-            'view' => 'share-display',
+            'view' => 'feed-display-cards.share-display',
             'name' => 'shares'
+        ],
+        Profile::class => [
+            'view' => 'profile-display-cards.search-result-display-card',
+            'name' => 'who to follow'
         ]
     ];
 
     public Profile $profile;
 
-    public function setDisplayReady()
-    {
+    public function setDisplayReady() {
         return $this->display_ready = true;
     }
 
-    public function getListeners()
-    {
+    public function getListeners() {
         return [
             'sharedContent' => '$refresh',
         ];
     }
 
-    public function loadMore()
-    {
+    public function loadMore() {
         $this->perPage = $this->perPage + 5;
     }
 
-    public function getFeedProperty()
-    {
+    public function getFeedProperty() {
         return $this->profile->feed;
     }
 
-    public function getDisplayingFeedProperty()
-    {
+    public function getDisplayingFeedProperty() {
         if ($this->display_ready) {
             return $this->all_from_sort_by->take($this->perPage);
         }
         return collect([]);
     }
 
-    public function getAllFromSortByProperty()
-    {
+    public function getAllFromSortByProperty() {
         return $this->sortFeed($this->sortBy)->sortByDesc('created_at');
     }
 
-    public function all_count()
-    {
+    public function all_count() {
         return $this->all_from_sort_by->count();
     }
 
-    public function setSortBy(string $sortBy)
-    {
+    public function setSortBy(string $sortBy) {
         $this->reset('perPage');
         return cache()->put($this->profile->id . "sort_feed_by", $sortBy);
     }
 
-    public function getSortByProperty()
-    {
+    public function getSortByProperty() {
         return cache()->rememberForever($this->profile->id . "sort_feed_by", function () {
             return 'all';
         });
     }
 
-    public function sortFeed($key)
-    {
+    public function sortFeed($key) {
         switch ($key) {
             case ('posts'):
                 return $this->feed->posts;
@@ -101,15 +95,17 @@ class ProfileFeed extends Component
             case ('shares'):
                 return $this->feed->shares;
                 break;
-            case ('all'):
-            default:
-                return $this->feed->all;
+            case('who to follow'):
+                return $this->feed->profile_suggestions;
                 break;
+            case ('all'):
+                default:
+                    return $this->feed->all;
+                    break;
         }
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.connect.profile.profile-feed');
     }
 }

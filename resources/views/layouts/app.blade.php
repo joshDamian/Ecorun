@@ -119,7 +119,6 @@
 <body class="font-sans leading-normal tracking-normal bg-gray-200 bg-opacity-75">
     @livewire('buy.cart.add-to-cart', key(md5('add_a_product_to_cart')))
     {{$slot}}
-
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"></script>
 
     <div class="relative z-50">
