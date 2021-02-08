@@ -66,7 +66,8 @@
 
                     <div x-show="ready" :class="ready ? 'mt-2' : ''" class="grid grid-cols-1 gap-2">
                         <div>
-                            @php $photos_count = count($photos); @endphp
+                            @php $photos_count = ($this->hasStoredImages) ? $this->gallery->count() : count($photos);
+                            @endphp
                             <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
                                 wire:model="photos" multiple />
 
@@ -112,8 +113,8 @@
     <script>
         function content_data() {
             return {
-                ready: false,
-                message: '',
+                ready: ('{{$type}}' === 'edit post') ? true : false,
+                message: ('{{$type}}' === 'edit post') ? '{{$this->text_content}}' : '',
                 current_mention: '',
                 current_hashtag: '',
                 large_content: false,

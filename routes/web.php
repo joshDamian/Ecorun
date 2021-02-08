@@ -75,6 +75,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         })->name('chat.index');
 
         Route::get('/post/{post}', [PostController::class, 'show'])->name('post.show');
+        Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
+        Route::get('/post/{post}/delete', [PostController::class, 'delete'])->name('post.delete');
     }
 );
 

@@ -13,7 +13,7 @@ class CreateNewComment extends Component
 
     public function create()
     {
-        $this->validate($this->defaulRules());
+        $this->validate($this->validationRules());
         $comment = $this->profile->feedbacks()->create(
             [
                 'content' => trim($this->text_content) ?? ''
@@ -25,6 +25,11 @@ class CreateNewComment extends Component
         $this->emit('newFeedback');
         $this->done();
         return;
+    }
+
+    public function extra_validation(): array
+    {
+        return [];
     }
 
     public function render()
