@@ -14,14 +14,14 @@
     <title>{{ config('app.name', 'Ecorun') }}</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon/logo.png" type="image/x-icon">
     <link rel="apple-touch-icon" href="/icon/logo_180.png">
 
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
 
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
@@ -88,7 +88,7 @@
             opacity: 1;
         }
 
-@-moz-document url-prefix() {
+        @-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
@@ -125,7 +125,8 @@
         <pwa-update swpath="/pwabuilder-sw.js"></pwa-update>
     </div>
 
-    <div x-data="page_transition_loader()" x-init="init_page_transition_loader()" x-show="!hidden" x-cloak class="z-50 fixed w-full top-0 bg-gray-200 bg-opacity-50 p-3 h-screen">
+    <div x-data="page_transition_loader()" x-init="init_page_transition_loader()" x-show="!hidden" x-cloak
+        class="fixed top-0 z-50 w-full h-screen p-3 bg-gray-200 bg-opacity-50">
         <x-loader_2 />
     </div>
 
@@ -196,6 +197,7 @@
                     window.addEventListener('beforeunload', (event) => {
                         this.hidden = false;
                     });
+                    return this.hidden = true;
                 }
             }
         }

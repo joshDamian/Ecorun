@@ -1,4 +1,4 @@
-<div>
+<div x-data="{ show_options: false }">
     @php
     $post = $model;
     $gallery = $post->gallery;
@@ -31,8 +31,18 @@
                     </div>
                 </div>
             </div>
-            {{-- <x-connect.post.post-options :post="$post" /> --}}
+            <div>
+                <x-jet-secondary-button @click="show_options = !show_options ">
+                    <i
+                        class="text-lg text-blue-700 cursor-pointer hover:text-black focus:text-black fas fa-ellipsis-v"></i>
+                </x-jet-secondary-button>
+            </div>
         </div>
+
+        <div x-show.transition="show_options">
+            <x-connect.post.post-options :post="$post" />
+        </div>
+
         @if($post->content)
         <x-display-text-content class="px-3 py-3 sm:px-5" :content="$post->safe_html" />
         @endif

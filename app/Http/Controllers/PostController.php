@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -58,7 +59,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $this->authorize('update', [$post, Auth::user()->currentProfile]);
+        $post = $post->loadMissing('gallery', 'likes', 'comments', 'profile');
+        return view('post.edit', compact('post'));
     }
 
     /**
@@ -81,6 +84,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $this->authorize('update', [$post, Auth::user()->currentProfile]);
+        return $post->trash();
     }
 }

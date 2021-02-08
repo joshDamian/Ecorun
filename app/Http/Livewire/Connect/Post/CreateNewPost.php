@@ -12,8 +12,9 @@ class CreateNewPost extends Component
     public string $view;
     public $visibility = "public";
 
-    public function create() {
-        $this->validate($this->defaulRules());
+    public function create()
+    {
+        $this->validate($this->validationRules());
         $post = $this->profile->posts()->create([
             'content' => trim($this->text_content) ?? '',
             'visibility' => $this->visibility
@@ -26,7 +27,13 @@ class CreateNewPost extends Component
         return $this->done();
     }
 
-    public function render() {
+    public function extra_validation(): array
+    {
+        return [];
+    }
+
+    public function render()
+    {
         return view('livewire.connect.post.create-new-post');
     }
 }
