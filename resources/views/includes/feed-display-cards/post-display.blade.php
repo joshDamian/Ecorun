@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div>
-                <x-jet-secondary-button @click="show_options = !show_options ">
+                <x-jet-secondary-button x-on:click="show_options = !show_options ">
                     <i
                         class="text-lg text-blue-700 cursor-pointer hover:text-black focus:text-black fas fa-ellipsis-v"></i>
                 </x-jet-secondary-button>
@@ -62,9 +62,10 @@
 
     <div class="@if($image_count > 1) mt-8 @endif bg-gray-100 border-t border-gray-200">
         @auth
+        @php $key = mt_rand(16, 5435778633678)."post_fb_{$post->id}"; @endphp
         <div>
             @livewire('connect.post.post-feedback', ['post' => $post, 'view' => 'post.index'],
-            key(microtime()."post_fb_{$post->id}"))
+            key($key))
         </div>
         @endauth
     </div>

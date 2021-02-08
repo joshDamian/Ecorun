@@ -1,20 +1,47 @@
-<div x-data x-init="() => {
-        window.addEventListener('beforeunload', (event) => {
-            event.preventDefault();
-            event.returnValue='';
-        });
-    }" x-cloak>
-    <div class="sticky z-40 px-3 py-1 mb-3 bg-gray-100 bg-opacity-75 top-12 sm:px-5">
-        <div class="flex-1 text-lg font-bold text-center text-blue-700">
-            <span class="text-gray-700">edit</span> {{ $profile->full_tag() }}'s <span
-                class="text-gray-700">post.</span>
+<div>
+    <div class="text-right mb-2">
+        <x-jet-secondary-button wire:click="confirmDeletePost">
+            <i class="fas text-lg fa-trash text-red-700"></i>
+        </x-jet-secondary-button>
+    </div>
+    <div>
+        @error('last_content')
+        <div class="bg-gray-100 font-semibold rounded-md border border-red-700 text-center text-red-700 px-3 py-2 mb-2">
+            cannot empty post content... consider deleting the post.
         </div>
+        @enderror
     </div>
+    <x-jet-action-message on="saved">
+        <div class="bg-gray-100 rounded-md border border-green-600 text-lg font-bold text-center text-green-600 px-3 py-2 mb-2">
+            saved
+        </div>
+    </x-jet-action-message>
+    <x-connect.content.create-new-content :photos="$photos" :profilePhotoUrl="$profile->profile_photo_url" type="edit post" />
 
-    <div wire:loading wire:target="removeFromStoredPhotos" class="w-full">
-        <x-loader_2 />
+    <div>
+        <x-jet-confirmation-modal wire:model="confirm">
+            <x-slot name="title">
+                <div class="text-left">
+                    {{ __('Delete Post') }}
+                </div>
+            </x-slot>
+
+            <x-slot name="content">
+                <div class="text-left">
+                    Deleting a post removes it entirely from our database. Consider editing it.
+                </div>
+            </x-slot>
+
+            <x-slot name="footer">
+                <div>
+                    <x-jet-secondary-button wire:click="$toggle('confirm')" class="mr-4">
+                        {{ __('Edit Post') }}
+                    </x-jet-secondary-button>
+                    <x-jet-danger-button wire:click="deletePost">
+                        {{ __('Delete Post') }}
+                    </x-jet-danger-button>
+                </div>
+            </x-slot>
+        </x-jet-confirmation-modal>
     </div>
-
-    <x-connect.content.create-new-content :photos="$photos" :profilePhotoUrl="$profile->profile_photo_url"
-        type="edit post" />
 </div>

@@ -69,7 +69,7 @@
                             @php $photos_count = ($this->hasStoredImages) ? $this->gallery->count() : count($photos);
                             @endphp
                             <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
-                                wire:model="photos" multiple />
+                            wire:model="photos" multiple />
 
                             @if($photos_count === 0)
                             <span @click="$refs.photos.click()"
@@ -91,12 +91,14 @@
                         </div>
 
                         <div class="flex justify-end">
+                            @if($type !== 'edit post')
                             <div class="mr-4">
                                 <x-jet-secondary-button @click="ready = false; resetHeight()" wire:click="done"
                                     class="font-semibold text-red-700">
                                     cancel
                                 </x-jet-secondary-button>
                             </div>
+                            @endif
 
                             <div>
                                 <x-jet-button class="bg-blue-600">
@@ -113,8 +115,8 @@
     <script>
         function content_data() {
             return {
-                ready: ('{{$type}}' === 'edit post') ? true : false,
-                message: ('{{$type}}' === 'edit post') ? '{{$this->text_content}}' : '',
+                ready: ('{{$type}}' === 'edit post') ? true: false,
+                message: '',
                 current_mention: '',
                 current_hashtag: '',
                 large_content: false,
@@ -139,6 +141,12 @@
                     this.$refs.content.focus();
                 },
                 initialize: function() {
+                    if ('{{$type}}' === 'edit post') {
+                        this.message = this.$wire.text_content;
+                        window.addEventListener('DOMContentLoaded', () => {
+                            this.$refs.content.style.cssText = 'height:' + this.$refs.content.scrollHeight + 'px;';
+                        })
+                    }
                     Livewire.on('addedContent', () => {
                         this.ready = false;
                         this.resetHeight();

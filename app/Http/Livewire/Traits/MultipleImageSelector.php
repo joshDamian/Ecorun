@@ -14,9 +14,10 @@ trait MultipleImageSelector
         'max:10240'
     ];
 
-    public function updatedAddedImages()
-    {
-        $this->photos = collect($this->photos)->merge($this->addedImages)->unique()->all();
+    public function updatedAddedImages() {
+        foreach ($this->addedImages as $image) {
+            $this->photos[] = $image;
+        }
         return;
     }
 
@@ -28,14 +29,12 @@ trait MultipleImageSelector
         ]);
     }
 
-    public function removeFromPhotos($key)
-    {
+    public function removeFromPhotos($key) {
         unset($this->photos[(int) $key]);
         return;
     }
 
-    protected function filterImages()
-    {
+    protected function filterImages() {
         collect($this->photos)->each(function ($photo, $key) {
             if ($this->validPreviewUrl($photo) === null) {
                 $this->removeFromPhotos($key);
@@ -44,8 +43,7 @@ trait MultipleImageSelector
         return;
     }
 
-    protected function validPreviewUrl($photo)
-    {
+    protected function validPreviewUrl($photo) {
         if ($photo) {
             try {
                 return $photo->temporaryUrl();

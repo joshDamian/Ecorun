@@ -5,7 +5,7 @@
     $profile_visit_url = $profile->url->visit;
     $image_count = $post->gallery_count ?? $gallery->count();
     @endphp
-    <div class="md:mb-3">
+    <div class="md:mb-3" x-data="{ show_options: false }">
         <div class="grid grid-cols-1 gap-0 sm:gap-2">
             <div class="sticky z-40 px-3 py-1 bg-gray-100 bg-opacity-75 top-12 sm:px-5">
                 <div class="flex">
@@ -45,6 +45,16 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <x-jet-secondary-button x-on:click="show_options = !show_options ">
+                            <i
+                                class="text-lg text-blue-700 cursor-pointer hover:text-black focus:text-black fas fa-ellipsis-v"></i>
+                        </x-jet-secondary-button>
+                    </div>
+                </div>
+
+                <div x-show.transition="show_options">
+                    <x-connect.post.post-options :post="$post" />
                 </div>
 
                 @if($post->content)

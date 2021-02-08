@@ -21,7 +21,7 @@ trait HasLikes
             $this->likeable->likes()->save($like);
         }
         $event = 'newLike.' . $this->feedback_id . '.' . str_replace('\\', '.', get_class($this->likeable));
-        $this->emitSelf($event);
+        $this->emit($event);
         return;
     }
 
