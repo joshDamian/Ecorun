@@ -54,7 +54,7 @@ class Post extends Model
     protected static $flushCacheOnUpdate = true;
 
     public function comments() {
-        return $this->morphMany('App\Models\Feedback', 'feedbackable');
+        return $this->morphMany(Feedback::class, 'feedbackable');
     }
 
     public static function boot() {
@@ -64,6 +64,13 @@ class Post extends Model
         });
         self::saved(function ($model) {
             self::syncWithTags($model);
+        });
+        self::deleting(function ($model) {
+            Storage::disk('public')->delete($model->gallery->pluck('image_url')->toArray());
+            $model->comments()->delete();
+            $model->likes()->delete();
+            $model->gallery()->delete();
+            $model->shares()->delete();
         });
     }
 

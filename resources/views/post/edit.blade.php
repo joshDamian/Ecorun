@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="px-3 bg-gray-100 bg-opacity-50 py-3">
+    <div class="px-3 bg-white bg-opacity-75 py-3">
         @livewire('connect.post.edit-post', ['post' => $post, 'profile' => Auth::user()->currentProfile, 'confirm' => $confirm_delete ?? null], key("edit_post" .
         $post->id))
     </div>

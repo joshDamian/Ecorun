@@ -55,7 +55,7 @@ class PostController extends Controller
     */
     public function edit(Post $post) {
         $this->authorize('update', [$post, Auth::user()->currentProfile]);
-        $post = $post->loadMissing('gallery', 'likes', 'comments', 'profile');
+        $post = $post->loadMissing('gallery', 'profile');
         return view('post.edit', compact('post'));
     }
 
@@ -79,7 +79,7 @@ class PostController extends Controller
 
     public function destroy(Post $post) {
         $this->authorize('update', [$post, Auth::user()->currentProfile]);
-        $post = $post->loadMissing('gallery', 'likes', 'comments', 'profile');
+        $post = $post->loadMissing('gallery', 'profile');
         $confirm_delete = true;
         return view('post.edit', compact('post', 'confirm_delete'));
     }

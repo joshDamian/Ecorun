@@ -47,7 +47,7 @@ class FeedDataBank implements DataBank
                 }];
             })->toArray())->whereIn('profile_id', $profile_sources->pluck('id'))->distinct()->latest('updated_at')->get()->unique(),
 
-            Profile::class => Profile::whereNotIn('id', $profile_sources->pluck('id'))->distinct()->latest()->get()->unique(),
+            Profile::class => Profile::whereNotIn('id', $profile_sources->pluck('id'))->distinct()->latest('updated_at')->get()->unique(),
         ]);
     }
 }

@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Livewire\Connect\Post;
+namespace App\Http\Livewire\Connect\Post\Comment;
 
 use App\Http\Livewire\Traits\CreatesSocialContent;
 use Livewire\Component;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Storage;
 
-class EditPost extends Component
+class EditComment extends Component
 {
     use CreatesSocialContent,
     AuthorizesRequests;
 
-    public $post;
+    public $comment;
     public $gallery;
     public $confirm = false;
     protected $listeners = [
@@ -20,45 +20,46 @@ class EditPost extends Component
     ];
 
     public function mount() {
-        $this->authorize('update', [$this->post, auth()->user()->currentProfile]);
-        $this->text_content = (string) $this->post->content;
-        if ($this->post->gallery->count() > 0) {
+        $this->authorize('update', [$this->comment, auth()->user()->currentProfile]);
+        $this->text_content = (string) $this->comment->content;
+        if ($this->comment->gallery->count() > 0) {
             $this->hasStoredImages = true;
-            $this->gallery = $this->post->gallery;
+            $this->gallery = $this->comment->gallery;
         }
     }
 
-    public function confirmDeletePost() {
+    public function confirmDeleteComment() {
         $this->confirm = true;
     }
 
     public function create() {
         $this->validate($this->validationRules());
-        $this->post->content = $this->text_content;
-        $this->post->save();
+        $this->comment->content = $this->text_content;
+        $this->comment->save();
         if (count($this->photos) > 0) {
-            $this->uploadPhotos('post-photos', $this->post, 'post_photo');
+            $this->uploadPhotos('comment-photos', $this->comment, 'comment_photo');
             $this->photos = [];
             return $this->redirect($this->post->url->edit);
         }
         return $this->emitSelf('saved');
     }
 
-    public function deletePost() {
-        $this->authorize('update', [$this->post, auth()->user()->currentProfile]);
-        $this->post->delete();
-        return $this->redirect(route('home'));
+    public function deleteComment() {
+        $this->authorize('update', [$this->comment, auth()->user()->currentProfile]);
+        $post = $this->comment->feedbackable;
+        $this->comment->delete();
+        return $this->redirect($post->url->show);
     }
 
     public function removeFromStoredPhotos($image) {
         $image = $this->gallery->find($image);
-        if ($this->post->gallery->count() > 1 || $this->post->content !== '') {
+        if ($this->comment->gallery->count() > 1 || $this->comment->content !== '') {
             $image_url = $image->image_url;
             $image->delete();
             $this->emitSelf('refreshMe');
             return Storage::disk('public')->delete($image_url);
         } else {
-            $this->addError('last_content', 'deleting will empty post content');
+            $this->addError('last_content', 'deleting will empty comment content');
         }
     }
 
@@ -66,9 +67,7 @@ class EditPost extends Component
     {
         return [];
     }
-
-
     public function render() {
-        return view('livewire.connect.post.edit-post');
+        return view('livewire.connect.post.comment.edit-comment');
     }
 }

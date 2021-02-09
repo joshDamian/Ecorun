@@ -41,7 +41,6 @@ class ProfileFeed extends Component
     public function getListeners() {
         return [
             'sharedContent' => '$refresh',
-            'modifiedFollowers' => '$refresh'
         ];
     }
 

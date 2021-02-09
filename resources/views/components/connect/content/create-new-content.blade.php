@@ -24,7 +24,7 @@
                     </div>
 
                     <div>
-                        <textarea wire:model="text_content" wire:ignore name="text_content"
+                        <textarea wire:ignore id="text_content_" wire:model.lazy="text_content" name="text_content"
                             :class="{ 'rounded-full': !ready,  'overflow-hidden': !large_content, 'rounded-full': message.length < 1 }"
                             @focus="ready = true; $refs.content.setSelectionRange(message.length, message.length)"
                             x-ref="content" rows="1" placeholder="say something" x-model="message"
@@ -91,14 +91,14 @@
                         </div>
 
                         <div class="flex justify-end">
-                            @if($type !== 'edit post')
-                            <div class="mr-4">
-                                <x-jet-secondary-button @click="ready = false; resetHeight()" wire:click="done"
-                                    class="font-semibold text-red-700">
-                                    cancel
-                                </x-jet-secondary-button>
-                            </div>
-                            @endif
+                            <template x-if="!edit_case">
+                                <div class="mr-4">
+                                    <x-jet-secondary-button @click="ready = false; resetHeight()" wire:click="done"
+                                        class="font-semibold text-red-700">
+                                        cancel
+                                    </x-jet-secondary-button>
+                                </div>
+                            </template>
 
                             <div>
                                 <x-jet-button class="bg-blue-600">
@@ -115,7 +115,8 @@
     <script>
         function content_data() {
             return {
-                ready: ('{{$type}}' === 'edit post') ? true: false,
+                ready: false,
+                edit_case: false,
                 message: '',
                 current_mention: '',
                 current_hashtag: '',
@@ -141,7 +142,10 @@
                     this.$refs.content.focus();
                 },
                 initialize: function() {
-                    if ('{{$type}}' === 'edit post') {
+                    var type = '{{$type}}';
+                    this.edit_case = (type.match('edit'));
+                    if (this.edit_case) {
+                        this.ready = true;
                         this.message = this.$wire.text_content;
                         window.addEventListener('DOMContentLoaded', () => {
                             this.$refs.content.style.cssText = 'height:' + this.$refs.content.scrollHeight + 'px;';

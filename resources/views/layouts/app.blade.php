@@ -151,7 +151,9 @@
     <script>
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/pwabuilder-sw.js').then(console.log('service worker registered'));
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/pwabuilder-sw.js').then(console.log('service worker registered'));
+            })
         }
 
         function pwa_install_data() {
@@ -200,6 +202,9 @@
                     window.addEventListener('beforeunload', (event) => {
                         this.hidden = false;
                     });
+                    document.body.addEventListener('unload', (event) => {
+                        this.hidden = true;
+                    })
                 }
             }
         }

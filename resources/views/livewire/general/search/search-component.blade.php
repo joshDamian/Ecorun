@@ -28,8 +28,10 @@
 
     <div class="grid grid-cols-1 gap-3 p-3 md:mt-3 md:p-0">
         @forelse($this->results as $key => $result)
-        @include($this->view_for_search_models[get_class($result)], ['model' =>
-        $result])
+        <div id="{{$result->id . get_class($result)}}" wire:ignore.self>
+            @include($this->view_for_search_models[get_class($result)], ['model' =>
+            $result])
+        </div>
         @empty
         @if($display && !empty(trim($this->query)))
         <div class="text-blue-700">

@@ -10,8 +10,10 @@ use App\Events\PostCreated;
 use App\Events\ProductCreated;
 use App\Events\SentMessage;
 use App\Events\ContentShared;
+use App\Events\CommentedOnPost;
 use App\Events\NewFeedContentForProfile;
 use App\Listeners\SendContentSharedNotification;
+use App\Listeners\SendCommentedOnPostNotification;
 use App\Events\NewMessageForProfile;
 use App\Listeners\SendPostCreatedNotificaton;
 use App\Listeners\SendDirectMessageNotification;
@@ -20,10 +22,10 @@ use App\Listeners\SendProductCreatedNotificaton;
 class EventServiceProvider extends ServiceProvider
 {
     /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
+    * The event listener mappings for the application.
+    *
+    * @var array
+    */
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
@@ -41,16 +43,18 @@ class EventServiceProvider extends ServiceProvider
         NewFeedContentForProfile::class => [],
         ContentShared::class => [
             SendContentSharedNotification::class
-        ]
+        ],
+        CommentedOnPost::class => [
+            SendCommentedOnPostNotification::class
+        ],
     ];
 
     /**
-     * Register any events for your application.
-     *
-     * @return void
-     */
-    public function boot()
-    {
+    * Register any events for your application.
+    *
+    * @return void
+    */
+    public function boot() {
         //
     }
 }
