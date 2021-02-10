@@ -21,7 +21,7 @@
                     </div>
                     <div class="flex items-center">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
-                        <div class="flex-1 flex-shrink-0 break-words truncate line-clamp">
+                        <div class="flex-1 flex-shrink-0 break-words truncate line-clamp-1">
                             {{ $product->name }}
                         </div>
                     </div>

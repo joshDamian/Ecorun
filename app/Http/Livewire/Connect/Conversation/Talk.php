@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Illuminate\Support\Facades\Cache;
 use App\Events\SentMessage;
+use Illuminate\Validation\Rule;
 use App\Http\Livewire\Traits\MultipleImageSelector;
 use App\Http\Livewire\Traits\UploadPhotos;
 
@@ -25,6 +26,18 @@ class Talk extends Component
     protected $rules = [
         'message_to_send' => ['required']
     ];
+
+    public function validationRules()
+    {
+        return [
+            'message_to_send' => Rule::requiredIf((count($this->photos) < 1)),
+            'photos' => [
+                'array',
+                Rule::requiredIf((empty(trim($this->message_to_send))))
+            ],
+            'photos.*' => $this->image_validation
+        ];
+    }
 
     public function getListeners()
     {
@@ -65,17 +78,16 @@ class Talk extends Component
 
     public function sendMessage()
     {
-        $this->validate();
+        $this->validate($this->validationRules());
         $this->new_message->content = trim($this->message_to_send);
         $this->conversation->messages->push($this->new_message);
         $this->new_message->save();
+        if (count($this->photos) > 0) {
+            $this->uploadPhotos('message-photos', $this->new_message, 'message_photo');
+        }
+        $this->reset('photos', 'message_to_send');
         broadcast(new SentMessage($this->new_message))->toOthers();
         return;
-    }
-
-    public function updatedMessage()
-    {
-        //
     }
 
     public function getNewMessageProperty()

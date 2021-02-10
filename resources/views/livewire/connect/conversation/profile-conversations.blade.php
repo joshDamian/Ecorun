@@ -44,7 +44,11 @@
                                     <x-connect.message.message-status-display :status="$last_message->status" />
                                 </span>
                                 @endif
+                                @if($last_message->content)
                                 {{ $last_message->content }}
+                                @else
+                                {{ $last_message->gallery->count() }} photos.
+                                @endif
                             </div>
                         </div>
 

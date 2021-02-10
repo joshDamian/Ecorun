@@ -21,7 +21,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
 
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
@@ -32,7 +32,7 @@
     <style>
         .text-content a {
             color: rgb(13, 71, 197);
-            font-weight: 900;
+            font-weight: 800;
         }
 
         .rm-p-bottom-gap p {
@@ -40,11 +40,8 @@
         }
 
         .dont-break-out {
-            /* These are technically the same, but use both */
             overflow-wrap: break-word;
             word-wrap: break-word;
-
-            /* Instead use this non-standard one: */
             word-break: break-word;
         }
 
@@ -88,18 +85,18 @@
             opacity: 1;
         }
 
-@-moz-document url-prefix() {
+        @-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
         }
 
-        .line-clamp {
+        /* .line-clamp {
             display: -webkit-box;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             overflow: hidden;
-        }
+        } */
     </style>
     @livewireStyles
 
@@ -116,7 +113,7 @@
     @endenv
 </head>
 
-<body class="font-sans leading-normal tracking-normal bg-gray-200 bg-opacity-75">
+<body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
     @livewire('buy.cart.add-to-cart', key(md5('add_a_product_to_cart')))
     {{$slot}}
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"></script>

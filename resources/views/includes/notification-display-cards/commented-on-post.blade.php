@@ -21,16 +21,20 @@
                     </div>
                     <div>
                         <span class="font-bold text-black">{{ $profile->name }}</span>
-                        commented on <span class="font-bold">@if($is_owner) {{ __('your post') }} @elseif ($mention_case) {{ __('a post you are mentioned in') }} @else {{ ($post_owner->id === $profile->id ) ? __('their') : $post_owner->name . "'s" }} post @endif.
-                        </div>
-                        @if($comment->content)
-                        <div class="flex items-baseline">
-                            <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
-                            <x-display-text-content class="line-clamp flex-1 flex-shrink-0 truncate" :content="$comment->content" />
-                        </div>
-                        @endif
+                        commented on <span class="font-bold">@if($is_owner) {{ __('your post') }} @elseif($mention_case)
+                            {{ __('a post you are mentioned in') }} @else
+                            {{ ($post_owner->id === $profile->id ) ? __('their') : $post_owner->name . "'s" }} post
+                            @endif.
                     </div>
+                    @if($comment->content)
+                    <div class="flex items-baseline">
+                        <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
+                        <x-display-text-content class="flex-1 flex-shrink-0 truncate line-clamp-1"
+                            :content="$comment->content" />
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
+</div>

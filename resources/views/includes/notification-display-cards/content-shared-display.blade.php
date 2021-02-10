@@ -24,7 +24,7 @@
                         @if($share->shareable->content)
                         <div class="flex items-center">
                             <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
-                            <x-display-text-content class="flex-1 flex-shrink-0 truncate line-clamp"
+                            <x-display-text-content class="flex-1 flex-shrink-0 truncate line-clamp-1"
                                 :content="$share->shareable->content" />
                         </div>
                         @endif
@@ -33,7 +33,7 @@
                         a product.
                         <div class="flex items-center">
                             <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
-                            <div class="flex-1 flex-shrink-0 break-words truncate line-clamp">
+                            <div class="flex-1 flex-shrink-0 break-words truncate line-clamp-1">
                                 {{ $share->shareable->name }}
                             </div>
                         </div>

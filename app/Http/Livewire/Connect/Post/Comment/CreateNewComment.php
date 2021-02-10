@@ -12,7 +12,8 @@ class CreateNewComment extends Component
 
     public $post;
 
-    public function create() {
+    public function create()
+    {
         $this->validate($this->validationRules());
         $comment = $this->profile->feedbacks()->create(
             [
@@ -20,7 +21,9 @@ class CreateNewComment extends Component
             ]
         );
         $comment = $this->post->comments()->save($comment);
-        $this->uploadPhotos('comment-photos', $comment, 'comment_photo');
+        if (count($this->photos) > 0) {
+            $this->uploadPhotos('comment-photos', $comment, 'comment_photo');
+        }
         $this->post->forceFill([
             'updated_at' => now()
         ])->save();
@@ -36,7 +39,8 @@ class CreateNewComment extends Component
         return [];
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.post.comment.create-new-comment');
     }
 }

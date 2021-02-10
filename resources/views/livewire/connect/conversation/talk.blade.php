@@ -117,16 +117,18 @@
 
     <div id="text_box_container" :class="{ 'sticky bottom-0': isSticky }"
         class="z-40 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
+        <div wire:loading class="w-full" wire:target="photos, uploadPhotos">
+            <x-loader_2 />
+        </div>
         <div :class="large_content ? 'items-baseline' : 'items-center'" class="flex">
             @php $photos_count = count($photos); @endphp
-            <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos"
-            multiple />
-
-            {{-- @if($photos_count === 0)
+            <input x-on:change="if(event.target.files.length > 0) { large_content = true }" name="photos" class="hidden"
+                x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple />
+            @if($photos_count === 0)
             <div class="flex items-center mr-3 text-2xl text-blue-700">
                 <i x-on:click="$refs.photos.click()" class="cursor-pointer far fa-images"></i>
             </div>
-            @endif --}}
+            @endif
 
             <div class="flex-1 flex-shrink-0">
                 <textarea wire:ignore name="content" x-model="message" wire:model.lazy="message_to_send"
@@ -138,13 +140,13 @@
                     class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
 
                 @if($photos_count > 0)
-                <div>
+                <div class="mt-2">
                     <x-connect.image.multiple-selector :photos="$photos" />
                 </div>
                 @endif
             </div>
 
-            <div x-show="message.trim() !== ''" class="flex-shrink-0 ml-3">
+            <div x-show="message.trim() !== '' || ({{ count($photos) }} > 0)" class="flex-shrink-0 ml-3">
                 <button wire:click="sendMessage"
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-600 border border-transparent hover:bg-gray-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 rounded-2xl focus:shadow-outline-gray disabled:opacity-25"
                     @click=" resetHeight(); chatBox.goToBottom();">

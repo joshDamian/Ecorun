@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class EditComment extends Component
 {
     use CreatesSocialContent,
-    AuthorizesRequests;
+        AuthorizesRequests;
 
     public $comment;
     public $gallery;
@@ -19,7 +19,8 @@ class EditComment extends Component
         'refreshMe' => '$refresh'
     ];
 
-    public function mount() {
+    public function mount()
+    {
         $this->authorize('update', [$this->comment, auth()->user()->currentProfile]);
         $this->text_content = (string) $this->comment->content;
         if ($this->comment->gallery->count() > 0) {
@@ -28,30 +29,34 @@ class EditComment extends Component
         }
     }
 
-    public function confirmDeleteComment() {
+    public function confirmDeleteComment()
+    {
         $this->confirm = true;
     }
 
-    public function create() {
+    public function create()
+    {
         $this->validate($this->validationRules());
         $this->comment->content = $this->text_content;
         $this->comment->save();
         if (count($this->photos) > 0) {
             $this->uploadPhotos('comment-photos', $this->comment, 'comment_photo');
             $this->photos = [];
-            return $this->redirect($this->post->url->edit);
+            return $this->redirect($this->comment->url->edit);
         }
         return $this->emitSelf('saved');
     }
 
-    public function deleteComment() {
+    public function deleteComment()
+    {
         $this->authorize('update', [$this->comment, auth()->user()->currentProfile]);
         $post = $this->comment->feedbackable;
         $this->comment->delete();
         return $this->redirect($post->url->show);
     }
 
-    public function removeFromStoredPhotos($image) {
+    public function removeFromStoredPhotos($image)
+    {
         $image = $this->gallery->find($image);
         if ($this->comment->gallery->count() > 1 || $this->comment->content !== '') {
             $image_url = $image->image_url;
@@ -67,7 +72,8 @@ class EditComment extends Component
     {
         return [];
     }
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.post.comment.edit-comment');
     }
 }

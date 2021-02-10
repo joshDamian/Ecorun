@@ -44,12 +44,12 @@
         </div>
 
         @if($post->content)
-        <x-display-text-content class="px-3 py-3 sm:px-5" :content="$post->safe_html" />
+        <x-display-text-content :collapsible="true" class="px-3 py-3 sm:px-5" :content="$post->safe_html" />
         @endif
 
         @if($image_count > 0)
         @if($image_count > 1)
-        <div>
+        <div wire:ignore id="gallery_{{ $post->id }}">
             <x-connect.image.carousel :gallery="$gallery" />
         </div>
         @else

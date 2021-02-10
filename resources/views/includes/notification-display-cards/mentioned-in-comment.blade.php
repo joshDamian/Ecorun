@@ -22,7 +22,8 @@
                     @if($comment->content)
                     <div class="flex items-baseline">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
-                        <x-display-text-content class="line-clamp flex-1 flex-shrink-0 truncate" :content="$comment->content" />
+                        <x-display-text-content class="flex-1 flex-shrink-0 truncate line-clamp-1"
+                            :content="$comment->content" />
                     </div>
                     @endif
                 </div>
