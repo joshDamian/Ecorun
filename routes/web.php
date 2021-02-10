@@ -81,7 +81,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
 
         Route::get('/post/{post}/comment/{comment}/edit', [CommentController::class, 'edit'])->name('comment.edit');
         Route::get('/post/{post}/comment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.delete');
-        Route::get('/post/{post}/comment/{comment}', [CommentController::class, 'show']);
+        Route::get('/post/{post}/comment/{comment}', [CommentController::class, 'show'])->name('comment.show');
     }
 );
 

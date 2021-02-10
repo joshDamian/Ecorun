@@ -1,6 +1,7 @@
 <div x-data="{
     large_content: false,
     message: '',
+    show_images: false,
     isSticky: true,
     chatBox: window.ChatBox.build({
     conversation_id: '{{ $conversation->id }}',
@@ -20,6 +21,7 @@
 
     resetHeight: function() {
     this.message = '';
+    this.show_images = false;
     this.large_content = false;
     this.$refs.content.style.cssText = 'height:auto;';
     this.$refs.content.rows = '1';
@@ -122,8 +124,8 @@
         </div>
         <div :class="large_content ? 'items-baseline' : 'items-center'" class="flex">
             @php $photos_count = count($photos); @endphp
-            <input x-on:change="if(event.target.files.length > 0) { large_content = true }" name="photos" class="hidden"
-                x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple />
+            <input x-on:change="if(event.target.files.length > 0) { large_content = true; show_images = true; }" name="photos" class="hidden"
+            x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple />
             @if($photos_count === 0)
             <div class="flex items-center mr-3 text-2xl text-blue-700">
                 <i x-on:click="$refs.photos.click()" class="cursor-pointer far fa-images"></i>
@@ -131,7 +133,7 @@
             @endif
 
             <div class="flex-1 flex-shrink-0">
-                <textarea wire:ignore name="content" x-model="message" wire:model.lazy="message_to_send"
+                <textarea wire:ignore name="content" x-model="message" wire:model="message_to_send"
                     id="textarea_for_chat_box"
                     @focus="$refs.content.setSelectionRange(message.length, message.length); isSticky = false; setTimeout(() => { isSticky = true; }, 100)"
                     x-ref="content" @focusout="chatBox.whisper('doneTyping')"
@@ -139,11 +141,11 @@
                     placeholder="Type a message" rows="1"
                     class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
 
-                @if($photos_count > 0)
-                <div class="mt-2">
+                <div x-show="show_images" class="mt-2">
+                    @if($photos_count > 0)
                     <x-connect.image.multiple-selector :photos="$photos" />
+                    @endif
                 </div>
-                @endif
             </div>
 
             <div x-show="message.trim() !== '' || ({{ count($photos) }} > 0)" class="flex-shrink-0 ml-3">

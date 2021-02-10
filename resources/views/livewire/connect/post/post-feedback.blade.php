@@ -60,7 +60,7 @@
             @if($feedbackReady)
             <div>
                 <div class="p-3 sm:px-5 sm:pt-1 sm:pb-3 sm:p-0">
-                    <x-connect.comment.display-comments :comments="$post->loadMissing('comments')->comments" />
+                    <x-connect.comment.display-comments :comments="$post->loadMissing('comments')->comments->take($this->feedbacksPerPage)" />
                 </div>
             </div>
             @endif

@@ -44,13 +44,14 @@
         </div>
 
         @if($post->content)
-        <x-display-text-content :collapsible="true" class="px-3 py-3 sm:px-5" :content="$post->safe_html" />
+        <x-display-text-content
+            clamp="2" collapsible="true" class="px-3 py-3 sm:px-5" :content="$post->safe_html" />
         @endif
 
         @if($image_count > 0)
         @if($image_count > 1)
-        <div wire:ignore id="gallery_{{ $post->id }}">
-            <x-connect.image.carousel :gallery="$gallery" />
+        <div>
+            <x-connect.image.gallery view="list" height="h-48" :gallery="$gallery" />
         </div>
         @else
         <div wire:ignore class="bg-gray-100">
@@ -60,7 +61,7 @@
         @endif
     </div>
 
-    <div class="@if($image_count > 1) mt-8 @endif bg-gray-100 border-t border-gray-200">
+    <div class="bg-gray-100 border-t border-gray-200">
         @auth
         @php $key = mt_rand(16, 5435778633678)."post_fb_{$post->id}"; @endphp
         <div>

@@ -4,6 +4,7 @@
     $post_owner = $post->profile;
     $comment_profile = $comment->profile;
     $gallery = $comment->gallery;
+    $gallery_count = $gallery->count();
     @endphp
     <div class="sticky z-40 px-3 py-1 bg-gray-100 bg-opacity-75 border-b border-gray-200 top-11 sm:px-5">
         <div class="flex">
@@ -48,7 +49,15 @@
     <x-display-text-content class="p-3 text-lg bg-white" :content="$comment->safe_html" />
     @endif
 
-    @if($gallery->count() > 0)
-    <x-connect.image.gallery :gallery="$gallery" />
+    @if($gallery_count > 0)
+    @if($gallery_count === 1)
+    <div wire:ignore class="bg-gray-100 p-3">
+        <img class="w-full" src="/storage/{{ $gallery->first()->image_url }}" />
+    </div>
+    @else
+    <x-connect.image.gallery height="h-32 md:h-28" :gallery="$gallery" />
     @endif
+    @endif
+
+    <x-connect.comment.comment-footer class="mt-1 mx-3" :comment="$comment" />
 </x-social-layout>

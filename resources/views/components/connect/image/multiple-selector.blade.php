@@ -28,7 +28,7 @@
             <div class="p-1 border border-gray-300">
                 <div wire:ignore id="stored_selected_image_{{$image->id}}"
                     style="background-image: url('/storage/{{ $image->image_url }}'); background-size: cover; background-position: center center;"
-                    class="w-full h-20 sm:h-36">
+                    class="w-full h-20 sm:h-28">
                 </div>
             </div>
         </div>
@@ -60,5 +60,5 @@
         </div>
     </div>
     <input name="addedImages" class="hidden" x-ref="addedPhotos" accept="image/*" type="file" wire:model="addedImages"
-        multiple />
+    multiple />
 </div>
