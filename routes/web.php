@@ -10,6 +10,7 @@ use App\Http\Livewire\UserComponents\Cart\ViewCart;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\SearchEngineController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Auth;
@@ -82,6 +83,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         Route::get('/post/{post}/comment/{comment}/edit', [CommentController::class, 'edit'])->name('comment.edit');
         Route::get('/post/{post}/comment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.delete');
         Route::get('/post/{post}/comment/{comment}', [CommentController::class, 'show'])->name('comment.show');
+
+        Route::get('/post/{post}/comment/{comment}/replies/{reply}/edit', [ReplyController::class, 'edit'])->name('reply.edit');
+        Route::get('/post/{post}/comment/{comment}/replies/{reply}/delete', [ReplyController::class, 'destroy'])->name('reply.delete');
+        Route::get('/post/{post}/comment/{comment}/replies/{reply}/', [ReplyController::class, 'show'])->name('reply.show');
     }
 );
 

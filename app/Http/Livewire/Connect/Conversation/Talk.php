@@ -79,7 +79,11 @@ class Talk extends Component
             $this->uploadPhotos('message-photos', $this->new_message, 'message_photo');
         }
         $this->reset('message_to_send');
-        broadcast(new SentMessage($this->new_message))->toOthers();
+        try {
+            broadcast(new SentMessage($this->new_message))->toOthers();
+        } catch (\Throwable $th) {
+            return;
+        }
         return;
     }
 

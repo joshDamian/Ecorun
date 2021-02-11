@@ -79,40 +79,46 @@
 
     <div x-ref="messages"
         class="grid grid-cols-1 gap-3 px-3 pt-6 pb-2 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
-        @if($messages_count > $messages->count())
-        <div class="flex justify-center">
-            <x-jet-button wire:click="loadOlderMessages" class="bg-blue-700 rounded-xl">
-                load older messages
-            </x-jet-button>
+        <div>
+            @if($messages_count > $messages->count())
+            <div class="flex justify-center">
+                <x-jet-button wire:click="loadOlderMessages" class="bg-blue-700 rounded-xl">
+                    load older messages
+                </x-jet-button>
+            </div>
+            @endif
         </div>
-        @endif
         @foreach($messages as $key => $message)
-        @php
-        $my_message = ($message->sender_id === $me->id);
-        @endphp
-        @if($message !== $messages->first() && is_object($messages->get($key - 1)) && ($message->created_at->day >
-        $messages->get($key -
-        1)->created_at->day))
-        <div class="p-3 font-black text-center text-blue-700 uppercase bg-gray-300 text-md">
-            @if($message->created_at->day === now()->day)
-            {{ __('Today') }}
-            @elseif($message->created_at->day === now()->subDay(1)->day)
-            {{ __('Yesterday') }}
-            @else
-            {{ $message->created_at->isoFormat('Do MMMM YYYY') }}
-            @endif
-        </div>
-        @endif
-        <div class="flex @if($my_message) justify-end @else justify-start @endif font-semibold text-md">
-            @if($my_message)
-            <div class="flex justify-end w-4/5 break-words">
-                <x-connect.message.message-display-card :message="$message" :senderView="true" />
+        <div>
+            @php
+            $my_message = ($message->sender_id === $me->id);
+            @endphp
+            <div>
+                @if($message !== $messages->first() && is_object($messages->get($key - 1)) && ($message->created_at->day >
+                $messages->get($key -
+                1)->created_at->day))
+                <div class="p-3 font-black text-center text-blue-700 uppercase bg-gray-300 text-md">
+                    @if($message->created_at->day === now()->day)
+                    {{ __('Today') }}
+                    @elseif($message->created_at->day === now()->subDay(1)->day)
+                    {{ __('Yesterday') }}
+                    @else
+                    {{ $message->created_at->isoFormat('Do MMMM YYYY') }}
+                    @endif
+                </div>
+                @endif
             </div>
-            @else
-            <div class="flex justify-start w-4/5 break-words">
-                <x-connect.message.message-display-card :message="$message" :senderView="false" />
+            <div class="flex @if($my_message) justify-end @else justify-start @endif font-semibold text-md">
+                @if($my_message)
+                <div class="flex justify-end w-4/5 break-words">
+                    <x-connect.message.message-display-card :message="$message" :senderView="true" />
+                </div>
+                @else
+                <div class="flex justify-start w-4/5 break-words">
+                    <x-connect.message.message-display-card :message="$message" :senderView="false" />
+                </div>
+                @endif
             </div>
-            @endif
         </div>
         @endforeach
     </div>
@@ -123,6 +129,7 @@
             <x-loader_2 />
         </div>
         <div :class="large_content ? 'items-baseline' : 'items-center'" class="flex">
+            @if(count(config('chatbox.errors.media_messages')) === 0)
             @php $photos_count = count($photos); @endphp
             <input x-on:change="if(event.target.files.length > 0) { large_content = true; show_images = true; }" name="photos" class="hidden"
             x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple />
@@ -130,6 +137,7 @@
             <div class="flex items-center mr-3 text-2xl text-blue-700">
                 <i x-on:click="$refs.photos.click()" class="cursor-pointer far fa-images"></i>
             </div>
+            @endif
             @endif
 
             <div class="flex-1 flex-shrink-0">
@@ -141,11 +149,13 @@
                     placeholder="Type a message" rows="1"
                     class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
 
+                @if(count(config('chatbox.errors.media_messages')) === 0)
                 <div x-show="show_images" class="mt-2">
                     @if($photos_count > 0)
                     <x-connect.image.multiple-selector :photos="$photos" />
                     @endif
                 </div>
+                @endif
             </div>
 
             <div x-show="message.trim() !== '' || ({{ count($photos) }} > 0)" class="flex-shrink-0 ml-3">

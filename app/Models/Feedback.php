@@ -33,6 +33,14 @@ class Feedback extends Model
         return $this->belongsTo(Profile::class);
     }
 
+    public function parentisPost() {
+        return $this->feedbackable_type === Post::class;
+    }
+
+    public function parentIsFeedback() {
+        return $this->feedbackable_type === Feedback::class;
+    }
+
     public function getUrlAttribute() {
         return (new UrlPresenter($this));
     }

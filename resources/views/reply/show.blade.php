@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div>
+    <div x-data="{  }">
         @include('includes.feed-display-cards.post-display', ['model' => $post])
     </div>
 
@@ -60,12 +60,6 @@
     </div>
 
     <div class="mx-3">
-        @livewire('connect.post.comment.comment-feedback', ['comment' => $comment, 'view' => 'comment.show'], key($feedback_key))
-    </div>
-
-    <div class="box-content sticky bottom-0 px-3 py-2 bg-gray-100 border-t border-gray-300">
-        @livewire('connect.post.comment.reply.create-new-reply', ['comment' => $comment, 'profile' =>
-        Auth::user()->currentProfile],
-        key(time().$comment->id.'_reply'))
+        @livewire('connect.post.comment.comment-feedback', ['comment' => $reply, 'view' => 'comment.show'], key($feedback_key))
     </div>
 </x-social-layout>

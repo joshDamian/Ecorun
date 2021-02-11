@@ -11,7 +11,7 @@ use App\Notifications\MentionedInComment;
 use Illuminate\Support\Facades\Notification;
 use App\Models\Profile;
 
-class SendCommentedOnPostNotification
+class SendCommentedOnPostNotification implements ShouldQueue
 {
     private $notifiables;
     private $data;

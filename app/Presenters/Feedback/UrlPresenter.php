@@ -32,6 +32,10 @@ class UrlPresenter
             case('App\Models\Post'):
                 return '/post/' . $this->feedback->feedbackable_id . '/comment/' . $this->feedback->id;
                 break;
+            case('App\Models\Feedback'):
+                if ($this->feedback->parentIsFeedback())
+                    return '/post/' . $this->feedback->feedbackable->feedbackable_id . '/comment/' . $this->feedback->feedbackable_id . '/replies/' . $this->feedback->id;
+                break;
             default:
                 break;
         }

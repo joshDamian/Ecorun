@@ -23,7 +23,7 @@
         </div>
 
         <a class="flex items-center justify-center flex-grow px-2 py-2 mr-3 bg-white rounded-full cursor-pointer"
-            @if($view !=='post.show' ) href="{{ route('post.show', ['post' => $post->id]) }}" @else
+            @if($view !=='post.show' ) href="{{ $post->url->show }}" @else
             wire:click="toogleFeedback" @endif>
             <i class="text-xl text-blue-700 cursor-pointer far fa-comment"></i>
             @php

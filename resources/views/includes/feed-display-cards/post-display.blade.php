@@ -31,34 +31,38 @@
                     </div>
                 </div>
             </div>
+            @auth
             <div>
                 <x-jet-secondary-button x-on:click="show_options = !show_options ">
                     <i
                         class="text-lg text-blue-700 cursor-pointer hover:text-black focus:text-black fas fa-ellipsis-v"></i>
                 </x-jet-secondary-button>
             </div>
+            @endauth
         </div>
 
         <div x-show.transition="show_options">
             <x-connect.post.post-options :post="$post" />
         </div>
 
-        @if($post->content)
-        <x-display-text-content
-            clamp="2" collapsible="true" class="px-3 py-3 sm:px-5" :content="$post->safe_html" />
-        @endif
-
-        @if($image_count > 0)
-        @if($image_count > 1)
         <div>
-            <x-connect.image.gallery view="list" height="h-48" :gallery="$gallery" />
+            @if($post->content)
+            <x-collapsible-text-content
+                clamp="2" collapsible="true" class="px-3 py-3 sm:px-5" :content="$post->safe_html" />
+            @endif
         </div>
-        @else
-        <div wire:ignore class="bg-gray-100">
-            <img class="w-full" src="/storage/{{ $gallery->first()->image_url }}" />
+
+        <div>
+            @if($image_count > 0 && $image_count > 1)
+            <div>
+                <x-connect.image.gallery view="list" height="h-48" :gallery="$gallery" />
+            </div>
+            @elseif($image_count > 0 && $image_count === 1)
+            <div class="bg-gray-100">
+                <img class="w-full" src="/storage/{{ $gallery->first()->image_url }}" />
+            </div>
+            @endif
         </div>
-        @endif
-        @endif
     </div>
 
     <div class="bg-gray-100 border-t border-gray-200">

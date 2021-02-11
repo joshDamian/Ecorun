@@ -27,6 +27,7 @@
     $profile_visit_url = $profile->url->visit;
     $gallery = $comment->gallery;
     $gallery_count = $gallery->count();
+    $feedback_key = 'comment_feedback_for' . $comment->id . random_int(200, 80076554467);
     @endphp
     <div id="comment_{{$comment->id}}" class="@if(!$loop->last) mb-2 md:mb-4 @endif">
         <div class="flex items-center">
@@ -48,30 +49,38 @@
         </div>
 
         <div class="flex">
+            <div class="w-8 mr-2 flex-shrink-0 sm:mr-4">
+            </div>
+
+            <div class="flex-shrink">
+                @if($comment->content)
+                <div x-ref="comment_{{$comment->id}}"
+                    style="border-radius: 1rem;"
+                    class="bg-gray-200 flex justify-center border-green-400 cursor-pointer focus:bg-blue-200 hover:bg-blue-200">
+                    <x-collapsible-text-content clamp="2" class="text-lg px-3 py-2 dont-break-out" :content="$comment->safe_html" />
+                </div>
+                @endif
+
+                <div>
+                    @if($gallery_count > 0 && $gallery_count === 1)
+                    <div class="mt-1 w-44">
+                        <x-connect.image.gallery height="h-28" view="list" curve="rounded-md" :gallery="$gallery" />
+                    </div>
+                    @elseif($gallery_count > 0 && $gallery_count > 1)
+                    <div class="mt-1 w-52">
+                        <x-connect.image.gallery height="h-24" view="list" curve="rounded-md" :gallery="$gallery" />
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="flex">
             <div class="w-8 mr-2 sm:mr-4">
             </div>
+
             <div>
-                @if($comment->content)
-                <div onclick="window.location = '{{ $comment->url->show }}'" x-ref="comment_{{$comment->id}}"
-                    style="border-radius: 1rem;"
-                    class="px-3 py-2 bg-gray-200 flex justify-center border-green-500 cursor-pointer focus:bg-blue-200 hover:bg-blue-200">
-                    <x-display-text-content class="text-lg" :content="$comment->safe_html" />
-                </div>
-                @endif
-
-                @if($gallery_count > 0)
-                @if($gallery_count === 1)
-                <div class="mt-1 w-44">
-                    <x-connect.image.gallery height="h-28" view="list" curve="rounded-md" :gallery="$gallery" />
-                </div>
-                @else
-                <div class="mt-1 w-52">
-                    <x-connect.image.gallery height="h-24" view="list" curve="rounded-md" :gallery="$gallery" />
-                </div>
-                @endif
-                @endif
-
-                <x-connect.comment.comment-footer class="mt-1" :comment="$comment" />
+                @livewire('connect.post.comment.comment-feedback', ['comment' => $comment, 'view' => 'comment.list'], key($feedback_key))
             </div>
         </div>
     </div>
