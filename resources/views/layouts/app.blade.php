@@ -123,7 +123,7 @@
     </div>
 
     <div x-data="page_transition_loader()" x-init="init_page_transition_loader()" x-show="!hidden" x-cloak
-        class="fixed top-0 z-50 w-full h-screen p-3 bg-gray-200 bg-opacity-50">
+        class="fixed top-0 z-50 w-full h-screen bg-gray-200 bg-opacity-50">
         <x-loader_2 />
     </div>
 
