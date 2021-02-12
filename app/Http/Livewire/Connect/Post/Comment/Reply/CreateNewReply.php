@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Connect\Post\Comment\Reply;
 
 use Livewire\Component;
 use App\Http\Livewire\Traits\CreatesSocialContent;
+use App\Events\RepliedToComment;
 
 class CreateNewReply extends Component
 {
@@ -27,7 +28,7 @@ class CreateNewReply extends Component
 
         $this->emit('addedContent');
         $this->emit('newFeedback');
-        // broadcast(new CommentedOnPost($comment))->toOthers();
+        broadcast(new RepliedToComment($reply))->toOthers();
         $this->done();
         return;
     }

@@ -32,6 +32,11 @@ return [
             'model' => App\Models\Feedback::class,
             'with' => ['profile', 'feedbackable'],
             'display-card' => 'mentioned-in-comment'
+        ],
+        App\Notifications\RepliedToComment::class => [
+            'model' => App\Models\Feedback::class,
+            'with' => ['profile', 'feedbackable'],
+            'display-card' => 'replied-to-comment'
         ]
     ]
 ];

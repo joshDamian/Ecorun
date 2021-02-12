@@ -15,7 +15,7 @@
                     <template x-if="i <= gallery.length">
                         <div
                             :class="{ '{{ $curve }}': curve, 'h-40': (gallery.length === 2 && (view === 'single')) || gallery.length === 1 }"
-                            x-on:click="makeActive(gallery[i - 1].image_url).then(image => { activeImage = image; setTimeout(() => { console.log(document.getElementById(image)) }, 10000); }).catch(x => console.error(x))"
+                            x-on:click="makeActive(gallery[i - 1].image_url).then(image => { activeImage = image; setTimeout(() => { var object = document.getElementById(image); if(object){ object.scrollIntoView(); } else { console.log(object) }  }, 2000); }).catch(x => console.error(x))"
                             :style="'background-image: url(/storage/' +  gallery[i - 1].image_url +'); background-size: cover; background-position: center center;'"
                             class="w-full {{ $height }} cursor-pointer">
                         </div>

@@ -55,8 +55,9 @@ class ReplyController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-    public function edit($id) {
-        //
+    public function edit(Post $post, Feedback $comment, Feedback $reply) {
+        $reply = $reply->loadMissing('profile', 'gallery');
+        return view('reply.edit', compact('reply'));
     }
 
     /**
@@ -76,7 +77,11 @@ class ReplyController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-    public function destroy($id) {
-        //
+    public function destroy(Post $post, Feedback $comment, Feedback $reply) {
+        $this->authorize('update', [$reply, auth()->user()->currentProfile]);
+        $reply = $reply->loadMissing('gallery', 'profile');
+        $confirm_delete = true;
+        return view('reply.edit', compact('reply', 'confirm_delete'));
+
     }
 }

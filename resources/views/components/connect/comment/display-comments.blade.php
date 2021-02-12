@@ -1,33 +1,33 @@
 @props(['comments'])
 <div x-data="{ activeComment: '{{ request()->input('active_comment') }}' }" x-init=" ()=> {
     Livewire.on('newFeedback', () => {
-        Livewire.hook('message.processed', function(mess, comp) {
-            window.scrollTo(0, document.body.scrollHeight);
-        })
+    Livewire.hook('message.processed', function(mess, comp) {
+    window.scrollTo(0, document.body.scrollHeight);
+    })
     });
 
     if(activeComment !== '') {
-        history.scrollRestoration = 'manual';
-        var reference = 'comment_' + activeComment;
-        var comment_content = $refs[reference];
-        if(comment_content) {
-            window.addEventListener('DOMContentLoaded', () => {
-                comment_content.classList.add('border-2');
-                document.getElementById(reference).scrollIntoView();
-                setTimeout(() => {
-                    comment_content.classList.remove('border-2');
-                    activeComment = '';
-                }, 2000);
-            })
-        }
+    history.scrollRestoration = 'manual';
+    var reference = 'comment_' + activeComment;
+    var comment_content = $refs[reference];
+    if(comment_content) {
+    window.addEventListener('DOMContentLoaded', () => {
+    comment_content.classList.add('border-2');
+    document.getElementById(reference).scrollIntoView();
+    setTimeout(() => {
+    comment_content.classList.remove('border-2');
+    activeComment = '';
+    }, 2000);
+    })
     }
-}
+    }
+    }
     " class="pt-2">
-    <div class="w-full" wire:loading>
+    <div class="w-full" wire:target="feedbacksPerPage" wire:loading>
         <x-loader_2 />
     </div>
     @if($this->feedbacks() > $comments->count())
-    <div class="flex justify-center mt-2">
+    <div class="flex justify-center mb-2">
         <x-jet-button x-on:click="$wire.feedbacksPerPage = $wire.feedbacksPerPage + 10" class="bg-blue-700">
             load previous
         </x-jet-button>
@@ -67,7 +67,7 @@
             <div class="flex-shrink">
                 @if($comment->content)
                 <div x-ref="comment_{{$comment->id}}" style="border-radius: 1rem;"
-                    class="flex justify-center bg-gray-300 border-green-400 cursor-pointer focus:bg-blue-200 hover:bg-blue-200">
+                    class="flex justify-center bg-gray-300 bg-opacity-75 border-green-400 cursor-pointer focus:bg-blue-200 hover:bg-blue-200">
                     <x-collapsible-text-content clamp="8" class="px-3 py-2 text-md dont-break-out"
                         :content="$comment->safe_html" />
                 </div>
@@ -91,7 +91,7 @@
             </div>
         </div>
 
-        <div class="flex">
+        <div class="flex mt-2">
             <div class="w-8 mr-2 sm:mr-4">
             </div>
             <div>
@@ -103,7 +103,7 @@
     @empty
     <div class="text-blue-700">
         <div class="flex justify-center">
-            <i style="font-size: 3rem;" class="fas fa-comments"></i>
+            <i style="font-size: 2rem;" class="fas fa-comments"></i>
         </div>
         <div class="text-center">
             be the first to @if(request()->routeIs('post.show')) comment. @else reply. @endif

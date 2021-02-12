@@ -11,8 +11,10 @@ use App\Events\ProductCreated;
 use App\Events\SentMessage;
 use App\Events\ContentShared;
 use App\Events\CommentedOnPost;
+use App\Events\RepliedToComment;
 use App\Events\NewFeedContentForProfile;
 use App\Listeners\SendContentSharedNotification;
+use App\Listeners\SendRepliedToCommentNotification;
 use App\Listeners\SendCommentedOnPostNotification;
 use App\Events\NewMessageForProfile;
 use App\Listeners\SendPostCreatedNotificaton;
@@ -47,6 +49,9 @@ class EventServiceProvider extends ServiceProvider
         CommentedOnPost::class => [
             SendCommentedOnPostNotification::class
         ],
+        RepliedToComment::class => [
+            SendRepliedToCommentNotification::class,
+        ]
     ];
 
     /**

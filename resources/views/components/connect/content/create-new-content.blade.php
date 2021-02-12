@@ -10,7 +10,7 @@
             <form wire:submit.prevent="create">
                 @csrf
                 <div>
-                    <div class="flex justify-center w-full text-blue-600" wire:target="photos, create" wire:loading>
+                    <div class="mt-2 w-full mb-2 flex justify-center text-blue-600" wire:target="photos, create" wire:loading>
                         <x-loader_2 />
                     </div>
 

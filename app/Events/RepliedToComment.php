@@ -11,20 +11,21 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Feedback;
 
-class CommentedOnPost implements ShouldBroadcast
+class RepliedToComment implements ShouldBroadcast
 {
     use Dispatchable,
     InteractsWithSockets,
     SerializesModels;
 
-    public Feedback $comment;
+    public Feedback $reply;
+
     /**
     * Create a new event instance.
     *
     * @return void
     */
-    public function __construct(Feedback $comment) {
-        $this->comment = $comment->loadMissing('feedbackable', 'profile.followers');
+    public function __construct(Feedback $reply) {
+        $this->reply = $reply->loadMissing('profile.followers', 'feedbackable.feedbackable');
     }
 
     /**
@@ -33,7 +34,7 @@ class CommentedOnPost implements ShouldBroadcast
     * @return \Illuminate\Broadcasting\Channel|array
     */
     public function broadcastOn() {
-        return new Channel('postChannel.' . $this->comment->feedbackable_id);
+        return new Channel('commentChannel.' . $this->reply->feedbackable_id);
     }
 
     /**

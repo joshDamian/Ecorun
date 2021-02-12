@@ -1,9 +1,9 @@
 .linear-activity {
     overflow: hidden;
-    width: 80%;
+    width: 100%;
     height: 4px;
     background-color: #B3E5FC;
-    margin: 10px auto;
+    margin: 0px auto;
 }
 
 .determinate {

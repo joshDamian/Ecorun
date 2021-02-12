@@ -49,7 +49,9 @@
     </div>
 
     <div class="w-full" wire:loading wire:target="setSortBy, setDisplayReady">
-        <x-loader_2 />
+        <div>
+            <x-loader_2 />
+        </div>
     </div>
 
     <div class="grid grid-cols-1 gap-3 pb-11 md:pb-0 sm:gap-4">
@@ -68,7 +70,7 @@
         </div>
         @endif
         @endforelse
-        <div class="w-full" wire:loading wire:target="loadMore">
+        <div class="w-full mt-2 mb-6 md:mb-2" wire:loading wire:target="loadMore">
             <x-loader_2 />
         </div>
     </div>

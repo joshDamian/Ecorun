@@ -9,19 +9,19 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Models\Feedback;
 
-class CommentedOnPostNotification extends Notification implements ShouldBroadcast
+class RepliedToComment extends Notification implements ShouldBroadcast
 {
     use Queueable;
 
-    public Feedback $comment;
+    public $reply;
 
     /**
     * Create a new notification instance.
     *
     * @return void
     */
-    public function __construct(Feedback $comment) {
-        $this->comment = $comment;
+    public function __construct(Feedback $reply) {
+        $this->reply = $reply;
     }
 
     /**
@@ -58,7 +58,7 @@ class CommentedOnPostNotification extends Notification implements ShouldBroadcas
     public function toArray($notifiable) {
         return [
             'title' => 'New comment alert',
-            'model_key' => $this->comment->id
+            'model_key' => $this->reply->id
         ];
     }
 }
