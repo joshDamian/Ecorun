@@ -15,14 +15,14 @@ trait HasFeedback
     public $feedbackReady = false;
     public $feedbacksPerPage = 15;
 
-    public function feedbacks() {
+    public function feedbacks()
+    {
         $feedback_name = $this->feedback_names[get_class($this->feedbackable)];
-        return $this->feedbackable->loadMissing($feedback_name)-> {
-            $feedback_name
-        }->count();
+        return $this->feedbackable->loadMissing($feedback_name)->{$feedback_name}->count();
     }
 
-    public function toogleFeedback() {
+    public function toogleFeedback()
+    {
         $this->feedbackReady = !$this->feedbackReady;
     }
 }

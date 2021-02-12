@@ -1,5 +1,5 @@
 <div>
-    <div x-data="{ hide: false }" x-init="() => { Livewire.on('newMessage', () => { {{-- @this.call('$refresh') --}} })
+    <div x-data="{ hide: false }" x-init="() => { Livewire.on('newMessage', () => { @this.call('$refresh') })
     Livewire.on('hide', (value) => { hide = value; })
 }">
 

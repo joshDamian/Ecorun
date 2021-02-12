@@ -21,7 +21,7 @@
         }" x-ref="parent">
         <div x-ref="content" {{
             $attributes->
-            merge(['class' => "text-content me cursor-pointer hover:bg-blue-100 bg-opacity-75 focus:bg-blue-100 line-clamp-{$clamp} break-words whitespace-pre-line"])
+            merge(['class' => "text-content me cursor-pointer hover:bg-blue-100 bg-opacity-75 focus:bg-blue-100 line-clamp-{$clamp} dont-break-out whitespace-pre-line"])
             }} ">@if(!$encode) {!!$content!!} @else {{$content}} @endif
         </div>
     </div>

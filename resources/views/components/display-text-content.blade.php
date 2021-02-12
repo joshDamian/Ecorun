@@ -19,7 +19,7 @@
     }">
     <div x-ref="content" {{
         $attributes->
-        merge(['class' => 'text-content break-words whitespace-pre-line'])
-        }} >@if(!$encode) {!!$content!!} @else {{$content}} @endif
+        merge(['class' => 'text-content dont-break-out whitespace-pre-line'])
+        }}>@if(!$encode) {!!$content!!} @else {{$content}} @endif
     </div>
 </div>

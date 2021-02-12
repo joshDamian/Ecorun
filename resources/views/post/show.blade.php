@@ -69,7 +69,7 @@
                         @foreach($gallery as $key => $image)
                         <div class="flex items-center bg-gray-100 carousel-cell">
                             <img class="carousel-cell-image" data-flickity-lazyload="/storage/{{ $image->image_url }}"
-                            alt="post image" />
+                                alt="post image" />
                         </div>
                         @endforeach
                     </div>

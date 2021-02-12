@@ -47,8 +47,8 @@
 
         <div>
             @if($post->content)
-            <x-collapsible-text-content
-                clamp="2" collapsible="true" class="px-3 py-3 sm:px-5" :content="$post->safe_html" />
+            <x-collapsible-text-content clamp="8" collapsible="true" class="px-3 py-3 sm:px-5"
+                :content="$post->safe_html" />
             @endif
         </div>
 

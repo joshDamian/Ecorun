@@ -1,4 +1,4 @@
-<div x-data="{ display_categories: false }" class="sticky bg-gray-100 bg-opacity-100 md:mb-2 top-11">
+<div x-data="{ display_categories: false }" class="sticky bg-gray-100 bg-opacity-100 md:mb-2 top-12">
     <div class="flex">
         <a :class="{'bg-white text-blue-700': !display_categories}"
             class="flex-shrink-0 p-3 text-lg font-semibold text-center text-blue-700" href="{{ route('shop.index') }}">
@@ -24,46 +24,46 @@
                     </h4>
                     @for($i = 0; $i < 6; $i++) <h4 class="text-lg text-blue-700">
                         Some category.
-                    </h4>
+                        </h4>
                         @endfor
-                    </div>
-                </div>
-
-                <div x-data="{show_category_sub_2: false}">
-                    <h4 @click=" show_category_sub_2 = ! show_category_sub_2 "
-                        class="text-lg font-extrabold text-blue-800 cursor-pointer">
-                        <i :class="(show_category_sub_2) ? 'fa-chevron-down' : 'fa-chevron-right'"
-                            class="fas"></i>&nbsp;Electronics
-                    </h4>
-
-                    <div x-show="show_category_sub_2" class="grid grid-cols-1 gap-2 font-semibold">
-                        <h4 class="text-lg text-blue-700">
-                            Laptops.
-                        </h4>
-                        @for($i = 0; $i < 6; $i++) <h4 class="text-lg text-blue-700">
-                            Some category.
-                        </h4>
-                            @endfor
-                        </div>
-                    </div>
-
-                    <div x-data="{show_category_sub_2: false}">
-                        <h4 @click=" show_category_sub_2 = ! show_category_sub_2 "
-                            class="text-lg font-extrabold text-blue-800 cursor-pointer">
-                            <i :class="(show_category_sub_2) ? 'fa-chevron-down' : 'fa-chevron-right'"
-                                class="fas"></i>&nbsp;Electronics
-                        </h4>
-
-                        <div x-show="show_category_sub_2" class="grid grid-cols-1 gap-2 font-semibold">
-                            <h4 class="text-lg text-blue-700">
-                                Laptops.
-                            </h4>
-                            @for($i = 0; $i < 6; $i++) <h4 class="text-lg text-blue-700">
-                                Some category.
-                            </h4>
-                                @endfor
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
+
+            <div x-data="{show_category_sub_2: false}">
+                <h4 @click=" show_category_sub_2 = ! show_category_sub_2 "
+                    class="text-lg font-extrabold text-blue-800 cursor-pointer">
+                    <i :class="(show_category_sub_2) ? 'fa-chevron-down' : 'fa-chevron-right'"
+                        class="fas"></i>&nbsp;Electronics
+                </h4>
+
+                <div x-show="show_category_sub_2" class="grid grid-cols-1 gap-2 font-semibold">
+                    <h4 class="text-lg text-blue-700">
+                        Laptops.
+                    </h4>
+                    @for($i = 0; $i < 6; $i++) <h4 class="text-lg text-blue-700">
+                        Some category.
+                        </h4>
+                        @endfor
+                </div>
+            </div>
+
+            <div x-data="{show_category_sub_2: false}">
+                <h4 @click=" show_category_sub_2 = ! show_category_sub_2 "
+                    class="text-lg font-extrabold text-blue-800 cursor-pointer">
+                    <i :class="(show_category_sub_2) ? 'fa-chevron-down' : 'fa-chevron-right'"
+                        class="fas"></i>&nbsp;Electronics
+                </h4>
+
+                <div x-show="show_category_sub_2" class="grid grid-cols-1 gap-2 font-semibold">
+                    <h4 class="text-lg text-blue-700">
+                        Laptops.
+                    </h4>
+                    @for($i = 0; $i < 6; $i++) <h4 class="text-lg text-blue-700">
+                        Some category.
+                        </h4>
+                        @endfor
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
