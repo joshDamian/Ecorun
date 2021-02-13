@@ -1,16 +1,16 @@
 <div x-data x-init="() => {
     Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewMessageForProfile', () => {
-        Livewire.emit('newMessage')
+    Livewire.emit('newMessage')
     }).notification((notification) => {
-        Livewire.emit('newNotification', notification);
-        $wire.call('$refresh');
+    Livewire.emit('newNotification', notification);
+    $wire.call('$refresh');
     });
-}">
+    }">
     <div class="w-full" wire:loading wire:target="mount,profile">
         <x-loader_2 />
     </div>
 
-    <div class="grid grid-cols-1 gap-1 bg-gray-300">
+    <div class="grid grid-cols-1 gap-1 bg-gray-300 bg-opacity-75">
         @forelse($this->valid_notifications as $key => $notification)
         @if($this->model_notification_types->has($notification->type))
         <x-general.notification.model-notification-card :notification="$notification" />
