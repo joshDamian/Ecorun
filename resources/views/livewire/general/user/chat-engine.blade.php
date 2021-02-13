@@ -17,7 +17,7 @@
         </div>
         @endif
 
-        <div wire:loading wire:target="switchProfile" class="w-full">
+        <div wire:loading wire:target="switchProfile" class="w-full my-2">
             <x-loader_2 />
         </div>
     </div>

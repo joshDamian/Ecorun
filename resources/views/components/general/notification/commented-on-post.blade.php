@@ -1,7 +1,12 @@
+@props(['notification'])
 <div>
     @php
-    $post = $model;
-    $profile = $post->profile;
+    $comment = $notification->model;
+    $profile = $comment->profile;
+    $post = $comment->feedbackable;
+    $post_owner = $post->profile;
+    $mention_case = $post->mentions->contains($this->profile->id);
+    $is_owner = $post_owner->id === $this->profile->id;
     @endphp
     <div class="p-2 @if($notification->read_at) bg-gray-200 @else bg-white @endif">
         <div class="flex flex-wrap">
@@ -17,13 +22,16 @@
                     </div>
                     <div>
                         <span class="font-bold text-black">{{ $profile->name }}</span>
-                        mentioned you in a post.
+                        commented on <span class="font-bold">@if($is_owner) {{ __('your post') }} @elseif($mention_case)
+                            {{ __('a post you are mentioned in') }} @else
+                            {{ ($post_owner->id === $profile->id ) ? __('their') : $post_owner->name . "'s" }} post
+                            @endif.
                     </div>
-                    @if($post->content)
-                    <div class="flex items-center">
+                    @if($comment->content)
+                    <div class="flex items-baseline">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
                         <div class="flex-1 break-words line-clamp-1">
-                            {{ $post->content }}
+                            {{ $comment->content }}
                         </div>
                     </div>
                     @endif

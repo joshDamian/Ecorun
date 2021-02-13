@@ -15,7 +15,7 @@
             <i class="far fa-comments"></i> Conversations
         </div>
 
-        <div wire:loading wire:target="switchActiveConv" class="w-full">
+        <div wire:loading wire:target="switchActiveConv" class="w-full my-2">
             <x-loader_2 />
         </div>
 

@@ -16,7 +16,7 @@
                 </a>
             </div>
 
-            <div class="flex-1 truncate font-semibold text-gray-700 text-md">
+            <div class="flex-1 font-semibold text-gray-700 truncate text-md">
                 <span class="text-blue-700">{{ $comment_profile->full_tag() }}'s</span> comment on <span
                     class="text-blue-700">{{ $post_owner->full_tag() }}'s</span> post.
             </div>
@@ -25,7 +25,7 @@
 
     <div x-data="{ show_post: false }">
         <div x-on:click="show_post = ! show_post"
-            class="flex items-center justify-between p-3 font-medium text-sm text-blue-700 bg-gray-200 border-b border-gray-200 cursor-pointer">
+            class="flex items-center justify-between p-3 text-sm font-medium text-gray-700 bg-gray-200 border-b border-gray-200 cursor-pointer">
             <span>{{ $post_owner->full_tag() }}'s post.</span>
             <span><i :class="(show_post) ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas"></i></span>
         </div>
@@ -39,7 +39,7 @@
         <div class="p-3 font-semibold text-blue-700 bg-white border-b border-gray-200">
             {{ $comment_profile->full_tag() }}'s comment.
         </div>
-        <div class="flex items-center flex-1 p-3 bg-gray-50 border-b border-gray-200">
+        <div class="flex items-center flex-1 p-3 border-b border-gray-200 bg-gray-50">
             <a href="{{ $comment_profile->url->visit }}">
                 <div style="background-image: url('{{ $comment_profile->profile_photo_url }}'); background-size: cover; background-position: center center;"
                     class="w-10 h-10 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
@@ -62,7 +62,7 @@
     </div>
 
 
-    <div class="p-3 text-sm font-semibold text-gray-700 border-b bg-white border-gray-100">
+    <div class="p-3 text-sm font-semibold text-gray-700 bg-white border-b border-gray-100">
         replying to <a class="text-blue-500 underline"
             href="{{ $post_owner->url->visit }}">{{ $post_owner->full_tag() }}</a>
     </div>

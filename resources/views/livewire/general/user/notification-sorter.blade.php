@@ -3,23 +3,17 @@
         Livewire.emit('newMessage')
     }).notification((notification) => {
         Livewire.emit('newNotification', notification);
-        @this.call('$refresh');
+        $wire.call('$refresh');
     });
 }">
     <div class="w-full" wire:loading wire:target="mount,profile">
         <x-loader_2 />
     </div>
+
     <div class="grid grid-cols-1 gap-1 bg-gray-300">
-        @forelse($this->valid_notifications as $notification)
+        @forelse($this->valid_notifications as $key => $notification)
         @if($this->model_notification_types->has($notification->type))
-        @php
-        $notification_type = $this->model_notification_types->get($notification->type);
-        @endphp
-        <div class="cursor-pointer select-none"
-            onclick="@if(is_null($notification->read_at)) @this.call('markAsRead', '{{ $notification->id }}'); @endif @this.call('switchUserProfile', '{{ $notification->notifiable_id }}'); window.location='{{ (get_class($notification->model) === 'App\Models\Share') ? $notification->model->shareable->url->show : $notification->model->url->show }}'">
-            @include($this->viewIncludeFolder . $notification_type['display-card'], ['model' => $notification->model])
-        </div>
-        @continue
+        <x-general.notification.model-notification-card :notification="$notification" />
         @endif
         @empty
         <div class="p-3 text-blue-700 bg-gray-100">

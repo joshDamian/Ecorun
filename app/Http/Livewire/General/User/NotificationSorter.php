@@ -17,27 +17,33 @@ class NotificationSorter extends Component
         'deletedFromNotifications' => '$refresh',
     ];
 
-    public function mount() {
-        dump($this->notifications);
+    public function mount()
+    {
+        //dump($this->notifications);
     }
 
-    public function switchedProfile(Profile $profile) {
+    public function switchedProfile(Profile $profile)
+    {
         $this->profile = $profile;
     }
 
-    public function markAsRead(DatabaseNotification $notification) {
+    public function markAsRead(DatabaseNotification $notification)
+    {
         return $notification->markAsRead();
     }
 
-    public function switchUserProfile(Profile $profile) {
+    public function switchUserProfile(Profile $profile)
+    {
         return request()->user()->switchProfile($profile);
     }
 
-    public function notifications() {
+    public function notifications()
+    {
         return $this->profile->notifications;
     }
 
-    public function data_for_models() {
+    public function data_for_models()
+    {
         return $this->models->mapWithKeys(function ($model) {
             //get notification types for the model
             $notif_types = $this->model_notification_types->where('model', $model);
@@ -46,7 +52,7 @@ class NotificationSorter extends Component
             //get the model keys
             $model_keys = $notif_keys->map(function ($key) {
                 return $this->grouped_by_type->get($key)->pluck('data.model_key')->unique();
-            })->flatten();
+            })->flatten()->unique();
 
             //get model relationships and cache their queries
             $relations = $notif_types->pluck('with')->flatten()->unique()->mapWithKeys(function ($relation) {
@@ -58,14 +64,15 @@ class NotificationSorter extends Component
             $relation_counts = $notif_types->pluck('count')->flatten()->filter()->unique() ?? collect([]);
             return [
                 $model => $model::with($relations->toArray())
-                ->whereIn($primaryKey, $model_keys)
-                ->withCount($relation_counts->toArray())
-                ->get()
+                    ->whereIn($primaryKey, $model_keys)
+                    ->withCount($relation_counts->toArray())
+                    ->get()
             ];
         });
     }
 
-    public function valid_notifications() {
+    public function valid_notifications()
+    {
         $data_for_models = $this->data_for_models;
         return $this->notifications->filter(function ($notif) use ($data_for_models) {
             if ($this->model_notification_types->has($notif->type)) {
@@ -75,24 +82,29 @@ class NotificationSorter extends Component
         });
     }
 
-    public function models() {
+    public function models()
+    {
         return $this->model_notification_types->pluck('model')->unique();
     }
 
-    public function model_notification_types() {
+    public function model_notification_types()
+    {
         return $this->notification_types->filter(function ($type) {
             return array_key_exists('model', $type) && $type['model'] !== '';
         });
     }
 
-    public function notification_types() {
+    public function notification_types()
+    {
         return $this->types->mapWithKeys(function ($type) {
             return array_key_exists($type, config('notifications.types')) ? [$type => config('notifications.types')[$type]] : [$type => []];
         });
     }
 
-    public function modelValidityTest($notification,
-        $data_for_models) {
+    public function modelValidityTest(
+        $notification,
+        $data_for_models
+    ) {
         $notification_type = $this->model_notification_types->get($notification->type);
         $modelName = $notification_type['model'];
         $model = $data_for_models[$modelName]->find($notification->data['model_key']);
@@ -106,7 +118,8 @@ class NotificationSorter extends Component
         return false;
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.general.user.notification-sorter');
     }
 }

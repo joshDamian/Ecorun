@@ -14,35 +14,38 @@ use App\Models\Feedback;
 class RepliedToComment implements ShouldBroadcast
 {
     use Dispatchable,
-    InteractsWithSockets,
-    SerializesModels;
+        InteractsWithSockets,
+        SerializesModels;
 
     public Feedback $reply;
 
     /**
-    * Create a new event instance.
-    *
-    * @return void
-    */
-    public function __construct(Feedback $reply) {
+     * Create a new event instance.
+     *
+     * @return void
+     */
+    public function __construct(Feedback $reply)
+    {
         $this->reply = $reply->loadMissing('profile.followers', 'feedbackable.feedbackable');
     }
 
     /**
-    * Get the channels the event should broadcast on.
-    *
-    * @return \Illuminate\Broadcasting\Channel|array
-    */
-    public function broadcastOn() {
+     * Get the channels the event should broadcast on.
+     *
+     * @return \Illuminate\Broadcasting\Channel|array
+     */
+    public function broadcastOn()
+    {
         return new Channel('commentChannel.' . $this->reply->feedbackable_id);
     }
 
     /**
-    * Get the data to broadcast.
-    *
-    * @return array
-    P     */
-    public function broadcastWith() {
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
         return [];
     }
 }

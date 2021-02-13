@@ -1,7 +1,8 @@
+@props(['notification'])
 <div>
     @php
-    $product = $model;
-    $profile = $product->business->profile;
+    $comment = $notification->model;
+    $profile = $comment->profile;
     @endphp
     <div class="p-2 @if($notification->read_at) bg-gray-200 @else bg-white @endif">
         <div class="flex flex-wrap">
@@ -17,14 +18,16 @@
                     </div>
                     <div>
                         <span class="font-bold text-black">{{ $profile->name }}</span>
-                        added a new product.
+                        mentioned you in a comment.
                     </div>
-                    <div class="flex items-center">
+                    @if($comment->content)
+                    <div class="flex items-baseline">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
                         <div class="flex-1 break-words line-clamp-1">
-                            {{ $product->name }}
+                            {{ $comment->content }}
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

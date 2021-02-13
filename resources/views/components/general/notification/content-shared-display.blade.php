@@ -1,6 +1,7 @@
+@props(['notification'])
 <div>
     @php
-    $share = $model;
+    $share = $notification->model;
     $profile = $share->profile;
     @endphp
     <div class="p-2 @if($notification->read_at) bg-gray-200 @else bg-white @endif">

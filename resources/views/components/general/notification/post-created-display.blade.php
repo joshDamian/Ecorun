@@ -1,7 +1,8 @@
+@props(['notification'])
 <div>
     @php
-    $comment = $model;
-    $profile = $comment->profile;
+    $post = $notification->model;
+    $profile = $post->profile;
     @endphp
     <div class="p-2 @if($notification->read_at) bg-gray-200 @else bg-white @endif">
         <div class="flex flex-wrap">
@@ -17,13 +18,18 @@
                     </div>
                     <div>
                         <span class="font-bold text-black">{{ $profile->name }}</span>
-                        mentioned you in a comment.
+                        @if(!$post->content)
+                        added {{ $post->gallery_count }} new
+                        {{ ($post->gallery_count > 1) ? __('photos') : __('photo') }}
+                        @else
+                        added a new post.
+                        @endif
                     </div>
-                    @if($comment->content)
+                    @if($post->content)
                     <div class="flex items-baseline">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
                         <div class="flex-1 break-words line-clamp-1">
-                            {{ $comment->content }}
+                            {{ $post->content }}
                         </div>
                     </div>
                     @endif

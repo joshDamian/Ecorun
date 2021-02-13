@@ -10,7 +10,8 @@
             <form wire:submit.prevent="create">
                 @csrf
                 <div>
-                    <div class="mt-2 w-full mb-2 flex justify-center text-blue-600" wire:target="photos, create" wire:loading>
+                    <div class="flex justify-center w-full mt-2 mb-2 text-blue-600" wire:target="photos, create"
+                        wire:loading>
                         <x-loader_2 />
                     </div>
 
@@ -24,7 +25,7 @@
                     </div>
 
                     <div>
-                        <textarea wire:ignore id="text_content_" wire:model.lazy="text_content" name="text_content"
+                        <textarea wire:ignore id="text_content_" wire:model="text_content" name="text_content"
                             :class="{ 'rounded-full': !ready,  'overflow-hidden': !large_content, 'rounded-full': message.length < 1 }"
                             @focus="ready = true; $refs.content.setSelectionRange(message.length, message.length)"
                             x-ref="content" rows="1" placeholder="say something" x-model="message"
@@ -69,7 +70,7 @@
                             @php $photos_count = ($this->hasStoredImages) ? $this->gallery->count() : count($photos);
                             @endphp
                             <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
-                            wire:model="photos" multiple />
+                                wire:model="photos" multiple />
 
                             @if($photos_count === 0)
                             <span @click="$refs.photos.click()"
@@ -138,8 +139,18 @@
                     this.$refs.content.rows = '1';
                 },
                 replaceText: function(initial, replacement) {
-                    this.message = this.message.replace(new RegExp(initial + '$'), replacement + ' ');
-                    this.$refs.content.focus();
+                    let setMessage = new Promise((resolve, reject) => {
+                        if(this.message !== '') {
+                            this.message = this.message.replace(new RegExp(initial + '$'), replacement + ' ');
+                            this.$refs.content.focus();
+                            resolve(this.message);
+                        } else {
+                            reject('couldn\'t update message property');
+                        }
+                    });
+                    setMessage.then(result => { setTimeout(() => {
+                        document.getElementById('text_content_').dispatchEvent(new Event('input'))
+                    }, 50); }).catch(x => console.error(x))
                 },
                 initialize: function() {
                     var type = '{{$type}}';

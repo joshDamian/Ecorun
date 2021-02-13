@@ -1,6 +1,7 @@
+@props(['notification'])
 <div>
     @php
-    $post = $model;
+    $post = $notification->model;
     $profile = $post->profile;
     @endphp
     <div class="p-2 @if($notification->read_at) bg-gray-200 @else bg-white @endif">
@@ -17,15 +18,10 @@
                     </div>
                     <div>
                         <span class="font-bold text-black">{{ $profile->name }}</span>
-                        @if(!$post->content)
-                        added {{ $post->gallery_count }} new
-                        {{ ($post->gallery_count > 1) ? __('photos') : __('photo') }}
-                        @else
-                        added a new post.
-                        @endif
+                        mentioned you in a post.
                     </div>
                     @if($post->content)
-                    <div class="flex items-baseline">
+                    <div class="flex items-center">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
                         <div class="flex-1 break-words line-clamp-1">
                             {{ $post->content }}

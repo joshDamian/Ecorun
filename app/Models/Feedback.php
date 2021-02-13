@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Storage;
 class Feedback extends Model
 {
     use HasFactory,
-    QueryCacheable,
-    HasMentionsAndTags;
+        QueryCacheable,
+        HasMentionsAndTags;
 
     protected $fillable = [
         'content',
@@ -29,23 +29,28 @@ class Feedback extends Model
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function profile() {
+    public function profile()
+    {
         return $this->belongsTo(Profile::class);
     }
 
-    public function parentisPost() {
+    public function parentIsPost()
+    {
         return $this->feedbackable_type === Post::class;
     }
 
-    public function parentIsFeedback() {
+    public function parentIsFeedback()
+    {
         return $this->feedbackable_type === Feedback::class;
     }
 
-    public function getUrlAttribute() {
+    public function getUrlAttribute()
+    {
         return (new UrlPresenter($this));
     }
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
         self::saving(function ($model) {
             self::parseMentionsAndTags($model);
@@ -71,19 +76,23 @@ class Feedback extends Model
         return true;
     }
 
-    public function feedbackable() {
+    public function feedbackable()
+    {
         return $this->morphTo();
     }
 
-    public function replies() {
+    public function replies()
+    {
         return $this->morphMany('App\Models\Feedback', 'feedbackable');
     }
 
-    public function likes() {
+    public function likes()
+    {
         return $this->morphMany('App\Models\Like', 'likeable');
     }
 
-    public function gallery() {
+    public function gallery()
+    {
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 }

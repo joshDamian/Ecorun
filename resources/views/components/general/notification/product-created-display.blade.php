@@ -1,11 +1,8 @@
+@props(['notification'])
 <div>
     @php
-    $comment = $model;
-    $profile = $comment->profile;
-    $post = $comment->feedbackable;
-    $post_owner = $post->profile;
-    $mention_case = $post->mentions->contains($this->profile->id);
-    $is_owner = $post_owner->id === $this->profile->id;
+    $product = $notification->model;
+    $profile = $product->business->profile;
     @endphp
     <div class="p-2 @if($notification->read_at) bg-gray-200 @else bg-white @endif">
         <div class="flex flex-wrap">
@@ -21,19 +18,13 @@
                     </div>
                     <div>
                         <span class="font-bold text-black">{{ $profile->name }}</span>
-                        commented on <span class="font-bold">@if($is_owner) {{ __('your post') }} @elseif($mention_case)
-                            {{ __('a post you are mentioned in') }} @else
-                            {{ ($post_owner->id === $profile->id ) ? __('their') : $post_owner->name . "'s" }} post
-                            @endif.
+                        added a new product.
+                    </div>
+                    <div class="flex items-center">
+                        <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
+                        <div class="flex-1 break-words line-clamp-1">
+                            {{ $product->name }}
                         </div>
-                        @if($comment->content)
-                        <div class="flex items-baseline">
-                            <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
-                            <div class="flex-1 break-words line-clamp-1">
-                                {{ $comment->content }}
-                            </div>
-                        </div>
-                        @endif
                     </div>
                 </div>
             </div>
