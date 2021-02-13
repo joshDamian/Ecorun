@@ -15,7 +15,7 @@ return [
     'optimizers' => [
 
         Jpegoptim::class => [
-            '-m35', // set maximum quality to 20%
+            '-m30', // set maximum quality to 20%
             '--strip-all', // this strips out all text information such as comments and EXIF data
             '--all-progressive', // this will make sure the resulting image is a progressive one
         ],
@@ -43,7 +43,7 @@ return [
             '-m 6', // for the slowest compression method in order to get the best compression.
             '-pass 10', // for maximizing the amount of analysis pass.
             '-mt', // multithreading for some speed improvements.
-            '-q 35', // quality factor that brings the least noticeable changes.
+            '-q 30', // quality factor that brings the least noticeable changes.
         ],
     ],
 

@@ -1,7 +1,7 @@
 <div>
-    <div x-data="{ hide: false }" x-init="() => { Livewire.on('newMessage', () => { @this.call('$refresh') })
-    Livewire.on('hide', (value) => { hide = value; })
-}">
+    <div x-data="{ hide: false }" x-init="() => { Livewire.on('newMessage', () => { {{-- @this.call('$refresh') --}} })
+        Livewire.on('hide', (value) => { hide = value; })
+        }">
 
         @if($profiles->count() > 1)
         <div x-show="! hide" class="flex overflow-x-auto border-b border-gray-300">
