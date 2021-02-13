@@ -16,10 +16,10 @@
                         <span
                             class="text-gray-700">{{ $notification->created_at->diffForHumans(null, null, true) }}</span>
                     </div>
-                    <div>
+                    <x-general.notification.message-card>
                         <span class="font-bold text-black">{{ $profile->name }}</span>
                         mentioned you in a post.
-                    </div>
+                    </x-general.notification.message-card>
                     @if($post->content)
                     <div class="flex items-center">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>

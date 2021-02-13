@@ -16,10 +16,10 @@
                         <span
                             class="text-gray-700">{{ $notification->created_at->diffForHumans(null, null, true) }}</span>
                     </div>
-                    <div>
+                    <x-general.notification.message-card>
                         <span class="font-bold text-black">{{ $profile->name }}</span>
                         added a new product.
-                    </div>
+                    </x-general.notification.message-card>
                     <div class="flex items-center">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>
                         <div class="flex-1 break-words line-clamp-1">

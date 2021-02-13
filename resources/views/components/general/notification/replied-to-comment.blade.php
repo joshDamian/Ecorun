@@ -21,7 +21,7 @@
                         <span
                             class="text-gray-700">{{ $notification->created_at->diffForHumans(null, null, true) }}</span>
                     </div>
-                    <div>
+                    <x-general.notification.message-card>
                         <span class="font-bold text-black">{{ $reply_profile->name }}</span>
                         replied to <span class="font-bold">@if($is_owner) {{ __('your comment') }}
                             @elseif($mention_case)
@@ -29,7 +29,7 @@
                             {{ ($comment_profile->id === $reply_profile->id ) ? __('their comment') : $comment_profile->name . "'s" }}
                             comment @endif on
                             {{ ($post_owner->id === $reply_profile->id) ? __('their post.') : (($post_owner->id === $this->profile->id) ? __('your post.') : $post_owner->name . "'s post.") }}
-                    </div>
+                    </x-general.notification.message-card>
                     @if($reply->content)
                     <div class="flex items-baseline">
                         <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>

@@ -3,8 +3,8 @@
     loadMore: function() {
     window.onscroll = function(ev) {
     if ((window.innerHeight + Math.ceil(window.pageYOffset + 100)) >= document.body.offsetHeight) {
-    if(parseInt('{{ $this->all_count() }}', 10) > @this.perPage) {
-    @this.call('loadMore');
+    if(parseInt('{{ $this->all_count() }}', 10) > $wire.perPage) {
+    $wire.call('loadMore');
     }
     }
     };
@@ -14,7 +14,7 @@
     show_button = true;
     });
     Livewire.on('toggled', (toggle) => { collapsed = toggle; });
-    Livewire.on('newPost', () => { @this.call('setSortBy', 'all') });
+    Livewire.on('newPost', () => { $wire.call('setSortBy', 'all') });
     }">
     <div class="fixed bottom-0 z-20 flex w-full overflow-x-auto font-semibold bg-gray-100 bg-gray-200 border-t border-gray-300 md:z-30 md:bg-opacity-75 md:border-b md:sticky"
         :class="(collapsed) ? 'md:top-12' : 'md:top-28'">
@@ -48,7 +48,7 @@
         </x-jet-button>
     </div>
 
-    <div class="w-full" wire:loading wire:target="setSortBy, setDisplayReady">
+    <div class="w-full my-2" wire:loading wire:target="setSortBy, setDisplayReady">
         <div>
             <x-loader_2 />
         </div>
