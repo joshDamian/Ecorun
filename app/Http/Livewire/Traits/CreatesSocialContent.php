@@ -15,31 +15,36 @@ trait CreatesSocialContent
     public string $text_content = '';
     public $photos = [];
 
-    public function done() {
+    public function done()
+    {
         $this->reset('photos', 'text_content');
         $this->resetErrorBag();
         return;
     }
 
-    public function hintMentions($mention) {
+    public function hintMentions($mention)
+    {
         return \App\Models\Profile::search($mention)->get()->unique()->all();
     }
 
-    public function hintHashtags($hashtag) {
+    public function hintHashtags($hashtag)
+    {
         return \App\Models\Tag::search($hashtag)->get()->pluck('name')->unique()->all();
     }
 
     abstract public function create();
 
-    public function defaulRules(): array
+    public function validationRules(): array
     {
-        return [
-            'text_content' => Rule::requiredIf(count($this->photos) < 1),
+        return collect([
+            'text_content' => Rule::requiredIf((count($this->photos) < 1) && (($this->hasStoredImages) ? $this->gallery->count() < 1 : true)),
             'photos' => [
                 'array',
-                Rule::requiredIf(empty(trim($this->text_content)))
+                Rule::requiredIf((empty(trim($this->text_content))) && (($this->hasStoredImages) ? $this->gallery->count() < 1 : true))
             ],
             'photos.*' => $this->image_validation
-        ];
+        ])->merge($this->extra_validation())->toArray();
     }
+
+    abstract public function extra_validation(): array;
 }

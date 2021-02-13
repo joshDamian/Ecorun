@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Traits;
 trait MultipleImageSelector
 {
     public $addedImages = [];
+    public bool $hasStoredImages = false;
     protected array $image_validation = [
         'bail',
         'mimes:jpeg,bmp,png,svg,webp',
@@ -14,7 +15,9 @@ trait MultipleImageSelector
     ];
 
     public function updatedAddedImages() {
-        $this->photos = collect($this->photos)->merge($this->addedImages)->unique()->all();
+        foreach ($this->addedImages as $image) {
+            $this->photos[] = $image;
+        }
         return;
     }
 
@@ -32,7 +35,7 @@ trait MultipleImageSelector
     }
 
     protected function filterImages() {
-        collect($this->photos)->each(function($photo, $key) {
+        collect($this->photos)->each(function ($photo, $key) {
             if ($this->validPreviewUrl($photo) === null) {
                 $this->removeFromPhotos($key);
             }
@@ -41,10 +44,13 @@ trait MultipleImageSelector
     }
 
     protected function validPreviewUrl($photo) {
-        try {
-            return $photo->temporaryUrl();
-        } catch (\Throwable $th) {
-            return null;
+        if ($photo) {
+            try {
+                return $photo->temporaryUrl();
+            } catch (\Throwable $th) {
+                return null;
+            }
         }
+        return null;
     }
 }

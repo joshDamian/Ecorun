@@ -10,8 +10,7 @@ trait UploadPhotos
 {
     use WithFileUploads;
 
-    public function uploadPhotos(string $folder, object $imageable, string $label, array $sizes = null)
-    {
+    public function uploadPhotos(string $folder, object $imageable, string $label, array $sizes = null) {
         if (count($this->photos) > 0) {
             foreach ($this->photos as $photo) {
                 $photo_path = $photo->store($folder, 'public');
@@ -27,6 +26,7 @@ trait UploadPhotos
                     'label' => $label
                 ]);
             }
+            return $this->photos = [];
         }
     }
 }

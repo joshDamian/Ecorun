@@ -25,4 +25,14 @@ class UrlPresenter
     {
         return route('post.show', $this->post);
     }
+
+    public function edit()
+    {
+        return route('post.edit', $this->post);
+    }
+
+    public function delete()
+    {
+        return route('post.delete', $this->post);
+    }
 }

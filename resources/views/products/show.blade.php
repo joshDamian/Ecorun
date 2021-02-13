@@ -7,14 +7,10 @@
                 <div class="flex flex-col flex-1 md:flex-row">
                     <!-- Product Image Gallery -->
                     <div class="order-2 sm:order-2 md:order-1">
-                        <div class="flex flex-row p-3 md:p-0 md:mr-2 md:flex-col">
+                        <div class="flex flex-row overflow-x-auto p-3 md:p-0 md:mr-2 md:flex-col">
                             @foreach($product->gallery as $image)
-                            <div style="max-height: 80px; max-width: 80px;"
-                                class="@if(!$loop->last) mr-3 md:mb-2 md:mr-0 @endif md:shadow-lg">
-                                <img class="max-w-full max-h-full cursor-pointer md:rounded-md"
-                                    @click=" activeImage = '{{ $image->image_url }}' "
-                                    :class="('{{ $image->image_url }}' === activeImage) ? 'border-2 border-blue-800' : ''"
-                                    src="/storage/{{ $image->image_url }}" />
+                            <div x-on:click="activeImage = '{{ $image->image_url }}'" style="height: 70px; width: 70px; background-image: url('/storage/{{ $image->image_url }}'); background-size: cover; background-position: center center;"
+                                class="@if(!$loop->last) md:mb-2 @endif mr-3 md:mr-0 md:shadow-lg flex-shrink-0" :class="('{{ $image->image_url }}' === activeImage) ? 'border-2 border-blue-800' : ''">
                             </div>
                             @endforeach
                         </div>
@@ -141,10 +137,10 @@
     <script>
         function product_data() {
             return {
-                activeImage: null
-                , show_description: null
-                , show_specs: null
-                , init_product() {
+                activeImage: null,
+                show_description: null,
+                show_specs: null,
+                init_product() {
                     this.activeImage = '{{ $product->gallery->first()->image_url }}';
                 }
             }

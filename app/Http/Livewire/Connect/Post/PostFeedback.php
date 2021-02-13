@@ -23,7 +23,8 @@ class PostFeedback extends Component
         return [
             'newFeedback' => '$refresh',
             "newLike.{$this->feedback_id}." . str_replace('\\', '.', get_class($this->post)) => 'likes',
-            "newShare.{$this->feedback_id}." . str_replace('\\', '.', get_class($this->post)) => 'shares'
+            "newShare.{$this->feedback_id}." . str_replace('\\', '.', get_class($this->post)) => 'shares',
+            "echo:postChannel.{$this->post->id},CommentedOnPost" => '$refresh'
         ];
     }
 

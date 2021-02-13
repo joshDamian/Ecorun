@@ -17,6 +17,11 @@ class NotificationSorter extends Component
         'deletedFromNotifications' => '$refresh',
     ];
 
+    public function mount()
+    {
+        //dump($this->notifications);
+    }
+
     public function switchedProfile(Profile $profile)
     {
         $this->profile = $profile;
@@ -47,7 +52,7 @@ class NotificationSorter extends Component
             //get the model keys
             $model_keys = $notif_keys->map(function ($key) {
                 return $this->grouped_by_type->get($key)->pluck('data.model_key')->unique();
-            })->flatten();
+            })->flatten()->unique();
 
             //get model relationships and cache their queries
             $relations = $notif_types->pluck('with')->flatten()->unique()->mapWithKeys(function ($relation) {
@@ -85,19 +90,21 @@ class NotificationSorter extends Component
     public function model_notification_types()
     {
         return $this->notification_types->filter(function ($type) {
-            return $type['model'] !== "";
+            return array_key_exists('model', $type) && $type['model'] !== '';
         });
     }
 
     public function notification_types()
     {
         return $this->types->mapWithKeys(function ($type) {
-            return [$type => config('notifications.types')[$type]];
+            return array_key_exists($type, config('notifications.types')) ? [$type => config('notifications.types')[$type]] : [$type => []];
         });
     }
 
-    public function modelValidityTest($notification, $data_for_models)
-    {
+    public function modelValidityTest(
+        $notification,
+        $data_for_models
+    ) {
         $notification_type = $this->model_notification_types->get($notification->type);
         $modelName = $notification_type['model'];
         $model = $data_for_models[$modelName]->find($notification->data['model_key']);

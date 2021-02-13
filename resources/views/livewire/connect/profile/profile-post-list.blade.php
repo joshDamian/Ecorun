@@ -46,7 +46,7 @@
             </div>
         </div>
         @endforelse
-        <div class="w-full" wire:loading wire:target="loadMore">
+        <div class="w-full mt-2 mb-6 md:mb-2" wire:loading wire:target="loadMore">
             <x-loader_2 />
         </div>
     </div>

@@ -1,58 +1,60 @@
 <div x-data="{
     large_content: false,
     message: '',
+    show_images: false,
     isSticky: true,
     chatBox: window.ChatBox.build({
-        conversation_id: '{{ $conversation->id }}',
-        whispers_callback: {
-            typing_callback: () => {
-                document.getElementById('status_for_chat_box').innerText = 'typing...'
-            },
-            doneTyping_callback: () => {
-                document.getElementById('status_for_chat_box').innerText = ''
-            },
-            readMessages_callback: () => {
-                Livewire.emit('reloadMessages');
-            }
-        },
-        textbox_cont: document.getElementById('text_box_container'),
+    conversation_id: '{{ $conversation->id }}',
+    whispers_callback: {
+    typing_callback: () => {
+    document.getElementById('status_for_chat_box').innerText = 'typing...'
+    },
+    doneTyping_callback: () => {
+    document.getElementById('status_for_chat_box').innerText = ''
+    },
+    readMessages_callback: () => {
+    Livewire.emit('reloadMessages');
+    }
+    },
+    textbox_cont: document.getElementById('text_box_container'),
     }),
 
     resetHeight: function() {
-        this.message = '';
-        this.large_content = false;
-        this.$refs.content.style.cssText = 'height:auto;';
-        this.$refs.content.rows = '1';
-        this.$refs.content.focus();
+    this.message = '';
+    this.show_images = false;
+    this.large_content = false;
+    this.$refs.content.style.cssText = 'height:auto;';
+    this.$refs.content.rows = '1';
+    this.$refs.content.focus();
     },
 
     /** x-init **/
     initialize_chat_box: function() {
-        Livewire.on('readMessages', () => {
-            this.chatBox.whisper('readMessages')
-        })
+    Livewire.on('readMessages', () => {
+    this.chatBox.whisper('readMessages')
+    })
 
-        setTimeout(() => {
-            history.scrollRestoration = 'manual';
-            Livewire.emit('hide', true);
-            this.chatBox.goToBottom();
-        }, 100);
-        this.$watch('message', value => {
-            window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
-            if(this.$refs.content === document.activeElement && this.message.length > 0) {
-                if(this.chatBox.atBottom()) {
-                    this.chatBox.goToBottom();
-                }
-                this.chatBox.whisper('typing');
-            }
-            if(this.$refs.content.scrollHeight > 140) {
-                this.large_content = true;
-            } else {
-                this.large_content = false;
-            }
-        });
+    setTimeout(() => {
+    history.scrollRestoration = 'manual';
+    Livewire.emit('hide', true);
+    this.chatBox.goToBottom();
+    }, 100);
+    this.$watch('message', value => {
+    window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
+    if(this.$refs.content === document.activeElement && this.message.length > 0) {
+    if(this.chatBox.atBottom()) {
+    this.chatBox.goToBottom();
     }
-}" x-init="initialize_chat_box()">
+    this.chatBox.whisper('typing');
+    }
+    if(this.$refs.content.scrollHeight > 140) {
+    this.large_content = true;
+    } else {
+    this.large_content = false;
+    }
+    });
+    }
+    }" x-init="initialize_chat_box()">
     <div class="fixed top-0 z-40 flex items-center w-full p-3 bg-gray-100 md:sticky md:top-12">
         <div class="mr-3">
             <i @click="chatBox.close()" class="text-xl text-blue-700 cursor-pointer fas fa-arrow-left"></i>
@@ -77,59 +79,69 @@
 
     <div x-ref="messages"
         class="grid grid-cols-1 gap-3 px-3 pt-6 pb-2 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
-        @if($messages_count > $messages->count())
-        <div class="flex justify-center">
-            <x-jet-button wire:click="loadOlderMessages" class="bg-blue-700 rounded-xl">
-                load older messages
-            </x-jet-button>
+        <div>
+            @if($messages_count > $messages->count())
+            <div class="flex justify-center">
+                <x-jet-button wire:click="loadOlderMessages" class="bg-blue-700 rounded-xl">
+                    load older messages
+                </x-jet-button>
+            </div>
+            @endif
         </div>
-        @endif
         @foreach($messages as $key => $message)
-        @php
-        $my_message = ($message->sender_id === $me->id);
-        @endphp
-        @if($message !== $messages->first() && is_object($messages->get($key - 1)) && ($message->created_at->day >
-        $messages->get($key -
-        1)->created_at->day))
-        <div class="p-3 font-black text-center text-blue-700 uppercase bg-gray-300 text-md">
-            @if($message->created_at->day === now()->day)
-            {{ __('Today') }}
-            @elseif($message->created_at->day === now()->subDay(1)->day)
-            {{ __('Yesterday') }}
-            @else
-            {{ $message->created_at->isoFormat('Do MMMM YYYY') }}
-            @endif
-        </div>
-        @endif
-        <div class="flex @if($my_message) justify-end @else justify-start @endif font-semibold text-md">
-            @if($my_message)
-            <div class="flex justify-end w-4/5 break-words">
-                <x-connect.message.message-display-card :message="$message" :senderView="true" />
+        <div>
+            @php
+            $my_message = ($message->sender_id === $me->id);
+            @endphp
+            <div>
+                @if($message !== $messages->first() && is_object($messages->get($key - 1)) && ($message->created_at->day >
+                $messages->get($key -
+                1)->created_at->day))
+                <div class="p-3 font-black text-center text-blue-700 uppercase bg-gray-300 text-md">
+                    @if($message->created_at->day === now()->day)
+                    {{ __('Today') }}
+                    @elseif($message->created_at->day === now()->subDay(1)->day)
+                    {{ __('Yesterday') }}
+                    @else
+                    {{ $message->created_at->isoFormat('Do MMMM YYYY') }}
+                    @endif
+                </div>
+                @endif
             </div>
-            @else
-            <div class="flex justify-start w-4/5 break-words">
-                <x-connect.message.message-display-card :message="$message" :senderView="false" />
+            <div class="flex @if($my_message) justify-end @else justify-start @endif font-semibold text-md">
+                @if($my_message)
+                <div class="flex justify-end w-4/5 break-words">
+                    <x-connect.message.message-display-card :message="$message" :senderView="true" />
+                </div>
+                @else
+                <div class="flex justify-start w-4/5 break-words">
+                    <x-connect.message.message-display-card :message="$message" :senderView="false" />
+                </div>
+                @endif
             </div>
-            @endif
         </div>
         @endforeach
     </div>
 
     <div id="text_box_container" :class="{ 'sticky bottom-0': isSticky }"
         class="z-40 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
+        <div wire:loading class="w-full" wire:target="photos, uploadPhotos">
+            <x-loader_2 />
+        </div>
         <div :class="large_content ? 'items-baseline' : 'items-center'" class="flex">
+            @if(count(config('chatbox.errors.media_messages')) === 0)
             @php $photos_count = count($photos); @endphp
-            <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos"
-                multiple />
-
-            {{-- @if($photos_count === 0)
+            <input x-on:change="if(event.target.files.length > 0) { large_content = true; show_images = true; }" name="photos" class="hidden"
+            x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple />
+            @if($photos_count === 0)
             <div class="flex items-center mr-3 text-2xl text-blue-700">
                 <i x-on:click="$refs.photos.click()" class="cursor-pointer far fa-images"></i>
             </div>
-            @endif --}}
+            @endif
+            @endif
 
             <div class="flex-1 flex-shrink-0">
-                <textarea wire:ignore.self name="content" x-model="message" wire:model="message_to_send"
+                <textarea wire:ignore name="content" x-model="message" wire:model="message_to_send"
                     id="textarea_for_chat_box"
                     @focus="$refs.content.setSelectionRange(message.length, message.length); isSticky = false; setTimeout(() => { isSticky = true; }, 100)"
                     x-ref="content" @focusout="chatBox.whisper('doneTyping')"
@@ -137,14 +149,16 @@
                     placeholder="Type a message" rows="1"
                     class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
 
-                @if($photos_count > 0)
-                <div>
+                @if(count(config('chatbox.errors.media_messages')) === 0)
+                <div x-show="show_images" class="mt-2">
+                    @if($photos_count > 0)
                     <x-connect.image.multiple-selector :photos="$photos" />
+                    @endif
                 </div>
                 @endif
             </div>
 
-            <div x-show="message.trim() !== ''" class="flex-shrink-0 ml-3">
+            <div x-show="message.trim() !== '' || ({{ count($photos) }} > 0)" class="flex-shrink-0 ml-3">
                 <button wire:click="sendMessage"
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-600 border border-transparent hover:bg-gray-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 rounded-2xl focus:shadow-outline-gray disabled:opacity-25"
                     @click=" resetHeight(); chatBox.goToBottom();">

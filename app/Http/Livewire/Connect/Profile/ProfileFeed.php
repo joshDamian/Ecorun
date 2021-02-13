@@ -12,20 +12,24 @@ class ProfileFeed extends Component
 {
     public $perPage = 5;
     public $display_ready = true;
-    public string $viewIncludeFolder = 'includes.feed-display-cards.';
+    public string $viewIncludeFolder = 'includes.';
     public $feed_types = [
         Post::class => [
-            'view' => 'post-display',
+            'view' => 'feed-display-cards.post-display',
             'name' => 'posts'
         ],
+        Profile::class => [
+            'view' => 'profile-display-cards.search-result-display-card',
+            'name' => 'who to follow'
+        ],
         Product::class => [
-            'view' => 'product-display',
+            'view' => 'feed-display-cards.product-display',
             'name' => 'products'
         ],
         Share::class => [
-            'view' => 'share-display',
+            'view' => 'feed-display-cards.share-display',
             'name' => 'shares'
-        ]
+        ],
     ];
 
     public Profile $profile;
@@ -100,6 +104,9 @@ class ProfileFeed extends Component
                 break;
             case ('shares'):
                 return $this->feed->shares;
+                break;
+            case ('who to follow'):
+                return $this->feed->profile_suggestions;
                 break;
             case ('all'):
             default:

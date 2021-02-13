@@ -15,9 +15,9 @@ return [
     'optimizers' => [
 
         Jpegoptim::class => [
-            '-m20', // set maximum quality to 20%
-            '--strip-all',  // this strips out all text information such as comments and EXIF data
-            '--all-progressive',  // this will make sure the resulting image is a progressive one
+            '-m35', // set maximum quality to 20%
+            '--strip-all', // this strips out all text information such as comments and EXIF data
+            '--all-progressive', // this will make sure the resulting image is a progressive one
         ],
 
         Pngquant::class => [
@@ -26,7 +26,7 @@ return [
 
         Optipng::class => [
             '-i0', // this will result in a non-interlaced, progressive scanned image
-            '-o2',  // this set the optimization level to two (multiple IDAT compression trials)
+            '-o2', // this set the optimization level to two (multiple IDAT compression trials)
             '-quiet', // required parameter for this package
         ],
 
@@ -43,7 +43,7 @@ return [
             '-m 6', // for the slowest compression method in order to get the best compression.
             '-pass 10', // for maximizing the amount of analysis pass.
             '-mt', // multithreading for some speed improvements.
-            '-q 20', // quality factor that brings the least noticeable changes.
+            '-q 35', // quality factor that brings the least noticeable changes.
         ],
     ],
 

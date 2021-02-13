@@ -1,5 +1,6 @@
 <div x-data="{ shared: false, timeout: null, event: 'newShare.{{ $feedback_id . '.' . str_replace('\\', '.', get_class($post)) }}' }"
-    x-init="Livewire.on(event, () => { clearTimeout(timeout); shared = true; timeout = setTimeout(() => { shared = false }, 2000);  })">
+    x-init=" () => { Livewire.on(event, () => { clearTimeout(timeout); shared = true; timeout = setTimeout(() => { shared = false }, 2000);  }) }">
+
     <div
         class="px-3 py-4 border-t @if($feedbackReady) border-b @endif border-gray-200 flex justify-between items-center sm:px-5 sm:py-3">
         <div x-data="{ liked: '{{ $this->liked() }}', clicked: null }"
@@ -22,8 +23,7 @@
         </div>
 
         <a class="flex items-center justify-center flex-grow px-2 py-2 mr-3 bg-white rounded-full cursor-pointer"
-            @if($view !=='post.show' ) href="{{ route('post.show', ['post' => $post->id]) }}" @else
-            wire:click="toogleFeedback" @endif>
+            @if($view !=='post.show' ) href="{{ $post->url->show }}" @else wire:click="toogleFeedback" @endif>
             <i class="text-xl text-blue-700 cursor-pointer far fa-comment"></i>
             @php
             $feedback_count = $this->feedbacks();
@@ -59,7 +59,8 @@
             @if($feedbackReady)
             <div>
                 <div class="p-3 sm:px-5 sm:pt-1 sm:pb-3 sm:p-0">
-                    <x-connect.comment.display-comments :comments="$post->loadMissing('comments')->comments" />
+                    <x-connect.comment.display-comments
+                        :comments="$post->loadMissing('comments')->comments->sortByDesc('created_at')->take($this->feedbacksPerPage)->reverse()" />
                 </div>
             </div>
             @endif
