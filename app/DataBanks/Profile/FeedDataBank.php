@@ -12,13 +12,11 @@ class FeedDataBank implements DataBank
 {
     protected Profile $profile;
 
-    public function __construct(Profile $profile)
-    {
+    public function __construct(Profile $profile) {
         $this->profile = $profile->loadMissing('following');
     }
 
-    public function fetch()
-    {
+    public function fetch() {
         $profile_sources = $this->profile->following->concat([$this->profile]);
         $business_sources = $profile_sources->filter(
             function ($profile) {
@@ -48,6 +46,8 @@ class FeedDataBank implements DataBank
                     return $query->cacheFor(2592000);
                 }];
             })->toArray())->whereIn('profile_id', $profile_sources->pluck('id'))->distinct()->latest('updated_at')->get()->unique(),
+
+            Profile::class => Profile::whereNotIn('id', $profile_sources->pluck('id'))->distinct()->latest('updated_at')->get()->unique(),
         ]);
     }
 }

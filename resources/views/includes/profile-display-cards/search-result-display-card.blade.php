@@ -29,7 +29,7 @@
                     'ff_counter' . $profile->id))
                 </div>
             </div>
-            <div>
+            <div class="flex items-center justify-between">
                 @livewire('connect.profile.follow-profile', ['profile' => $profile], key(microtime() .
                 str_shuffle($profile->tag) . $profile->id))
             </div>

@@ -1,5 +1,5 @@
 <div>
-    <div x-data="{ hide: false }" x-init="() => { Livewire.on('newMessage', () => { {{-- @this.call('$refresh') --}} })
+    <div x-data="{ hide: false }" x-init="() => { Livewire.on('newMessage', () => { @this.call('$refresh') })
     Livewire.on('hide', (value) => { hide = value; })
 }">
 
@@ -17,7 +17,7 @@
         </div>
         @endif
 
-        <div wire:loading wire:target="switchProfile" class="w-full">
+        <div wire:loading wire:target="switchProfile" class="w-full my-2">
             <x-loader_2 />
         </div>
     </div>

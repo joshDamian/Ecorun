@@ -9,13 +9,13 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 class Message extends Model
 {
     use HasFactory,
-    QueryCacheable;
+        QueryCacheable;
 
     /**
-    * All of the relationships to be touched.
-    *
-    * @var array
-    */
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
     protected $touches = ['messageable'];
     protected $fillable = [
         'content',
@@ -24,21 +24,26 @@ class Message extends Model
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
     protected $with = [
-        'seenBy'
+        'seenBy',
+        'gallery',
+        'sender'
     ];
     protected $appends = [
         'status',
     ];
 
-    public function messageable() {
+    public function messageable()
+    {
         return $this->morphTo();
     }
 
-    public function seenBy() {
+    public function seenBy()
+    {
         return $this->belongsToMany(Profile::class, 'message_reader', 'reader_id', 'message_id')->withTimestamps();
     }
 
-    public function getStatusAttribute() {
+    public function getStatusAttribute()
+    {
         if ($this->messageable_type === GroupConversation::class) {
             return 'sent';
         }
@@ -48,7 +53,13 @@ class Message extends Model
         return 'sent';
     }
 
-    public function sender() {
+    public function gallery()
+    {
+        return $this->morphMany('App\Models\Image', 'imageable');
+    }
+
+    public function sender()
+    {
         return $this->belongsTo(Profile::class, 'sender_id')->withDefault();
     }
 }

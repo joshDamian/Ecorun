@@ -10,7 +10,8 @@
             <form wire:submit.prevent="create">
                 @csrf
                 <div>
-                    <div class="flex justify-center w-full text-blue-600" wire:target="photos, create" wire:loading>
+                    <div class="flex justify-center w-full mt-2 mb-2 text-blue-600" wire:target="photos, create"
+                        wire:loading>
                         <x-loader_2 />
                     </div>
 
@@ -24,7 +25,7 @@
                     </div>
 
                     <div>
-                        <textarea wire:model="text_content" wire:ignore name="text_content"
+                        <textarea wire:ignore id="text_content_" wire:model="text_content" name="text_content"
                             :class="{ 'rounded-full': !ready,  'overflow-hidden': !large_content, 'rounded-full': message.length < 1 }"
                             @focus="ready = true; $refs.content.setSelectionRange(message.length, message.length)"
                             x-ref="content" rows="1" placeholder="say something" x-model="message"
@@ -66,7 +67,8 @@
 
                     <div x-show="ready" :class="ready ? 'mt-2' : ''" class="grid grid-cols-1 gap-2">
                         <div>
-                            @php $photos_count = count($photos); @endphp
+                            @php $photos_count = ($this->hasStoredImages) ? $this->gallery->count() : count($photos);
+                            @endphp
                             <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
                                 wire:model="photos" multiple />
 
@@ -90,12 +92,14 @@
                         </div>
 
                         <div class="flex justify-end">
-                            <div class="mr-4">
-                                <x-jet-secondary-button @click="ready = false; resetHeight()" wire:click="done"
-                                    class="font-semibold text-red-700">
-                                    cancel
-                                </x-jet-secondary-button>
-                            </div>
+                            <template x-if="!edit_case">
+                                <div class="mr-4">
+                                    <x-jet-secondary-button @click="ready = false; resetHeight()" wire:click="done"
+                                        class="font-semibold text-red-700">
+                                        cancel
+                                    </x-jet-secondary-button>
+                                </div>
+                            </template>
 
                             <div>
                                 <x-jet-button class="bg-blue-600">
@@ -113,6 +117,7 @@
         function content_data() {
             return {
                 ready: false,
+                edit_case: false,
                 message: '',
                 current_mention: '',
                 current_hashtag: '',
@@ -134,10 +139,29 @@
                     this.$refs.content.rows = '1';
                 },
                 replaceText: function(initial, replacement) {
-                    this.message = this.message.replace(new RegExp(initial + '$'), replacement + ' ');
-                    this.$refs.content.focus();
+                    let setMessage = new Promise((resolve, reject) => {
+                        if(this.message !== '') {
+                            this.message = this.message.replace(new RegExp(initial + '$'), replacement + ' ');
+                            this.$refs.content.focus();
+                            resolve(this.message);
+                        } else {
+                            reject('couldn\'t update message property');
+                        }
+                    });
+                    setMessage.then(result => { setTimeout(() => {
+                        document.getElementById('text_content_').dispatchEvent(new Event('input'))
+                    }, 50); }).catch(x => console.error(x))
                 },
                 initialize: function() {
+                    var type = '{{$type}}';
+                    this.edit_case = (type.match('edit'));
+                    if (this.edit_case) {
+                        this.ready = true;
+                        this.message = this.$wire.text_content;
+                        window.addEventListener('DOMContentLoaded', () => {
+                            this.$refs.content.style.cssText = 'height:' + this.$refs.content.scrollHeight + 'px;';
+                        })
+                    }
                     Livewire.on('addedContent', () => {
                         this.ready = false;
                         this.resetHeight();

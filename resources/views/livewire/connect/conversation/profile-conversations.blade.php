@@ -15,7 +15,7 @@
             <i class="far fa-comments"></i> Conversations
         </div>
 
-        <div wire:loading wire:target="switchActiveConv" class="w-full">
+        <div wire:loading wire:target="switchActiveConv" class="w-full my-2">
             <x-loader_2 />
         </div>
 
@@ -44,7 +44,11 @@
                                     <x-connect.message.message-status-display :status="$last_message->status" />
                                 </span>
                                 @endif
+                                @if($last_message->content)
                                 {{ $last_message->content }}
+                                @else
+                                {{ $last_message->gallery->count() }} photos.
+                                @endif
                             </div>
                         </div>
 

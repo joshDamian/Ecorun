@@ -14,7 +14,7 @@
     <title>{{ config('app.name', 'Ecorun') }}</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon/logo.png" type="image/x-icon">
     <link rel="apple-touch-icon" href="/icon/logo_180.png">
 
@@ -32,7 +32,7 @@
     <style>
         .text-content a {
             color: rgb(13, 71, 197);
-            font-weight: 900;
+            font-weight: 800;
         }
 
         .rm-p-bottom-gap p {
@@ -40,11 +40,8 @@
         }
 
         .dont-break-out {
-            /* These are technically the same, but use both */
             overflow-wrap: break-word;
             word-wrap: break-word;
-
-            /* Instead use this non-standard one: */
             word-break: break-word;
         }
 
@@ -94,12 +91,12 @@
             }
         }
 
-        .line-clamp {
+        /* .line-clamp {
             display: -webkit-box;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             overflow: hidden;
-        }
+        } */
     </style>
     @livewireStyles
 
@@ -116,17 +113,17 @@
     @endenv
 </head>
 
-<body class="font-sans leading-normal tracking-normal bg-gray-200 bg-opacity-75">
+<body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
     @livewire('buy.cart.add-to-cart', key(md5('add_a_product_to_cart')))
     {{$slot}}
-
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"></script>
 
     <div class="relative z-50">
         <pwa-update swpath="/pwabuilder-sw.js"></pwa-update>
     </div>
 
-    <div x-data="page_transition_loader()" x-init="init_page_transition_loader()" x-show="!hidden" x-cloak class="z-50 fixed w-full top-0 bg-gray-200 bg-opacity-50 p-3 h-screen">
+    <div x-data="page_transition_loader()" x-init="init_page_transition_loader()" x-show="!hidden" x-cloak
+        class="fixed top-0 z-50 w-full h-screen bg-gray-200 bg-opacity-50">
         <x-loader_2 />
     </div>
 
@@ -151,7 +148,9 @@
     <script>
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/pwabuilder-sw.js').then(console.log('service worker registered'));
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/pwabuilder-sw.js').then(console.log('service worker registered'));
+            })
         }
 
         function pwa_install_data() {
@@ -194,9 +193,15 @@
             return {
                 hidden: true,
                 init_page_transition_loader: function() {
+                    Livewire.on('hideLoader', () => {
+                        this.hidden = true;
+                    })
                     window.addEventListener('beforeunload', (event) => {
                         this.hidden = false;
                     });
+                    document.body.addEventListener('unload', (event) => {
+                        this.hidden = true;
+                    })
                 }
             }
         }

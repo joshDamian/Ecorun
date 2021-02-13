@@ -22,14 +22,14 @@
                         {{ __('add photos') }}
                     </x-jet-secondary-button>
                     <!-- Profile Photo File Input -->
-                    <input type="file" class="hidden" wire:model="photos" multiple x-ref="photos" x-on:change="
-                        const files = $refs.photos.files;
-                        photos = [];
-                        for(var i = 0; i < files.length; i++) {
-                        photos[i] = {'url': URL.createObjectURL(files[i])}
-                        }
+                    <input type="file" accept="image/*" class="hidden" wire:model="photos" multiple x-ref="photos" x-on:change="
+                    const files = $refs.photos.files;
+                    photos = [];
+                    for(var i = 0; i < files.length; i++) {
+                    photos[i] = {'url': URL.createObjectURL(files[i])}
+                    }
 
-                        console.log(files.length);
+                    console.log(files.length);
                     " />
 
                     <!-- Photos Preview -->
@@ -56,7 +56,7 @@
 
                 <div x-show.transtion="photos.length < 1">
                     <div
-                        class="grid col-span-12 @if($gallery_count < 2) grid-cols-1 @else grid-cols-2 @endif sm:grid-cols-4 sm:gap-2 gap-2">
+                        class="grid col-span-12 @if($gallery_count < 2) grid-cols-1 @else grid-cols-3 @endif sm:grid-cols-4 sm:gap-2 gap-2">
                         @foreach($product->gallery as $image)
                         <div class="">
                             <img class="w-100 h-100" src="/storage/{{$image->image_url}}" />
@@ -65,7 +65,7 @@
                                     class="bg-red-700 border border-red-700"
                                     wire:click="deleteImage('{{ $image->id }}')">
                                     <i class="fa fa-trash"></i>
-                                    </x-secondary-jet-button>
+                                </x-secondary-jet-button>
                             </div>
                         </div>
                         @endforeach

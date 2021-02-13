@@ -1,0 +1,3 @@
+<div>
+    <x-connect.content.create-new-content :photos="$photos" :profilePhotoUrl="$profile->profile_photo_url" type="reply" />
+</div>

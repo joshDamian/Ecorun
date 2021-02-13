@@ -3,14 +3,17 @@
 namespace App\Http\Livewire\Traits;
 
 use App\Models\Post;
+use App\Models\Feedback;
 
 trait HasFeedback
 {
     public $feedbackable;
     private $feedback_names = [
-        Post::class => 'comments'
+        Post::class => 'comments',
+        Feedback::class => 'replies'
     ];
     public $feedbackReady = false;
+    public $feedbacksPerPage = 15;
 
     public function feedbacks()
     {

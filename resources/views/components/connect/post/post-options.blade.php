@@ -1,14 +1,14 @@
 @props(['post'])
-<x-jet-dropdown align="left">
-    <x-slot name="trigger">
-        <i class="text-blue-700 cursor-pointer hover:text-black focus:text-black fas fa-ellipsis-v"></i>
-    </x-slot>
+<div class="grid text-xs grid-cols-1 bg-gray-200 border-b border-gray-300">
+    @can('update', [$post, Auth::user()->currentProfile ?? (new App\Models\User())->currentProfile])
+    <a href="{{ $post->url->edit }}"
+        class="px-3 py-3 font-semibold text-gray-600 bg-gray-100 hover:bg-blue-200 focus:bg-blue-200 sm:px-5">
+        <i class="fas fa-edit"></i>&nbsp; Edit
+    </a>
 
-    <x-slot name="content">
-        <div class="grid grid-cols-1 gap-1 bg-gray-200">
-            <div class="px-3 py-2 bg-white">
-                Edit
-            </div>
-        </div>
-    </x-slot>
-</x-jet-dropdown>
+    <a href="{{ $post->url->delete }}"
+        class="px-3 py-3 font-semibold text-gray-600 bg-gray-100 hover:bg-blue-200 focus:bg-blue-200 sm:px-5">
+        <i class="fas  fa-trash"></i>&nbsp; Delete
+    </a>
+    @endcan
+</div>

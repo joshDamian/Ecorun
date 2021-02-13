@@ -9,26 +9,24 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
 
-class SendContentSharedNotification
+class SendContentSharedNotification implements ShouldQueue
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
+    * Create the event listener.
+    *
+    * @return void
+    */
+    public function __construct() {
         //
     }
 
     /**
-     * Handle the event.
-     *
-     * @param  ContentShared  $event
-     * @return void
-     */
-    public function handle(ContentShared $event)
-    {
+    * Handle the event.
+    *
+    * @param  ContentShared  $event
+    * @return void
+    */
+    public function handle(ContentShared $event) {
         $followers = $event->share->loadMissing('profile.followers')->profile->followers;
         Notification::send($followers, new NotificationsContentShared($event->share));
         foreach ($followers as $follower) {
