@@ -10,7 +10,9 @@
     $is_owner = $comment_profile->id === $this->profile->id;
     @endphp
 
-    <x-general.notification.model-profile-notif-display-card :profile="$reply_profile" :notification="$notification">
+    <x-general.notification.model-profile-notif-display-card
+        :actionUrl="$comment->url->show . '?active_comment=' . $reply->id" :profile="$reply_profile"
+        :notification="$notification">
         <x-slot name="message">
             <span class="font-bold text-black">{{ $reply_profile->name }}</span>
             replied to <span class="font-bold">@if($is_owner) {{ __('your comment') }}

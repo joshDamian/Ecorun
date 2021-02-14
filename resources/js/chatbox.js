@@ -8,33 +8,33 @@ export default class Chatbox {
         Echo.join(`private_conversation.${this.options.conversation_id}`)
         .here((profiles) => {
             console.log(profiles);
-            Livewire.emit('markReceivedMessagesRead');
+            Livewire.emitTo('connect.conversation.talk', 'markReceivedMessagesRead');
         })
         .joining((profile) => {
             console.log(profile.name + ' just joined');
-            Livewire.emit('markReceivedMessagesRead');
+            Livewire.emitTo('connect.conversation.talk', 'markReceivedMessagesRead');
         })
         .leaving((profile) => {
             console.log(profile.name + ' is leaving');
         })
         .listen('SentMessage', (e) => {
             var atBottom = this.atBottom();
-            Livewire.emit('reloadMessages');
+            Livewire.emitTo('connect.conversation.talk', 'reloadMessages');
             Livewire.hook('message.processed', (message, compo) => {
                 if (atBottom) {
                     window.scrollTo(0, document.body.scrollHeight);
                 }
             });
-            Livewire.emit('markReceivedMessagesRead');
+            Livewire.emitTo('connect.conversation.talk', 'markReceivedMessagesRead');
         })
         .listenForWhisper('typing', () => {
-            return this.options.whispers_callback.typing_callback();
+            this.options.whispers_callback.typing_callback();
         })
         .listenForWhisper('doneTyping', () => {
-            return this.options.whispers_callback.doneTyping_callback();
+            this.options.whispers_callback.doneTyping_callback();
         })
         .listenForWhisper('readMessages', () => {
-            return this.options.whispers_callback.readMessages_callback();
+            this.options.whispers_callback.readMessages_callback();
         });
         return this;
     }
@@ -42,6 +42,7 @@ export default class Chatbox {
         Echo.join(`private_conversation.${this.options.conversation_id}`).whisper(message);
     }
     close() {
+        Echo.leaveChannel(`private_conversation.${this.options.conversation_id}`);
         Livewire.emit('showAll');
         window.UiHelpers.modifyUrl('/chat');
         Livewire.emit('hide', false);

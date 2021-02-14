@@ -11,6 +11,9 @@ class ProfileConversations extends Component
     public Profile $profile;
     public $activeConversation;
     public string $sortBy = 'all';
+    protected $rules = [
+        'activeConversation' => []
+    ];
 
     public function switchedChatProfile(Profile $profile)
     {
@@ -21,9 +24,8 @@ class ProfileConversations extends Component
     public function getListeners()
     {
         return [
-            'showAll',
+            //'showAll',
             'switchedChatProfile',
-            "echo-private:App.Models.Profile.{$this->profile->id},NewMessageForProfile" => '$refresh'
         ];
     }
 
@@ -33,10 +35,10 @@ class ProfileConversations extends Component
         return;
     }
 
-    public function showAll()
+    /* public function showAll()
     {
         return $this->activeConversation = null;
-    }
+    } */
 
     public function getConversationsProperty()
     {
