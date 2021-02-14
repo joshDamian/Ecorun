@@ -8,7 +8,9 @@
     $mention_case = $post->mentions->contains($this->profile->id);
     $is_owner = $post_owner->id === $this->profile->id;
     @endphp
-    <x-general.notification.model-profile-notif-display-card :profile="$profile" :notification="$notification">
+    <x-general.notification.model-profile-notif-display-card
+        :actionUrl="$post->url->show . '?active_comment=' . $comment->id" :profile="$profile"
+        :notification="$notification">
         <x-slot name="message">
             <span class="font-bold text-black">{{ $profile->name }}</span>
             commented on <span class="font-bold">@if($is_owner) {{ __('your post.') }}

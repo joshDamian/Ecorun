@@ -1,11 +1,11 @@
 <div x-data="{
     should_display: false,
     open() {
-        @this.should_display = true;
-        this.should_display = true;
+    @this.should_display = true;
+    this.should_display = true;
     }
-}" x-init="() => { Livewire.on('close', () => { should_display = false; }) }">
-    <x-jet-button @click="open()" class="bg-blue-600">
+    }" x-init="() => { Livewire.on('close', () => { should_display = false; }) }">
+    <x-jet-button x-on:click="open()" class="bg-blue-600">
         <i class="text-lg fas fa-envelope"></i>
     </x-jet-button>
 

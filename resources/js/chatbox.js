@@ -28,13 +28,13 @@ export default class Chatbox {
             Livewire.emit('markReceivedMessagesRead');
         })
         .listenForWhisper('typing', () => {
-            return this.options.whispers_callback.typing_callback();
+            this.options.whispers_callback.typing_callback();
         })
         .listenForWhisper('doneTyping', () => {
-            return this.options.whispers_callback.doneTyping_callback();
+            this.options.whispers_callback.doneTyping_callback();
         })
         .listenForWhisper('readMessages', () => {
-            return this.options.whispers_callback.readMessages_callback();
+            this.options.whispers_callback.readMessages_callback();
         });
         return this;
     }
@@ -42,9 +42,8 @@ export default class Chatbox {
         Echo.join(`private_conversation.${this.options.conversation_id}`).whisper(message);
     }
     close() {
-        Livewire.emit('showAll');
-        window.UiHelpers.modifyUrl('/chat');
-        Livewire.emit('hide', false);
+        Echo.leaveChannel(`private_conversation.${this.options.conversation_id}`);
+        window.location = '/chat';
     }
     goToBottom() {
         window.scrollTo(0, document.body.scrollHeight)

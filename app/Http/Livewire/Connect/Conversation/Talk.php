@@ -11,6 +11,7 @@ use App\Events\SentMessage;
 use Illuminate\Validation\Rule;
 use App\Http\Livewire\Traits\MultipleImageSelector;
 use App\Http\Livewire\Traits\UploadPhotos;
+use App\Models\DirectConversation;
 
 class Talk extends Component
 {
@@ -18,7 +19,7 @@ class Talk extends Component
     UploadPhotos,
     MultipleImageSelector;
 
-    public $conversation;
+    public DirectConversation $conversation;
     public Profile $me;
     public string $message_to_send = '';
     public $photos = [];
@@ -41,9 +42,10 @@ class Talk extends Component
     public function getListeners() {
         return [
             'reloadMessages',
-            'markReceivedMessagesRead'
+            'markReceivedMessagesRead',
         ];
     }
+
 
     public function mount() {
         $this->authorize('view', [$this->conversation, $this->me]);
@@ -71,20 +73,11 @@ class Talk extends Component
     }
 
     public function sendMessage() {
+        $this->message_to_send = trim($this->message_to_send);
         $this->validate($this->validationRules());
-        $this->new_message->content = trim($this->message_to_send);
+        $this->new_message->content = $this->message_to_send;
         $this->conversation->messages->push($this->new_message);
-        $this->new_message->save();
-        if (count($this->photos) > 0) {
-            $this->uploadPhotos('message-photos', $this->new_message, 'message_photo');
-        }
-        $this->reset('message_to_send');
-        try {
-            broadcast(new SentMessage($this->new_message))->toOthers();
-        } catch (\Throwable $th) {
-            return;
-        }
-        return;
+        return $this->new_message->save();
     }
 
     public function getNewMessageProperty() {
@@ -106,6 +99,6 @@ class Talk extends Component
                 'messages' => $this->conversation->messages->sortByDesc('created_at')->take($this->perPage)->reverse(),
                 'messages_count' => $this->conversation->messages->count()
             ]
-        );
+        )->layout('layouts.social', ['user' => auth()->user()]);
     }
 }

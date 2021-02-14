@@ -1,19 +1,20 @@
 <div x-data="{
     large_content: false,
     message: '',
+    show_options: false,
     show_images: false,
     isSticky: true,
     chatBox: window.ChatBox.build({
     conversation_id: '{{ $conversation->id }}',
     whispers_callback: {
     typing_callback: () => {
-    document.getElementById('status_for_chat_box').innerText = 'typing...'
+    return document.getElementById('status_for_chat_box').innerText = 'typing...'
     },
     doneTyping_callback: () => {
-    document.getElementById('status_for_chat_box').innerText = ''
+    return document.getElementById('status_for_chat_box').innerText = ''
     },
     readMessages_callback: () => {
-    Livewire.emit('reloadMessages');
+    return Livewire.emit('reloadMessages');
     }
     },
     textbox_cont: document.getElementById('text_box_container'),
@@ -36,7 +37,6 @@
 
     setTimeout(() => {
     history.scrollRestoration = 'manual';
-    Livewire.emit('hide', true);
     this.chatBox.goToBottom();
     }, 100);
     this.$watch('message', value => {
@@ -54,27 +54,35 @@
     }
     });
     }
-    }" x-init="initialize_chat_box()">
-    <div class="fixed top-0 z-40 flex items-center w-full p-3 bg-gray-100 md:sticky md:top-12">
-        <div class="mr-3">
-            <i @click="chatBox.close()" class="text-xl text-blue-700 cursor-pointer fas fa-arrow-left"></i>
+    }" class="z-40" x-init="initialize_chat_box()">
+    <div class="fixed top-0 z-40 w-full px-3 py-2 bg-gray-100 md:sticky md:top-12">
+        <div class="flex items-center">
+            <div class="mr-3">
+                <i x-on:click="chatBox.close();" class="text-lg text-blue-700 cursor-pointer fas fa-arrow-left"></i>
+            </div>
+            <div style="background-image: url('{{ $this->partner->profile_photo_url }}'); background-size: cover; background-position: center center;"
+                class="flex-shrink-0 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full w-8 h-8">
+            </div>
+            <div class="grid flex-shrink-0 grid-cols-1 text-lg font-bold text-blue-700">
+                {{ $this->partner->full_tag() }}
+                <div id="status_for_chat_box" class="text-xs font-bold text-blue-600 text-muted" x-ref="status"></div>
+            </div>
+            <div class="flex items-center justify-end flex-1 flex-shrink-0 ml-2 justify-self-end">
+                <i onclick="window.scrollTo(0, 0)" title="jump to top"
+                    class="mr-4 text-lg text-gray-600 cursor-pointer fas fa-arrow-up"></i>
+                <i x-on:click="chatBox.goToBottom()" title="jump to bottom"
+                    class="text-lg text-gray-600 cursor-pointer fas mr-10 fa-arrow-down"></i>
+                <i x-on:click="show_options = !show_options" class="text-lg text-blue-700 cursor-pointer fas fa-ellipsis-v"></i>
+            </div>
         </div>
 
-        <div style="background-image: url('{{ $this->partner->profile_photo_url }}'); background-size: cover; background-position: center center;"
-            class="flex-shrink-0 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full w-9 h-9">
-        </div>
-
-        <div class="grid flex-shrink-0 grid-cols-1 text-lg font-bold text-blue-700">
-            {{ $this->partner->full_tag() }}
-            <div id="status_for_chat_box" class="text-xs font-bold text-blue-600 text-muted" x-ref="status"></div>
-        </div>
-
-        <div class="flex items-center justify-end flex-1 flex-shrink-0 ml-2 justify-self-end">
-            <i onclick="window.scrollTo(0, 0)" title="jump to top"
-                class="mr-4 text-xl text-blue-700 cursor-pointer fas fa-arrow-up"></i>
-            <i @click="chatBox.goToBottom()" title="jump to bottom"
-                class="text-xl text-blue-700 cursor-pointer fas fa-arrow-down"></i>
-        </div>
+        <template x-if="show_options">
+            <div class="mt-2 grid grid-cols-1 text-blue-700 bg-gray-200">
+                <a class="px-4 py-2 font-semibold text-md" href="{{ $this->partner->url->visit }}">
+                    <i class="far fa-user"></i> &nbsp; View profile
+                </a>
+            </div>
+        </template>
     </div>
 
     <div x-ref="messages"
@@ -94,7 +102,8 @@
             $my_message = ($message->sender_id === $me->id);
             @endphp
             <div>
-                @if($message !== $messages->first() && is_object($messages->get($key - 1)) && ($message->created_at->day >
+                @if($message !== $messages->first() && is_object($messages->get($key - 1)) && ($message->created_at->day
+                >
                 $messages->get($key -
                 1)->created_at->day))
                 <div class="p-3 font-black text-center text-blue-700 uppercase bg-gray-300 text-md">
@@ -125,14 +134,17 @@
 
     <div id="text_box_container" :class="{ 'sticky bottom-0': isSticky }"
         class="z-40 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
+        @if(count(config('chatbox.errors.media_messages')) === 0)
         <div wire:loading class="w-full" wire:target="photos, uploadPhotos">
             <x-loader_2 />
         </div>
+        @endif
+
         <div :class="large_content ? 'items-baseline' : 'items-center'" class="flex">
             @if(count(config('chatbox.errors.media_messages')) === 0)
             @php $photos_count = count($photos); @endphp
-            <input x-on:change="if(event.target.files.length > 0) { large_content = true; show_images = true; }" name="photos" class="hidden"
-            x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple />
+            <input x-on:change="if(event.target.files.length > 0) { large_content = true; show_images = true; }"
+            name="photos" class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple />
             @if($photos_count === 0)
             <div class="flex items-center mr-3 text-2xl text-blue-700">
                 <i x-on:click="$refs.photos.click()" class="cursor-pointer far fa-images"></i>
@@ -143,8 +155,8 @@
             <div class="flex-1 flex-shrink-0">
                 <textarea wire:ignore name="content" x-model="message" wire:model="message_to_send"
                     id="textarea_for_chat_box"
-                    @focus="$refs.content.setSelectionRange(message.length, message.length); isSticky = false; setTimeout(() => { isSticky = true; }, 1000)"
-                    x-ref="content" @focusout="chatBox.whisper('doneTyping')"
+                    x-on:focus="$refs.content.setSelectionRange(message.length, message.length); isSticky = false; setTimeout(() => { isSticky = true; }, 1000)"
+                    x-ref="content" x-on:focusout="chatBox.whisper('doneTyping')"
                     :class="{ 'overflow-hidden': !large_content, 'rounded-full': message === '' }"
                     placeholder="Type a message" rows="1"
                     class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
@@ -159,9 +171,9 @@
             </div>
 
             <div x-show="message.trim() !== '' || ({{ count($photos) }} > 0)" class="flex-shrink-0 ml-3">
-                <button wire:click="sendMessage"
+                <button
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-600 border border-transparent hover:bg-gray-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 rounded-2xl focus:shadow-outline-gray disabled:opacity-25"
-                    @click=" resetHeight(); chatBox.goToBottom();">
+                    x-on:click="$refs.content.focus(); $wire.sendMessage().then(result => { resetHeight(); chatBox.goToBottom(); });">
                     send
                 </button>
             </div>

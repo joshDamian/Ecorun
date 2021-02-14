@@ -11,56 +11,52 @@ class ProfileConversations extends Component
     public Profile $profile;
     public $activeConversation;
     public string $sortBy = 'all';
+    protected $rules = [
+        'activeConversation' => []
+    ];
 
-    public function switchedChatProfile(Profile $profile)
-    {
+    public function switchedChatProfile(Profile $profile) {
         $this->activeConversation = null;
         $this->profile = $profile;
     }
 
-    public function getListeners()
-    {
+    public function getListeners() {
         return [
-            'showAll',
+            //'showAll',
             'switchedChatProfile',
-            "echo-private:App.Models.Profile.{$this->profile->id},NewMessageForProfile" => '$refresh'
         ];
     }
 
-    public function mount(?string $activeConversation = null)
-    {
+    public function mount(?string $activeConversation = null, Profile $me) {
+        $this->me = $me;
         $this->activeConversation = $this->conversations->all->firstWhere("secret_key", $activeConversation) ?? $activeConversation;
         return;
     }
 
-    public function showAll()
+    /* public function showAll()
     {
         return $this->activeConversation = null;
-    }
+    } */
 
-    public function getConversationsProperty()
-    {
+    public function getConversationsProperty() {
         return $this->profile->conversations;
     }
 
-    public function setSortBy(string $key)
-    {
+
+    public function setSortBy(string $key) {
         $this->sortBy = $key;
     }
 
-    public function switchActiveConv($secret)
-    {
+    public function switchActiveConv($secret) {
         $this->activeConversation = $this->conversations->all->firstWhere("secret_key", $secret);
         return;
     }
 
-    public function getCurrentConversationsProperty()
-    {
+    public function getCurrentConversationsProperty() {
         return $this->sortConversations($this->sortBy)->sortByDesc('updated_at');
     }
 
-    public function sortConversations(string $key)
-    {
+    public function sortConversations(string $key) {
         switch ($key) {
             case ("groups"):
                 return $this->conversations->groups;
@@ -69,14 +65,13 @@ class ProfileConversations extends Component
                 return $this->conversations->directConversations;
                 break;
             case ("all"):
-            default:
-                return $this->conversations->all;
-                break;
+                default:
+                    return $this->conversations->all;
+                    break;
         }
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.connect.conversation.profile-conversations');
     }
 }

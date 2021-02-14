@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Connect\Profile\UpdateProfile;
 use App\Http\Livewire\BuildAndManage\Manager\ManagerDashboard;
 use App\Models\DirectConversation;
+use App\Http\Livewire\Connect\Conversation\Talk;
 use App\Models\Feedback;
 use App\Models\Post;
 
@@ -55,7 +56,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         ->name('profile.edit');*/
 
         Route::get('/@{profile:tag}/actions/edit', UpdateProfile::class)->middleware('can:access,profile')
-            ->name('profile.edit');
+        ->name('profile.edit');
 
         Route::put('/current-profile/update', [ProfileController::class, 'updateCurrentProfile'])->name('current-profile.update');
 
@@ -84,7 +85,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
 
         Route::get('/post/{post}/comment/{comment}/edit', [CommentController::class, 'edit'])->name('comment.edit');
         Route::get('/post/{post}/comment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.delete');
-        Route::get('/post/{post}/comment/{comment}',  [CommentController::class, 'show'] /* function (Post $post, Feedback $feedback) {
+        Route::get('/post/{post}/comment/{comment}', [CommentController::class, 'show'] /* function (Post $post, Feedback $feedback) {
             return Auth::user()->can('follow', [$post, Profile::firstWhere('tag', 'shoe-hub')]);
         } */)->name('comment.show');
 
@@ -98,13 +99,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
     ->name('view-history.index'); */
 
 Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
-    ->name('product.show');
+->name('product.show');
 
 Route::get('/categories', [CategoryController::class, 'index'])
-    ->name('category.index');
+->name('category.index');
 Route::get('category/{slug}', [CategoryController::class, 'show'])
-    ->name('category.show');
+->name('category.show');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
 Route::get('/search/{data?}', [SearchEngineController::class, 'index'])->name('search.index');
+
+Route::get('/chat/private-conversation.{me}/{conversation:secret_key}', Talk::class)->name('chatEngine.talk');

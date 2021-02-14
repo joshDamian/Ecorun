@@ -5,7 +5,8 @@
     $profile = $post->profile;
     @endphp
 
-    <x-general.notification.model-profile-notif-display-card :profile="$profile" :notification="$notification">
+    <x-general.notification.model-profile-notif-display-card :actionUrl="$post->url->show" :profile="$profile"
+        :notification="$notification">
         <x-slot name="message">
             <span class="font-bold text-black">{{ $profile->name }}</span>
             mentioned you in a post.

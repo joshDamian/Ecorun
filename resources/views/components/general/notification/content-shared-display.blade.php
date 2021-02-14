@@ -5,7 +5,8 @@
     $profile = $share->profile;
     @endphp
 
-    <x-general.notification.model-profile-notif-display-card :profile="$profile" :notification="$notification">
+    <x-general.notification.model-profile-notif-display-card :actionUrl="$share->shareable->url->show"
+        :profile="$profile" :notification="$notification">
         <x-slot name="message">
             <span class="font-bold text-black">{{ $profile->name }}</span>
             shared @switch($share->shareable_type)
