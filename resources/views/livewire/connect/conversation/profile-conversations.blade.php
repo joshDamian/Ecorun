@@ -1,16 +1,11 @@
 <div x-data x-init="() => {
-        Livewire.on('showAll', () => {
-            $wire.reset('activeConversation');
-            $wire.call('$refresh')
-        })
-        }" class="grid grid-cols-1 gap-1 bg-gray-200">
+    Echo.private('App.Models.Profile.{{$profile->id}}').listen('NewMessageForProfile', (e) => {
+    $wire.call('$refresh');
+    });
+    }" class="grid grid-cols-1 gap-1 bg-gray-200">
     <div
         class="sticky w-full p-3 text-lg font-semibold text-blue-700 bg-gray-100 border-b border-gray-300 sm:text-xl bg-opactiy-75 top-12">
         <i class="far fa-comments"></i> Conversations
-    </div>
-
-    <div wire:loading wire:target="switchActiveConv" class="w-full my-2">
-        <x-loader_2 />
     </div>
 
     @forelse($this->current_conversations as $conversation)
@@ -21,8 +16,7 @@
         @endphp
         @if($conversation instanceof \App\Models\DirectConversation)
         @php $partner = $conversation->pair->firstWhere('id', '!==', $profile->id); @endphp
-        <div wire:click=""
-            x-on:click="$wire.switchActiveConv('{{ $conversation->secret_key }}').then(ready => { window.UiHelpers.modifyUrl('?activeConversation={{ $conversation->secret_key }}') })"
+        <div onclick="window.location = '{{ route('chatEngine.talk', ['conversation' => $conversation->secret_key, 'me' => $profile->id]) }}'"
             class="flex items-center px-3 py-2 bg-gray-100 @if(!$loop->last) border-b-2 border-gray-300 @endif cursor-pointer select-none">
             <div style="background-image: url('{{ $partner->profile_photo_url }}'); background-size: cover; background-position: center center;"
                 class="flex-shrink-0 w-12 h-12 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">

@@ -8,24 +8,24 @@ export default class Chatbox {
         Echo.join(`private_conversation.${this.options.conversation_id}`)
         .here((profiles) => {
             console.log(profiles);
-            Livewire.emitTo('connect.conversation.talk', 'markReceivedMessagesRead');
+            Livewire.emit('markReceivedMessagesRead');
         })
         .joining((profile) => {
             console.log(profile.name + ' just joined');
-            Livewire.emitTo('connect.conversation.talk', 'markReceivedMessagesRead');
+            Livewire.emit('markReceivedMessagesRead');
         })
         .leaving((profile) => {
             console.log(profile.name + ' is leaving');
         })
         .listen('SentMessage', (e) => {
             var atBottom = this.atBottom();
-            Livewire.emitTo('connect.conversation.talk', 'reloadMessages');
+            Livewire.emit('reloadMessages');
             Livewire.hook('message.processed', (message, compo) => {
                 if (atBottom) {
                     window.scrollTo(0, document.body.scrollHeight);
                 }
             });
-            Livewire.emitTo('connect.conversation.talk', 'markReceivedMessagesRead');
+            Livewire.emit('markReceivedMessagesRead');
         })
         .listenForWhisper('typing', () => {
             this.options.whispers_callback.typing_callback();
@@ -43,9 +43,7 @@ export default class Chatbox {
     }
     close() {
         Echo.leaveChannel(`private_conversation.${this.options.conversation_id}`);
-        Livewire.emit('showAll');
-        window.UiHelpers.modifyUrl('/chat');
-        Livewire.emit('hide', false);
+        window.location = '/chat';
     }
     goToBottom() {
         window.scrollTo(0, document.body.scrollHeight)

@@ -45,7 +45,7 @@
                             key(md5("initiate_conversation_with_{$profile->id}")))
                             @else
                             <a
-                                href="{{ route('chat.index', ['activeConversation' => $current_profile->direct_conversationWith($profile)->secret_key]) }}">
+                                href="{{ route('chatEngine.talk', ['conversation' => $current_profile->direct_conversationWith($profile)->secret_key, 'me' => $current_profile]) }}">
                                 <x-jet-button class="bg-blue-600">
                                     <i class="text-lg fas fa-envelope"></i>
                                 </x-jet-button>
@@ -84,5 +84,5 @@
             @endif
         </div>
     </div>
-    </div>
+</div>
 </x-social-layout>
