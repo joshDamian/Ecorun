@@ -57,7 +57,7 @@ class Message extends Model
 
     public static function boot() {
         parent::boot();
-        self::saved(function ($model) {
+        self::created(function ($model) {
             if ($model->messageable_type === DirectConversation::class) {
                 try {
                     broadcast(new SentMessage($model))->toOthers();

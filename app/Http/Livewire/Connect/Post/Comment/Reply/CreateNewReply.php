@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Connect\Post\Comment\Reply;
 use Livewire\Component;
 use App\Http\Livewire\Traits\CreatesSocialContent;
 use App\Events\RepliedToComment;
+use App\Models\Feedback;
 
 class CreateNewReply extends Component
 {
@@ -14,23 +15,20 @@ class CreateNewReply extends Component
 
     public function create() {
         $this->validate($this->validationRules());
-        $reply = $this->profile->feedbacks()->create(
-            [
-                'content' => trim($this->text_content) ?? ''
-            ]
-        );
-
-        $reply = $this->comment->replies()->save($reply);
+        $reply = Feedback::forceCreate([
+            'content' => trim($this->text_content) ?? '',
+            'feedbackable_type' => get_class($this->comment),
+            'feedbackable_id' => $this->comment->id,
+            'profile_id' => $this->profile->id
+        ]);
 
         if (count($this->photos) > 0) {
             $this->uploadPhotos('reply-photos', $reply, 'reply_photo');
         }
 
-        $this->emit('addedContent');
-        $this->emit('newFeedback');
-        broadcast(new RepliedToComment($reply))->toOthers();
         $this->done();
-        return;
+        $this->emit('addedContent');
+        return $this->emit('newFeedback');
     }
 
     public function extra_validation(): array

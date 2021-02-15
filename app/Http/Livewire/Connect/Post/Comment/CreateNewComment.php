@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Connect\Post\Comment;
 use App\Http\Livewire\Traits\CreatesSocialContent;
 use Livewire\Component;
 use App\Events\CommentedOnPost;
+use App\Models\Feedback;
 
 class CreateNewComment extends Component
 {
@@ -12,26 +13,25 @@ class CreateNewComment extends Component
 
     public $post;
 
-    public function create()
-    {
+    public function create() {
         $this->validate($this->validationRules());
-        $comment = $this->profile->feedbacks()->create(
-            [
-                'content' => trim($this->text_content) ?? ''
-            ]
-        );
-        $comment = $this->post->comments()->save($comment);
+        $comment = Feedback::forceCreate([
+            'content' => trim($this->text_content) ?? '',
+            'feedbackable_type' => get_class($this->post),
+            'feedbackable_id' => $this->post->id,
+            'profile_id' => $this->profile->id
+        ]);
+
         if (count($this->photos) > 0) {
             $this->uploadPhotos('comment-photos', $comment, 'comment_photo');
         }
+
         $this->post->forceFill([
             'updated_at' => now()
         ])->save();
-        $this->emit('addedContent');
-        $this->emit('newFeedback');
-        broadcast(new CommentedOnPost($comment))->toOthers();
         $this->done();
-        return;
+        $this->emit('addedContent');
+        return $this->emit('newFeedback');
     }
 
     public function extra_validation(): array
@@ -39,8 +39,7 @@ class CreateNewComment extends Component
         return [];
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.connect.post.comment.create-new-comment');
     }
 }

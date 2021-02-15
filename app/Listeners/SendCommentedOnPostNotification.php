@@ -12,6 +12,7 @@ use App\Models\Profile;
 
 class SendCommentedOnPostNotification implements ShouldQueue
 {
+
     private $notifiables;
     private $data;
     /**
