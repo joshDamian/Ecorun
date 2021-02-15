@@ -12,14 +12,17 @@ trait HasShares
     public Profile $profile;
     public $feedback_id;
 
-    public function share()
-    {
+    public function share() {
         $share = new Share();
         $share->profile_id = $this->profile->id;
         $share = $this->shareable->shares()->save($share);
         $event = 'newShare.' . $this->feedback_id . '.' . str_replace('\\', '.', get_class($this->shareable));
         $this->emit($event);
-        broadcast(new ContentShared($share))->toOthers();
+        try {
+            broadcast(new ContentShared($share))->toOthers();
+        } catch (\Throwable $th) {
+            //
+        }
         $this->emitTo('connect.profile.profile-feed', 'sharedContent');
     }
 
