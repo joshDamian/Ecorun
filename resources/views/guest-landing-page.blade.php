@@ -4,7 +4,11 @@
             <ul class="flex items-center px-3 py-2">
                 <li class="flex-1 text-2xl font-bold text-blue-800">{{ config('app.name') }}</li>
                 <li class="text-right">
-                    <div class="flex flex-wrap">
+                    <div class="flex items-center flex-wrap">
+                        <a href="{{ route('search.index') }}" class="mr-6 text-blue-700">
+                            <i class="fas text-xl fa-search"></i>
+                        </a>
+
                         <a class="mr-4" href="/login">
                             <x-jet-button class="bg-blue-600">
                                 Login
@@ -26,7 +30,7 @@
         <div class="bg-gray-100">
             <div class="grid grid-cols-1 sm:p-3 md:p-10 md:grid-cols-2">
                 <div class="">
-                    <h3 class="px-3 py-2 text-2xl font-semibold text-gray-800 sm:text-3xl sm:px-0 sm:pb-3 sm:py-0">
+                    <h3 class="px-3 py-2 text-xl font-semibold text-gray-800 sm:text-3xl sm:px-0 sm:pb-3 sm:py-0">
                         Connect with people, shop, build and manage businesses.
                     </h3>
 

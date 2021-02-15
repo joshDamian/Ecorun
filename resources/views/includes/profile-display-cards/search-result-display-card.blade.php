@@ -7,7 +7,7 @@
         <div class="flex items-center justify-center flex-shrink-0 mb-3 sm:mr-3 sm:mb-0">
             <a href="{{ $profile_visit_url }}">
                 <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;"
-                    class="border-t-2 border-b-2 border-blue-700 rounded-full w-36 h-36 sm:w-16 sm:h-16">
+                    class="border-t-2 border-b-2 border-blue-700 rounded-full w-28 h-28 sm:w-16 sm:h-16">
                 </div>
             </a>
         </div>

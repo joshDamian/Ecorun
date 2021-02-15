@@ -1,5 +1,6 @@
 <x-social-layout>
     @php
+    $currentProfile = auth()->user()->currentProfile;
     $post_owner = $post->profile;
     $comment_profile = $comment->profile;
     $gallery = $comment->gallery;
@@ -17,8 +18,8 @@
             </div>
 
             <div class="flex-1 font-semibold text-gray-700 truncate text-md">
-                <span class="text-blue-700">{{ $comment_profile->full_tag() }}'s</span> comment on <span
-                    class="text-blue-700">{{ $post_owner->full_tag() }}'s</span> post.
+                <span class="text-blue-700">{{ ($currentProfile->id === $comment_profile->id) ? __('Your') : $comment_profile->full_tag() . '\'s' }}</span> comment on <span
+                    class="text-blue-700">{{ ($currentProfile->id === $post_owner->id) ? __('Your') : $post_owner->full_tag() . '\'s' }}</span> post.
             </div>
         </div>
     </div>
@@ -26,7 +27,7 @@
     <div x-data="{ show_post: false }">
         <div x-on:click="show_post = ! show_post"
             class="flex items-center justify-between p-3 text-sm font-medium text-gray-700 bg-gray-200 border-b border-gray-200 cursor-pointer">
-            <span>{{ $post_owner->full_tag() }}'s post.</span>
+            <span>{{ ($post_owner->id === $currentProfile->id) ? __('Your post.') : $post_owner->full_tag() . '\'s post.' }}</span>
             <span><i :class="(show_post) ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas"></i></span>
         </div>
 
@@ -37,7 +38,7 @@
 
     <div class="">
         <div class="p-3 font-semibold text-blue-700 bg-white border-b border-gray-200">
-            {{ $comment_profile->full_tag() }}'s comment.
+            {{ ($currentProfile->id === $comment_profile->id) ? __('Your') : $comment_profile->full_tag() . '\'s' }} comment.
         </div>
         <div class="flex items-center flex-1 p-3 border-b border-gray-200 bg-gray-50">
             <a href="{{ $comment_profile->url->visit }}">
@@ -63,8 +64,8 @@
 
 
     <div class="p-3 text-sm font-semibold text-gray-700 bg-white border-b border-gray-100">
-        replying to <a class="text-blue-500 underline"
-            href="{{ $post_owner->url->visit }}">{{ $post_owner->full_tag() }}</a>
+        replying  <a class="text-blue-500 underline"
+            href="{{ $post_owner->url->visit }}">{{ ($currentProfile->id === $post_owner->id) ? __('You') : $post_owner->full_tag() }}</a>
     </div>
 
     @if($comment->content)

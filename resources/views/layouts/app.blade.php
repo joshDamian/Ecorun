@@ -118,7 +118,7 @@
     {{$slot}}
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"></script>
 
-    <div class="relative z-50">
+    <div class="relative flex justify-center z-50">
         <pwa-update swpath="/pwabuilder-sw.js"></pwa-update>
     </div>
 
@@ -135,7 +135,7 @@
         </x-jet-button>
 
         <div class="ml-6">
-            <i @click="hide = true;" class="text-lg text-gray-500 fas fa-times"></i>
+            <i x-on:click="hide = true;" class="text-lg text-gray-500 fas fa-times"></i>
         </div>
     </div>
     @endenv

@@ -92,6 +92,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         Route::get('/post/{post}/comment/{comment}/replies/{reply}/edit', [ReplyController::class, 'edit'])->name('reply.edit');
         Route::get('/post/{post}/comment/{comment}/replies/{reply}/delete', [ReplyController::class, 'destroy'])->name('reply.delete');
         Route::get('/post/{post}/comment/{comment}/replies/{reply}/', [ReplyController::class, 'show'])->name('reply.show');
+        Route::get('/chat/private-conversation.{me}/{conversation:secret_key}', Talk::class)->name('chatEngine.talk');
     }
 );
 
@@ -110,4 +111,5 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
 Route::get('/search/{data?}', [SearchEngineController::class, 'index'])->name('search.index');
 
-Route::get('/chat/private-conversation.{me}/{conversation:secret_key}', Talk::class)->name('chatEngine.talk');
+Route::get('@{profile:tag}/view/followers', [ProfileController::class, 'followers'])->name('profile.followers');
+Route::get('@{profile:tag}/view/following', [ProfileController::class, 'following'])->name('profile.following');
