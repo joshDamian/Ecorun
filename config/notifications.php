@@ -25,17 +25,17 @@ return [
         ],
         App\Notifications\CommentedOnPostNotification::class => [
             'model' => App\Models\Feedback::class,
-            'with' => ['profile', 'feedbackable'],
+            'with' => ['profile', 'feedbackable.profile'],
             'display-card' => 'commented-on-post'
         ],
         App\Notifications\MentionedInComment::class => [
             'model' => App\Models\Feedback::class,
-            'with' => ['profile', 'feedbackable'],
+            'with' => ['profile', 'feedbackable.profile'],
             'display-card' => 'mentioned-in-comment'
         ],
         App\Notifications\RepliedToComment::class => [
             'model' => App\Models\Feedback::class,
-            'with' => ['profile', 'feedbackable'],
+            'with' => ['profile', 'feedbackable.profile'],
             'display-card' => 'replied-to-comment'
         ]
     ]

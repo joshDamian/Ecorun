@@ -46,9 +46,14 @@ export default class Chatbox {
         window.location = '/chat';
     }
     goToBottom() {
-        window.scrollTo(0, document.body.scrollHeight)
+        this.options.messages_cont.scrollTo(0, this.options.messages_cont.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
     }
     atBottom() {
-        return (window.innerHeight + Math.ceil(window.pageYOffset + 1 + this.options.textbox_cont.scrollHeight)) >= document.body.offsetHeight;
+        return (Math.ceil(this.options.messages_cont.scrollHeight - this.options.messages_cont.scrollTop - this.options.messages_cont.clientHeight) < 1);
+    }
+    goToTop() {
+        this.options.messages_cont.scrollTo(0, 0);
+        window.scrollTo(0, 0);
     }
 }

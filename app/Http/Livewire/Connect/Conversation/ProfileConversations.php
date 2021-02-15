@@ -53,7 +53,9 @@ class ProfileConversations extends Component
     }
 
     public function getCurrentConversationsProperty() {
-        return $this->sortConversations($this->sortBy)->sortByDesc('updated_at');
+        return $this->sortConversations($this->sortBy)->sortByDesc('updated_at')->filter(function($conversation) {
+            return $conversation->messages->count() > 0;
+        });
     }
 
     public function sortConversations(string $key) {

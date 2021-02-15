@@ -9,6 +9,7 @@
     $reply_profile = $reply->profile;
     $comment_feedback_key = 'comment_feedback_for' . $comment->id . random_int(200, 80076554467);
     $reply_feedback_key = 'reply_feedback_for' . $reply->id . random_int(50000, 800754467);
+    $currentProfile = auth()->user()->currentProfile;
     @endphp
     <div class="sticky z-40 px-3 py-1 bg-gray-100 bg-opacity-75 border-b border-gray-200 top-12 sm:px-5">
         <div class="flex items-center">
@@ -20,9 +21,9 @@
                 </a>
             </div>
             <div class="flex-1 text-sm font-medium text-gray-600 truncate">
-                <span class="text-blue-700">{{ $reply_profile->full_tag() }}'s</span> reply to <span
-                    class="text-blue-700">{{ $comment_profile->full_tag() }}'s</span> comment on <span
-                    class="text-blue-700">{{ $post_owner->full_tag() }}'s</span> post.
+                <span class="text-blue-700">{{ ($currentProfile->id === $reply_profile->id) ? __('Your') : $reply_profile->full_tag() . '\'s' }}</span> reply to <span
+                    class="text-blue-700">{{ ($currentProfile->id === $comment_profile->id) ? __('your') : $comment_profile->full_tag() . '\'s' }}</span> comment on <span
+                    class="text-blue-700">{{ ($currentProfile->id === $post_owner->id) ? __('your') : $post_owner->full_tag() . '\'s' }}</span> post.
             </div>
         </div>
     </div>
@@ -30,7 +31,7 @@
     <div x-data="{ show_post: false }">
         <div x-on:click="show_post = ! show_post"
             class="flex items-center justify-between p-3 text-sm font-medium text-gray-600 bg-gray-200 border-b border-gray-200 cursor-pointer">
-            <span>{{ $post_owner->full_tag() }}'s post.</span>
+            <span>{{ ($post_owner->id === $currentProfile->id) ? __('Your post.') : $post_owner->full_tag() . '\'s post.' }}</span>
             <span><i :class="(show_post) ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas"></i></span>
         </div>
 
@@ -41,7 +42,7 @@
 
     <div class="">
         <div class="p-3 text-sm font-medium text-gray-600 border-b border-gray-200 bg-gray-50">
-            {{ $comment_profile->full_tag() }}'s comment.
+            {{ ($currentProfile->id === $comment_profile->id) ? __('Your') : $comment_profile->full_tag() . '\'s' }} comment.
         </div>
 
         <div class="flex items-center flex-1 p-3 bg-gray-100 border-b border-gray-200">
@@ -94,7 +95,7 @@
 
     <div class="mt-3 bg-white">
         <div class="p-3 font-semibold text-blue-700 bg-white border-b border-gray-200">
-            {{ $reply_profile->full_tag() }}'s reply.
+            {{ ($currentProfile->id === $reply_profile->id) ? __('Your') : $reply_profile->full_tag() . '\'s' }} reply.
         </div>
 
         <div class="flex items-center flex-1 p-3 border-b border-gray-200 bg-gray-50">
@@ -120,8 +121,8 @@
     </div>
 
     <div class="p-3 text-sm font-semibold text-gray-700 bg-white border-b border-gray-100">
-        replying to <a class="text-blue-500 underline"
-            href="{{ $comment_profile->url->visit }}">{{ $comment_profile->full_tag() }}</a>
+        replying <a class="text-blue-500 underline"
+            href="{{ $comment_profile->url->visit }}">{{ ($currentProfile->id === $comment_profile->id) ? __('You') : $comment_profile->full_tag() }}</a>
     </div>
 
     @if($reply->content)

@@ -17,7 +17,7 @@
     return Livewire.emit('reloadMessages');
     }
     },
-    textbox_cont: document.getElementById('text_box_container'),
+    messages_cont: document.getElementById('messages_cont'),
     }),
 
     resetHeight: function() {
@@ -26,7 +26,6 @@
     this.large_content = false;
     this.$refs.content.style.cssText = 'height:auto;';
     this.$refs.content.rows = '1';
-    this.$refs.content.focus();
     },
 
     /** x-init **/
@@ -35,18 +34,18 @@
     this.chatBox.whisper('readMessages')
     })
 
-    setTimeout(() => {
+    window.addEventListener('DOMContentLoaded', (event) => {
     history.scrollRestoration = 'manual';
     this.chatBox.goToBottom();
-    }, 100);
+    });
     this.$watch('message', value => {
     window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
-    if(this.$refs.content === document.activeElement && this.message.length > 0) {
+
     if(this.chatBox.atBottom()) {
     this.chatBox.goToBottom();
     }
     this.chatBox.whisper('typing');
-    }
+
     if(this.$refs.content.scrollHeight > 140) {
     this.large_content = true;
     } else {
@@ -54,7 +53,7 @@
     }
     });
     }
-    }" class="z-40" x-init="initialize_chat_box()">
+    }" class="bg-gradient-to-tl from-gray-300 to-gray-100" x-init="initialize_chat_box()">
     <div class="fixed top-0 z-40 w-full px-3 py-2 bg-gray-100 md:sticky md:top-12">
         <div class="flex items-center">
             <div class="mr-3">
@@ -63,12 +62,12 @@
             <div style="background-image: url('{{ $this->partner->profile_photo_url }}'); background-size: cover; background-position: center center;"
                 class="flex-shrink-0 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full w-8 h-8">
             </div>
-            <div class="grid flex-shrink-0 grid-cols-1 text-lg font-bold text-blue-700">
+            <div class="grid flex-shrink line-clamp-1 grid-cols-1 text-lg font-bold text-blue-700">
                 {{ $this->partner->full_tag() }}
                 <div id="status_for_chat_box" class="text-xs font-bold text-blue-600 text-muted" x-ref="status"></div>
             </div>
             <div class="flex items-center justify-end flex-1 flex-shrink-0 ml-2 justify-self-end">
-                <i onclick="window.scrollTo(0, 0)" title="jump to top"
+                <i x-on:click="chatBox.goToTop()" title="jump to top"
                     class="mr-4 text-lg text-gray-600 cursor-pointer fas fa-arrow-up"></i>
                 <i x-on:click="chatBox.goToBottom()" title="jump to bottom"
                     class="text-lg text-gray-600 cursor-pointer fas mr-10 fa-arrow-down"></i>
@@ -85,8 +84,8 @@
         </template>
     </div>
 
-    <div x-ref="messages"
-        class="grid grid-cols-1 gap-3 px-3 pt-6 pb-2 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
+    <div id="messages_cont" x-ref="messages"
+        class="px-3 h-screen overflow-y-auto grid flex-1 grid-cols-1 gap-3 pt-3 pb-5 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
         <div>
             @if($messages_count > $messages->count())
             <div class="flex justify-center">
@@ -96,7 +95,7 @@
             </div>
             @endif
         </div>
-        @foreach($messages as $key => $message)
+        @forelse($messages as $key => $message)
         <div>
             @php
             $my_message = ($message->sender_id === $me->id);
@@ -129,11 +128,20 @@
                 @endif
             </div>
         </div>
-        @endforeach
+        @empty
+        <div class="p-4 text-blue-700">
+            <div class="flex justify-center items-center">
+                <i style="font-size: 6rem;" class="far fa-comment-alt"></i>
+            </div>
+            <div class="text-center mt-4 font-bold">
+                it's quiet in here.
+            </div>
+        </div>
+        @endforelse
     </div>
 
-    <div id="text_box_container" :class="{ 'sticky bottom-0': isSticky }"
-        class="z-40 w-full p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
+    <div id="text_box_container" :class="{ 'sticky': isSticky }"
+        class="z-40 bottom-0 p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
         @if(count(config('chatbox.errors.media_messages')) === 0)
         <div wire:loading class="w-full" wire:target="photos, uploadPhotos">
             <x-loader_2 />
@@ -155,7 +163,7 @@
             <div class="flex-1 flex-shrink-0">
                 <textarea wire:ignore name="content" x-model="message" wire:model="message_to_send"
                     id="textarea_for_chat_box"
-                    x-on:focus="$refs.content.setSelectionRange(message.length, message.length); isSticky = false; setTimeout(() => { isSticky = true; }, 1000)"
+                    x-on:focus="if(chatBox.atBottom()) { setTimeout(() => { chatBox.goToBottom() }, 300) }"
                     x-ref="content" x-on:focusout="chatBox.whisper('doneTyping')"
                     :class="{ 'overflow-hidden': !large_content, 'rounded-full': message === '' }"
                     placeholder="Type a message" rows="1"
@@ -173,7 +181,7 @@
             <div x-show="message.trim() !== '' || ({{ count($photos) }} > 0)" class="flex-shrink-0 ml-3">
                 <button
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-600 border border-transparent hover:bg-gray-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 rounded-2xl focus:shadow-outline-gray disabled:opacity-25"
-                    x-on:click="$refs.content.focus(); $wire.sendMessage().then(result => { resetHeight(); chatBox.goToBottom(); });">
+                    x-on:click="$refs.content.focus(); $wire.sendMessage().then(result => { resetHeight(); chatBox.goToBottom() });">
                     send
                 </button>
             </div>
