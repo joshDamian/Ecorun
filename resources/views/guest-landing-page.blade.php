@@ -4,8 +4,8 @@
             <ul class="flex items-center px-3 py-2">
                 <li class="flex-1 text-2xl font-bold text-blue-800">{{ config('app.name') }}</li>
                 <li class="text-right">
-                    <div class="flex items-center flex-wrap">
-                        <a href="{{ route('search.index') }}" class="mr-6 text-blue-700">
+                    <div class="flex items-center overflow-x-auto">
+                        <a href="{{ route('search.index') }}" class="mr-4 text-blue-700">
                             <i class="fas text-xl fa-search"></i>
                         </a>
 
