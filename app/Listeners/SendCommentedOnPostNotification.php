@@ -41,7 +41,7 @@ class SendCommentedOnPostNotification implements ShouldQueue
         $this->notifiables['post_followers'] = $profiles->merge($this->data['comment']->profile->followers)->flatten()->reject(function ($profile) {
             return $this->data['comment']->mentions->contains($profile->id);
         })->unique();
-        $this->notifiables['mentioned_in_comment'] = Profile::whereIn('id', $this->data['comment']->mentions)->distinct()->get();
+        $this->notifiables['mentioned_in_comment'] = Profile::whereIn('id', $this->data['comment']->mentions)->where('id', '!=', $this->data['comment']->profile_id)->distinct()->get();
         return $this;
     }
 
