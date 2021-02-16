@@ -55,7 +55,9 @@
 
     <div>
         @if($view === 'post.show')
-        <div>
+        <div x-data x-init="Echo.channel('postChannel.{{$post->id}}').listen('CommentedOnPost', (e) => {
+            $wire.call('$refresh');
+            })">
             @if($feedbackReady)
             <div>
                 <div class="p-3 sm:px-5 sm:pt-1 sm:pb-3 sm:p-0">

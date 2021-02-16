@@ -2,7 +2,9 @@
     @include('includes.micro-views.comment-footer')
     <div>
         @if($view === 'comment.show')
-        <div>
+        <div x-data x-init="Echo.channel('commentChannel.{{$comment->id}}').listen('RepliedToComment', (e) => {
+            $wire.call('$refresh');
+            })">
             @if($feedbackReady)
             <div>
                 <div class="border-t py-2 mt-3 border-gray-300">
