@@ -16,12 +16,10 @@ class CommentFeedback extends Component
     public Feedback $comment;
     public string $view;
 
-    public function getListeners()
-    {
+    public function getListeners() {
         return [
             'newFeedback' => '$refresh',
             "newLike.{$this->feedback_id}." . str_replace('\\', '.', get_class($this->comment)) => 'likes',
-            "echo:commentChannel.{$this->comment->id},RepliedToComment" => '$refresh'
         ];
     }
 
@@ -36,8 +34,7 @@ class CommentFeedback extends Component
         return;
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.connect.post.comment.comment-feedback');
     }
 }

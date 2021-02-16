@@ -198,6 +198,9 @@
                     })
                     window.addEventListener('beforeunload', (event) => {
                         this.hidden = false;
+                        Echo.leave('postChannel');
+                        Echo.leave('commentChannel');
+                        Echo.leave('App.Models.Profile');
                     });
                     document.body.addEventListener('unload', (event) => {
                         this.hidden = true;
