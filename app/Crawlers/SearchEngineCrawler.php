@@ -9,8 +9,7 @@ class SearchEngineCrawler
 {
     private $results = [];
 
-    public function crawl()
-    {
+    public function crawl() {
         switch (app('search_engine')->data_set) {
             case ('all'):
                 $models_with_tag = $this->crawlForTags();
@@ -32,36 +31,32 @@ class SearchEngineCrawler
         return $this;
     }
 
-    private function crawlForPosts()
-    {
-        return Post::search(app('search_engine')->query)->get();
+    private function crawlForPosts() {
+        return Post::search(app('search_engine')->query)->get()->sortByDesc('created_at');
     }
 
-    public function crawlForProducts()
-    {
-        return Product::search(app('search_engine')->query)->get();
+    public function crawlForProducts() {
+        return Product::search(app('search_engine')->query)->get()->sortByDesc('created_at');
     }
 
-    public function crawlForTags()
-    {
-        return collect(['posts' => Post::withAnyTags([app('search_engine')->query])->get(), 'products' => Product::withAnyTags([app('search_engine')->query])->get()]);
+    public function crawlForTags() {
+        return collect(['posts' => Post::withAnyTags([app('search_engine')->query])->get()->sortByDesc('created_at'), 'products' => Product::withAnyTags([app('search_engine')->query])->get()->sortByDesc('created_at')]);
     }
 
-    public function crawlForProfiles()
-    {
+    public function crawlForProfiles() {
         return Profile::search(app('search_engine')->query)->get();
     }
 
-    public function __get($key)
-    {
+    public function __get($key) {
         if (property_exists($this, $key)) {
-            return $this->{$key};
-        }
-        return null;
+            return $this-> {
+                $key
+        };
     }
+    return null;
+}
 
-    public function results()
-    {
-        return is_array($this->results) ? collect($this->results) : $this->results;
-    }
+public function results() {
+    return is_array($this->results) ? collect($this->results) : $this->results;
+}
 }
