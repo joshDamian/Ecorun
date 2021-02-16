@@ -36,12 +36,14 @@
 
     window.addEventListener('DOMContentLoaded', (event) => {
     history.scrollRestoration = 'manual';
+    if(this.$refs.messages.clientHeight < this.$refs.messages.scrollHeight) {
     this.chatBox.goToBottom();
+    }
     });
     this.$watch('message', value => {
     window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
 
-    if(this.chatBox.atBottom()) {
+    if(this.chatBox.atBottom() && (this.$refs.messages.clientHeight < this.$refs.messages.scrollHeight)) {
     this.chatBox.goToBottom();
     }
     this.chatBox.whisper('typing');
@@ -85,7 +87,7 @@
     </div>
 
     <div id="messages_cont" x-ref="messages"
-        class="px-3 h-screen overflow-y-auto grid flex-1 grid-cols-1 gap-3 pt-3 pb-5 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
+        class="px-3 h-screen overflow-y-auto pt-3 pb-5 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
         <div>
             @if($messages_count > $messages->count())
             <div class="flex justify-center">
@@ -96,7 +98,7 @@
             @endif
         </div>
         @forelse($messages as $key => $message)
-        <div>
+        <div class="@if(!$loop->last) mb-2 @endif">
             @php
             $my_message = ($message->sender_id === $me->id);
             @endphp
@@ -163,7 +165,7 @@
             <div class="flex-1 flex-shrink-0">
                 <textarea wire:ignore name="content" x-model="message" wire:model="message_to_send"
                     id="textarea_for_chat_box"
-                    x-on:focus="if(chatBox.atBottom()) { setTimeout(() => { chatBox.goToBottom() }, 300) }"
+                    x-on:focus="if(chatBox.atBottom() && ($refs.messages.clientHeight < $refs.messages.scrollHeight)) { setTimeout(() => { chatBox.goToBottom() }, 300) }"
                     x-ref="content" x-on:focusout="chatBox.whisper('doneTyping')"
                     :class="{ 'overflow-hidden': !large_content, 'rounded-full': message === '' }"
                     placeholder="Type a message" rows="1"
@@ -181,7 +183,7 @@
             <div x-show="message.trim() !== '' || ({{ count($photos) }} > 0)" class="flex-shrink-0 ml-3">
                 <button
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-600 border border-transparent hover:bg-gray-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 rounded-2xl focus:shadow-outline-gray disabled:opacity-25"
-                    x-on:click="$refs.content.focus(); $wire.sendMessage().then(result => { resetHeight(); chatBox.goToBottom() });">
+                    x-on:click="$refs.content.focus(); $wire.sendMessage().then(result => { resetHeight(); if($refs.messages.clientHeight < $refs.messages.scrollHeight) { chatBox.goToBottom() } });">
                     send
                 </button>
             </div>
