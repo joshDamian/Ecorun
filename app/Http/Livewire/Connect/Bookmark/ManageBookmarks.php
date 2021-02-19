@@ -32,7 +32,7 @@ class ManageBookmarks extends Component
     }
 
     public function getBookmarksProperty() {
-        return auth()->user()->currentProfile->bookmarks()->with('bookmarkable')->paginate(15);
+        return auth()->user()->currentProfile->bookmarks()->with('bookmarkable')->latest()->paginate(15);
     }
 
     public function cancel() {
