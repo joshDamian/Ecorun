@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\MentionedInPost;
 use App\Models\Profile;
 
-class SendPostCreatedNotificaton implements ShouldQueue
+class SendPostCreatedNotificaton
 {
     /**
     * Create the event listener.

@@ -10,15 +10,16 @@ use Livewire\Component;
 class FollowProfile extends Component
 {
     public Profile $profile;
+    protected $listeners = [
+        'modifiedFollowers' => '$refresh'
+    ];
 
-    public function follow()
-    {
+    public function follow() {
         (new FollowController())->store($this->profile, request());
         return $this->emit('modifiedFollowers');
     }
 
-    public function isFollowing()
-    {
+    public function isFollowing() {
         if (Auth::check()) {
             return Auth::user()->currentProfile->loadMissing('following')->following->contains($this->profile);
         } else {
@@ -26,8 +27,7 @@ class FollowProfile extends Component
         }
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.connect.profile.follow-profile');
     }
 }

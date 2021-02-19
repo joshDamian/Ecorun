@@ -22,6 +22,7 @@ trait HasLikes
         }
         $event = 'newLike.' . $this->feedback_id . '.' . str_replace('\\', '.', get_class($this->likeable));
         $this->emit($event);
+        $this->emit('options_refresh.' . $this->likeable->id . str_replace('\\', '.', get_class($this->likeable)));
         return;
     }
 

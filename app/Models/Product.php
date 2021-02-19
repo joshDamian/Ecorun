@@ -62,7 +62,7 @@ class Product extends Model
             try {
                 broadcast(new ProductCreated($model))->toOthers();
             } catch (\Throwable $th) {
-                //
+                report($th);
             }
         });
     }

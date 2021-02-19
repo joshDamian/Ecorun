@@ -25,7 +25,7 @@
                     </div>
 
                     <div>
-                        <textarea wire:ignore id="text_content_" wire:model="text_content" name="text_content"
+                        <textarea wire:ignore id="text_content_" wire:model.defer="text_content" name="text_content"
                             :class="{ 'rounded-full': !ready,  'overflow-hidden': !large_content, 'rounded-full': message.length < 1 }"
                             @focus="ready = true; $refs.content.setSelectionRange(message.length, message.length)"
                             x-ref="content" rows="1" placeholder="say something" x-model="message"
@@ -70,7 +70,7 @@
                             @php $photos_count = ($this->hasStoredImages) ? $this->gallery->count() : count($photos);
                             @endphp
                             <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
-                                wire:model="photos" multiple />
+                            wire:model="photos" multiple />
 
                             @if($photos_count === 0)
                             <span @click="$refs.photos.click()"
@@ -140,7 +140,7 @@
                 },
                 replaceText: function(initial, replacement) {
                     let setMessage = new Promise((resolve, reject) => {
-                        if(this.message !== '') {
+                        if (this.message !== '') {
                             this.message = this.message.replace(new RegExp(initial + '$'), replacement + ' ');
                             this.$refs.content.focus();
                             resolve(this.message);
@@ -148,9 +148,11 @@
                             reject('couldn\'t update message property');
                         }
                     });
-                    setMessage.then(result => { setTimeout(() => {
-                        document.getElementById('text_content_').dispatchEvent(new Event('input'))
-                    }, 50); }).catch(x => console.error(x))
+                    setMessage.then(result => {
+                        setTimeout(() => {
+                            document.getElementById('text_content_').dispatchEvent(new Event('input'))
+                        }, 50);
+                    }).catch(x => console.error(x))
                 },
                 initialize: function() {
                     var type = '{{$type}}';

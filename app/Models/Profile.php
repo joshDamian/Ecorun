@@ -154,4 +154,12 @@ class Profile extends Model
     public function posts() {
         return $this->hasMany(Post::class)->latest();
     }
+
+    public function likes() {
+        return $this->hasMany(Like::class);
+    }
+
+    public function bookmarks() {
+        return $this->hasMany(Bookmark::class);
+    }
 }

@@ -10,7 +10,7 @@ use App\Notifications\MentionedInComment;
 use Illuminate\Support\Facades\Notification;
 use App\Models\Profile;
 
-class SendCommentedOnPostNotification implements ShouldQueue
+class SendCommentedOnPostNotification
 {
 
     private $notifiables;

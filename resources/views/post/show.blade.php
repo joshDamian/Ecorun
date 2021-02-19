@@ -57,7 +57,12 @@
                 </div>
 
                 <div x-show.transition="show_options">
-                    <x-connect.post.post-options :post="$post" />
+                    @php
+                    $key = 'post_options' . random_int(56, 667386514356) . $post->id;
+                    @endphp
+                    <div>
+                        @livewire('connect.post.post-options', ['post' => $post], key($key))
+                    </div>
                 </div>
 
                 @if($post->content)

@@ -61,7 +61,7 @@ class Post extends Model
             try {
                 broadcast(new PostCreated($model))->toOthers();
             } catch (\Throwable $th) {
-                //
+                report($th);
             }
         });
 

@@ -6,8 +6,15 @@
     $profile_visit_url = $profile->url->visit;
     $image_count = $post->gallery_count ?? $gallery->count();
     @endphp
+    @if($view ?? '' === 'feed.list' && (!$post->profile->followers->contains(auth()->user()->currentProfile)))
+    @cannot('update', $feed_item->profile)
+    <div class="px-3 py-2 sm:px-5 bg-white font-semibold text-lg text-gray-600">
+        Suggested content
+    </div>
+    @endcannot
+    @endif
     <div class="bg-gray-100">
-        <div class="flex justify-between px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
+        <div class="flex justify-between px-3 py-3 border-b border-gray-200 sm:px-5 sm:py-3">
             <div class="flex items-center flex-1">
                 <a class="mr-3" href="{{ $profile_visit_url }}">
                     <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;"
@@ -42,7 +49,14 @@
         </div>
 
         <div x-show.transition="show_options">
-            <x-connect.post.post-options :post="$post" />
+            <div>
+                @php
+                $post_option_key = "post_options_" . random_int(56, 667386514356) . $post->id . microtime();
+                @endphp
+                <div>
+                    @livewire('connect.post.post-options', ['post' => $post], key($post_option_key))
+                </div>
+            </div>
         </div>
 
         <div>
