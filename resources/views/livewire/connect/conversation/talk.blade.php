@@ -1,61 +1,4 @@
-<div x-data="{
-    large_content: false,
-    message: '',
-    show_options: false,
-    show_images: false,
-    isSticky: true,
-    chatBox: window.ChatBox.build({
-    conversation_id: '{{ $conversation->id }}',
-    whispers_callback: {
-    typing_callback: () => {
-    return document.getElementById('status_for_chat_box').innerText = 'typing...'
-    },
-    doneTyping_callback: () => {
-    return document.getElementById('status_for_chat_box').innerText = ''
-    },
-    readMessages_callback: () => {
-    return Livewire.emit('reloadMessages');
-    }
-    },
-    messages_cont: document.getElementById('messages_cont'),
-    }),
-
-    resetHeight: function() {
-    this.message = '';
-    this.show_images = false;
-    this.large_content = false;
-    this.$refs.content.style.cssText = 'height:auto;';
-    this.$refs.content.rows = '1';
-    },
-
-    /** x-init **/
-    initialize_chat_box: function() {
-    Livewire.on('readMessages', () => {
-    this.chatBox.whisper('readMessages')
-    })
-
-    window.addEventListener('DOMContentLoaded', (event) => {
-    history.scrollRestoration = 'manual';
-    if(this.$refs.messages.clientHeight < this.$refs.messages.scrollHeight) {
-    this.chatBox.goToBottom();
-    }
-    });
-    this.$watch('message', value => {
-    window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
-
-    if(this.chatBox.atBottom() && (this.$refs.messages.clientHeight < this.$refs.messages.scrollHeight)) {
-    this.chatBox.goToBottom();
-    }
-    this.chatBox.whisper('typing');
-
-    if(this.$refs.content.scrollHeight > 140) {
-    this.large_content = true;
-    } else {
-    this.large_content = false;
-    }
-    });
-    }
-    }" class="bg-gradient-to-tl from-gray-300 to-gray-100" x-init="initialize_chat_box()">
+<div x-data="chat_box_data()" class="bg-gradient-to-tl from-gray-300 to-gray-100" x-init="initialize_chat_box()">
     <div class="fixed top-0 z-40 w-full px-3 py-2 bg-gray-100 md:sticky md:top-12">
         <div class="flex items-center">
             <div class="mr-3">
@@ -90,7 +33,7 @@
         class="px-3 h-screen overflow-y-auto pt-3 pb-5 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
         <div>
             @if($messages_count > $messages->count())
-            <div class="flex justify-center">
+            <div class="flex mb-2 justify-center">
                 <x-jet-button wire:click="loadOlderMessages" class="bg-blue-700 rounded-xl">
                     load older messages
                 </x-jet-button>
@@ -107,7 +50,7 @@
                 >
                 $messages->get($key -
                 1)->created_at->day))
-                <div class="p-3 font-black text-center text-blue-700 uppercase bg-gray-300 text-md">
+                <div class="p-3 font-black text-center mb-2 text-blue-700 uppercase bg-gray-300 text-md">
                     @if($message->created_at->day === now()->day)
                     {{ __('Today') }}
                     @elseif($message->created_at->day === now()->subDay(1)->day)
@@ -183,11 +126,74 @@
             <div x-show="message.trim() !== '' || ({{ count($photos) }} > 0)" class="flex-shrink-0 ml-3">
                 <button
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-600 border border-transparent hover:bg-gray-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 rounded-2xl focus:shadow-outline-gray disabled:opacity-25"
-                    x-on:click="$refs.content.focus(); $wire.sendMessage().then(result => { resetHeight(); if($refs.messages.clientHeight < $refs.messages.scrollHeight) { chatBox.goToBottom() } });">
-                    send
+                    x-on:click="resetHeight(); $refs.content.focus(); $wire.sendMessage().then(result => { if($refs.messages.clientHeight < $refs.messages.scrollHeight) { chatBox.goToBottom() } });">
+                    <i class="fas fa-paper-plane text-xl"></i>
                 </button>
             </div>
         </div>
         <x-jet-input-error for="message_to_send" />
     </div>
+    <script>
+        function chat_box_data() {
+            return {
+                large_content: false,
+                message: '',
+                show_options: false,
+                show_images: false,
+                isSticky: true,
+                chatBox: window.ChatBox.build({
+                    conversation_id: '{{ $conversation->id }}',
+                    whispers_callback: {
+                        typing_callback: () => {
+                            return document.getElementById('status_for_chat_box').innerText = 'typing...'
+                        },
+                        doneTyping_callback: () => {
+                            return document.getElementById('status_for_chat_box').innerText = ''
+                        },
+                        readMessages_callback: () => {
+                            return Livewire.emit('reloadMessages');
+                        }
+                    },
+                    messages_cont: document.getElementById('messages_cont'),
+                }),
+
+                resetHeight: function() {
+                    this.message = '';
+                    this.show_images = false;
+                    this.large_content = false;
+                    this.$refs.content.style.cssText = 'height:auto;';
+                    this.$refs.content.rows = '1';
+                },
+
+                /** x-init **/
+                initialize_chat_box: function() {
+                    Livewire.on('readMessages', () => {
+                        this.chatBox.whisper('readMessages')
+                    })
+
+                    window.addEventListener('DOMContentLoaded', (event) => {
+                        history.scrollRestoration = 'manual';
+                        if (this.$refs.messages.clientHeight < this.$refs.messages.scrollHeight) {
+                            this.chatBox.goToBottom();
+                        }
+                    });
+                    this.$watch('message',
+                        value => {
+                            window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
+
+                            if (this.chatBox.atBottom() && (this.$refs.messages.clientHeight < this.$refs.messages.scrollHeight)) {
+                                this.chatBox.goToBottom();
+                            }
+                            this.chatBox.whisper('typing');
+
+                            if (this.$refs.content.scrollHeight > 140) {
+                                this.large_content = true;
+                            } else {
+                                this.large_content = false;
+                            }
+                        });
+                }
+            }
+        }
+    </script>
 </div>

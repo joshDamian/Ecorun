@@ -62,7 +62,7 @@ class Message extends Model
                 try {
                     broadcast(new SentMessage($model))->toOthers();
                 } catch (\Throwable $th) {
-                    //
+                    report($th);
                 }
             }
         });

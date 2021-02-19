@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
 
-class SendContentSharedNotification implements ShouldQueue
+class SendContentSharedNotification
 {
     /**
     * Create the event listener.

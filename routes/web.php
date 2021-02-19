@@ -13,6 +13,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\SearchEngineController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\BookmarkController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Connect\Profile\UpdateProfile;
 use App\Http\Livewire\BuildAndManage\Manager\ManagerDashboard;
@@ -93,6 +94,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         Route::get('/post/{post}/comment/{comment}/replies/{reply}/delete', [ReplyController::class, 'destroy'])->name('reply.delete');
         Route::get('/post/{post}/comment/{comment}/replies/{reply}/', [ReplyController::class, 'show'])->name('reply.show');
         Route::get('/chat/private-conversation.{me}/{conversation:secret_key}', Talk::class)->name('chatEngine.talk');
+
+        Route::get('/@{profile:tag}/view/bookmarks', [BookmarkController::class, 'index'])->name('bookmark.show');
+        //Route::get('/@{profile:tag}/bookmarks/{bookmark}/delete', [BookmarkController::class, 'destroy'])->name('bookmark.delete');
+        // Route::get('/@{profile:tag}/bookmarks/{bookmark}/edit', [BookmarkController::class, 'edit'])->name('bookmark.edit');
     }
 );
 

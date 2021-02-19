@@ -27,6 +27,10 @@ class UrlPresenter
         return route('profile.followers', $this->profile);
     }
 
+    public function bookmarks() {
+        return route('bookmark.show', $this->profile);
+    }
+
     public function visit() {
         return route('profile.visit', $this->profile);
     }

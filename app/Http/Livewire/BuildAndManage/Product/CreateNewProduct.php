@@ -28,8 +28,8 @@ class CreateNewProduct extends Component
         $this->product = $this->business
         ->products()->create(
             [
-                'name' => ucwords(strtolower($this->product['_name'])),
-                'description' => $this->product['_description'],
+                'name' => ucwords(strtolower(htmlentities($this->product['_name']))),
+                'description' => htmlentities($this->product['_description']),
                 'price' => $this->product['_price'],
                 'available_stock' => $this->product['_available stock'],
             ]

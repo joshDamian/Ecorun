@@ -6,7 +6,7 @@ use App\Events\SentMessage;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendMessageNotification implements ShouldQueue
+class SendMessageNotification
 {
     /**
     * Create the event listener.

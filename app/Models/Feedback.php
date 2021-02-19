@@ -60,13 +60,13 @@ class Feedback extends Model
                 try {
                     broadcast(new CommentedOnPost($model))->toOthers();
                 } catch (\Throwable $th) {
-                    //
+                    report($th);
                 }
             } elseif ($model->feedbackable_type === Feedback::class) {
                 try {
                     broadcast(new RepliedToComment($model))->toOthers();
                 } catch (\Throwable $th) {
-                    //
+                    report($th);
                 }
             }
         });

@@ -7,7 +7,7 @@ use App\Events\SentMessage;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendDirectMessageNotification implements ShouldQueue
+class SendDirectMessageNotification
 {
     /**
     * Create the event listener.

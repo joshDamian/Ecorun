@@ -23,7 +23,7 @@ class FeedDataBank implements DataBank
                 return $profile->isBusiness();
             }
         );
-        $post_relations = collect(['gallery', 'likes', 'comments']);
+        $post_relations = collect(['gallery', 'likes.profile', 'comments']);
         $product_relations = collect(['business.profile', 'specifications', 'gallery']);
         $share_relations = collect(['shareable', 'profile']);
 
@@ -32,7 +32,7 @@ class FeedDataBank implements DataBank
                 return [$relation => function ($query) {
                     return $query->cacheFor(2592000);
                 }];
-            })->toArray())->whereIn('profile_id', $profile_sources->pluck('id'))->orWhereJsonContains('mentions', $profile_sources->pluck('id'))->distinct()->latest('updated_at')->get()->unique(),
+            })->toArray())->whereIn('profile_id', $profile_sources->pluck('id'))->orWhereJsonContains('mentions', $profile_sources->pluck('id'))->orWhereNotIn('profile_id', $profile_sources->pluck('id'))->distinct()->latest('updated_at')->get()->unique(),
 
             Product::class =>
             Product::with($product_relations->mapWithKeys(function ($relation) {
