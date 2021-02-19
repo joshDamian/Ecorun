@@ -7,7 +7,7 @@
     $image_count = $post->gallery_count ?? $gallery->count();
     @endphp
     @if($view ?? '' === 'feed.list' && (!$post->profile->followers->contains(auth()->user()->currentProfile)))
-    @cannot('update', $feed_item->profile)
+    @cannot('update', $post->profile)
     <div class="px-3 py-2 sm:px-5 bg-white font-semibold text-lg text-gray-600">
         Suggested content
     </div>
