@@ -1,5 +1,5 @@
 <div x-data="chat_box_data()" class="bg-gradient-to-tl from-gray-300 to-gray-100" x-init="initialize_chat_box()">
-    <div class="fixed top-0 z-40 w-full px-3 py-2 bg-gray-100 md:sticky md:top-12">
+    <div class="sticky top-0 z-40 w-full px-3 py-2 bg-gray-100 md:sticky md:top-12">
         <div class="flex items-center">
             <div class="mr-3">
                 <i x-on:click="chatBox.close();" class="text-lg text-blue-700 cursor-pointer fas fa-arrow-left"></i>
