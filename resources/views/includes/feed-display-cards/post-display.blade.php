@@ -5,8 +5,11 @@
     $profile = $post->profile;
     $profile_visit_url = $profile->url->visit;
     $image_count = $post->gallery_count ?? $gallery->count();
+    if(!$view ?? true) {
+    $view = 'not-feed.list';
+    }
     @endphp
-    @if($view ?? '' === 'feed.list' && (!$post->profile->followers->contains(auth()->user()->currentProfile)))
+    @if($view === 'feed.list' && (!$post->profile->followers->contains(auth()->user()->currentProfile)))
     @cannot('update', $post->profile)
     <div class="px-3 py-2 sm:px-5 bg-white font-semibold text-lg text-gray-600">
         Suggested content

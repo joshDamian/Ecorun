@@ -1,17 +1,30 @@
 <x-social-layout>
     <div>
-        <div>
+        <div x-data="{ zoomedImage: false }">
             @if($profile->isUser())
-            <div class="flex justify-center p-4 bg-gray-200">
+            <div x-on:click="zoomedImage = '{{ $profile->profile_photo_url }}'" class="flex justify-center p-4 bg-gray-200">
                 <div class="border-t-4 border-b-4 border-blue-700 rounded-full w-36 h-36 md:h-44 md:w-44"
                     style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
                 </div>
             </div>
             @else
-            <div class="w-full h-56 sm:h-96 md:h-72"
+            <div x-on:click="zoomedImage = '{{ $profile->profile_photo_url }}'" class="w-full h-56 sm:h-96 md:h-72"
                 style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
             </div>
             @endif
+
+            <template x-if="zoomedImage">
+                <div class="fixed inset-0 z-50 flex flex-col w-screen h-screen bg-black md:flex-row">
+                    <div class="absolute top-0 w-full px-3 py-1 bg-black bg-opacity-25">
+                        <i x-on:click="zoomedImage=false" class="text-2xl text-white cursor-pointer fas fa-times"></i>
+                    </div>
+
+                    <div
+                        class="flex items-center justify-center flex-1 h-full">
+                        <img :src="zoomedImage" class="max-w-full max-h-full" />
+                    </div>
+                </div>
+            </template>
 
             <div class="px-3 py-3 bg-gray-100 border-t-2 border-gray-200">
                 <div class="flex items-start justify-between">
@@ -42,7 +55,8 @@
                             $profile]))
                             @livewire('connect.direct-conversation.initiate-conversation', ['initiator' =>
                             $current_profile, 'joined' => $profile],
-                            key(md5("initiate_conversation_with_{$profile->id}")))
+                            key(md5("initiate_conversation_with_{$profile->
+                            id}")))
                             @else
                             <a
                                 href="{{ route('chatEngine.talk', ['conversation' => $current_profile->direct_conversationWith($profile)->secret_key, 'me' => $current_profile]) }}">
