@@ -5,7 +5,7 @@
     $profile = $post->profile;
     $profile_visit_url = $profile->url->visit;
     $image_count = $post->gallery_count ?? $gallery->count();
-    if(!$view ?? true) {
+    if(!isset($view)) {
     $view = 'not-feed.list';
     }
     @endphp
