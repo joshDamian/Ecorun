@@ -57,13 +57,13 @@ class InitiateConversation extends Component
             'messageable_type' => get_class($conversation),
             'messageable_id' => $conversation->id
         ]);
-        $this->emit('newConvo');
-        App::singleton('upload_photos', function () {
-            return new UploadPhototsQueue;
-        });
 
-        app('upload_photos')->prepare('message-photos', $this->photos, 'message-photos', $message);
-        //broadcast(new SentMessage($message))->toOthers();
+        /*App::singleton('upload_photos', function () {
+            return new UploadPhototsQueue;
+        });*/
+
+        /*app('upload_photos')->prepare('message-photos', $this->photos, 'message-photos',); */
+        $this->emit('newConvo');
         return;
     }
 

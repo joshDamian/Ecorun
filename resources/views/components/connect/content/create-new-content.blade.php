@@ -29,7 +29,7 @@
                             :class="{ 'rounded-full': !ready,  'overflow-hidden': !large_content, 'rounded-full': message.length < 1 }"
                             @focus="ready = true; $refs.content.setSelectionRange(message.length, message.length)"
                             x-ref="content" rows="1" placeholder="say something" x-model="message"
-                            class="w-full placeholder-blue-700 resize-none form-textarea"></textarea>
+                            class="w-full bg-gray-200 placeholder-blue-700 resize-none form-textarea"></textarea>
                         <div class="mt-2 mb-2" x-show="ready && mentions.length > 0 && mention_matches">
                             <h3 class="mb-1 font-semibold text-blue-600 text-md">profile suggestions:</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-3">
@@ -164,18 +164,26 @@
                             this.$refs.content.style.cssText = 'height:' + this.$refs.content.scrollHeight + 'px;';
                         })
                     }
-                    Livewire.on('addedContent', () => {
-                        this.ready = false;
-                        this.resetHeight();
-                    });
-
-                    this.$watch('ready', value => {
-                        Livewire.emit('toggled', this.ready);
-                        if (!value) {
-                            this.mentions = [];
-                            this.hashtags = []
+                    window.addEventListener('DOMContentLoaded', () => {
+                        this.$refs.content.select();
+                        if (!this.edit_case) {
+                            this.ready = false;
                         }
-                    });
+                    })
+                    Livewire.on('addedContent',
+                        () => {
+                            this.ready = false;
+                            this.resetHeight();
+                        });
+
+                    this.$watch('ready',
+                        value => {
+                            Livewire.emit('toggled', this.ready);
+                            if (!value) {
+                                this.mentions = [];
+                                this.hashtags = []
+                            }
+                        });
                     /** autosuggest mentions **/
                     this.$watch('mention_matches',
                         value => {
@@ -209,6 +217,7 @@
                         value => {
                             window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
                             if (value !== '') {
+                                this.ready = true;
                                 this.match();
                             }
                             if (this.$refs.content.scrollHeight > 140) {

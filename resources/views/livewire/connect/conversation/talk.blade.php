@@ -167,6 +167,7 @@
 
                 /** x-init **/
                 initialize_chat_box: function() {
+                    this.$refs.content.select();
                     Livewire.on('readMessages', () => {
                         this.chatBox.whisper('readMessages')
                     })
