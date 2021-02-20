@@ -14,6 +14,7 @@ use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\SearchEngineController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Connect\Profile\UpdateProfile;
 use App\Http\Livewire\BuildAndManage\Manager\ManagerDashboard;
@@ -57,7 +58,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         ->name('profile.edit');*/
 
         Route::get('/@{profile:tag}/actions/edit', UpdateProfile::class)->middleware('can:access,profile')
-        ->name('profile.edit');
+            ->name('profile.edit');
 
         Route::put('/current-profile/update', [ProfileController::class, 'updateCurrentProfile'])->name('current-profile.update');
 
@@ -105,12 +106,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
     ->name('view-history.index'); */
 
 Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
-->name('product.show');
+    ->name('product.show');
+
+//Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
 Route::get('/categories', [CategoryController::class, 'index'])
-->name('category.index');
+    ->name('category.index');
 Route::get('category/{slug}', [CategoryController::class, 'show'])
-->name('category.show');
+    ->name('category.show');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 

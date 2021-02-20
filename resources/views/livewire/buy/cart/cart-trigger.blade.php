@@ -15,9 +15,11 @@
     @else
     @if($this->existing())
     <div>
-        <x-jet-button class="items-center bg-blue-600">
-            <i class="far fa-eye"></i>&nbsp; view in cart
-        </x-jet-button>
+        <a href="{{ route('cart.index') }}">
+            <x-jet-button class="items-center bg-blue-600">
+                <i class="far fa-eye"></i>&nbsp; view in cart
+            </x-jet-button>
+        </a>
     </div>
     @else
     <div>

@@ -37,6 +37,11 @@ return [
             'model' => App\Models\Feedback::class,
             'with' => ['profile', 'feedbackable.profile'],
             'display-card' => 'replied-to-comment'
+        ],
+        App\Notifications\LikedPost::class => [
+            'model' => App\Models\Like::class,
+            'with' => ['profile', 'likeable.profile'],
+            'display-card' => 'liked-post'
         ]
     ]
 ];

@@ -2,26 +2,26 @@
 
 namespace App\Notifications;
 
-use App\Models\Share;
+use App\Models\Like;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ContentShared extends Notification implements ShouldBroadcastNow
+class LikedPost extends Notification implements ShouldBroadcastNow
 {
     use Queueable;
 
+    public $like;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Share $share)
+    public function __construct(Like $like)
     {
-        $this->share = $share;
+        $this->like = $like;
     }
 
     /**
@@ -32,7 +32,7 @@ class ContentShared extends Notification implements ShouldBroadcastNow
      */
     public function via($notifiable)
     {
-        return ['mail', 'broadcast', 'database'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -58,8 +58,8 @@ class ContentShared extends Notification implements ShouldBroadcastNow
     public function toArray($notifiable)
     {
         return [
-            'model_key' => $this->share->id,
-            'title' => 'New feed content'
+            'title' => 'New like alert',
+            'model_key' => $this->like->id
         ];
     }
 }

@@ -57,7 +57,7 @@ class Message extends Model
 
     public static function boot() {
         parent::boot();
-        self::created(function ($model) {
+        self::saved(function ($model) {
             if ($model->messageable_type === DirectConversation::class) {
                 try {
                     broadcast(new SentMessage($model))->toOthers();
@@ -65,6 +65,7 @@ class Message extends Model
                     report($th);
                 }
             }
+            app('upload_photos')->upload();
         });
     }
 

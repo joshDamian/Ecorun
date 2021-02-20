@@ -50,7 +50,7 @@ export default class Chatbox {
         window.scrollTo(0, document.body.scrollHeight);
     }
     atBottom() {
-        return (Math.ceil(this.options.messages_cont.scrollHeight - this.options.messages_cont.scrollTop - this.options.messages_cont.clientHeight) < 1);
+        return (Math.ceil(this.options.messages_cont.scrollHeight - this.options.messages_cont.scrollTop - this.options.messages_cont.clientHeight + 1) < 1);
     }
     goToTop() {
         this.options.messages_cont.scrollTo(0, 0);

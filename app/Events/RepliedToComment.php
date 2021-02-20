@@ -10,8 +10,9 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Feedback;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class RepliedToComment implements ShouldBroadcast
+class RepliedToComment implements ShouldBroadcastNow
 {
     use Dispatchable,
         InteractsWithSockets,

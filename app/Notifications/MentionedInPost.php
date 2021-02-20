@@ -7,8 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Post;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class MentionedInPost extends Notification
+class MentionedInPost extends Notification implements ShouldBroadcastNow
 {
     use Queueable;
 
