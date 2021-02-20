@@ -108,7 +108,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
 Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
     ->name('product.show');
 
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+//Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('category.index');

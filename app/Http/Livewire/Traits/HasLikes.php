@@ -27,7 +27,11 @@ trait HasLikes
             $this->likeable->likes()->save($like);
             if (array_key_exists($likeable_type, $this->likeable_events)) {
                 $event = $this->likeable_events[$likeable_type];
-                broadcast(new $event($like))->toOthers();
+                try {
+                    broadcast(new $event($like))->toOthers();
+                } catch (\Throwable $th) {
+                    report($th);
+                }
             }
         }
         $event = 'newLike.' . $this->feedback_id . '.' . str_replace('\\', '.', $likeable_type);
