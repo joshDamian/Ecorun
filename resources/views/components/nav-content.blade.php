@@ -74,7 +74,7 @@
         <a href="{{ $currentProfile->url->bookmarks }}">
             <div
                 class="px-4 py-3 font-medium tracking-wider text-blue-800 bg-gray-100 border-b-2 @if(request()->routeIs('profile.edit') && (explode('/', request()->getRequestUri())[1] === $currentProfile->full_tag())) border-blue-700 @else border-gray-200 @endif textext-left hover:border-blue-700 text-md md:cursor-pointer">
-                <i class="text-blue-700 fas fa-star"></i> &nbsp;Bookmarks
+                <i class="text-blue-700 fas fa-bookmark"></i> &nbsp;Bookmarks
             </div>
         </a>
 

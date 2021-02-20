@@ -1,6 +1,6 @@
 @props(['cartItems'])
 <div>
-    <div class="grid grid-cols-1 gap-2 px-2 py-2 md:px-0">
+    <div class="grid grid-cols-1 bg-gray-100 gap-2 px-2 py-2 md:px-0">
         @forelse($cartItems as $key => $cartItem)
         <div>
             <x-buy.cart.cart-item :cartItem="$cartItem" />
@@ -9,6 +9,18 @@
         <div class="p-5">
             <div class="flex items-center justify-center text-blue-700">
                 <i style="font-size: 5rem;" class="fas fa-shopping-cart"></i>
+            </div>
+
+            <div class="text-center text-xl text-blue-700 mt-4 font-bold">
+                your cart is empty.
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ route('shop.index') }}">
+                    <x-jet-button class="bg-blue-700">
+                        shop
+                    </x-jet-button>
+                </a>
             </div>
         </div>
         @endforelse

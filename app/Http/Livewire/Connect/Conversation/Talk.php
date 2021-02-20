@@ -11,6 +11,8 @@ use App\Events\SentMessage;
 use Illuminate\Validation\Rule;
 use App\Http\Livewire\Traits\MultipleImageSelector;
 use App\Http\Livewire\Traits\UploadPhotos;
+use Illuminate\Support\Facades\App;
+use App\Queues\UploadPhotos as UploadPhototsQueue;
 use App\Models\DirectConversation;
 
 class Talk extends Component
@@ -77,7 +79,14 @@ class Talk extends Component
         $this->validate($this->validationRules());
         $this->new_message->content = $this->message_to_send;
         $this->conversation->messages->push($this->new_message);
-        return $this->new_message->save();
+        App::singleton('upload_photos', function () {
+            return new UploadPhototsQueue;
+        });
+
+        app('upload_photos')->prepare('message-photos', $this->photos, 'message-photos', $this->new_message);
+
+        $this->new_message->save();
+        return;
     }
 
     public function getNewMessageProperty() {

@@ -8,13 +8,14 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Cart extends Model
 {
-    use HasFactory, QueryCacheable;
+    use HasFactory,
+    QueryCacheable;
 
     protected $with = [
         'product'
     ];
     protected $casts = [
-        'specifications' => 'array'
+        'specifications' => 'collection'
     ];
 
     protected $fillable = [
@@ -24,13 +25,11 @@ class Cart extends Model
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function product()
-    {
+    public function product() {
         return $this->belongsTo(Product::class);
     }
 
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class);
     }
 }
