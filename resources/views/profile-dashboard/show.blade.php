@@ -1,14 +1,16 @@
 <x-social-layout>
-    <div>
-        <div x-data="{ zoomedImage: false }">
+    <div x-data="{ zoomedImage: false }">
+        <div>
             @if($profile->isUser())
-            <div x-on:click="zoomedImage = '{{ $profile->profile_photo_url }}'" class="flex justify-center p-4 bg-gray-200">
-                <div class="border-t-4 border-b-4 border-blue-700 rounded-full w-36 h-36 md:h-44 md:w-44"
+            <div class="flex justify-center p-4 bg-gray-200">
+                <div x-on:click="zoomedImage = '{{ $profile->profile_photo_url }}'"
+                    class="border-t-4 border-b-4 border-blue-700 rounded-full cursor-pointer w-36 h-36 md:h-44 md:w-44"
                     style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
                 </div>
             </div>
             @else
-            <div x-on:click="zoomedImage = '{{ $profile->profile_photo_url }}'" class="w-full h-56 sm:h-96 md:h-72"
+            <div x-on:click="zoomedImage = '{{ $profile->profile_photo_url }}'"
+                class="w-full h-56 cursor-pointer sm:h-96 md:h-72"
                 style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
             </div>
             @endif
@@ -19,8 +21,7 @@
                         <i x-on:click="zoomedImage=false" class="text-2xl text-white cursor-pointer fas fa-times"></i>
                     </div>
 
-                    <div
-                        class="flex items-center justify-center flex-1 h-full">
+                    <div class="flex items-center justify-center flex-1 h-full">
                         <img :src="zoomedImage" class="max-w-full max-h-full" />
                     </div>
                 </div>
@@ -84,7 +85,7 @@
 
         </div>
 
-        <div class="mt-1">
+        <div :class="{ 'hidden': zoomedImage }" class="mt-1">
             @if($profile->isBusiness())
             <div>
                 @livewire('connect.profile-dashboard.business-profile-data', ['profile' => $profile, 'action_route'
@@ -98,5 +99,4 @@
             @endif
         </div>
     </div>
-</div>
 </x-social-layout>

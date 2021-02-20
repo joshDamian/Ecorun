@@ -2,31 +2,28 @@
 
 namespace App\Events;
 
-use App\Models\Message;
+use App\Models\Like;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SentMessage implements ShouldBroadcastNow
+class LikedPost implements ShouldBroadcast
 {
-    use Dispatchable,
-        InteractsWithSockets,
-        SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
+    public $like;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Message $message)
+    public function __construct(Like $like)
     {
-        $this->message = $message;
+        $this->like = $like->loadMissing('likeable.profile');
     }
 
     /**
@@ -36,14 +33,9 @@ class SentMessage implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('private_conversation.' . $this->message->messageable_id);
+        return new Channel('postChannel.' . $this->like->likeable_id);
     }
 
-    /**
-     * Get the data to broadcast.
-     *
-     * @return array
-     */
     public function broadcastWith()
     {
         return [];

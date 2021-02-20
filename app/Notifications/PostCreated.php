@@ -5,10 +5,11 @@ namespace App\Notifications;
 use App\Models\Post;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PostCreated extends Notification implements ShouldBroadcast
+class PostCreated extends Notification implements ShouldBroadcastNow
 {
     use Queueable;
 

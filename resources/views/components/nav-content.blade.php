@@ -74,7 +74,7 @@
         <a href="{{ $currentProfile->url->bookmarks }}">
             <div
                 class="px-4 py-3 font-medium tracking-wider text-blue-800 bg-gray-100 border-b-2 @if(request()->routeIs('profile.edit') && (explode('/', request()->getRequestUri())[1] === $currentProfile->full_tag())) border-blue-700 @else border-gray-200 @endif textext-left hover:border-blue-700 text-md md:cursor-pointer">
-                <i class="fas text-yellow-300 fa-star"></i> &nbsp;Bookmarks
+                <i class="text-blue-700 fas fa-star"></i> &nbsp;Bookmarks
             </div>
         </a>
 
@@ -114,12 +114,15 @@
             <i class="far fa-user"></i> &nbsp;{{ $personalProfile->name ?? __('Guest') }}
         </div>
 
-        <div
-            class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
-            <i class="fas fa-shopping-cart"></i> &nbsp;Cart <span
-                class="font-extrabold text-red-500">@livewire('buy.cart.cart-items-counter', key("cart_counter_1" .
-                microtime()))</span>
-        </div>
+
+        <a href="{{ route('cart.index') }}">
+            <div
+                class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
+                <i class="fas fa-shopping-cart"></i> &nbsp;Cart <span
+                    class="font-extrabold text-red-500">@livewire('buy.cart.cart-items-counter', key("cart_counter_1" .
+                    microtime()))</span>
+            </div>
+        </a>
 
 
         @guest
