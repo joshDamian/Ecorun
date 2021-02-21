@@ -6,13 +6,13 @@
             @php $associatedProfiles = $user->associated_profiles; @endphp
             <div x-show="open_menu"
                 class="fixed top-0 z-50 flex-grow-0 flex-shrink w-full h-full pb-2 overflow-y-auto bg-white shadow md:z-0 md:h-10/12 md:w-1/4 md:pb-1/12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
-                <div class="overscroll-none static">
+                <div class="static overscroll-none">
                     <x-nav-content :associatedProfiles="$associatedProfiles" />
                 </div>
             </div>
 
             <div x-ref="main" :class="{ 'hidden md:block': (open_menu || open_notifications) }"
-                class="md:flex-1 md:flex-grow md:flex-shrink-0 w-full md:h-full md:ml-1/4 md:mr-1/4 md:pr-4 md:pl-6 sm:p-2 md:p-0">
+                class="w-full md:flex-1 md:flex-grow md:flex-shrink-0 md:h-full md:ml-1/4 md:mr-1/4 md:pr-4 md:pl-6 sm:p-2 md:p-0">
                 <div>
                     {{-- @livewire('general.session.session-transport',
                     key('session_transport')) --}}
@@ -24,7 +24,7 @@
             @auth
             <div x-show="open_notifications"
                 class="fixed top-0 z-50 flex-grow-0 flex-shrink w-full h-full pb-2 overflow-y-auto bg-white shadow md:z-0 md:h-10/12 md:pb-1/12 md:w-1/4 md:top-16 md:bg-transparent md:pl-2 md:right-5">
-                <div>
+                <div class="static overscroll-none">
                     <livewire:general.user.notifications :user="$user"
                         :activeProfile="$associatedProfiles->current_profile" />
                 </div>

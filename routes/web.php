@@ -96,7 +96,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         Route::get('/post/{post}/comment/{comment}/replies/{reply}/', [ReplyController::class, 'show'])->name('reply.show');
         Route::get('/chat/private-conversation.{me}/{conversation:secret_key}', Talk::class)->name('chatEngine.talk');
 
-        Route::get('/@{profile:tag}/view/bookmarks', [BookmarkController::class, 'index'])->name('bookmark.show');
+        Route::get('/@{profile:tag}/view/bookmarks', [BookmarkController::class, 'index'])->name('bookmark.index');
         //Route::get('/@{profile:tag}/bookmarks/{bookmark}/delete', [BookmarkController::class, 'destroy'])->name('bookmark.delete');
         // Route::get('/@{profile:tag}/bookmarks/{bookmark}/edit', [BookmarkController::class, 'edit'])->name('bookmark.edit');
     }
