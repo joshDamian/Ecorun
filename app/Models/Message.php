@@ -65,7 +65,7 @@ class Message extends Model
                     report($th);
                 }
             }
-            app('upload_photos')->upload();
+            //app('upload_photos')->upload();
         });
     }
 
