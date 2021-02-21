@@ -8,7 +8,7 @@
             key("create_new_post_auth" . microtime()))
         </div>
 
-        <div class="sm:mb-2 bg-gray-200">
+        <div class="sm:mb-2 bg-gray-300">
             @livewire('connect.profile.profile-feed', ['profile' => $profile, 'sortBy' => $sortBy ?? 'all'],
             key('profile_feed_auth'))
         </div>
