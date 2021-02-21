@@ -40,7 +40,33 @@
                 open_menu: null,
                 open_notifications: null,
                 init_nav() {
-                    return this.expand()
+                    return this.expand();
+                    this.$watch('open_menu', result => {
+                        if (result && window.outerWidth < 768) {
+                            this.scrollPostition = window.pageYOffset;
+                            this.$refs.main.style.top = -this.scrollPostition + 'px';
+                        } else if (!result && window.outerWidth < 768) {
+                            setTimeout(() => {
+                                window.scrollTo(0, this.scrollPostition);
+                                this.$refs.main.style.top = 0;
+                            }, 5);
+                        }
+                    })
+
+                    this.$watch('open_notifications',
+                        result => {
+                            if (result && window.outerWidth < 768) {
+                                this.scrollPostition = window.pageYOffset;
+                                this.$refs.main.style.top = -this.scrollPostition + 'px';
+                            } else if (!result && window.outerWidth < 768) {
+                                setTimeout(() => {
+                                    window.scrollTo(0, this.scrollPostition);
+                                    this.$refs.main.style.top = 0;
+                                }, 10);
+                            }
+                        }
+                    )
+
                 },
                 expand() {
                     if (window.outerWidth > 768) {
