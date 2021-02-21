@@ -202,7 +202,11 @@
                         Echo.leave('commentChannel');
                         Echo.leave('App.Models.Profile');
                     });
-                    document.body.addEventListener('unload', (event) => {
+                    window.addEventListener('unload', (event) => {
+                        this.hidden = true;
+                        alert('yea')
+                    })
+                    window.addEventListener('focus', (event) => {
                         this.hidden = true;
                     })
                 }
