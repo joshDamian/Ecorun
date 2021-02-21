@@ -1,4 +1,5 @@
 <div>
+    @if($product)
     <x-jet-dialog-modal wire:model="add_specs">
         <x-slot name="title">
             <div class="text-left">
@@ -66,4 +67,5 @@
             </div>
         </x-slot>
     </x-jet-dialog-modal>
+    @endif
 </div>
