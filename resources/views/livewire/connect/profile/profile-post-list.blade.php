@@ -13,7 +13,7 @@
         <x-loader_2 />
     </div>
 
-    <div class="grid grid-cols-1 gap-3 bg-gray-300 md:gap-4">
+    <div class="grid grid-cols-1 gap-3 bg-gray-300">
         @forelse($posts as $post)
         @if(get_class($post) === 'App\Models\Share')
         <div>

@@ -54,6 +54,10 @@
             height: 400px;
         }
 
+        body {
+            scroll-behavior: smooth;
+        }
+
         .carousel-post-feed {
             width: 100%;
             margin-right: 10px;
@@ -193,21 +197,16 @@
             return {
                 hidden: true,
                 init_page_transition_loader: function() {
-                    Livewire.on('hideLoader', () => {
-                        this.hidden = true;
-                    })
                     window.addEventListener('beforeunload', (event) => {
                         this.hidden = false;
                         Echo.leave('postChannel');
                         Echo.leave('commentChannel');
                         Echo.leave('App.Models.Profile');
                     });
-                    window.addEventListener('unload', (event) => {
-                        this.hidden = true;
-                        alert('yea')
-                    })
                     window.addEventListener('focus', (event) => {
-                        this.hidden = true;
+                        setTimeout(() => {
+                            this.hidden = true;
+                        }, 500)
                     })
                 }
             }

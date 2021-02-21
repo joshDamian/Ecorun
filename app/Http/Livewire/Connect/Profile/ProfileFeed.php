@@ -20,7 +20,7 @@ class ProfileFeed extends Component
         ],
         Profile::class => [
             'view' => 'profile-display-cards.search-result-display-card',
-            'name' => 'who to follow'
+            'name' => 'connect'
         ],
         Product::class => [
             'view' => 'feed-display-cards.product-display',
@@ -105,7 +105,7 @@ class ProfileFeed extends Component
             case ('shares'):
                 return $this->feed->shares;
                 break;
-            case ('who to follow'):
+            case ('connect'):
                 return $this->feed->profile_suggestions;
                 break;
             case ('all'):

@@ -17,33 +17,32 @@
     Livewire.on('toggled', (toggle) => { collapsed = toggle; });
     Livewire.on('newPost', () => { $wire.call('setSortBy', 'all') });
     }">
-    <div class="fixed bottom-0 z-20 flex w-full overflow-x-auto font-semibold bg-gray-100 bg-gray-200 border-t border-gray-300 md:z-30 md:bg-opacity-75 md:border-b md:sticky"
+    <div class="fixed bottom-0 z-20 flex w-full overflow-x-auto font-semibold bg-gray-100 bg-gray-200 border-t border-gray-300 md:z-30 md:border-b md:sticky"
         :class="(collapsed) ? 'md:top-12' : 'md:top-28'">
         <div x-on:click="window.scrollTo(0, 0); $wire.setSortBy('{{ __('all') }}').then(result => { window.scrollTo(0, 0) })"
-            class="py-2 text-center select-none flex-shrink-0 flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'all') bg-white text-blue-700 @else text-gray-700 @endif">
+            class="py-2 text-center select-none flex-shrink-0 flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-2 @if($this->sortBy === 'all') bg-white text-blue-700 @else text-gray-700 @endif">
             {{ __('All') }}
         </div>
 
         @foreach($feed_types as $key => $card)
+        @if($card['name'] === 'shares')
+        @continue
+        @endif
         <div x-on:click="window.scrollTo(0, 0); $wire.setSortBy('{{ $card['name'] }}').then(result => { window.scrollTo(0, 0) })"
-            class="py-2 select-none text-center flex-shrink-0 flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === $card['name']) bg-white text-blue-700 @else text-gray-700 @endif">
+            class="py-2 select-none text-center flex-shrink-0 flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-2 @if($this->sortBy === $card['name']) bg-white text-blue-700 @else text-gray-700 @endif">
             {{ ucwords($card['name']) }}
         </div>
         @endforeach
 
         <div x-on:click="window.scrollTo(0, 0); $wire.setSortBy('{{ __('photos') }}').then(result => { window.scrollTo(0, 0) })"
-            class="py-2 select-none text-center flex-grow flex-shrink-0 font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'photos') bg-white text-blue-700 @else text-gray-700 @endif">
+            class="py-2 select-none text-center flex-grow flex-shrink-0 font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-2 @if($this->sortBy === 'photos') bg-white text-blue-700 @else text-gray-700 @endif">
             {{ __('Photos') }}
-        </div>
-
-        <div x-on:click="window.scrollTo(0, 0); $wire.setSortBy('{{ __('mentions') }}').then(result => { window.scrollTo(0, 0) })"
-            class="py-2 select-none text-center flex-shrink-0 flex-grow font-semibold cursor-pointer hover:text-blue-700 hover:bg-white px-3 @if($this->sortBy === 'mentions') bg-white text-blue-700 @else text-gray-700 @endif">
-            {{ __('Mentions') }}
         </div>
     </div>
 
     <div x-show="show_button" class="sticky flex items-center justify-center p-2 top-16 md:top-40">
-        <x-jet-button x-on:click="$wire.setSortBy('all').then(result => { show_button = false; window.scrollTo(0, 0); })"
+        <x-jet-button
+            x-on:click="$wire.setSortBy('all').then(result => { show_button = false; window.scrollTo(0, 0); })"
             class="bg-blue-700 rounded-full">
             load new content &nbsp; <i class="fas animate-bounce fa-arrow-up"></i>
         </x-jet-button>
@@ -55,18 +54,20 @@
         </div>
     </div>
 
-    <div x-ref="feedContent" class="grid grid-cols-1 gap-3 pb-11 md:pb-0 sm:gap-4">
+    <div x-ref="feedContent" class="grid grid-cols-1 gap-3 bg-gray-300 pb-11 md:pb-0">
         @forelse($this->displaying_feed as $key => $feed_item)
         @include($this->viewIncludeFolder . $this->feed_types[get_class($feed_item)]['view'], ['model' =>
         $feed_item, 'view' => 'feed.list'])
         @empty
         @if($display_ready)
         <div class="text-blue-700">
-            <div class="font-semibold text-center">
+            <div class="font-bold text-center">
                 <div class="flex items-center justify-center p-4">
                     <i style="font-size: 5rem;" class="far fa-folder"></i>
                 </div>
-                not enough content here.
+                <div class="mt-2 mb-4 text-lg">
+                    not enough content here.
+                </div>
             </div>
         </div>
         @endif

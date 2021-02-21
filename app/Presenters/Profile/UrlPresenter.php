@@ -33,7 +33,7 @@ class UrlPresenter
 
     public function bookmarks()
     {
-        return route('bookmark.show', $this->profile);
+        return route('bookmark.index', $this->profile);
     }
 
     public function visit()

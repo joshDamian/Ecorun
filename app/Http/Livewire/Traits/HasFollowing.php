@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Traits;
 
 trait HasFollowing {
     public $followable;
-    public bool $follows;
+    public bool $follows = false;
 
     public function follow() {
         if (!auth()->user()->can('update', $this->followable)) {

@@ -1,4 +1,4 @@
-<div x-data="chat_box_data()" class="bg-gradient-to-tl from-gray-300 to-gray-100" x-init="initialize_chat_box()">
+<div x-data="chat_box_data()" class="bg-gradient-to-tl from-gray-300 h-screen to-gray-100" x-init="initialize_chat_box()">
     <div class="fixed top-0 z-40 w-full px-3 py-2 bg-gray-100 md:sticky md:top-12">
         <div class="flex items-center">
             <div class="mr-3">
@@ -30,7 +30,7 @@
     </div>
 
     <div id="messages_cont" x-ref="messages"
-        class="px-3 h-screen overflow-y-auto pt-3 pb-5 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
+        class="px-3 h-11/12 overflow-y-auto pt-3 pb-5 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
         <div>
             @if($messages_count > $messages->count())
             <div class="flex mb-2 justify-center">
