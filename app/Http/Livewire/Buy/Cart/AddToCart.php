@@ -34,8 +34,8 @@ class AddToCart extends Component
     }
 
     public function receiveCartItem(Product $product) {
-        $this->add_specs = true;
         $this->product = $product->loadMissing('specifications');
+        $this->add_specs = true;
         $this->quantity = 1;
         $this->indicated_specs = $this->product->specifications->filter(
             function ($specification) {
