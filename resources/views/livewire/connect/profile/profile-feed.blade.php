@@ -61,11 +61,11 @@
         @empty
         @if($display_ready)
         <div class="text-blue-700">
-            <div class="font-semibold text-center">
+            <div class="font-bold text-center">
                 <div class="flex items-center justify-center p-4">
                     <i style="font-size: 5rem;" class="far fa-folder"></i>
                 </div>
-                <div class="mt-2 mb-4">
+                <div class="mt-2 mb-4 text-lg">
                     not enough content here.
                 </div>
             </div>
