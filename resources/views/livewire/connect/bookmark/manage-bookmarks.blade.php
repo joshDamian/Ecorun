@@ -29,7 +29,7 @@
         @empty
         <div class="p-5 text-blue-700 bg-gray-100">
             <div class="flex items-center justify-center">
-                <i style="font-size: 5rem;" class="text-blue-700 fas fa-star"></i>
+                <i style="font-size: 5rem;" class="text-blue-700 far fa-bookmark"></i>
             </div>
 
             <div class="mt-5 text-xl font-semibold text-center">
