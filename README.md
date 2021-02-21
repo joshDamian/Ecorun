@@ -1,6 +1,5 @@
-  Ecorun 
+### Ecorun 
 
-* Ecorun
 * [Login](/login) [Signup](/register)
     
 
@@ -8,9 +7,6 @@
 
 ### Ecorun naturally blends social interaction with doing business.
 
-#### Ecorun
-
-offline
 
 ### Connect with people
 
