@@ -35,7 +35,7 @@
 
                             <!-- Rating and link to reviews -->
                             <div class="flex flex-wrap items-baseline justify-between">
-                                <div class="mr-3 sm:mr-5">
+                                {{--    <div class="mr-3 sm:mr-5">
                                     <i class="text-blue-800 fa fa-star"></i>
                                     <i class="text-blue-800 fa fa-star"></i>
                                     <i class="text-blue-800 fa fa-star"></i>
@@ -47,11 +47,11 @@
                                         reviews (10)
                                     </a>
                                 </div>
+                                --}}
 
-                                <div class="text-black">
-                                    <i class="fas fa-heart"></i> save to wishlist
-                                </div>
+                                @livewire('connect.product.bookmark-product', ['product' => $product], key("product_bookmark_{$product->id}"))
                             </div>
+
 
                             <div class="flex flex-wrap items-baseline justify-between py-3 md:py-6">
                                 <!-- Price -->
