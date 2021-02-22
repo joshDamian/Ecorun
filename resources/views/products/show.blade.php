@@ -33,6 +33,7 @@
                                 {{ $product->name }}
                             </p>
 
+                            @auth
                             <!-- Rating and link to reviews -->
                             <div class="flex flex-wrap items-baseline justify-between">
                                 {{--    <div class="mr-3 sm:mr-5">
@@ -51,6 +52,7 @@
 
                                 @livewire('connect.product.bookmark-product', ['product' => $product], key("product_bookmark_{$product->id}"))
                             </div>
+                            @endauth
 
 
                             <div class="flex flex-wrap items-baseline justify-between py-3 md:py-6">
