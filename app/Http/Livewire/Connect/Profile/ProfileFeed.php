@@ -10,7 +10,7 @@ use App\Models\Product;
 
 class ProfileFeed extends Component
 {
-    public $perPage = 5;
+    public $perPage = 10;
     public $display_ready = true;
     public string $viewIncludeFolder = 'includes.';
     public $feed_types = [
