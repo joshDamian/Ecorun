@@ -22,10 +22,20 @@
                     autofocus />
             </div>
 
-            <div class="mt-4">
-                <x-jet-label value="{{ __('Password') }}" />
-                <x-jet-input class="block w-full mt-1" type="password" name="password" required
-                    autocomplete="current-password" />
+            <div x-data="{ show_password: false }">
+                <div class="mt-4">
+                    <x-jet-label value="{{ __('Password') }}" />
+                    <input class="block w-full mt-1 rounded-md shadow-sm form-input"
+                        :type="(show_password) ? 'text' : 'password'" name="password" required
+                        autocomplete="current-password" />
+                </div>
+
+                <div class="block mt-4">
+                    <label class="flex items-center">
+                        <input x-on:change="show_password = ! show_password" type="checkbox" class="form-checkbox">
+                        <span class="ml-2 text-sm text-gray-600">{{ __('Show password') }}</span>
+                    </label>
+                </div>
             </div>
 
             <div class="block mt-4">
