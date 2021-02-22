@@ -10,7 +10,7 @@
         <x-loader_2 />
     </div>
 
-    <div class="grid grid-cols-1 gap-1 bg-gray-400">
+    <div class="grid grid-cols-1 gap-0.5 bg-gray-300">
         @forelse($this->valid_notifications as $key => $notification)
         @if($this->model_notification_types->has($notification->type))
         <x-general.notification.model-notification-card :notification="$notification" />

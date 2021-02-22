@@ -148,7 +148,7 @@
     @livewireScripts
     @stack('scripts')
 
-    @env('production')
+    @env('local')
     <script>
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {

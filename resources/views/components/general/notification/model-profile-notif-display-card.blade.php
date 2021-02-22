@@ -3,7 +3,7 @@
     @endif
     $wire.call('switchUserProfile', '{{ $notification->notifiable_id }}');
     window.location='{{ $actionUrl }}'"
-    class="p-2 cursor-pointer select-none @if($notification->read_at) bg-white @else bg-blue-200 @endif">
+    class="p-2 cursor-pointer select-none @if($notification->read_at) bg-white @else bg-blue-100 @endif">
     <div class="flex flex-wrap">
         <div style="background-image: url('{{ $profile->profile_photo_url }}'); background-size: cover; background-position: center center;"
             class="flex-shrink-0 w-8 h-8 mr-2 border border-blue-700 rounded-full">
