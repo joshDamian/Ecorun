@@ -19,12 +19,12 @@ use NotificationChannels\WebPush\HasPushSubscriptions;
 class Profile extends Model
 {
     use Notifiable,
-    HasFactory,
-    HasProfilePhoto,
-    QueryCacheable,
-    Searchable,
-    StringManipulations,
-    HasPushSubscriptions;
+        HasFactory,
+        HasProfilePhoto,
+        QueryCacheable,
+        Searchable,
+        HasPushSubscriptions,
+        StringManipulations;
 
     protected $fillable = [
         'name',
@@ -35,10 +35,10 @@ class Profile extends Model
     public const TAG_PREFIX = '@';
 
     /**
-    * The accessors to append to the model's array form.
-    *
-    * @var array
-    */
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
         'profile_photo_url',
         'url',
@@ -47,14 +47,16 @@ class Profile extends Model
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function toSearchableArray() {
+    public function toSearchableArray()
+    {
         return [
             'name' => $this->name,
             'tag' => $this->tag
         ];
     }
 
-    public function direct_conversationWith(Profile $profile) {
+    public function direct_conversationWith(Profile $profile)
+    {
         $pair = [
             $this->id,
             $profile->id
@@ -68,29 +70,35 @@ class Profile extends Model
         return $pair_exists;
     }
 
-    public function followers() {
+    public function followers()
+    {
         return $this->belongsToMany(Profile::class, 'profile_follower', 'follower_id', 'profile_id')->withTimestamps();
     }
 
-    public function shares() {
+    public function shares()
+    {
         return $this->hasMany(Share::class);
     }
 
-    public function owned_groups() {
+    public function owned_groups()
+    {
         return $this->hasMany(GroupConversation::class, 'creator_id');
     }
 
-    public function following() {
+    public function following()
+    {
         return $this->belongsToMany(Profile::class, 'profile_follower', 'profile_id', 'follower_id')->withTimestamps();
     }
 
-    public function slugData() {
+    public function slugData()
+    {
         return [
             'name' => $this->name,
         ];
     }
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
         static::creating(
             function ($profile) {
@@ -98,70 +106,91 @@ class Profile extends Model
                 $profile->tag = $profile->tag ?? GeneratorTool::generateID(Profile::class, 'tag', [], "auto-tag-");
             }
         );
-        static::created(function($profile) {
+        static::created(function ($profile) {
             if (Profile::where('tag', 'ecorun')->exists()) {
                 $profile->following()->save(Profile::firstWhere('tag', 'ecorun'));
             }
         });
     }
 
-    public function profileable() {
+    public function profileable()
+    {
         return $this->morphTo();
     }
 
-    public function getConversationsAttribute() {
+    public function isOnline()
+    {
+        return $this->profileable->isOnline();
+    }
+
+    public function getConversationsAttribute()
+    {
         return (new ConversationsPresenter($this));
     }
 
-    public function getUnreadMessagesCountAttribute() {
+    public function getUnreadMessagesCountAttribute()
+    {
         return $this->conversations->all->map(function ($conv) {
             return $conv->getUnreadFor($this);
         })->sum();
     }
 
-    public function isBusiness() {
+    public function isBusiness()
+    {
         return $this->profileable_type === Business::class;
     }
 
-    public function full_tag() {
+    public function full_tag()
+    {
         return Profile::TAG_PREFIX . $this->tag;
     }
 
-    public function feedbacks() {
+    public function feedbacks()
+    {
         return $this->hasMany(Feedback::class);
     }
 
-    public function messages() {
-        return $this->hasMany(Message::class,
-            'sender_id');
+    public function messages()
+    {
+        return $this->hasMany(
+            Message::class,
+            'sender_id'
+        );
     }
 
-    public function getFeedAttribute() {
+    public function getFeedAttribute()
+    {
         return (new FeedPresenter($this));
     }
 
-    public function getUrlAttribute() {
+    public function getUrlAttribute()
+    {
         return (new UrlPresenter($this));
     }
 
-    public function isUser() {
+    public function isUser()
+    {
         return $this->profileable_type === User::class;
     }
 
 
-    public function getGalleryAttribute() {
+    public function getGalleryAttribute()
+    {
         return $this->posts()->has('gallery')->with('gallery')->get();
     }
 
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class)->latest();
     }
 
-    public function likes() {
+    public function likes()
+    {
         return $this->hasMany(Like::class);
     }
 
-    public function bookmarks() {
+    public function bookmarks()
+    {
         return $this->hasMany(Bookmark::class);
     }
 }

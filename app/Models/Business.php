@@ -23,6 +23,13 @@ class Business extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function isOnline()
+    {
+        return $this->team->allUsers()->filter(function ($user) {
+            return $user->isOnline();
+        })->count() > 0;
+    }
+
     public function isStore()
     {
         return $this->type === "store";

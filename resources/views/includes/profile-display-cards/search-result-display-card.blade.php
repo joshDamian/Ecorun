@@ -17,7 +17,7 @@
                 <div>
                     <a href="{{ $profile_visit_url }}">
                         <span class="text-lg font-bold text-blue-700 truncate">{{ $profile->name }}</span>
-                    </a>
+                    </a> @if($profile->isOnline()) &nbsp; <i class="text-sm text-green-400 fas fa-circle"></i> @endif
                 </div>
                 <div>
                     <a href="{{ $profile_visit_url }}">

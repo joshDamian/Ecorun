@@ -21,7 +21,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
 
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
@@ -89,7 +89,7 @@
             opacity: 1;
         }
 
-@-moz-document url-prefix() {
+        @-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
@@ -122,12 +122,12 @@
     {{$slot}}
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"></script>
 
-    <div class="relative flex justify-center z-50">
+    <div class="relative z-50 flex justify-center">
         <pwa-update swpath="/pwabuilder-sw.js"></pwa-update>
     </div>
 
     <div x-data="page_transition_loader()" x-init="init_page_transition_loader()" x-show="!hidden" x-cloak
-        class="fixed top-0 z-50 w-full h-screen bg-gray-200 bg-opacity-50">
+        class="fixed top-0 z-50 w-full h-screen">
         <x-loader_2 />
     </div>
 
