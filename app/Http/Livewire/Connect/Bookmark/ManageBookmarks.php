@@ -13,7 +13,8 @@ class ManageBookmarks extends Component
     public $confirm = false;
     public $toBeDeleted;
     public $bookmark_types = [
-        'App\Models\Post' => 'includes.feed-display-cards.post-display'
+        'App\Models\Post' => 'includes.feed-display-cards.post-display',
+        'App\Models\Product' => 'includes.feed-display-cards.product-display',
     ];
     protected $listeners = [
         'modifiedBookmarks' => '$refresh'
