@@ -21,16 +21,25 @@
                 <x-jet-input class="block w-full mt-1" type="email" name="email" :value="old('email')" required />
             </div>
 
-            <div class="mt-4">
-                <x-jet-label value="{{ __('Password') }}" />
-                <x-jet-input class="block w-full mt-1" type="password" name="password" required
-                    autocomplete="new-password" />
-            </div>
+            <div x-data="{ show_password: false }">
+                <div class="mt-4">
+                    <x-jet-label value="{{ __('Password') }}" />
+                    <input class="block w-full mt-1 rounded-md shadow-sm form-input"
+                        :type="(show_password) ? 'text' : 'password'" name="password" required
+                        autocomplete="new-password" />
+                </div>
 
-            <div class="mt-4">
-                <x-jet-label value="{{ __('Confirm Password') }}" />
-                <x-jet-input class="block w-full mt-1" type="password" name="password_confirmation" required
-                    autocomplete="new-password" />
+                <div class="mt-4">
+                    <x-jet-label value="{{ __('Confirm Password') }}" />
+                    <input class="block w-full mt-1 rounded-md shadow-sm form-input"
+                        :type="(show_password) ? 'text' : 'password'" name="password_confirmation" required
+                        autocomplete="new-password" />
+                </div>
+
+                <div class="flex items-center justify-start mt-4">
+                    <input type="checkbox" x-on:change="show_password = ! show_password"> <span> &nbsp; show
+                        password</span>
+                </div>
             </div>
 
             <div class="flex items-center justify-end mt-4">
