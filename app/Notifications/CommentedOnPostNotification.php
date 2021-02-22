@@ -38,7 +38,7 @@ class CommentedOnPostNotification extends Notification implements ShouldBroadcas
             'mail',
             'database',
             'broadcast',
-            WebPushChannel::class
+            //WebPushChannel::class
         ];
     }
 
