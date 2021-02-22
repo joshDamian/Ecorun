@@ -14,6 +14,7 @@ use App\Presenters\Profile\FeedPresenter;
 use App\Presenters\Profile\UrlPresenter;
 use Laravel\Scout\Searchable;
 use Rennokki\QueryCache\Traits\QueryCacheable;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class Profile extends Model
 {
@@ -22,7 +23,8 @@ class Profile extends Model
     HasProfilePhoto,
     QueryCacheable,
     Searchable,
-    StringManipulations;
+    StringManipulations,
+    HasPushSubscriptions;
 
     protected $fillable = [
         'name',
