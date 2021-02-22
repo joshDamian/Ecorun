@@ -106,7 +106,7 @@ class User extends Authenticatable
                     [
                         'name' => $name,
                         'tag' => (Profile::where('tag', "auto-tag-" . $user->id)->exists()) ? null : "auto-tag-" . $user->id,
-                        'description' => "Hi, I am {$name}, I'm new here and i hope to make new friends.",
+                        'description' => "Hi, I am {$name}, I'm new here and I hope to make new friends.",
                     ]
                 );
                 $user->switchProfile($user->profile);
