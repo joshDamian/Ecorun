@@ -8,7 +8,6 @@ trait MultipleImageSelector
     public bool $hasStoredImages = false;
     protected array $image_validation = [
         'bail',
-        //'mimes:jpeg,bmp,png,svg,webp',
         'file',
         'image',
         'max:10240'
