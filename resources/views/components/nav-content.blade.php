@@ -115,7 +115,7 @@
         </div>
 
 
-        <a {{-- href="route('cart.index')" --}}>
+        <a href="{{ route('cart.index') }}">
             <div
                 class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
                 <i class="fas fa-shopping-cart"></i> &nbsp;Cart <span
