@@ -21,16 +21,14 @@
                     @if($this->specification_count > 0)
                     @foreach($this->indicated_specs as $spec)
                     <div>
-                        <x-jet-label :value="Illuminate\Support\Str::singular($spec->name)" />
+                        <x-jet-label :value="$spec->singular('name')" />
                         <div class="relative mt-1">
                             <select name="{{ $spec->singular('name') }}"
-                                wire:model="specifications.{{ Illuminate\Support\Str::singular($spec->name) }}"
+                                wire:model="specifications.{{ $spec->singular('name') }}"
                                 class="block w-full px-4 py-3 pr-8 leading-tight text-white bg-blue-900 border border-blue-900 rounded-lg appearance-none focus:outline-none focus:bg-gray-900 focus:border-gray-900"
                                 id="grid-state">
-                                <option value="">select an option</option>
                                 @foreach($spec->value as $value)
-                                <option value="{{ trim($value) }}" @if($value===$spec->value[0])
-                                    {{ __('selected') }} @endif> {{ trim($value) }}</option>
+                                <option value="{{ trim($value) }}"> {{ trim($value) }}</option>
                                 @endforeach
                             </select>
                             <div

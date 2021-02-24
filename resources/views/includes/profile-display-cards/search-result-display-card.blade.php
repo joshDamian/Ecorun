@@ -16,12 +16,13 @@
             <div class="flex-1 flex-shrink mr-3">
                 <div>
                     <a href="{{ $profile_visit_url }}">
-                        <span class="text-lg font-bold text-blue-700 truncate">{{ $profile->name }}</span>
+                        <span class="font-bold text-blue-700 text-md dont-break-out">{{ $profile->name }}</span>
                     </a> @if($profile->isOnline()) &nbsp; <i class="text-sm text-green-400 fas fa-circle"></i> @endif
                 </div>
                 <div>
                     <a href="{{ $profile_visit_url }}">
-                        <span class="font-semibold text-blue-700 truncate text-md">{{ $profile->full_tag() }}</span>
+                        <span
+                            class="font-semibold text-blue-700 dont-break-out text-md">{{ $profile->full_tag() }}</span>
                     </a>
                 </div>
                 <div>

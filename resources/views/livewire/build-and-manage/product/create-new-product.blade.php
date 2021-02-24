@@ -72,8 +72,8 @@
                 <div x-data class="col-span-6 sm:col-span-4 md:col-span-3">
                     <x-jet-label for="price" value="{{ __('Product Price') }}" />
 
-                    <x-jet-input id="price" step="100" type="number" class="relative block w-full mt-1"
-                        placeholder="product price" wire:model.defer="product._price" autocomplete="price" />
+                    <x-jet-input id="price" type="number" class="relative block w-full mt-1" placeholder="product price"
+                        wire:model.defer="product._price" autocomplete="price" />
                     <x-jet-input-error for="product._price" class="mt-2" />
                 </div>
 

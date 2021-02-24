@@ -7,7 +7,7 @@
 
             <div x-show="open_menu"
                 class="fixed top-0 z-50 flex-grow-0 flex-shrink w-full h-full pb-2 overflow-y-auto bg-white shadow overscroll-none md:z-0 md:h-10/12 md:w-1/4 md:pb-1/12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
-                <div class="static overscroll-none">
+                <div class="static w-full overscroll-none">
                     @php $associatedProfiles = $user->associated_profiles; @endphp
                     <x-nav-content :associatedProfiles="$associatedProfiles" />
                 </div>

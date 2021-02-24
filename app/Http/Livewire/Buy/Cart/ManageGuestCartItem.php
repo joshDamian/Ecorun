@@ -6,28 +6,59 @@ use Livewire\Component;
 
 class ManageGuestCartItem extends Component
 {
-    public $cart_item;
-    protected $rules = [
-        'cart_item.quantity' => ['required', 'int', 'min:1']
-    ];
+    public $cartItem;
+    public $confirm;
+    public $max_quantity;
+    public $specifications = [];
+    public $selectableSpecs;
 
-    public function update()
+    public function mount()
+    {
+        $this->max_quantity = $this->cartItem->product->available_stock;
+        $this->selectableSpecs = $this->cartItem->product->specifications->filter(function ($spec) {
+            return $spec->is_specific === true;
+        });
+        $this->specifications = $this->cartItem->specifications;
+    }
+
+    public function getRules()
+    {
+        return [
+            'cartItem.quantity' => [
+                'required', 'int', 'min:1', "max:{$this->max_quantity}"
+            ],
+            'specifications.*' => ['required'],
+            'cartItem.product_id' => ['required'],
+            'cartItem.created_at' => ['required']
+        ];
+    }
+
+    public function edit()
     {
         $this->validate();
+        $this->cartItem->specifications = $this->specifications;
+        $this->cartItem->updated_at = now();
+        session()->put("guest_cart.{$this->cartItem->product_id}", $this->cartItem);
+        $this->emitSelf('saved');
+        $this->emit('refreshCartDisplay');
+    }
+
+    public function cancel()
+    {
+        $this->emit('cancelEdit');
+        return $this->reset('confirm');
     }
 
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
-
-        $this->emitSelf('updated');
     }
 
-    public function delete()
+    public function messages()
     {
-        session()->forget("guest_cart.{$this->cart_item['product_id']}");
-
-        return $this->emit('modifiedCart');
+        return [
+            'specifications.*.required' => 'This value is required'
+        ];
     }
 
     public function render()
