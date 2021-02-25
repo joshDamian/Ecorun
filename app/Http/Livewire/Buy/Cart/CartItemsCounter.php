@@ -16,7 +16,7 @@ class CartItemsCounter extends Component
 
     public function count()
     {
-        $this->count = ($this->user) ? $this->user->cart->count() : count(session()->get('guest_cart', []));
+        $this->count = ($this->user) ? $this->user->cart->count() : count(session()->get('guest_cart_store', []));
     }
 
     public function mount()

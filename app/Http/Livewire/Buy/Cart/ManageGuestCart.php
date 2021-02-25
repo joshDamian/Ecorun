@@ -16,7 +16,7 @@ class ManageGuestCart extends Component
 
     public function getCartItemsProperty()
     {
-        return collect(session()->get('guest_cart', []))->sortByDesc('updated_at');
+        return collect(session()->get('guest_cart_store', []))->sortByDesc('updated_at');
     }
 
     public function triggerDelete($item)
@@ -38,7 +38,7 @@ class ManageGuestCart extends Component
 
     public function delete()
     {
-        session()->forget("guest_cart.{$this->itemToDelete}");
+        session()->forget("guest_cart_store.{$this->itemToDelete}");
         $this->emitSelf('refreshCartDisplay');
         $this->emit('modifiedCart');
         return $this->cancelDelete();

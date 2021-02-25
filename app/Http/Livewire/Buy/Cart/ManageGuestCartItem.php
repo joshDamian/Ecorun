@@ -38,7 +38,7 @@ class ManageGuestCartItem extends Component
         $this->validate();
         $this->cartItem->specifications = $this->specifications;
         $this->cartItem->updated_at = now();
-        session()->put("guest_cart.{$this->cartItem->product_id}", $this->cartItem);
+        session()->put("guest_cart_store.{$this->cartItem->product_id}", $this->cartItem);
         $this->emitSelf('saved');
         $this->emit('refreshCartDisplay');
     }

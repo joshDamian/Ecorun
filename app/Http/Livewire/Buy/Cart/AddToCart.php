@@ -67,7 +67,7 @@ class AddToCart extends Component
                 )
             ) :
             session()->put(
-                "guest_cart.{$this->product->id}",
+                "guest_cart_store.{$this->product->id}",
                 (new Cart())->forceFill([
                     'created_at' => now(),
                     'updated_at' => now(),
@@ -103,7 +103,7 @@ class AddToCart extends Component
                 ])
             ) :
             session()->put(
-                "guest_cart.{$this->product->id}",
+                "guest_cart_store.{$this->product->id}",
                 (new Cart())->forceFill(
 
                     [
