@@ -19,8 +19,8 @@ class CartTrigger extends Component
         if (Auth::check()) {
             $existing = Auth::user()->loadMissing('cart')->cart->where('product_id', $this->product->id)->isNotEmpty();
         } else {
-            (session()->get('guest_cart')) ? true : session()->put('guest_cart', []);
-            $guest_cart = session()->get('guest_cart');
+            (session()->get('guest_cart_store')) ? true : session()->put('guest_cart_store', []);
+            $guest_cart = session()->get('guest_cart_store');
             $existing = array_key_exists($this->product->id, $guest_cart);
         }
         return $existing;

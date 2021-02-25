@@ -1,6 +1,6 @@
 @props(['cartItems', 'view' => 'cart.page'])
 <div>
-    <div class="sticky px-3 flex items-center justify-between py-2 font-bold text-blue-700 bg-white top-12">
+    <div class="sticky flex items-center justify-between px-3 py-2 font-bold text-blue-700 bg-white top-12">
         <div class="text-lg">
             @if($view === 'cart.page')
             <i class="fas fa-shopping-cart"></i> Cart.
@@ -11,24 +11,31 @@
             </a>
             @endif
         </div>
-        @if($cartItems->count() > 0)
+        {{-- @if($cartItems->count() > 0)
         @if($view === 'cart.page')
-        <a href="{{ route('order.place_order') }}">
-            <x-jet-button class="bg-green-500 py-2">place an order &nbsp;  <i class="fas fa-chevron-right"></i></x-jet-button>
+        <a href="{{ route('order.preview_order') }}">
+        <x-jet-button class="py-2 bg-green-500">place an order &nbsp; <i class="fas fa-chevron-right"></i>
+        </x-jet-button>
         </a>
         @else
         <a href="{{ route('shop.index') }}">
             <x-jet-button class="bg-blue-700">continue shopping</x-jet-button>
         </a>
         @endif
-        @endif
+        @endif --}}
     </div>
+
+    <!-- Purchase policy -->
+    @if($view === 'place_order.page')
+    <div class="px-2 py-2">
+        @include('policies.purchase-policy')
+    </div>
+    @endif
 
     @if($view === 'place_order.page')
-    <div class="bg-gray-100 p-3">
+    <div class="p-3 bg-gray-100">
         Items to be ordered:
     </div>
-
     @endif
 
     <div class="grid grid-cols-1 gap-2 px-2 py-2 bg-gray-300 md:px-0">
@@ -57,16 +64,17 @@
         @endforelse
     </div>
 
-    <!-- Purchase policy -->
-    @if($view === 'place_order.page')
-    <div class="px-2 py-2">
-        @include('policies.purchase-policy')
-    </div>
-    @endif
-
     @if($cartItems->count() > 0)
     <div class="sticky bottom-0 flex flex-wrap items-center justify-center px-3 py-3 bg-gray-200 sm:px-5">
-        <x-jet-button class="bg-green-500 py-2">complete order</x-jet-button>
+        @if($view === 'cart.page')
+        <a href="{{ route('shop.index') }}">
+            <x-jet-button class="bg-blue-700">continue shopping</x-jet-button>
+        </a>
+        @else
+        <a href="{{ route('order.place_order') }}">
+            <x-jet-button class="py-2 bg-green-500">complete order</x-jet-button>
+        </a>
+        @endif
     </div>
     @endif
 
@@ -110,7 +118,7 @@
         @guest
         <div>
             @livewire('buy.cart.manage-guest-cart-item', ['cartItem' =>
-            session()->get('guest_cart')[$this->itemToEdit], 'confirm' => true])
+            session()->get('guest_cart_store')[$this->itemToEdit], 'confirm' => true])
         </div>
         @endguest
     </div>

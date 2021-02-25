@@ -98,7 +98,7 @@ class ProductPolicy
             $view_history = $user->view_history()->whereNotIn('product_id', [$product->id])->get()->pluck('product_id');
             $success = Product::whereIn('id', $view_history)->exists();
         } else {
-            $success = session()->has('product_view_history') && Product::whereIn('id', session()->get('product_view_history'))->where('id', '!=', $product->id)->exists();
+            $success = session()->has('user_product_view_history') && Product::whereIn('id', session()->get('user_product_view_history'))->where('id', '!=', $product->id)->exists();
         }
 
         return $success;
