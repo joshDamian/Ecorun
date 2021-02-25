@@ -41,7 +41,7 @@
             </div>
 
             <div class="px-3 flex justify-end items-center py-3 bg-white sm:px-5">
-                <x-jet-secondary-button class="border-red-500 text-red-500 mr-3">
+                <x-jet-secondary-button x-on:click="should_show = false" class="border-red-500 text-red-500 mr-3">
                     i no want😑
                 </x-jet-secondary-button>
 
