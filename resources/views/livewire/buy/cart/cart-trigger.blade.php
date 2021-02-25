@@ -1,10 +1,12 @@
 <div>
     @if($view === 'feed')
     @if($this->existing())
-    <div
-        class="flex items-center justify-center px-3 py-2 font-bold text-center text-blue-700 bg-white rounded-full cursor-pointer">
-        <i class="text-xl text-blue-700 far fa-eye"></i> <span class="hidden sm:inline">&nbsp; View in cart</span>
-    </div>
+    <a href="{{ route('cart.index') }}">
+        <div
+            class="flex items-center justify-center px-3 py-2 font-bold text-center text-blue-700 bg-white rounded-full cursor-pointer">
+            <i class="text-xl text-blue-700 far fa-eye"></i> <span class="hidden sm:inline">&nbsp; View in cart</span>
+        </div>
+    </a>
     @else
     <div onclick="Livewire.emit('receiveCartItem', '{{ $product->id }}')"
         class="flex items-center justify-center px-3 py-2 font-bold text-center text-blue-700 bg-white rounded-full cursor-pointer">

@@ -29,9 +29,9 @@
                         <div class="relative mt-1">
                             <select name="{{ $spec->singular('name') }}"
                                 wire:model="specifications.{{ $spec->singular('name') }}"
-                                class="block w-full px-4 py-3 pr-8 leading-tight text-white bg-blue-900 border border-blue-900 rounded-lg appearance-none focus:outline-none focus:bg-gray-900 focus:border-gray-900"
+                                class="block w-full px-4 py-3 pr-8 leading-tight text-white bg-blue-900 border border-blue-900 rounded appearance-none focus:outline-none focus:bg-gray-900 focus:border-gray-900"
                                 id="grid-state">
-                                <option value="">select an option</option>
+
                                 @foreach($spec->value as $value)
                                 <option value="{{ trim($value) }}"> {{ trim($value) }}</option>
                                 @endforeach

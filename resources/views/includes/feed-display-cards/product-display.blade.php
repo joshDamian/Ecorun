@@ -3,7 +3,17 @@
     $product = $model;
     $profile = $product->business->profile;
     $profile_visit_url = $profile->url->visit;
+    if(!isset($view)) {
+    $view = 'not-feed.list';
+    }
     @endphp
+    @if($view === 'feed.list' && (!$profile->followers->contains(auth()->user()->currentProfile)))
+    @cannot('update', $profile)
+    <div class="px-3 py-2 sm:px-5 bg-white font-semibold text-lg text-gray-600">
+        Suggested content.
+    </div>
+    @endcannot
+    @endif
     <div class="flex justify-between px-3 py-3 bg-gray-100 border-b border-gray-200 sm:px-5 sm:py-3 sm:p-0">
         <div class="flex items-center flex-1">
             <a class="mr-3" href="{{ $profile_visit_url }}">

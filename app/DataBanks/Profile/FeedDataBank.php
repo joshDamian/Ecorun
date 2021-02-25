@@ -6,6 +6,7 @@ use App\DataBanks\DataBank;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\Profile;
+use App\Models\Business;
 use App\Models\Share;
 
 class FeedDataBank implements DataBank
@@ -39,7 +40,7 @@ class FeedDataBank implements DataBank
                 return [$relation => function ($query) {
                     return $query->cacheFor(2592000);
                 }];
-            })->toArray())->whereIn('business_id', $business_sources->pluck('profileable_id'))->distinct()->latest()->get()->unique(),
+            })->toArray())->whereIn('business_id', $business_sources->pluck('profileable_id'))->orWhereIn('business_id', Business::all()->pluck('id'))->distinct()->latest()->get()->unique(),
 
             Share::class => Share::with($share_relations->mapWithKeys(function ($relation) {
                 return [$relation => function ($query) {

@@ -3,71 +3,56 @@
 namespace App\Http\Livewire\General\Session;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 use App\Models\RecentlyViewed;
 use App\Models\Product;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class SessionTransport extends Component
 {
-    public User $user;
-
-    public function mount()
-    {
+    public function mount() {
         if (Auth::check()) {
-            $this->user = Auth::user()->loadMissing('view_history', 'cart');
             $this->session_transport('view_history');
             $this->session_transport('guest_cart');
         }
     }
 
-    public function session_transport($key)
-    {
+    public function session_transport($key) {
         switch ($key) {
-        case 'view_history':
-            $guest_view_history = session()->get('product_view_history');
-            if ($guest_view_history) {
-                foreach ($guest_view_history as $history) {
-                    ($this->user->view_history->whereIn('product_id', [$history])->count() > 0) ? true  :
-                        Product::find($history)->view_history()->save(
-                            $this->user->view_history()->save(
-                                new RecentlyViewed()
-                            )
-                        );
+            case 'view_history':
+                $guest_view_history = collect(session()->get('product_view_history', []));
+                if ($guest_view_history->count() > 0) {
+                    $guest_view_history->reject(function($history) {
+                        return auth()->user()->view_history()->where('product_id', $history->product_id)->exists();
+                    })->each(function($history) {
+                        $history->user_id = auth()->user()->id;
+                        $history->save();
+                    });
+                    return session()->forget('product_view_history');
                 }
-                session()->forget('product_view_history');
-            }
-            break;
+                break;
 
-        case 'guest_cart':
-            $guest_cart = session()->get('guest_cart');
-            if ($guest_cart) {
-                foreach ($guest_cart  as $cart_item) {
-                    $existing = ($this->user->cart()->whereIn('product_id', [$cart_item['product_id']])->count() > 0);
-                    if (!$existing) {
-                        Product::find($cart_item['product_id'])->cart_instances()->save(
-                            $this->user->cart()->create(
-                                [
-                                    'quantity' => $cart_item['quantity'],
-                                    'specifications' => (array_key_exists('specifications', $cart_item)) ?
-                                        $cart_item['specifications'] : null
-                                ]
-                            )
-                        );
-                    }
+            case 'guest_cart':
+                $guest_cart = collect(session()->get('guest_cart', []));
+                if ($guest_cart->count() > 0) {
+                    $guest_cart->reject(function($item) {
+                        return auth()->user()->cart()->where('product_id', $item->product_id)->exists();
+                    })->each(function($item) {
+                        $item->user_id = auth()->user()->id;
+                        $item->save();
+                    });
+
+                    return session()->forget('guest_cart');
                 }
-                session()->forget('guest_cart');
-            }
-            break;
+                break;
 
-        default:
-            // code...
-            break;
+            default:
+                // code...
+                break;
         }
+        return;
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.general.session.session-transport');
     }
 }

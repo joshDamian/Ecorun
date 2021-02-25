@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Models\Profile;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecentlyViewedController;
 use App\Http\Livewire\BuildAndManage\Business\BusinessDashboard;
@@ -87,9 +88,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
 
         Route::get('/post/{post}/comment/{comment}/edit', [CommentController::class, 'edit'])->name('comment.edit');
         Route::get('/post/{post}/comment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.delete');
-        Route::get('/post/{post}/comment/{comment}', [CommentController::class, 'show'] /* function (Post $post, Feedback $feedback) {
-            return Auth::user()->can('follow', [$post, Profile::firstWhere('tag', 'shoe-hub')]);
-        } */)->name('comment.show');
+        Route::get('/post/{post}/comment/{comment}', [CommentController::class, 'show'])->name('comment.show');
 
         Route::get('/post/{post}/comment/{comment}/replies/{reply}/edit', [ReplyController::class, 'edit'])->name('reply.edit');
         Route::get('/post/{post}/comment/{comment}/replies/{reply}/delete', [ReplyController::class, 'destroy'])->name('reply.delete');
@@ -97,8 +96,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         Route::get('/chat/private-conversation.{me}/{conversation:secret_key}', Talk::class)->name('chatEngine.talk');
 
         Route::get('/@{profile:tag}/view/bookmarks', [BookmarkController::class, 'index'])->name('bookmark.index');
-        //Route::get('/@{profile:tag}/bookmarks/{bookmark}/delete', [BookmarkController::class, 'destroy'])->name('bookmark.delete');
-        // Route::get('/@{profile:tag}/bookmarks/{bookmark}/edit', [BookmarkController::class, 'edit'])->name('bookmark.edit');
+        Route::get('/me/place_order/', [OrderController::class, 'place_order'])->name('order.place_order');
     }
 );
 

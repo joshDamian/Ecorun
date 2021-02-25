@@ -21,7 +21,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
 
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
@@ -89,7 +89,7 @@
             opacity: 1;
         }
 
-        @-moz-document url-prefix() {
+@-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
@@ -201,10 +201,11 @@
                         Echo.leave('commentChannel');
                         Echo.leave('App.Models.Profile');
                     });
+                    window.focus();
                     window.addEventListener('focus', (event) => {
                         setTimeout(() => {
                             this.hidden = true;
-                        }, 500)
+                        }, 400)
                     })
                 }
             }

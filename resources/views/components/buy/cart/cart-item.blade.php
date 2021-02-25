@@ -1,4 +1,4 @@
-@props(['cartItem'])
+@props(['cartItem', 'view'])
 @php
 $product = $cartItem->product;
 if($cartItem->specifications) {
@@ -14,20 +14,20 @@ $specs = false;
         </div>
 
         <div class="grid grid-cols-1">
-            <div class="flex items-baseline justify-between ">
-                <a class="mr-4 sm:mr-8" href="{{ $product->url->show }}">
+            <div class="sm:flex items-baseline justify-between ">
+                <a class="sm:mr-8" href="{{ $product->url->show }}">
                     <div class="text-xl font-extrabold text-blue-700 underline">
                         {{ $product->name }}
                     </div>
                 </a>
 
-                <div class="text-xl font-bold text-purple-700">
-                    {!! $product->price($cartItem->quantity) !!}
+                <div class="text-md sm:text-xl font-bold text-purple-700">
+                    quantity: {{ $cartItem->quantity }}
                 </div>
             </div>
 
-            <div class="py-1 text-lg font-bold text-purple-700">
-                quantity: {{ $cartItem->quantity }}
+            <div class="py-1 text:md sm:text-lg font-bold text-purple-700">
+                {!! $product->price($cartItem->quantity) !!}
             </div>
 
             <div>
@@ -45,6 +45,7 @@ $specs = false;
         </div>
     </div>
 
+    @if($view === 'cart.page')
     <div class="flex items-end justify-end mt-3">
         <x-jet-secondary-button wire:click="triggerEdit({{ $cartItem->id ?? $cartItem->product_id }})"
             class="mr-3 text-green-400 border-green-400">
@@ -56,4 +57,5 @@ $specs = false;
             delete
         </x-jet-secondary-button>
     </div>
+    @endif
 </div>

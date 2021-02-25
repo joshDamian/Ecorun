@@ -1,9 +1,40 @@
-@props(['cartItems'])
+@props(['cartItems', 'view' => 'cart.page'])
 <div>
+    <div class="sticky px-3 flex items-center justify-between py-2 font-bold text-blue-700 bg-white top-12">
+        <div class="text-lg">
+            @if($view === 'cart.page')
+            <i class="fas fa-shopping-cart"></i> Cart.
+            @else
+            <a href="{{ route('cart.index') }}">
+                <i class="fas fa-chevron-left"></i>
+                <i class="fas fa-shopping-cart"></i> Cart.
+            </a>
+            @endif
+        </div>
+        @if($cartItems->count() > 0)
+        @if($view === 'cart.page')
+        <a href="{{ route('order.place_order') }}">
+            <x-jet-button class="bg-green-500 py-2">place an order &nbsp;  <i class="fas fa-chevron-right"></i></x-jet-button>
+        </a>
+        @else
+        <a href="{{ route('shop.index') }}">
+            <x-jet-button class="bg-blue-700">continue shopping</x-jet-button>
+        </a>
+        @endif
+        @endif
+    </div>
+
+    @if($view === 'place_order.page')
+    <div class="bg-gray-100 p-3">
+        Items to be ordered:
+    </div>
+
+    @endif
+
     <div class="grid grid-cols-1 gap-2 px-2 py-2 bg-gray-300 md:px-0">
         @forelse($cartItems as $key => $cartItem)
         <div>
-            <x-buy.cart.cart-item :cartItem="$cartItem" />
+            <x-buy.cart.cart-item :view="$view" :cartItem="$cartItem" />
         </div>
         @empty
         <div class="p-5 bg-gray-100">
@@ -26,18 +57,20 @@
         @endforelse
     </div>
 
-    @if($cartItems->count() > 0)
-    <div class="sticky bottom-0 flex flex-wrap items-center px-2 py-3 bg-gray-200 sm:px-5">
-        <span class="mr-4 text-xl font-semibold text-gray-800"> Would you like to</span>
-        <x-jet-button class="bg-green-500">place an order</x-jet-button>
-        <span class="mx-4 text-xl font-semibold text-gray-800 md:mx-8">OR</span>
-        <a class="mr-4" href="{{ route('shop.index') }}">
-            <x-jet-button class="bg-blue-700">continue shopping</x-jet-button>
-        </a>
-        <span class="text-xl font-semibold text-gray-800">?</span>
+    <!-- Purchase policy -->
+    @if($view === 'place_order.page')
+    <div class="px-2 py-2">
+        @include('policies.purchase-policy')
     </div>
     @endif
 
+    @if($cartItems->count() > 0)
+    <div class="sticky bottom-0 flex flex-wrap items-center justify-center px-3 py-3 bg-gray-200 sm:px-5">
+        <x-jet-button class="bg-green-500 py-2">complete order</x-jet-button>
+    </div>
+    @endif
+
+    @if($view === 'cart.page')
     @if($this->itemToDelete)
     <div>
         <x-jet-confirmation-modal wire:model="confirmDelete">
@@ -81,5 +114,6 @@
         </div>
         @endguest
     </div>
+    @endif
     @endif
 </div>

@@ -128,7 +128,7 @@ class Product extends Model
         if (Auth::user()) {
             $existing = Auth::user()->view_history()->where('product_id', $this->id)->get()->first();
             if ($existing) {
-                $existing->updated_at = time();
+                $existing->updated_at = now();
                 $existing->save();
             } else {
                 $this->view_history()->save(
@@ -138,8 +138,11 @@ class Product extends Model
                 );
             }
         } else {
-            $product_view_history = session()->get('product_view_history', []);
-            (!in_array($this->id, $product_view_history)) ? session()->push("product_view_history", $this->id) : true;
+            session()->put("product_view_history.{$this->id}", (new RecentlyViewed())->forceFill([
+                'product_id' => $this->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]));
         }
     }
 

@@ -126,7 +126,7 @@
 
                             <li>
                                 <span class="text-gray-700">
-                                    Advertise used products for sale.
+                                    Advertise used products for sale. (coming soon).
                                 </span>
                             </li>
                         </ul>

@@ -13,10 +13,6 @@
 
             <div x-ref="main" :class="{ 'hidden md:block': (open_menu || open_notifications) }"
                 class="w-full md:flex-1 md:flex-grow md:flex-shrink-0 md:h-full md:ml-1/4 md:mr-1/4 md:pr-4 md:pl-6 sm:p-2 md:p-0">
-                <div>
-                    {{-- @livewire('general.session.session-transport',
-                    key('session_transport')) --}}
-                </div>
                 <main class="w-full">
                     {{ $slot }}
                 </main>
