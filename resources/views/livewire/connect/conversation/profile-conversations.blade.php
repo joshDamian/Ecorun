@@ -25,7 +25,8 @@
             <div class="grid flex-1 flex-shrink-0 grid-cols-1">
                 <div class="flex @if($unread_count > 0) items-center @else items-start @endif justify-between">
                     <div class="flex-1 flex-shrink-0 font-semibold text-blue-700 truncate">
-                        {{ $partner->full_tag() }}
+                        {{ $partner->full_tag() }} @if($partner->isOnline()) &nbsp; <i
+                            class="text-sm text-green-400 fas fa-circle"></i> @endif
                         <div class="font-medium text-gray-900 truncate">
                             @if($last_message->sender_id === $profile->id)
                             <span class="text-sm text-blue-700">

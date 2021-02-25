@@ -13,6 +13,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Rennokki\QueryCache\Traits\QueryCacheable;
+use NotificationChannels\WebPush\HasPushSubscriptions;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -22,6 +24,7 @@ class User extends Authenticatable
         HasTeams,
         Notifiable,
         TwoFactorAuthenticatable,
+        HasPushSubscriptions,
         QueryCacheable;
 
     /**
@@ -84,6 +87,11 @@ class User extends Authenticatable
     public function view_history()
     {
         return $this->hasMany(RecentlyViewed::class);
+    }
+
+    public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
     }
 
     public function getAssociatedProfilesAttribute()

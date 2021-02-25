@@ -14,14 +14,14 @@
         );
         renderContent.then(content => {
         $refs.content.addEventListener('click', (event) => {
-        $refs.content.classList.toggle('line-clamp-{{$clamp}}');
+        $refs.content.classList.toggle('line-clamp-8');
         $refs.content.clientHeight = $refs.content.scrollHeight;
         })
         }).catch(x => console.error(x));
         }" x-ref="parent">
         <div x-ref="content" {{
             $attributes->
-            merge(['class' => "text-content me cursor-pointer hover:bg-blue-100 bg-opacity-75 focus:bg-blue-100 line-clamp-{$clamp} dont-break-out whitespace-pre-line"])
+            merge(['class' => "text-content cursor-pointer hover:bg-blue-100 bg-opacity-75 focus:bg-blue-100 line-clamp-8 dont-break-out whitespace-pre-line"])
             }} ">@if(!$encode) {!!$content!!} @else {{$content}} @endif
         </div>
     </div>

@@ -19,7 +19,7 @@ class RecentlyViewedController extends Controller
         if (Auth::user()) {
             $product_history_log = Auth::user()->view_history()->orderBy('updated_at', 'DESC')->paginate(8);
         } else {
-            $product_history_log = Product::whereIn('id', session()->get('product_view_history', []))->latest()->paginate(8);
+            $product_history_log = Product::whereIn('id', session()->get('user_product_view_history', []))->latest()->paginate(8);
         }
 
         return view('view-history.index', compact('product_history_log'));

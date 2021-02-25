@@ -7,35 +7,54 @@ use Livewire\Component;
 
 class ManageAuthCartItem extends Component
 {
-    public Cart $cart_item;
+    public Cart $cartItem;
+    public $confirm;
+    public $specifications = [];
+    public $selectableSpecs;
 
-    protected $rules = [
-        'cart_item.quantity' => ['required', 'int', 'min:1'],
-    ];
+    public function getRules()
+    {
+        return [
+            'cartItem.quantity' => [
+                'required', 'int', 'min:1', "max:{$this->cartItem->product->available_stock}"
+            ],
+            'specifications.*' => ['required']
+        ];
+    }
 
-    public function update()
+    public function mount()
+    {
+        $this->selectableSpecs = $this->cartItem->product->specifications->filter(function ($spec) {
+            return $spec->is_specific === true;
+        });
+        $this->specifications = $this->cartItem->specifications;
+    }
+
+    public function cancel()
+    {
+        $this->emit('cancelEdit');
+        return $this->reset('confirm');
+    }
+
+    public function edit()
     {
         $this->validate();
-        $this->emit('modifiedCart');
+        $this->cartItem->specifications = $this->specifications;
+        $this->cartItem->save();
+        $this->emitSelf('saved');
+        $this->emit('refreshCartDisplay');
     }
 
     public function messages()
     {
         return [
-            'cart_item.quantity.required' => 'quantity is required'
+            'specifications.*.required' => 'This value is required'
         ];
     }
 
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
-    }
-
-    public function delete()
-    {
-        $this->cart_item->delete();
-
-        $this->emit('modifiedCart');
     }
 
     public function render()

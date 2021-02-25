@@ -122,12 +122,12 @@
     {{$slot}}
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"></script>
 
-    <div class="relative flex justify-center z-50">
+    <div class="relative z-50 flex justify-center">
         <pwa-update swpath="/pwabuilder-sw.js"></pwa-update>
     </div>
 
     <div x-data="page_transition_loader()" x-init="init_page_transition_loader()" x-show="!hidden" x-cloak
-        class="fixed top-0 z-50 w-full h-screen bg-gray-200 bg-opacity-50">
+        class="fixed top-0 z-50 w-full h-screen">
         <x-loader_2 />
     </div>
 
@@ -201,10 +201,11 @@
                         Echo.leave('commentChannel');
                         Echo.leave('App.Models.Profile');
                     });
+                    window.focus();
                     window.addEventListener('focus', (event) => {
                         setTimeout(() => {
                             this.hidden = true;
-                        }, 500)
+                        }, 400)
                     })
                 }
             }

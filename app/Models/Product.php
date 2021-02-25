@@ -20,11 +20,11 @@ use Spatie\Tags\HasTags;
 class Product extends Model
 {
     use Searchable,
-    SoftDeletes,
-    StringManipulations,
-    QueryCacheable,
-    HasFactory,
-    HasTags;
+        SoftDeletes,
+        StringManipulations,
+        QueryCacheable,
+        HasFactory,
+        HasTags;
 
     protected $casts = [
         'is_published' => 'boolean'
@@ -42,23 +42,25 @@ class Product extends Model
     ];
 
     /**
-    * The accessors to ap   use HasFactory;pend to the model's array form.
-    *
-    * @var array
-    */
+     * The accessors to ap   use HasFactory;pend to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
         'url'
     ];
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function business() {
+    public function business()
+    {
         return $this->belongsTo(Business::class);
     }
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
-        self::created(function($model) {
+        self::created(function ($model) {
             try {
                 broadcast(new ProductCreated($model))->toOthers();
             } catch (\Throwable $th) {
@@ -66,7 +68,8 @@ class Product extends Model
             }
         });
     }
-    public function shouldBeSearchable() {
+    public function shouldBeSearchable()
+    {
         return $this->is_published === true;
     }
 
@@ -75,60 +78,71 @@ class Product extends Model
         return Tag::class;
     }
 
-    public function likes() {
+    public function likes()
+    {
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function shares() {
+    public function shares()
+    {
         return $this->morphMany(Share::class, 'shareable');
     }
 
     public function tags(): MorphToMany
     {
         return $this
-        ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
-        ->orderBy('order_column');
+            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
+            ->orderBy('order_column');
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function gallery() {
+    public function gallery()
+    {
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 
-    public function specifications() {
+    public function specifications()
+    {
         return $this->hasMany(ProductSpecification::class)->orderBy('name', 'ASC');
     }
 
-    public function cart_instances() {
+    public function cart_instances()
+    {
         return $this->hasMany(Cart::class);
     }
 
-    public function view_history() {
+    public function view_history()
+    {
         return $this->hasMany(RecentlyViewed::class);
     }
 
-    public function displayImage() {
+    public function displayImage()
+    {
         return $this->gallery()->first()->image_url;
     }
 
-    public function price($quantity = null) {
+    public function price($quantity = null)
+    {
         return "<span>&#8358; </span>" . number_format(($quantity) ? $this->price * $quantity : $this->price, 2);
     }
 
-    public function slugData() {
+    public function slugData()
+    {
         return [
             'name' => $this->name,
         ];
     }
 
-    public function bootstrap() {
+    public function bootstrap()
+    {
         if (Auth::user()) {
             $existing = Auth::user()->view_history()->where('product_id', $this->id)->get()->first();
             if ($existing) {
-                $existing->updated_at = time();
+                $existing->updated_at = now();
                 $existing->save();
             } else {
                 $this->view_history()->save(
@@ -138,12 +152,16 @@ class Product extends Model
                 );
             }
         } else {
-            $product_view_history = session()->get('product_view_history', []);
-            (!in_array($this->id, $product_view_history)) ? session()->push("product_view_history", $this->id) : true;
+            session()->put("user_product_view_history.{$this->id}", (new RecentlyViewed())->forceFill([
+                'product_id' => $this->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]));
         }
     }
 
-    public function toSearchableArray() {
+    public function toSearchableArray()
+    {
         return [
             'name' => $this->name,
             'description' => $this->description,
@@ -152,16 +170,18 @@ class Product extends Model
     }
 
     /**
-    * The "booted" method of the model.
-    *
-    * @return void
-    */
-    protected static function booted() {
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
         static::addGlobalScope(new ProductAccessibleScope);
         static::addGlobalScope(new ProductViewableScope);
     }
 
-    public function getUrlAttribute() {
+    public function getUrlAttribute()
+    {
         return (new UrlPresenter($this));
     }
 }

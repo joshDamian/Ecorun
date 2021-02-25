@@ -29,7 +29,7 @@
                             :class="{ 'rounded-full': !ready,  'overflow-hidden': !large_content, 'rounded-full': message.length < 1 }"
                             @focus="ready = true; $refs.content.setSelectionRange(message.length, message.length)"
                             x-ref="content" rows="1" placeholder="say something" x-model="message"
-                            class="w-full bg-gray-200 placeholder-blue-700 resize-none form-textarea"></textarea>
+                            class="w-full placeholder-blue-700 bg-gray-200 resize-none form-textarea"></textarea>
                         <div class="mt-2 mb-2" x-show="ready && mentions.length > 0 && mention_matches">
                             <h3 class="mb-1 font-semibold text-blue-600 text-md">profile suggestions:</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-3">
@@ -70,7 +70,7 @@
                             @php $photos_count = ($this->hasStoredImages) ? $this->gallery->count() : count($photos);
                             @endphp
                             <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
-                            wire:model="photos" multiple />
+                                wire:model="photos" multiple />
 
                             @if($photos_count === 0)
                             <span @click="$refs.photos.click()"
@@ -165,10 +165,10 @@
                         })
                     }
                     window.addEventListener('DOMContentLoaded', () => {
-                        this.$refs.content.select();
+                        /* this.$refs.content.select();
                         if (!this.edit_case) {
                             this.ready = false;
-                        }
+                        } */
                     })
                     Livewire.on('addedContent',
                         () => {

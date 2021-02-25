@@ -2,15 +2,17 @@
     <div>
         @can('view', $product)
         <x-buy.market-place />
-        <div x-data="product_data()" x-init="init_product()" class="">
+        <div x-data="product_data()" x-init="init_product()" class="md:mt-3">
             <div class="flex flex-col md:flex-row">
                 <div class="flex flex-col flex-1 md:flex-row">
                     <!-- Product Image Gallery -->
                     <div class="order-2 sm:order-2 md:order-1">
-                        <div class="flex flex-row overflow-x-auto p-3 md:p-0 md:mr-2 md:flex-col">
+                        <div class="flex flex-row p-3 overflow-x-auto md:p-0 md:mr-2 md:flex-col">
                             @foreach($product->gallery as $image)
-                            <div x-on:click="activeImage = '{{ $image->image_url }}'" style="height: 70px; width: 70px; background-image: url('/storage/{{ $image->image_url }}'); background-size: cover; background-position: center center;"
-                                class="@if(!$loop->last) md:mb-2 @endif mr-3 md:mr-0 md:shadow-lg flex-shrink-0" :class="('{{ $image->image_url }}' === activeImage) ? 'border-2 border-blue-800' : ''">
+                            <div x-on:click="activeImage = '{{ $image->image_url }}'"
+                                style="height: 70px; width: 70px; background-image: url('/storage/{{ $image->image_url }}'); background-size: cover; background-position: center center;"
+                                class="@if(!$loop->last) md:mb-2 @endif mr-3 md:mr-0 md:shadow-lg flex-shrink-0"
+                                :class="('{{ $image->image_url }}' === activeImage) ? 'border-2 border-blue-800' : ''">
                             </div>
                             @endforeach
                         </div>
@@ -50,7 +52,8 @@
                                 </div>
                                 --}}
 
-                                @livewire('connect.product.bookmark-product', ['product' => $product], key("product_bookmark_{$product->id}"))
+                                @livewire('connect.product.bookmark-product', ['product' => $product],
+                                key("product_bookmark_{$product->id}"))
                             </div>
                             @endauth
 

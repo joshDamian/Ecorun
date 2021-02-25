@@ -40,7 +40,7 @@
                 @livewire('general.user.unread-messages-count', ['user' => $user], key(md5('i_count_unread_messages')))
             </a>
 
-            <div @click=" function nav() {
+            <div x-on:click=" function nav() {
                 if(window.outerWidth < 768) {
                 open_menu = false; open_notifications = true;
                 } else {

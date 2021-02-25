@@ -7,7 +7,7 @@
 
             <div x-show="open_menu"
                 class="fixed top-0 z-50 flex-grow-0 flex-shrink w-full h-full pb-2 overflow-y-auto bg-white shadow overscroll-none md:z-0 md:h-10/12 md:w-1/4 md:pb-1/12 md:top-16 md:bg-transparent md:pr-3 md:left-5">
-                <div class="static overscroll-none">
+                <div class="static w-full overscroll-none">
                     @php $associatedProfiles = $user->associated_profiles; @endphp
                     <x-nav-content :associatedProfiles="$associatedProfiles" />
                 </div>
@@ -15,10 +15,6 @@
 
             <div x-ref="main" :class="{ 'hidden md:block': (open_menu || open_notifications) }"
                 class="flex-1 flex-grow flex-shrink-0 w-full md:h-full md:ml-1/4 md:pl-6 sm:p-2 md:p-0">
-                <div>
-                    {{-- @livewire('general.session.session-transport', key('session_transport')) --}}
-                </div>
-
                 <main>
                     {{ $slot }}
                 </main>

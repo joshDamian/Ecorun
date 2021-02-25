@@ -10,7 +10,8 @@
     </div>
 
     <div class="font-light">
-        <div class="flex flex-wrap items-center px-4 py-3 bg-white border-b border-gray-200 shadow md:rounded-t-lg">
+        <div
+            class="flex flex-wrap items-center w-full px-4 py-3 bg-white border-b border-gray-200 shadow md:rounded-t-lg">
             @auth
             <div style="background-image: url('{{ $currentProfile->profile_photo_url }}'); background-size: cover; background-position: center center;"
                 class="mr-3 border-t-2 border-b-2 border-blue-700 rounded-full w-14 h-14">
@@ -115,7 +116,7 @@
         </div>
 
 
-        <a {{-- href="route('cart.index')" --}}>
+        <a href="{{ route('cart.index') }}">
             <div
                 class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
                 <i class="fas fa-shopping-cart"></i> &nbsp;Cart <span

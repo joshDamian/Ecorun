@@ -1,3 +1,3 @@
 <div>
-    {{-- Nothing in the world is as soft and yielding as water. --}}
+    <x-buy.cart.cart-items :cartItems="$cartItems" />
 </div>

@@ -72,6 +72,18 @@ class OrderController extends Controller
         //
     }
 
+    public function preview_order(Request $request)
+    {
+        $cart = $request->user()->cart()->with('product.gallery')->latest('updated_at')->get();
+        return view('order.preview_order', compact('cart'));
+    }
+
+    public function place_order(Request $request)
+    {
+        $cartItems = $request->user()->cart()->without('product.gallery')->with('product.business.profile')->get();
+        dd($cartItems);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

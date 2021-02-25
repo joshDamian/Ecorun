@@ -34,7 +34,7 @@
                             {{ $profile->name }}
                         </div>
 
-                        <div class="text-sm text-gray-600 truncate">
+                        <div class="text-sm text-gray-600 dont-break-out">
                             {{ $profile->full_tag() }}
                         </div>
                     </div>
