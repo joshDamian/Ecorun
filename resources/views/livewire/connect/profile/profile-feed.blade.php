@@ -54,6 +54,12 @@
         </div>
     </div>
 
+    @if(!$profile->profile_photo_path)
+    <div>
+        @include('reminders.profile-photo-reminder', ['profile' => $profile])
+    </div>
+    @endif
+
     <div x-ref="feedContent" class="grid grid-cols-1 gap-3 bg-gray-300 pb-11 md:pb-0">
         @forelse($this->displaying_feed as $key => $feed_item)
         @include($this->viewIncludeFolder . $this->feed_types[get_class($feed_item)]['view'], ['model' =>

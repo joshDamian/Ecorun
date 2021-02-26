@@ -31,7 +31,8 @@
                 <div class="flex items-start justify-between">
                     <div class="flex-1 mr-3">
                         <div class="text-lg font-semibold text-blue-800 dont-break-out sm:text-xl">
-                            {{ $profile->name }}
+                            {{ $profile->name }} @if($profile->isOnline()) &nbsp; <i
+                                class="text-sm text-green-400 fas fa-circle"></i> @endif
                         </div>
 
                         <div class="text-sm text-gray-600 dont-break-out">
