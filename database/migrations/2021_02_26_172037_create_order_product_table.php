@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProfileFollowerTable extends Migration
+class CreateOrderProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateProfileFollowerTable extends Migration
      */
     public function up()
     {
-        Schema::create('profile_follower', function (Blueprint $table) {
+        Schema::create('order_product', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('follower_id')
+            $table->foreignId('order_id')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-
-            $table->foreignId('profile_id')
+            $table->foreignId('product_id')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-
+            $table->json('specifications')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +33,6 @@ class CreateProfileFollowerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profile_user');
+        Schema::dropIfExists('order_product');
     }
 }

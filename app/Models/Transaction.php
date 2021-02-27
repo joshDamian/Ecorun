@@ -9,6 +9,10 @@ class Transaction extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'status'
+    ];
+
     public function vendor()
     {
         return $this->morphTo();
@@ -17,6 +21,11 @@ class Transaction extends Model
     public function purchaseable()
     {
         return $this->morphTo();
+    }
+
+    public function payment()
+    {
+        return $this->belongsTo(PaymentRequest::class);
     }
 
     public function buyer()

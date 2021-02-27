@@ -11,18 +11,21 @@
             </a>
             @endif
         </div>
-        {{-- @if($cartItems->count() > 0)
+
+        @if(env('PAYMENTS_ALLOWED'))
+        @if($cartItems->count() > 0)
         @if($view === 'cart.page')
         <a href="{{ route('order.preview_order') }}">
-        <x-jet-button class="py-2 bg-green-500">place an order &nbsp; <i class="fas fa-chevron-right"></i>
-        </x-jet-button>
+            <x-jet-button class="py-2 bg-green-500">place an order &nbsp; <i class="fas fa-chevron-right"></i>
+            </x-jet-button>
         </a>
         @else
         <a href="{{ route('shop.index') }}">
             <x-jet-button class="bg-blue-700">continue shopping</x-jet-button>
         </a>
         @endif
-        @endif --}}
+        @endif
+        @endif
     </div>
 
     <!-- Purchase policy -->

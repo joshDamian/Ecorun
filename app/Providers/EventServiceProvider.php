@@ -7,6 +7,7 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 use App\Events\PostCreated;
+use App\Events\PlacedOrder;
 use App\Events\ProductCreated;
 use App\Events\SentMessage;
 use App\Events\LikedPost;
@@ -15,6 +16,7 @@ use App\Events\CommentedOnPost;
 use App\Events\RepliedToComment;
 use App\Events\NewFeedContentForProfile;
 use App\Listeners\SendContentSharedNotification;
+use App\Listeners\SendPlacedOrderNotification;
 use App\Listeners\SendLikedPostNotification;
 use App\Listeners\SendRepliedToCommentNotification;
 use App\Listeners\SendCommentedOnPostNotification;
@@ -56,7 +58,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         LikedPost::class => [
             SendLikedPostNotification::class
-        ]
+        ],
+        PlacedOrder::class => [
+            SendPlacedOrderNotification::class
+        ],
     ];
 
     /**

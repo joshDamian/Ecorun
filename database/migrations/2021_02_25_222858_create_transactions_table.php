@@ -19,8 +19,8 @@
                 $table->integer('vendor_id');
                 $table->string('buyer_type');
                 $table->integer('buyer_id');
-                $table->foreignIdFor(\App\Models\PaymentRequest::class);
-                $table->string('status');
+                $table->string('status')->default('pending');
+                $table->foreignIdFor(\App\Models\PaymentRequest::class)->nullable();
                 $table->string('purchaseable_id');
                 $table->integer('purchaseable_type');
                 $table->timestamps();

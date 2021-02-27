@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaymentRequestsTable extends Migration
+class AddTrackingidToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreatePaymentRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payment_requests', function (Blueprint $table) {
-            $table->id();
-            $table->string('status');
-            $table->string('channel');
-            $table->uuid('secret_key');
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('tracking_id')->nullable();
         });
     }
 
@@ -29,6 +25,8 @@ class CreatePaymentRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_requests');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('tracking_id');
+        });
     }
 }
