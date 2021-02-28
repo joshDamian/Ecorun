@@ -59,7 +59,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         ->name('profile.edit');*/
 
         Route::get('/@{profile:tag}/actions/edit', UpdateProfile::class)->middleware('can:access,profile')
-            ->name('profile.edit');
+        ->name('profile.edit');
 
         Route::put('/current-profile/update', [ProfileController::class, 'updateCurrentProfile'])->name('current-profile.update');
 
@@ -98,6 +98,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
         Route::get('/@{profile:tag}/view/bookmarks', [BookmarkController::class, 'index'])->name('bookmark.index');
         Route::get('/me/preview_order/', [OrderController::class, 'preview_order'])->name('order.preview_order');
         Route::get('/me/place_order', [OrderController::class, 'place_order'])->name('order.place_order');
+        Route::get('/order_success', function () {
+            return view('order.success_page', [
+                'order' => auth()->user()->orders->first()
+            ]);
+        });
     }
 );
 
@@ -105,14 +110,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
     ->name('view-history.index'); */
 
 Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])
-    ->name('product.show');
+->name('product.show');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
 Route::get('/categories', [CategoryController::class, 'index'])
-    ->name('category.index');
+->name('category.index');
 Route::get('category/{slug}', [CategoryController::class, 'show'])
-    ->name('category.show');
+->name('category.show');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
@@ -120,9 +125,3 @@ Route::get('/search/{data?}', [SearchEngineController::class, 'index'])->name('s
 
 Route::get('@{profile:tag}/view/followers', [ProfileController::class, 'followers'])->name('profile.followers');
 Route::get('@{profile:tag}/view/following', [ProfileController::class, 'following'])->name('profile.following');
-
-Route::get('/order_success', function () {
-    return view('order.success_page', [
-        'order' => auth()->user()->orders->first()
-    ]);
-});
