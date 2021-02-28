@@ -80,6 +80,7 @@ class OrderController extends Controller
 
     public function place_order(Request $request)
     {
+        //dd($request->user()->orders->last()->products->first()->orderRequest->status);
         $cartItems = $request->user()->cart()->without('product.gallery')->with('product.business.profile')->get();
         if ($cartItems->count() < 1) {
             return redirect(route('cart.index'));
@@ -93,7 +94,7 @@ class OrderController extends Controller
                 'quantity' => $item->quantity,
                 'price' => $item->product->price
             ]);
-            // $item->delete();
+            $item->delete();
         });
         return view('order.success_page', compact('order'));
     }

@@ -112,7 +112,9 @@ class Product extends Model
 
     public function order_instances()
     {
-        return $this->belongsToMany(Order::class, 'order_product', 'product_id', 'order_id')->using(OrderProduct::class)->withPivot(['specifications', 'price', 'quantity'])->withTimestamps();
+        return $this->belongsToMany(Order::class, 'order_product', 'product_id', 'order_id')->using(OrderProduct::class)->withPivot([
+            'specifications', 'price', 'quantity', 'id', 'status'
+        ])->as('orderRequest')->withTimestamps();
     }
 
     public function cart_instances()

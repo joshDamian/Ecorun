@@ -120,3 +120,9 @@ Route::get('/search/{data?}', [SearchEngineController::class, 'index'])->name('s
 
 Route::get('@{profile:tag}/view/followers', [ProfileController::class, 'followers'])->name('profile.followers');
 Route::get('@{profile:tag}/view/following', [ProfileController::class, 'following'])->name('profile.following');
+
+Route::get('/order_success', function () {
+    return view('order.success_page', [
+        'order' => auth()->user()->orders->first()
+    ]);
+});
