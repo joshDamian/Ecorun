@@ -12,8 +12,30 @@
                 </span>
             </div>
 
-            <div class="">
+            <div class="font-semibold text-gray-600">
+                Items:
+            </div>
 
+            <div class="grid grid-cols-1 gap-0.5">
+                @foreach($order->products as $item)
+                <div class="bg-white flex p-2">
+                    <div style="background-image: url('/storage/{{ $item->gallery->first()->image_url }}'); background-size: cover; background-position: center center;"
+                        class="flex-shrink-0 w-24 h-24 mr-4 sm:w-28 sm:h-28 md:mr-8">
+                    </div>
+
+                    <div class="flex-1 gap-0.5 grid grid-cols-1">
+                        <div class="font-bold">
+                            {{ $item->name }}
+                        </div>
+                        <div class="font-semibold text-gray-700">
+                            vendor:
+                            <a href="{{ $item->business->profile->url->visit }}">
+                                {{ $item->business->profile->name }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
     </div>

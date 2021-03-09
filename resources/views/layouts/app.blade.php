@@ -148,6 +148,7 @@
     @livewireScripts
     @stack('scripts')
 
+    @auth
     <script>
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
@@ -189,6 +190,7 @@
             }
         }
     </script>
+    @endauth
 
     <script>
         function page_transition_loader() {

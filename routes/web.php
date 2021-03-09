@@ -103,6 +103,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
                 'order' => auth()->user()->orders->first()
             ]);
         });
+        Route::get('@{profile:tag}/view/followers', [ProfileController::class, 'followers'])->name('profile.followers');
+        Route::get('@{profile:tag}/view/following', [ProfileController::class, 'following'])->name('profile.following');
     }
 );
 
@@ -122,6 +124,3 @@ Route::get('category/{slug}', [CategoryController::class, 'show'])
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
 Route::get('/search/{data?}', [SearchEngineController::class, 'index'])->name('search.index');
-
-Route::get('@{profile:tag}/view/followers', [ProfileController::class, 'followers'])->name('profile.followers');
-Route::get('@{profile:tag}/view/following', [ProfileController::class, 'following'])->name('profile.following');
