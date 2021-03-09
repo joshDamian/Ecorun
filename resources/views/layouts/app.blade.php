@@ -118,6 +118,10 @@
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
+    <div id="internet_wiper" class="fixed bg-white top-0 flex items-center justify-center z-50 w-full h-screen">
+        <img style="w-full" src="/icon/internet_wiper.gif" />
+    </div>
+
     @livewire('buy.cart.add-to-cart', key(md5('add_a_product_to_cart')))
     {{$slot}}
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"></script>
@@ -193,6 +197,11 @@
     @endauth
 
     <script>
+
+        document.addEventListener('livewire:load', (event) => {
+            document.getElementById('internet_wiper').classList.add('hidden');
+        });
+
         function page_transition_loader() {
             return {
                 hidden: true,
