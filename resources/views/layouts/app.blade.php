@@ -199,7 +199,9 @@
     <script>
 
         document.addEventListener('livewire:load', (event) => {
-            document.getElementById('internet_wiper').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('internet_wiper').classList.add('hidden');
+            }, 1000);
         });
 
         function page_transition_loader() {
