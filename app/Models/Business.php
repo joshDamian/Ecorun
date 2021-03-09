@@ -45,6 +45,16 @@ class Business extends Model
         return $this->hasMany(Product::class)->latest('updated_at');
     }
 
+    public function transactions()
+    {
+        return $this->morphMany(Transaction::class, 'vendor');
+    }
+
+    public function orders()
+    {
+        return $this->transactions()->where('purchaseable_type', OrderProduct::class);
+    }
+
     public function team()
     {
         return $this->hasOne(Team::class);

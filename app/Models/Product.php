@@ -110,6 +110,13 @@ class Product extends Model
         return $this->hasMany(ProductSpecification::class)->orderBy('name', 'ASC');
     }
 
+    public function order_instances()
+    {
+        return $this->belongsToMany(Order::class, 'order_product', 'product_id', 'order_id')->using(OrderProduct::class)->withPivot([
+            'specifications', 'price', 'quantity', 'id', 'status'
+        ])->as('orderRequest')->withTimestamps();
+    }
+
     public function cart_instances()
     {
         return $this->hasMany(Cart::class);

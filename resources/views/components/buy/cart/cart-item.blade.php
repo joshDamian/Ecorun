@@ -14,19 +14,19 @@ $specs = false;
         </div>
 
         <div class="grid grid-cols-1">
-            <div class="sm:flex items-baseline justify-between ">
+            <div class="items-baseline justify-between sm:flex ">
                 <a class="sm:mr-8" href="{{ $product->url->show }}">
                     <div class="text-xl font-extrabold text-blue-700 underline">
                         {{ $product->name }}
                     </div>
                 </a>
 
-                <div class="text-md sm:text-xl font-bold text-purple-700">
+                <div class="font-bold text-purple-700 text-md sm:text-xl">
                     quantity: {{ $cartItem->quantity }}
                 </div>
             </div>
 
-            <div class="py-1 text:md sm:text-lg font-bold text-purple-700">
+            <div class="py-1 font-bold text-purple-700 text:md sm:text-lg">
                 {!! $product->price($cartItem->quantity) !!}
             </div>
 

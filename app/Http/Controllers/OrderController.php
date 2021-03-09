@@ -80,8 +80,23 @@ class OrderController extends Controller
 
     public function place_order(Request $request)
     {
+        //dd($request->user()->orders->last()->products->first()->orderRequest->status);
         $cartItems = $request->user()->cart()->without('product.gallery')->with('product.business.profile')->get();
-        dd($cartItems);
+        if ($cartItems->count() < 1) {
+            return redirect(route('cart.index'));
+        }
+        $order = $request->user()->orders()->create([
+            'status' => 'pending'
+        ]);
+        $cartItems->each(function ($item) use ($order) {
+            $order->products()->attach($item->product_id, [
+                'specifications' => json_encode($item->specifications),
+                'quantity' => $item->quantity,
+                'price' => $item->product->price
+            ]);
+            $item->delete();
+        });
+        return view('order.success_page', compact('order'));
     }
 
     /**
