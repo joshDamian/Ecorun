@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Connect\Post;
 
 use App\Http\Livewire\Traits\CreatesSocialContent;
 use Livewire\Component;
+use App\Events\PostCreated;
 
 class CreateNewPost extends Component
 {
@@ -12,8 +13,7 @@ class CreateNewPost extends Component
     public string $view;
     public $visibility = "public";
 
-    public function create()
-    {
+    public function create() {
         $this->validate($this->validationRules());
         $post = $this->profile->posts()->create([
             'content' => trim($this->text_content) ?? '',
@@ -24,6 +24,11 @@ class CreateNewPost extends Component
         if (count($this->photos) > 0) {
             $this->uploadPhotos('post-photos', $post, 'post_photo');
         }
+        /* try { */
+        broadcast(new PostCreated($post))->toOthers();
+        /* } catch (\Throwable $th) {
+                report($th);
+            }*/
         return $this->done();
     }
 
@@ -32,8 +37,7 @@ class CreateNewPost extends Component
         return [];
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.connect.post.create-new-post');
     }
 }

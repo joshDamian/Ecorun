@@ -58,11 +58,7 @@ class Post extends Model
             self::syncWithTags($model);
         });
         self::created(function($model) {
-            try {
-                broadcast(new PostCreated($model))->toOthers();
-            } catch (\Throwable $th) {
-                report($th);
-            }
+            //
         });
 
         self::deleting(function ($model) {

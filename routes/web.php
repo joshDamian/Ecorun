@@ -14,6 +14,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\SearchEngineController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\PushController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
                 return redirect("@/{$tag}/");
             }
         )->name('guest.follow-profile');
+
+        Route::post('/push', [PushController::class, 'store']);
 
         /*Route::get('/{user}/{profile}', [UserProfileController::class, 'show'])
         ->middleware('can:update,profile')
