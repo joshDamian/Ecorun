@@ -4,9 +4,12 @@ namespace App\Presenters\Post;
 
 use App\DataBanks\Post\FollowersDataBank;
 use App\Models\Post;
+use App\Presenters\Presenter;
 
 class FollowersPresenter
 {
+    use Presenter;
+
     private Post $post;
     private $followers;
 
@@ -14,13 +17,5 @@ class FollowersPresenter
     {
         $this->post = $post;
         $this->followers = (new FollowersDataBank($this->post))->fetch();
-    }
-
-    public function __get($key)
-    {
-        if (method_exists($this, $key)) {
-            return $this->$key();
-        }
-        return $this->$key;
     }
 }

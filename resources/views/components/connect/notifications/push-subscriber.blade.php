@@ -2,8 +2,8 @@
     @auth
     <div x-data="sub_data()" x-init="init()">
         <template x-if="should_show">
-            <div class="bg-gray-300 pb-3">
-                <div class="px-3 text-xl flex justify-between font-bold bg-white text-blue-700 py-3 sm:px-5">
+            <div class="pb-3 bg-gray-300">
+                <div class="flex justify-between px-3 py-3 text-xl font-bold text-blue-700 bg-white sm:px-5">
                     <span>
                         <i class="fas fa-clock"></i> Reminder
                     </span>
@@ -15,23 +15,23 @@
                     </span>
                 </div>
 
-                <div class="bg-gray-100 px-3 py-3 sm:px-5">
-                    <h3 class="text-gray-800 text-lg font-semibold">
+                <div class="px-3 py-3 bg-gray-100 sm:px-5">
+                    <h3 class="text-lg font-semibold text-gray-800">
                         Enable push notifications.
                     </h3>
 
-                    <div class="text-gray-600 font-medium">
+                    <div class="font-medium text-gray-600">
                         enabling push notifications keeps you up to date with eco-vibes 🤭🤭.
                     </div>
                 </div>
 
-                <div class="px-3 flex justify-end items-center py-3 bg-white sm:px-5">
-                    <x-jet-secondary-button x-on:click="should_show = false" class="border-red-500 text-red-500 mr-3">
+                <div class="flex items-center justify-end px-3 py-3 bg-white sm:px-5">
+                    <x-jet-secondary-button x-on:click="should_show = false" class="mr-3 text-red-500 border-red-500">
                         i no want😑
                     </x-jet-secondary-button>
 
 
-                    <x-jet-secondary-button x-on:click="initPush()" class="border-green-500 text-green-500">
+                    <x-jet-secondary-button x-on:click="initPush()" class="text-green-500 border-green-500">
                         I like 😊
                     </x-jet-secondary-button>
                 </div>

@@ -21,7 +21,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
 
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
@@ -89,7 +89,7 @@
             opacity: 1;
         }
 
-@-moz-document url-prefix() {
+        @-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
@@ -118,9 +118,11 @@
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
-    <div id="internet_wiper" class="fixed bg-white top-0 flex items-center justify-center z-50 w-full h-screen">
+    @env('production')
+    <div id="internet_wiper" class="fixed top-0 z-50 flex items-center justify-center w-full h-screen bg-white">
         <img style="w-full" src="/icon/internet_wiper.gif" />
     </div>
+    @endenv
 
     @livewire('buy.cart.add-to-cart', key(md5('add_a_product_to_cart')))
     {{$slot}}
@@ -197,10 +199,12 @@
     @endauth
 
     <script>
-
         document.addEventListener('livewire:load', (event) => {
             setTimeout(() => {
-                document.getElementById('internet_wiper').classList.add('hidden');
+                let wiper = document.getElementById('internet_wiper');
+                if(wiper) {
+                    document.getElementById('internet_wiper').classList.add('hidden');
+                }
             }, 1000);
         });
 

@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Builder;
 use App\Events\ProductCreated;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use App\Presenters\Product\UrlPresenter;

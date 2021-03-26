@@ -10,8 +10,8 @@
             <form wire:submit.prevent="create">
                 @csrf
                 <div>
-                    <div class="flex justify-center w-full mt-2 mb-2 text-blue-600" wire:target="photos, create"
-                        wire:loading>
+                    <div class="flex justify-center w-full mt-2 mb-2 text-blue-600"
+                        wire:target="photos, create, videos, audio" wire:loading>
                         <x-loader_2 />
                     </div>
 
@@ -69,21 +69,49 @@
                         <div>
                             @php $photos_count = ($this->hasStoredImages) ? $this->gallery->count() : count($photos);
                             @endphp
-                            <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
-                                wire:model="photos" multiple />
 
-                            @if($photos_count === 0)
-                            <span @click="$refs.photos.click()"
-                                class="font-semibold text-blue-800 cursor-pointer select-none">
-                                <i class="fas fa-images"></i> &nbsp;Photos
-                            </span>
-                            @endif
+                            <div class="grid grid-cols-3 gap-2 sm:grid-cols-5">
+                                @if($photos_count === 0)
+                                <div>
+                                    <span x-on:click="$refs.photos.click()"
+                                        class="font-semibold text-blue-800 cursor-pointer select-none">
+                                        <input name="photos" class="hidden" x-ref="photos" accept="image/*" type="file"
+                                            wire:model="photos" multiple />
+                                        <i class="fas fa-images"></i> &nbsp;Photos
+                                    </span>
+                                </div>
+                                @endif
+                                <div id="click_for_videos" x-on:click="$refs.videos.click()"
+                                    class="font-semibold text-blue-800 cursor-pointer select-none">
+                                    <input name="videos" class="hidden" x-ref="videos" accept="video/*" type="file"
+                                        wire:model="videos" multiple />
+                                    <i class="fas fa-video"></i> &nbsp;Videos
+                                </div>
+                                <div>
+                                    <span x-on:click="" class="font-semibold text-blue-800 cursor-pointer select-none">
+                                        <i class="fas fa-microphone"></i> &nbsp;Audio
+                                    </span>
+                                </div>
 
-                            @if($photos_count > 0)
-                            <div>
-                                <x-connect.image.multiple-selector :photos="$photos" />
+                                <div>
+                                    <span x-on:click="" class="font-semibold text-blue-800 cursor-pointer select-none">
+                                        <i class="fas fa-music"></i> &nbsp;Music
+                                    </span>
+                                </div>
                             </div>
-                            @endif
+
+                            <div>
+                                @if($photos_count > 0)
+                                <div>
+                                    <x-connect.image.multiple-selector :photos="$photos" />
+                                </div>
+                                @endif
+
+                                <div wire:ignore>
+                                    <div wire:ignore x-show="preview_videos" x-ref="videos_preview"
+                                        class="grid grid-cols-2 gap-2 p-2 bg-gray-200 sm:grid-cols-3"></div>
+                                </div>
+                            </div>
 
                             <div class="flex justify-center w-full text-blue-600" wire:target="addedImages"
                                 wire:loading>
@@ -94,7 +122,7 @@
                         <div class="flex justify-end">
                             <template x-if="!edit_case">
                                 <div class="mr-4">
-                                    <x-jet-secondary-button @click="ready = false; resetHeight()" wire:click="done"
+                                    <x-jet-secondary-button x-on:click="ready = false; resetHeight()" wire:click="done"
                                         class="font-semibold text-red-700">
                                         cancel
                                     </x-jet-secondary-button>
@@ -118,6 +146,7 @@
             return {
                 ready: false,
                 edit_case: false,
+                preview_videos: false,
                 message: '',
                 current_mention: '',
                 current_hashtag: '',
@@ -212,6 +241,66 @@
                             }
                         }
                     );
+
+                    this.$refs.videos.onchange = (e) => {
+                        let videos = this.$refs.videos.files;
+                        if(videos.length > 0) {
+                            this.preview_videos = true;
+                            for (const video in videos) {
+                                if (Object.hasOwnProperty.call(videos, video)) {
+                                    //grab file
+                                    const video_file = videos[video];
+
+                                    // create elements
+                                    let video_tag = document.createElement('video');
+                                    let div_element = document.createElement('div');
+                                    let name_card = document.createElement('div');
+                                    let progress_bar = document.createElement('progress');
+                                    name_card.innerText = video_file.name;
+                                    name_card.classList.add('px-2', 'py-1', 'bg-white', 'mt-2', 'truncate', 'dont-break-out');
+                                    div_element.classList.add('p-2', 'bg-gray-100');
+                                    div_element.setAttribute('wire:ignore', true);
+                                    video_tag.classList.add('w-full');
+                                    progress_bar.classList.add('pt-2');
+
+                                    // append elements to DOM
+                                    div_element.appendChild(video_tag);
+                                    div_element.appendChild(progress_bar);
+                                    div_element.appendChild(name_card);
+                                    this.$refs.videos_preview.appendChild(div_element);
+
+                                    //read file
+                                    let readFile = new Promise((resolve, reject) => {
+                                        let reader = new FileReader();
+                                        reader.onload = (event) => {
+                                            let src = event.target.result;
+                                            if(src !== '') {
+                                                resolve(src);
+                                                progress_bar.classList.add('hidden');
+                                                progress_bar.value = 0;
+                                                reader = null;
+                                            }
+                                            else {
+                                                reject('couldn\'t read file properly');
+                                            }
+                                        };
+                                        reader.onprogress = (event) => {
+                                            if(event.total && event.loaded) {
+                                                progress_bar.value = Math.round((event.loaded / event.total) * 100)
+                                            }
+                                        }
+                                        reader.readAsDataURL(video_file);
+                                    });
+                                    readFile.then(result => {
+                                        video_tag.setAttribute('src', result);
+                                        video_tag.setAttribute('controls', true);
+                                    }).catch(error => console.error(error));
+                                }
+                            }
+                        }
+                        return;
+                    };
+
                     /** watch message **/
                     this.$watch('message',
                         value => {
@@ -227,7 +316,7 @@
                             }
                         }
                     );
-                }
+                },
             }
         }
     </script>

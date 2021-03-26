@@ -12,7 +12,7 @@
             @endif
         </div>
 
-        @if(env('PAYMENTS_ALLOWED'))
+        @if(env('PAYMENTS_ALLOWED', false))
         @if($cartItems->count() > 0)
         @if($view === 'cart.page')
         <a href="{{ route('order.preview_order') }}">

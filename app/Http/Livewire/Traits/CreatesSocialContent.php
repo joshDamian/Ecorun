@@ -14,10 +14,12 @@ trait CreatesSocialContent
     public Profile $profile;
     public string $text_content = '';
     public $photos = [];
+    public $videos = [];
+    public $audio;
 
     public function done()
     {
-        $this->reset('photos', 'text_content');
+        $this->reset('photos', 'text_content', 'videos');
         $this->resetErrorBag();
         return;
     }

@@ -8,7 +8,7 @@
     @endphp
     <div class="md:mb-3" x-data="{ show_options: false }">
         <div class="grid grid-cols-1 gap-0 sm:gap-2">
-            <div class="sticky z-40 px-3 py-1 bg-gray-100 border-b border-gray-300 bg-opacity-75 top-12 sm:px-5">
+            <div class="sticky z-40 px-3 py-1 bg-gray-100 bg-opacity-75 border-b border-gray-300 top-12 sm:px-5">
                 <div class="flex items-center">
                     <div class="mr-4">
                         <a href="{{ route('home') }}">
@@ -77,7 +77,7 @@
                         @foreach($gallery as $key => $image)
                         <div class="flex items-center bg-gray-100 carousel-cell">
                             <img class="carousel-cell-image" data-flickity-lazyload="/storage/{{ $image->image_url }}"
-                            alt="post image" />
+                                alt="post image" />
                         </div>
                         @endforeach
                     </div>

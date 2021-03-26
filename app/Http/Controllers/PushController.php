@@ -6,17 +6,19 @@ use Illuminate\Http\Request;
 
 class PushController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
     /**
-    * Store the PushSubscription.
-    *
-    * @param \Illuminate\Http\Request $request
-    * @return \Illuminate\Http\JsonResponse
-    */
-    public function store(Request $request) {
+     * Store the PushSubscription.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
         $this->validate($request, [
             'endpoint' => 'required',
             'keys.auth' => 'required',

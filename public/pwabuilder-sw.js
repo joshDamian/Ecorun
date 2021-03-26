@@ -60,7 +60,7 @@ self.addEventListener('push', function (e) {
             body: msg.body,
             icon: msg.icon,
             actions: msg.actions,
-            images: msg.images
+            //images: msg.images
         }));
     }
 });
