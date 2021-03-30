@@ -1,5 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/connect/create_new_content.js": "/js/connect/create_new_content.js",
     "/css/app.css": "/css/app.css",
     "/css/webfonts.css": "/css/webfonts.css",
     "/webfonts/fa-brands-400.eot": "/webfonts/fa-brands-400.eot",

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Livewire\Traits;
 
 use Intervention\Image\Facades\Image;
@@ -10,23 +12,45 @@ trait UploadPhotos
 {
     use WithFileUploads;
 
-    public function uploadPhotos(string $folder, object $imageable, string $label, array $sizes = null) {
-        if (count($this->photos) > 0) {
-            foreach ($this->photos as $photo) {
+    public function uploadPhotos(array $photos, string $folder, ?object $imageable, string $label, ?array $sizes)
+    {
+        if (count($photos) > 0) {
+            $photo_paths = [];
+            foreach ($photos as $photo) {
                 $photo_path = $photo->store($folder, 'public');
-                ImageOptimizer::optimize(public_path("/storage/{$photo_path}"));
+                $this->optimize($photo_path);
                 if ($sizes) {
-                    $photo = Image::make(public_path("/storage/{$photo_path}"))->fit($sizes[0], $sizes[1], function ($constraint) {
-                        $constraint->upsize();
-                    });
-                    $photo->save();
+                    $this->resize(sizes: $sizes, photo_path: $photo_path);
                 }
-                $imageable->gallery()->create([
-                    'image_url' => $photo_path,
-                    'label' => $label
-                ]);
+                if (is_object($imageable)) {
+                    $this->attachImageable(imageable: $imageable, photo_path: $photo_path, label: $label);
+                }
+                $photo_paths[] = $photo_path;
             }
-            return $this->photos = [];
+            $this->photos = [];
+            return $photo_paths;
         }
+    }
+
+    public function attachImageable($imageable, $label, $photo_path)
+    {
+        return $imageable->gallery()->create([
+            'image_url' => $photo_path,
+            'label' => $label
+        ]);
+    }
+
+    public function resize(array $sizes, string $photo_path)
+    {
+        $photo = Image::make(public_path("/storage/{$photo_path}"))->fit($sizes[0], $sizes[1], function ($constraint) {
+            $constraint->upsize();
+        });
+        $photo->save();
+        return true;
+    }
+
+    public function optimize($photo_path)
+    {
+        return ImageOptimizer::optimize(public_path("/storage/{$photo_path}"));
     }
 }

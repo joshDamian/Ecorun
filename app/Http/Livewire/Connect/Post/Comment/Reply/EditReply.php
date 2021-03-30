@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class EditReply extends Component
 {
     use CreatesSocialContent,
-    AuthorizesRequests;
+        AuthorizesRequests;
 
     public $reply;
     public $gallery;
@@ -19,7 +19,8 @@ class EditReply extends Component
         'refreshMe' => '$refresh'
     ];
 
-    public function mount() {
+    public function mount()
+    {
         $this->authorize('update', [$this->reply, auth()->user()->currentProfile]);
         $this->text_content = (string) $this->reply->content;
         if ($this->reply->gallery->count() > 0) {
@@ -28,30 +29,34 @@ class EditReply extends Component
         }
     }
 
-    public function confirmDeleteReply() {
+    public function confirmDeleteReply()
+    {
         $this->confirm = true;
     }
 
-    public function create() {
+    public function create()
+    {
         $this->validate($this->validationRules());
         $this->reply->content = $this->text_content;
         $this->reply->save();
         if (count($this->photos) > 0) {
-            $this->uploadPhotos('reply-photos', $this->reply, 'reply_photo');
+            $this->uploadPhotos(photos: $this->photos, folder: 'reply-photos', imageable: $this->reply, label: 'reply_photo', sizes: null);
             $this->photos = [];
             return $this->redirect($this->reply->url->edit);
         }
         return $this->emitSelf('saved');
     }
 
-    public function deleteComment() {
+    public function deleteComment()
+    {
         $this->authorize('update', [$this->reply, auth()->user()->currentProfile]);
         $comment = $this->reply->feedbackable;
         $this->reply->delete();
         return $this->redirect($comment->url->show);
     }
 
-    public function removeFromStoredPhotos($image) {
+    public function removeFromStoredPhotos($image)
+    {
         $image = $this->gallery->find($image);
         if ($this->reply->gallery->count() > 1 || $this->reply->content !== '') {
             $image_url = $image->image_url;
@@ -68,7 +73,8 @@ class EditReply extends Component
         return [];
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.post.comment.reply.edit-reply');
     }
 }
