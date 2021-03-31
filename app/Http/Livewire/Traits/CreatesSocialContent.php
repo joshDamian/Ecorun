@@ -19,9 +19,9 @@ trait CreatesSocialContent
     public $videos = [];
     public $audio;
     public $music = [
-        'title', 'file', 'artiste',
-        'eco_artist', 'cover_art',
-        'lyrics', 'associated_acts'
+        'title' => null, 'file' => null, 'artiste' => null,
+        'eco_artist' => null, 'cover_art' => null,
+        'lyrics' => null, 'associated_acts' => null
     ];
 
     public function done()
@@ -95,6 +95,7 @@ trait CreatesSocialContent
             'photos.*' => $this->image_validation,
             'music.file' => [
                 'mimes:wav,mp3,m4a',
+                'max:30720',
                 Rule::requiredIf($this->emptyContent() || $this->activeMusicSelection())
             ],
             'music.title' => [
@@ -104,6 +105,10 @@ trait CreatesSocialContent
             'music.artiste' => [
                 Rule::requiredIf($this->activeMusicSelection()),
                 'string'
+            ],
+            'music.cover_art' => [
+                'image',
+                'max:10240'
             ]
         ])->merge($this->extra_validation())->toArray();
     }

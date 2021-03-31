@@ -98,9 +98,9 @@
                                 <!-- Photo upload -->
                                 <div x-show="view_status['photos']">
                                     @if(empty($photos))
-                                    <div class="flex items-center justify-center py-8 bg-gray-200">
+                                    <div class="flex items-center justify-center py-4 bg-gray-200">
                                         <x-jet-button type="button" x-on:click="$refs.photos.click()"
-                                            class="text-lg bg-blue-700">
+                                            class="bg-blue-700 text-md">
                                             select photos &nbsp; <i class="fas fa-images"></i>
                                         </x-jet-button>
                                         <input name="photos" hidden x-ref="photos" accept="image/*" type="file"
@@ -120,9 +120,9 @@
                                 <!-- Video upload -->
                                 <div wire:ignore x-show="view_status['videos']">
                                     <template x-if="!preview_ready['videos']">
-                                        <div class="flex items-center justify-center py-8 bg-gray-200">
+                                        <div class="flex items-center justify-center py-4 bg-gray-200">
                                             <x-jet-button type="button" x-on:click="$refs.videos.click()"
-                                                class="text-lg bg-blue-700">
+                                                class="bg-blue-700 text-md">
                                                 select videos &nbsp; <i class="fas fa-video"></i>
                                             </x-jet-button>
                                             <input name="videos"
@@ -132,18 +132,19 @@
                                         </div>
                                     </template>
                                     <div wire:ignore x-show="preview_ready['videos']" x-ref="videos_preview"
-                                        class="grid grid-cols-2 gap-2 p-3 bg-gray-200 sm:grid-cols-3">
+                                        class="grid grid-cols-2 gap-2 px-3 pb-3 bg-gray-200 sm:grid-cols-3">
                                     </div>
                                 </div>
 
                                 <!-- audio upload -->
                                 <div x-show="view_status['audio']">
                                     <template x-if="!preview_ready['audio']">
-                                        <div class="flex items-center justify-center py-8 bg-gray-200">
-                                            <x-jet-button type="button" x-on:click="$refs.recorder.click("
-                                                class="text-lg bg-blue-700">
-                                                record/select audio &nbsp; <i class="fas fa-microphone"></i>
-                                            </x-jet-button>
+                                        <div class="flex items-center justify-center py-4 bg-gray-200">
+                                            <span x-on:click="$refs.recorder.click()"
+                                                class="cursor-pointer fa-stack fa-2x">
+                                                <i class="text-blue-800 fas fa-circle fa-stack-2x"></i>
+                                                <i class="text-white fa-stack-1x fas fa-microphone"></i>
+                                            </span>
                                             <input name="recorder"
                                                 x-on:change="selectReadDisplay('audio', event.target.files, $refs.audio_preview)"
                                                 hidden x-ref="recorder" accept="audio/*" type="file" wire:model=""
@@ -151,30 +152,71 @@
                                         </div>
                                     </template>
                                     <div wire:ignore x-show="preview_ready['audio']" x-ref="audio_preview"
-                                        class="grid grid-cols-2 gap-2 p-3 bg-gray-200 sm:grid-cols-3">
+                                        class="px-3 pb-3 bg-gray-200">
                                     </div>
                                 </div>
 
                                 <!-- music upload -->
                                 <div wire:ignore x-show="view_status['music']">
                                     <div class="flex items-center justify-center py-2 bg-gray-100">
-                                        <input name="music_title" class="form-input" placeholder="title"
-                                            wire:model="music.title" />
-                                    </div>
-                                    <template x-if="!preview_ready['music']">
-                                        <div class="flex items-center justify-center py-8 bg-gray-200">
-                                            <x-jet-button type="button" x-on:click="$refs.music.click()"
-                                                class="text-lg bg-blue-700">
-                                                select music file &nbsp; <i class="fas fa-music"></i>
-                                            </x-jet-button>
-                                            <input name="music"
-                                                x-on:change="selectReadDisplay('music', event.target.files, $refs.music_preview)"
-                                                hidden x-ref="music" accept="audio/*" type="file"
-                                                wire:model="music.file" />
+                                        <div class="grid flex-1 gap-3 sm:grid-cols-2">
+                                            <!-- Title -->
+                                            <div>
+                                                <x-jet-label for="music_title" value="Music title" />
+                                                <input id="music_title" name="music_title"
+                                                    class="w-full mt-1 form-input" placeholder="Music title"
+                                                    wire:model="music.title" />
+                                            </div>
+
+                                            <!-- Artiste -->
+                                            <div>
+                                                <x-jet-label for="music_artiste" value="Artiste" />
+                                                <input id="music_artiste" name="music_artiste"
+                                                    class="w-full mt-1 form-input" placeholder="Artiste"
+                                                    wire:model="music.artiste" />
+                                            </div>
+
+                                            <!-- Cover art -->
+                                            <div>
+                                                <x-jet-label for="music_cover_art" value="Cover art (optional)" />
+                                                <input id="music_cover_art"
+                                                    x-on:click="clearDisplay($refs.preview_cover_art)"
+                                                    x-on:change="selectReadDisplay('cover_art', event.target.files, $refs.preview_cover_art)"
+                                                    accept="image/*" type="file" name="cover_art"
+                                                    class="w-full mt-1 form-input" placeholder="Artiste"
+                                                    wire:model="music.cover_art" />
+                                                <div x-show="preview_ready['cover_art']" x-ref="preview_cover_art">
+                                                </div>
+                                            </div>
+
+                                            <!-- Associated acts -->
+                                            <div>
+                                                <x-jet-label for="associated_acts" value="Associated acts (optional)" />
+                                                <input id="associated_acts" name="associated_acts"
+                                                    class="w-full mt-1 form-input" placeholder="Associated acts"
+                                                    wire:model="music.associated_acts" />
+                                            </div>
+
+                                            <!-- Music lyrics -->
+                                            <div>
+                                                <x-jet-label for="music_lyrics" value="Lyrics (optional)" />
+                                                <textarea id="music_lyrics" rows="3" name="music_lyrics"
+                                                    class="w-full mt-1 form-input" placeholder="Lyrics"
+                                                    wire:model="music.lyrics"></textarea>
+                                            </div>
                                         </div>
-                                    </template>
+                                    </div>
+                                    <div class="flex items-center justify-center py-4 bg-gray-200">
+                                        <x-jet-button type="button" x-on:click="$refs.music.click()"
+                                            class="bg-blue-700 text-md">
+                                            select music file &nbsp; <i class="fas fa-music"></i>
+                                        </x-jet-button>
+                                        <input x-on:click="clearDisplay($refs.music_preview)" name="music"
+                                            x-on:change="selectReadDisplay('music', event.target.files, $refs.music_preview)"
+                                            hidden x-ref="music" accept="audio/*" type="file" wire:model="music.file" />
+                                    </div>
                                     <div wire:ignore x-show="preview_ready['music']" x-ref="music_preview"
-                                        class="grid grid-cols-2 gap-2 p-3 bg-gray-200 sm:grid-cols-3">
+                                        class="px-3 pb-3 bg-gray-200">
                                     </div>
                                 </div>
                             </div>
@@ -209,14 +251,15 @@
                 edit_case: false,
                 preview_ready: {
                     videos: false,
-                    audio: false
+                    audio: false,
+                    cover_art: false
                 },
                 message: '',
                 view_status: {
                     videos: false,
                     photos: false,
                     audio: false,
-                    music: false,
+                    music: true,
                 },
                 set_view_status: function(view) {
                     for (index in this.view_status) {
@@ -232,6 +275,7 @@
                     videos: 'video',
                     audio: 'audio',
                     music: 'audio',
+                    cover_art: 'img'
                 },
                 current_mention: '',
                 current_hashtag: '',
@@ -337,61 +381,84 @@
                         }
                     );
                 },
-                selectReadDisplay: function(type, files, append_to ) {
-                    /* return console.log(append_to); */
+                clearDisplay: function(display) {
+                    return display.innerHTML = '';
+                },
+                selectReadDisplay: function(type, files, append_to, const_element = null) {
+                    append_to.innerHTML = '';
+                    this.preview_ready[type] = false;
                     if(files.length > 0) {
                         this.preview_ready[type] = true;
-                    }
-                    for(const index in files) {
-                        if(Object.hasOwnProperty.call(files, index)) {
-                            let file = files[index];
-                            //create elements
-                            let display_element = document.createElement(this.file_display_elements[type]);
-                            let div_element = document.createElement('div');
-                            let name_card = document.createElement('div');
-                            let progress_bar = document.createElement('progress');
-                            name_card.innerText = file.name;
-                            name_card.classList.add('px-2', 'py-1', 'bg-white', 'mt-2', 'truncate', 'dont-break-out');
-                            div_element.classList.add('p-2', 'bg-gray-100');
-                            div_element.setAttribute('wire:ignore', true);
-                            display_element.classList.add('w-full');
-                            progress_bar.classList.add('pt-2');
-
-                            // append elements to DOM
-                            div_element.appendChild(display_element);
-                            div_element.appendChild(progress_bar);
-                            div_element.appendChild(name_card);
-                            append_to.appendChild(div_element);
-
-                            //read file
-                            let readFile = new Promise((resolve, reject) => {
+                        for(const index in files) {
+                            if(Object.hasOwnProperty.call(files, index)) {
+                                let file = files[index];
                                 let reader = new FileReader();
-                                reader.onload = (event) => {
-                                    let src = event.target.result;
-                                    if (src !== '') {
-                                        resolve(src);
-                                        progress_bar.classList.add('hidden');
-                                        progress_bar.value = 0;
-                                        reader = null;
-                                    } else {
-                                        reject('couldn\'t read file properly');
+                                //create elements
+                                let display_element = document.createElement(this.file_display_elements[type]);
+                                let div_element = document.createElement('div');
+                                let name_card = document.createElement('div');
+                                let progress_bar = document.createElement('progress');
+                                name_card.innerText = file.name;
+                                name_card.classList.add('px-2', 'py-1', 'bg-white', 'mt-2', 'truncate', 'dont-break-out');
+                                div_element.classList.add('p-2', 'bg-gray-100');
+                                div_element.setAttribute('wire:ignore', true);
+                                display_element.classList.add('w-full');
+                                progress_bar.classList.add('pt-2');
+
+                                // append elements to DOM
+                                div_element.appendChild(display_element);
+                                div_element.appendChild(progress_bar);
+                                div_element.appendChild(name_card);
+                                append_to.appendChild(div_element);
+
+                                //read file
+                                let readFile = new Promise((resolve, reject) => {
+                                    reader.onload = (event) => {
+                                        let src = event.target.result;
+                                        if (src !== '') {
+                                            resolve(src);
+                                            progress_bar.classList.add('hidden');
+                                            progress_bar.value = 0;
+                                        } else {
+                                            reject('couldn\'t read file properly');
+                                        }
+                                    };
+                                    reader.onprogress = (event) => {
+                                        if (event.total && event.loaded) {
+                                            progress_bar.value = Math.round((event.loaded / event.total) * 100)
+                                        }
                                     }
-                                };
-                                reader.onprogress = (event) => {
-                                    if (event.total && event.loaded) {
-                                        progress_bar.value = Math.round((event.loaded / event.total) * 100)
+                                    reader.readAsDataURL(file);
+                                });
+                                readFile.then(result => {
+                                    display_element.setAttribute('src', result);
+                                    display_element.setAttribute('controls', true);
+                                    if(type === 'music') {
+                                        var audioCtx = new (window.AudioContext || window.webkitAudioContext);
+                                        let readAsBuffer = new Promise((resolve, reject) => {
+                                            reader.onload = (event) => {
+                                                let buffer = event.target.result;
+                                                if (buffer !== '') {
+                                                    resolve(buffer);
+                                                } else {
+                                                    reject('couldn\'t read file properly');
+                                                }
+                                            }
+                                            reader.readAsArrayBuffer(file);
+                                        });
+                                        readAsBuffer.then(result => {
+                                                var dataView = new jDataView(result)
+                                                console.log(dataView);
+                                        }).catch(error => console.log(error));
                                     }
-                                }
-                                reader.readAsDataURL(file);
-                            });
-                            readFile.then(result => {
-                                display_element.setAttribute('src', result);
-                                display_element.setAttribute('controls', true);
-                            }).catch(error => console.error(error));
+                                }).catch(error => console.error(error));
+                            }
                         }
                     }
+                    return;
                 },
             }
         }
     </script>
+    <script type="module" src="{{ base_path('node_modules/jdataview/dist/node/jdataview.js') }}"></script>
 </div>
