@@ -11,7 +11,7 @@
     @endphp
     @if($view === 'feed.list' && (!$post->profile->followers->contains(auth()->user()->currentProfile)))
     @cannot('update', $post->profile)
-    <div class="px-3 py-2 sm:px-5 bg-white font-semibold text-lg text-gray-600">
+    <div class="px-3 py-2 text-lg font-semibold text-gray-600 bg-white sm:px-5">
         Suggested content
     </div>
     @endcannot
@@ -80,8 +80,13 @@
             </div>
             @endif
         </div>
-    </div>
 
+        <div>
+            @if($post->hasAttachedMusic())
+            <x-connect.music.music-player :music="$post->attachments->music->first()" />
+            @endif
+        </div>
+    </div>
     <div class="bg-gray-100 border-t border-gray-200">
         @auth
         @php $key = mt_rand(16, 5435778633678)."post_fb_{$post->id}"; @endphp

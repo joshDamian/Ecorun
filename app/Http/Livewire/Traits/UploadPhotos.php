@@ -14,8 +14,8 @@ trait UploadPhotos
 
     public function uploadPhotos(array $photos, string $folder, ?object $imageable, string $label, ?array $sizes)
     {
-        if (count($photos) > 0) {
-            $photo_paths = [];
+        $photo_paths = [];
+        if (collect($photos)->filter()->count() > 0) {
             foreach ($photos as $photo) {
                 $photo_path = $photo->store($folder, 'public');
                 $this->optimize($photo_path);
@@ -28,8 +28,8 @@ trait UploadPhotos
                 $photo_paths[] = $photo_path;
             }
             $this->photos = [];
-            return $photo_paths;
         }
+        return $photo_paths;
     }
 
     public function attachImageable($imageable, $label, $photo_path)

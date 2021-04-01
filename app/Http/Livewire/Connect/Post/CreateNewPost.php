@@ -17,6 +17,7 @@ class CreateNewPost extends Component
 
     public function create()
     {
+        /*   dd($this->getErrorBag()->all()); */
         $this->validate($this->validationRules());
         $this->post = $this->profile->posts()->create([
             'content' => trim($this->text_content) ?? '',

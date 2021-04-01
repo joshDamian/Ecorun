@@ -31,6 +31,7 @@ function content_data() {
             cover_art: 'img'
         },
         current_mention: '',
+        canNowDisplayTrackData: false,
         current_hashtag: '',
         large_content: false,
         mentions: [],
@@ -188,21 +189,24 @@ function content_data() {
                             display_element.setAttribute('controls', true);
                             if (type === 'music') {
                                 //var audioCtx = new (window.AudioContext || window.webkitAudioContext);
-                                let readAsBuffer = new Promise((resolve, reject) => {
-                                    reader.onload = (event) => {
-                                        let buffer = event.target.result;
-                                        if (buffer !== '') {
-                                            resolve(buffer);
-                                        } else {
-                                            reject('couldn\'t read file properly');
+                                if(this.canNowDisplayTrackData) {
+                                    let readAsBuffer = new Promise((resolve, reject) => {
+                                        reader.onload = (event) => {
+                                            let buffer = event.target.result;
+                                            if (buffer !== '') {
+                                                resolve(buffer);
+                                            } else {
+                                                reject('couldn\'t read file properly');
+                                            }
                                         }
-                                    }
-                                    reader.readAsArrayBuffer(file);
-                                });
-                                readAsBuffer.then(result => {
-                                    var dataView = new jDataView(result)
-                                    console.log(dataView);
-                                }).catch(error => console.log(error));
+                                        reader.readAsArrayBuffer(file);
+                                    });
+                                    readAsBuffer.then(result => {
+                                        var dataView = new window.jDataView(result)
+                                        console.log(dataView.getString(4, dataView.tell()));
+                                    }).catch(error => console.log(error));
+                                }
+                                this.$refs.music_title.value = file.name;
                             }
                         }).catch(error => console.error(error));
                     }

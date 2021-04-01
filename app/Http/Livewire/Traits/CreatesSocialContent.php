@@ -19,7 +19,7 @@ trait CreatesSocialContent
     public $videos = [];
     public $audio;
     public $music = [
-        'title' => null, 'file' => null, 'artiste' => null,
+        'title' => '', 'file' => null, 'artiste' => '',
         'eco_artist' => null, 'cover_art' => null,
         'lyrics' => null, 'associated_acts' => null
     ];
@@ -59,12 +59,13 @@ trait CreatesSocialContent
                 'artiste' => $this->music['artiste'],
                 'attachable_type' => $attachable->getMorphClass(),
                 'attachable_id' => $attachable->id,
-                'lyrics' => $this->music['lyrics'] ?? '',
-                'cover_art' => $this->uploadPhotos(photos: [$this->music['cover_art']], folder: 'music_cover_art', imageable: null, label: 'cover_art', sizes: [1200, 1200])[0],
+                'lyrics' => $this->music['lyrics'] ?? null,
+                'cover_art' => $this->uploadPhotos(photos: ($this->music['cover_art']) ? [$this->music['cover_art']] : [], folder: 'music_cover_art', imageable: null, label: 'cover_art', sizes: [1200, 1200])[0] ?? null,
                 'eco_artist' => $this->music['eco_artist'],
                 'associated_acts' => $this->music['associated_acts']
             ]);
             $music->save();
+            $this->audio = $this->music['file'];
             $this->uploadAudio($music);
         }
         return $this;
@@ -72,13 +73,14 @@ trait CreatesSocialContent
 
     public function uploadAudio($attachable)
     {
-        if ($this->audio !== null && in_array(mime_content_type($this->audio->name), ['wav', 'm4a', 'mp3'])) {
+        if ($this->audio && $this->audio instanceof \Livewire\TemporaryUploadedFile) {
             (new Audio())->forceFill([
                 'url' => $this->audio->store('audio_files', 'public'),
                 'attachable_id' => $attachable->id,
                 'attachable_type' => $attachable->getMorphClass()
             ])->save();
         }
+        $this->audio = null;
         return $this;
     }
 
@@ -87,26 +89,35 @@ trait CreatesSocialContent
     public function validationRules(): array
     {
         return collect([
-            'text_content' => Rule::requiredIf($this->emptyContent()),
+            'text_content' => [
+                Rule::requiredIf($this->emptyContent()),
+                'bail'
+            ],
             'photos' => [
+                'bail',
+                Rule::requiredIf($this->emptyContent()),
                 'array',
-                Rule::requiredIf($this->emptyContent())
             ],
             'photos.*' => $this->image_validation,
             'music.file' => [
-                'mimes:wav,mp3,m4a',
+                Rule::requiredIf($this->emptyContent() || $this->activeMusicSelection()),
+                'bail',
+                ($this->music['file']) ? 'mimes:wav,mp3,m4a' : '',
                 'max:30720',
-                Rule::requiredIf($this->emptyContent() || $this->activeMusicSelection())
             ],
             'music.title' => [
+                Rule::requiredIf($this->activeMusicSelection()),
+                'bail',
                 'string',
-                Rule::requiredIf($this->activeMusicSelection())
             ],
             'music.artiste' => [
                 Rule::requiredIf($this->activeMusicSelection()),
+                'bail',
                 'string'
             ],
             'music.cover_art' => [
+                'nullable',
+                'bail',
                 'image',
                 'max:10240'
             ]

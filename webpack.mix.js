@@ -17,4 +17,4 @@ mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'pub
 ]).sass('resources/sass/webfonts.scss', 'public/css').copy(
     'node_modules/@fortawesome/fontawesome-free/webfonts',
     'public/webfonts'
-).copy('node_modules/jdataview/dist/node/jdataview.js', 'public/js/jdataview.js').copy('resources/js/create_content.js', 'public/js/create_content.js');
+).copy('resources/js/create_content.js', 'public/js/create_content.js');

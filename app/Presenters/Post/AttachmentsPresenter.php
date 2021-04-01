@@ -4,11 +4,13 @@ namespace App\Presenters\Post;
 
 use App\DataBanks\Post\AttachmentsDataBank;
 use App\Models\Post;
+use App\Presenters\Traits\AttachmentsBehaviours;
 
 class AttachmentsPresenter
 {
+    use AttachmentsBehaviours;
+
     private Post $post;
-    private $attachments;
 
     public function __construct(Post $post)
     {

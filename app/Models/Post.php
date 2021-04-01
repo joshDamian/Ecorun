@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Presenters\Post\AttachmentsPresenter;
 use App\Presenters\Post\FollowersPresenter;
 use App\Presenters\Post\UrlPresenter;
+use App\Traits\HasMediaAttachments;
 use App\Traits\HasMentionsAndTags;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,7 @@ class Post extends Model
     use HasFactory,
         QueryCacheable,
         HasMentionsAndTags,
+        HasMediaAttachments,
         Searchable;
 
     /**
@@ -65,11 +67,7 @@ class Post extends Model
         });
 
         self::deleting(function ($model) {
-            Storage::disk('public')->delete($model->gallery->pluck('image_url')->toArray());
-            $model->comments()->delete();
-            $model->likes()->delete();
-            $model->gallery()->delete();
-            $model->shares()->delete();
+            $model->trash();
         });
     }
 
@@ -78,24 +76,9 @@ class Post extends Model
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 
-    public function getAttachmentsAttributes()
+    public function getAttachmentsAttribute()
     {
         return (new AttachmentsPresenter($this));
-    }
-
-    public function video_attachments()
-    {
-        return $this->morphMany(Video::class, 'attachable');
-    }
-
-    public function audio_attachments()
-    {
-        return $this->morphMany(Audio::class, 'attachable');
-    }
-
-    public function music_attachments()
-    {
-        return $this->morphMany(Music::class, 'attachable');
     }
 
     public function likes()
@@ -108,15 +91,16 @@ class Post extends Model
         return $this->belongsTo(Profile::class);
     }
 
-    public function trash(): bool
+    public function trash(): void
     {
         Storage::disk('public')->delete($this->gallery->pluck('image_url')->toArray());
         $this->comments()->delete();
         $this->likes()->delete();
         $this->gallery()->delete();
         $this->shares()->delete();
-        $this->delete();
-        return true;
+        $this->attachments->each(function ($attachment) {
+            $attachment->delete();
+        });
     }
 
     public function shares()
