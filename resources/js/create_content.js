@@ -1,5 +1,4 @@
-import {jDataView} from '/js/jdataview.js';
-export default function() {
+function content_data() {
     return {
         ready: false,
         edit_case: false,
