@@ -1,8 +1,5 @@
-import {
-    jDataView
-} from 'jdataview';
-//console.log(new jDataView());
-export function content_data() {
+import {jDataView} from '/js/jdataview.js';
+export default function() {
     return {
         ready: false,
         edit_case: false,
@@ -191,7 +188,7 @@ export function content_data() {
                             display_element.setAttribute('src', result);
                             display_element.setAttribute('controls', true);
                             if (type === 'music') {
-                                var audioCtx = new (window.AudioContext || window.webkitAudioContext);
+                                //var audioCtx = new (window.AudioContext || window.webkitAudioContext);
                                 let readAsBuffer = new Promise((resolve, reject) => {
                                     reader.onload = (event) => {
                                         let buffer = event.target.result;

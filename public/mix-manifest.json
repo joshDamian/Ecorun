@@ -1,6 +1,5 @@
 {
     "/js/app.js": "/js/app.js",
-    "/js/create_content.js": "/js/create_content.js",
     "/css/app.css": "/css/app.css",
     "/css/webfonts.css": "/css/webfonts.css",
     "/webfonts/fa-brands-400.eot": "/webfonts/fa-brands-400.eot",
@@ -17,5 +16,6 @@
     "/webfonts/fa-solid-900.svg": "/webfonts/fa-solid-900.svg",
     "/webfonts/fa-solid-900.ttf": "/webfonts/fa-solid-900.ttf",
     "/webfonts/fa-solid-900.woff": "/webfonts/fa-solid-900.woff",
-    "/webfonts/fa-solid-900.woff2": "/webfonts/fa-solid-900.woff2"
+    "/webfonts/fa-solid-900.woff2": "/webfonts/fa-solid-900.woff2",
+    "/js/jdataview.js": "/js/jdataview.js"
 }
