@@ -62,7 +62,7 @@ self.addEventListener('push', function (e) {
             actions: msg.actions,
             tag: msg.tag,
             badge: msg.badge,
-            vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40 , 450, 110, 200, 110, 170, 40, 500]
+            vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500]
             //images: msg.images
         }));
     }
