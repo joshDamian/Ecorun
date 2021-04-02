@@ -17,16 +17,16 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 class Post extends Model
 {
     use HasFactory,
-        QueryCacheable,
-        HasMentionsAndTags,
-        HasMediaAttachments,
-        Searchable;
+    QueryCacheable,
+    HasMentionsAndTags,
+    HasMediaAttachments,
+    Searchable;
 
     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
+    * The accessors to append to the model's array form.
+    *
+    * @var array
+    */
     protected $appends = [
         'url',
     ];
@@ -47,14 +47,12 @@ class Post extends Model
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
-    public function comments()
-    {
+    public function comments() {
         $hello = 'my name';
         return $this->morphMany(Feedback::class, 'feedbackable');
     }
 
-    public static function boot()
-    {
+    public static function boot() {
         parent::boot();
         self::saving(function ($model) {
             self::parseMentionsAndTags($model);
@@ -71,23 +69,19 @@ class Post extends Model
         });
     }
 
-    public function gallery()
-    {
+    public function gallery() {
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 
-    public function getAttachmentsAttribute()
-    {
+    public function getAttachmentsAttribute() {
         return (new AttachmentsPresenter($this));
     }
 
-    public function likes()
-    {
+    public function likes() {
         return $this->morphMany('App\Models\Like', 'likeable');
     }
 
-    public function profile()
-    {
+    public function profile() {
         return $this->belongsTo(Profile::class);
     }
 
@@ -98,18 +92,16 @@ class Post extends Model
         $this->likes()->delete();
         $this->gallery()->delete();
         $this->shares()->delete();
-        $this->attachments->each(function ($attachment) {
+        $this->attachments->all->each(function ($attachment) {
             $attachment->delete();
         });
     }
 
-    public function shares()
-    {
+    public function shares() {
         return $this->morphMany(Share::class, 'shareable');
     }
 
-    public function getFollowersAttribute()
-    {
+    public function getFollowersAttribute() {
         return (new FollowersPresenter($this))->followers;
     }
 
@@ -120,8 +112,7 @@ class Post extends Model
         ];
     }
 
-    public function getUrlAttribute()
-    {
+    public function getUrlAttribute() {
         return (new UrlPresenter($this));
     }
 }

@@ -9,18 +9,22 @@ class Music extends Model
 {
     use HasFactory;
 
-    public function audio()
-    {
+    protected $casts = [
+        'associated_acts' => 'collection'
+    ];
+    protected $attributes = [
+        'associated_acts' => "[]"
+    ];
+
+    public function audio() {
         return $this->morphOne(Audio::class, 'attachable');
     }
 
-    public function video()
-    {
+    public function video() {
         return $this->morphOne(Video::class, 'attachable');
     }
 
-    public function attachable()
-    {
+    public function attachable() {
         return $this->morphTo();
     }
 }

@@ -77,13 +77,19 @@
                         @foreach($gallery as $key => $image)
                         <div class="flex items-center bg-gray-100 carousel-cell">
                             <img class="carousel-cell-image" data-flickity-lazyload="/storage/{{ $image->image_url }}"
-                                alt="post image" />
+                            alt="post image" />
                         </div>
                         @endforeach
                     </div>
                     @else
                     <img class="w-full" src="/storage/{{ $gallery->first()->image_url }}" />
                     @endif
+                </div>
+                @endif
+
+                @if($post->hasAttachedMusic())
+                <div>
+                    <x-connect.music.music-player :music="$post->attachments->music->first()" />
                 </div>
                 @endif
 

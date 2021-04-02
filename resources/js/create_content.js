@@ -12,7 +12,7 @@ function content_data() {
             videos: false,
             photos: false,
             audio: false,
-            music: true,
+            music: false,
         },
         set_view_status: function(view) {
             for (index in this.view_status) {
@@ -189,7 +189,7 @@ function content_data() {
                             display_element.setAttribute('controls', true);
                             if (type === 'music') {
                                 //var audioCtx = new (window.AudioContext || window.webkitAudioContext);
-                                if(this.canNowDisplayTrackData) {
+                                if (this.canNowDisplayTrackData) {
                                     let readAsBuffer = new Promise((resolve, reject) => {
                                         reader.onload = (event) => {
                                             let buffer = event.target.result;
