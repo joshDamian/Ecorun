@@ -17,21 +17,23 @@ class LikedPost extends Notification implements ShouldBroadcastNow
 
     public $like;
     /**
-    * Create a new notification instance.
-    *
-    * @return void
-    */
-    public function __construct(Like $like) {
+     * Create a new notification instance.
+     *
+     * @return void
+     */
+    public function __construct(Like $like)
+    {
         $this->like = $like;
     }
 
     /**
-    * Get the notification's delivery channels.
-    *
-    * @param  mixed  $notifiable
-    * @return array
-    */
-    public function via($notifiable) {
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function via($notifiable)
+    {
         return [
             'mail',
             'database',
@@ -40,7 +42,8 @@ class LikedPost extends Notification implements ShouldBroadcastNow
         ];
     }
 
-    public function toWebPush($notifiable, $notification) {
+    public function toWebPush($notifiable, $notification)
+    {
         $like = $this->like;
         $likeable = $like->likeable;
         $like_name = strtolower(last(explode('\\', $shareable->getMorphClass())));
@@ -57,44 +60,45 @@ class LikedPost extends Notification implements ShouldBroadcastNow
         $refrence_phrase = $liketypes[$like_name]['message'];
         $title = "{$like->profile->name} liked {$refrence_phrase}:";
         $message = (new WebPushMessage)
-        ->title($title)
-        ->icon($like->profile->profile_photo_url)
-        ->body($liketypes[$like_name]['display_text'])
-        ->action("To @{$notifiable->tag}", $notifiable->id)
-        //->action('Reply', 'reply')
-        ->options(['tag' => 'likes', 'topic' => 'likes'])
-        ->data(['id' => $notification->id])
-        ->badge(asset('/icon/logo.png'))
-        // ->dir()
-        //->image()
-        // ->lang()
-        ->renotify()
-        ->requireInteraction()
-        ->tag('likes')
-        ->vibrate(50000);
+            ->title($title)
+            ->icon($like->profile->profile_photo_url)
+            ->body($liketypes[$like_name]['display_text'])
+            ->action("To @{$notifiable->tag}", 'notifiable')
+            ->options(['tag' => 'likes', 'topic' => 'likes'])
+            ->data(['id' => $notification->id])
+            ->badge(asset('/icon/logo.png'))
+            // ->dir()
+            //->image()
+            // ->lang()
+            ->renotify()
+            ->requireInteraction()
+            ->tag('likes')
+            ->vibrate(50000);
         return $message;
     }
 
     /**
-    * Get the mail representation of the notification.
-    *
-    * @param  mixed  $notifiable
-    * @return \Illuminate\Notifications\Messages\MailMessage
-    */
-    public function toMail($notifiable) {
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
         return (new MailMessage)
-        ->line('The introduction to the notification.')
-        ->action('Notification Action', url('/'))
-        ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
-    * Get the array representation of the notification.
-    *
-    * @param  mixed  $notifiable
-    * @return array
-    */
-    public function toArray($notifiable) {
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toArray($notifiable)
+    {
         return [
             'title' => 'New like alert',
             'model_key' => $this->like->id

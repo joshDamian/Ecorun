@@ -72,7 +72,7 @@ class ContentShared extends Notification implements ShouldBroadcastNow
             ->title($title)
             ->icon($share->profile->profile_photo_url)
             ->body($sharetypes[$share_name]['display_text'])
-            ->action("To @{$notifiable->tag}", $notifiable->id)
+            ->action("To @{$notifiable->tag}", 'notifiable')
             //->action('Reply', 'reply')
             ->options(['tag' => 'feed content', 'topic' => 'feed content'])
             ->data(['id' => $notification->id])

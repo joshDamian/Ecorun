@@ -60,7 +60,23 @@ self.addEventListener('push', function (e) {
             body: msg.body,
             icon: msg.icon,
             actions: msg.actions,
+            tag: msg.tag,
+            badge: msg.badge,
+            vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40 , 450, 110, 200, 110, 170, 40, 500]
             //images: msg.images
+        }));
+    }
+});
+
+self.addEventListener("notificationclick", function(event) {
+    event.notification.close();
+    if (event.action === "comment_on_post") {
+        event.waitUntil(self.clients.matchAll().then(function(activeClients) {
+            if (activeClients.length > 0) {
+                activeClients[0].navigate(window.location.hostname + "/post/" + event.notification.data.post_id);
+            } else {
+                self.clients.openWindow(window.location.hostname + "/post/" + event.notification.data.post_id);
+            }
         }));
     }
 });
