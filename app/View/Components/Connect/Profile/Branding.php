@@ -13,6 +13,7 @@ class Branding extends Component
 {
     public array $brands;
     public Profile $profile;
+    public $selectedOption;
     /**
      * Create a new component instance.
      *
@@ -26,6 +27,12 @@ class Branding extends Component
             Business::class => config('branding.brands.business-profiles'),
             null => []
         }))->sort()->toArray();
+        if ($this->profile->isBusiness()) {
+            $business_type = $this->profile->profileable->type;
+            $this->selectedOption = ($business_type === "store") ? "online store" : $business_type;
+        } else if ($this->profile->isUser()) {
+            $this->selectedOption = $this->profile->label;
+        }
     }
 
     /**
