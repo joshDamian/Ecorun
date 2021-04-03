@@ -5,9 +5,7 @@
     </div>
 
     <div class="flex justify-start px-3 py-3 bg-gray-200 sm:px-5">
-        <x-jet-secondary-button>
-            <i class="fas text-lg text-blue-700 fa-folder-plus"></i>
-        </x-jet-secondary-button>
+        <i class="text-2xl text-blue-700 cursor-pointer fas fa-folder-plus"></i>
     </div>
 
     <div class="px-3 py-3 sm:px-5">

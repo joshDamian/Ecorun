@@ -49,6 +49,7 @@ self.addEventListener('fetch', (event) => {
 
 self.addEventListener('push', function (e) {
     if (!(self.Notification && self.Notification.permission === 'granted')) {
+        console.log('notification permissions not granted');
         //notifications aren't supported or permission not granted!
         return;
     }
