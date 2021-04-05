@@ -21,5 +21,7 @@
 
     LimitRequestBody 104857600
 </IfModule>
+<IfModule mod_headers.c>
     Header set Connection 'keep-alive'
     Header set Accept-Ranges 'bytes'
+</IfModule>
