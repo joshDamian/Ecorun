@@ -464,7 +464,7 @@
                                                 console.log(dataView.getString(4, dataView.tell()));
                                             }).catch(error => console.log(error));
                                         }
-                                        this.$refs.music_title.value = file.name;
+                                        // this.$refs.music_title.value = file.name;
                                     }
                                 }).catch(error => console.error(error));
                             }

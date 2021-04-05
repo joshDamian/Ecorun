@@ -83,7 +83,7 @@
 
         <div>
             @if($post->hasAttachedMusic())
-            <x-connect.music.music-player :music="$post->attachments->music->first()" />
+            <x-connect.music.music-player :playlist="$post->attachments->music" />
             @endif
         </div>
     </div>

@@ -49,7 +49,7 @@ class PostCreated extends Notification implements ShouldBroadcastNow
         $message = (new WebPushMessage)
         ->title($title)
         ->icon($post->profile->profile_photo_url)
-        ->body($post->content ?? $refrence_phrase)
+        ->body((!empty($post->content) ? $post->content : ($post->hasAttachedMusic() ? $post->attachments->music->first()->title . ' - ' . $post->attachments->music->first()->artiste : $refrence_phrase)))
         ->action('Like', 'like_post')
         ->action('Comment', 'comment_on_post')
         ->action("To @{$notifiable->tag}", 'notifiable')

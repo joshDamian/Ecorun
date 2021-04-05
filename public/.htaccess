@@ -21,3 +21,5 @@
 
     LimitRequestBody 104857600
 </IfModule>
+    Header set Connection 'keep-alive'
+    Header set Accept-Ranges 'bytes'

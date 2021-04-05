@@ -43,11 +43,11 @@ trait CreatesSocialContent
     }
 
     public function broadcast($event, $model) {
-        /*try { */
-        broadcast(new $event($model))->toOthers();
-        /*  } catch (\Throwable $th) {
+        try {
+            broadcast(new $event($model))->toOthers();
+        } catch (\Throwable $th) {
             report($th);
-        } */
+        }
         return $this;
     }
 
