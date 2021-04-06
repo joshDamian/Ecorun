@@ -17,16 +17,15 @@ class CreateNewPost extends Component
 
     public function create()
     {
-        /*   dd($this->getErrorBag()->all()); */
         $this->validate($this->validationRules());
         $this->post = $this->profile->posts()->create([
             'content' => trim($this->text_content) ?? '',
             'visibility' => $this->visibility
         ]);
-        $this->emit('newPost');
-        $this->emit('addedContent');
         $this->uploadPhotos(photos: $this->photos, folder: 'post-photos', imageable: $this->post, label: 'post_photo', sizes: null);
         $this->uploadMusic($this->post)->uploadAudio($this->post)->broadcast(PostCreated::class, $this->post)->done();
+        $this->emit('newPost');
+        $this->emit('addedContent');
         return;
     }
 

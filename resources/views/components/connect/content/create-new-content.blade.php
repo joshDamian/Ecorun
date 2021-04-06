@@ -110,7 +110,7 @@
                                             select photos &nbsp; <i class="fas fa-images"></i>
                                         </x-jet-button>
                                         <input name="photos" hidden x-ref="photos" accept="image/*" type="file"
-                                        wire:model="photos" multiple />
+                                            wire:model="photos" multiple />
                                     </div>
                                     @else
                                     <div class="p-3 bg-gray-200">
@@ -132,9 +132,9 @@
                                                 select videos &nbsp; <i class="fas fa-video"></i>
                                             </x-jet-button>
                                             <input name="videos"
-                                            x-on:change="selectReadDisplay('videos', event.target.files, $refs.videos_preview)"
-                                            class="hidden" x-ref="videos" accept="video/*" type="file"
-                                            wire:model="videos" multiple />
+                                                x-on:change="selectReadDisplay('videos', event.target.files, $refs.videos_preview)"
+                                                class="hidden" x-ref="videos" accept="video/*" type="file"
+                                                wire:model="videos" multiple />
                                         </div>
                                     </template>
                                     <div wire:ignore x-show="preview_ready['videos']" x-ref="videos_preview"
@@ -152,9 +152,9 @@
                                                 <i class="text-white fa-stack-1x fas fa-microphone"></i>
                                             </span>
                                             <input name="recorder"
-                                            x-on:change="selectReadDisplay('audio', event.target.files, $refs.audio_preview)"
-                                            hidden x-ref="recorder" accept="audio/*" type="file" wire:model=""
-                                            capture />
+                                                x-on:change="selectReadDisplay('audio', event.target.files, $refs.audio_preview)"
+                                                hidden x-ref="recorder" accept="audio/*" type="file" wire:model=""
+                                                capture />
                                         </div>
                                     </template>
                                     <div wire:ignore x-show="preview_ready['audio']" x-ref="audio_preview"
@@ -164,66 +164,79 @@
 
                                 <!-- music upload -->
                                 <div wire:ignore x-show="view_status['music']">
-                                    <div class="flex items-center justify-center py-2 bg-gray-100">
-                                        <div class="grid flex-1 gap-3 sm:grid-cols-2">
+                                    <div class="py-2 bg-gray-100">
+                                        <div class="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2">
                                             <!-- Title -->
                                             <div>
                                                 <x-jet-label for="music_title" value="Music title" />
                                                 <input x-ref="music_title" id="music_title" name="music_title"
-                                                class="w-full mt-1 form-input" placeholder="Music title"
-                                                wire:model="music.title" />
+                                                    class="w-full mt-1 form-input" placeholder="Music title"
+                                                    wire:model="music.title" />
                                             </div>
-
                                             <!-- Artiste -->
                                             <div>
                                                 <x-jet-label for="music_artiste" value="Artiste" />
                                                 <input id="music_artiste" name="music_artiste"
-                                                class="w-full mt-1 form-input" placeholder="Artiste"
-                                                wire:model.defer="music.artiste" />
+                                                    class="w-full mt-1 form-input" placeholder="Artiste"
+                                                    wire:model.defer="music.artiste" />
                                             </div>
+                                        </div>
 
-                                            <!-- Cover art -->
-                                            <div>
-                                                <x-jet-label for="music_cover_art" value="Cover art (optional)" />
-                                                <input id="music_cover_art"
-                                                x-on:click="clearDisplay($refs.preview_cover_art)"
-                                                x-on:change="selectReadDisplay('cover_art', event.target.files, $refs.preview_cover_art)"
-                                                accept="image/*" type="file" name="cover_art"
-                                                class="w-full mt-1 form-input" placeholder="Artiste"
-                                                wire:model.defer="music.cover_art" />
-                                                <div x-show="preview_ready['cover_art']" x-ref="preview_cover_art">
+                                        <div>
+                                            <div x-on:click="optional_music_data = !optional_music_data"
+                                                class="flex justify-between px-3 py-2 mt-3 mb-1 text-lg bg-gray-200 cursor-pointer">
+                                                <div class="font-semibold">optional fields</div>
+                                                <div class="">
+                                                    <i :class="(optional_music_data) ? 'fa-chevron-up' : 'fa-chevron-down'"
+                                                        class="fas"></i>
                                                 </div>
                                             </div>
 
-                                            <!-- Associated acts -->
-                                            <div>
-                                                <x-jet-label for="associated_acts" value="Associated acts (optional)" />
-                                                <input id="associated_acts" name="associated_acts"
-                                                class="w-full mt-1 form-input" placeholder="Associated acts"
-                                                wire:model.defer="music.associated_acts" />
-                                            </div>
-
-                                            <!-- Music lyrics -->
-                                            <div>
-                                                <x-jet-label for="music_lyrics" value="Lyrics (optional)" />
-                                                <textarea id="music_lyrics" rows="3" name="music_lyrics"
-                                                    class="w-full mt-1 form-input" placeholder="Lyrics"
-                                                    wire:model.defer="music.lyrics"></textarea>
+                                            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2"
+                                                x-show="optional_music_data">
+                                                <!-- Cover art -->
+                                                <div>
+                                                    <x-jet-label for="music_cover_art" value="Cover art (optional)" />
+                                                    <input id="music_cover_art"
+                                                        x-on:click="clearDisplay($refs.preview_cover_art)"
+                                                        x-on:change="selectReadDisplay('cover_art', event.target.files, $refs.preview_cover_art)"
+                                                        accept="image/*" type="file" name="cover_art"
+                                                        class="w-full mt-1 form-input" placeholder="Artiste"
+                                                        wire:model.defer="music.cover_art" />
+                                                    <div x-show="preview_ready['cover_art']" x-ref="preview_cover_art">
+                                                    </div>
+                                                </div>
+                                                <!-- Associated acts -->
+                                                <div>
+                                                    <x-jet-label for="associated_acts"
+                                                        value="Associated acts (optional)" />
+                                                    <input id="associated_acts" name="associated_acts"
+                                                        class="w-full mt-1 form-input" placeholder="Associated acts"
+                                                        wire:model.defer="music.associated_acts" />
+                                                </div>
+                                                <!-- Music lyrics -->
+                                                <div>
+                                                    <x-jet-label for="music_lyrics" value="Lyrics (optional)" />
+                                                    <textarea id="music_lyrics" rows="3" name="music_lyrics"
+                                                        class="w-full mt-1 form-input" placeholder="Lyrics"
+                                                        wire:model.defer="music.lyrics"></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="flex items-center justify-center py-4 bg-gray-200">
                                         <x-jet-button type="button" x-on:click="$refs.music.click()"
                                             class="bg-blue-700 text-md">
                                             select music file &nbsp; <i class="fas fa-music"></i>
                                         </x-jet-button>
                                         <input x-on:click="clearDisplay($refs.music_preview)" name="music"
-                                        x-on:change="selectReadDisplay('music', event.target.files, $refs.music_preview)"
-                                        hidden x-ref="music" accept="audio/*" type="file"
-                                        wire:model.defer="music.file" />
+                                            x-on:change="selectReadDisplay('music', event.target.files, $refs.music_preview)"
+                                            hidden x-ref="music" accept="audio/*" type="file"
+                                            wire:model.defer="music.file" />
                                     </div>
                                     <div wire:ignore x-show="preview_ready['music']" x-ref="music_preview"
-                                        class="px-3 pb-3 bg-gray-200">
+                                        class="px-3 pb-3 bg-gray-200 music_preview">
                                     </div>
                                 </div>
                             </div>
@@ -251,15 +264,13 @@
             </form>
         </div>
     </div>
-    {{-- <script src="/js/create_content.js">
-    </script>
-    --}}
 
     <script>
         function content_data() {
             return {
                 ready: false,
                 edit_case: false,
+                optional_music_data: false,
                 preview_ready: {
                     videos: false,
                     audio: false,
@@ -445,6 +456,9 @@
                                 readFile.then(result => {
                                     display_element.setAttribute('src', result);
                                     display_element.setAttribute('controls', true);
+                                    if(type === 'music' || type === 'audio' || type === 'video') {
+                                        display_element.setAttribute('onplay', 'window.MediaHelpers.stopAllMedia(event.target)')
+                                    }
                                     if (type === 'music') {
                                         //var audioCtx = new (window.AudioContext || window.webkitAudioContext);
                                         if (this.canNowDisplayTrackData) {

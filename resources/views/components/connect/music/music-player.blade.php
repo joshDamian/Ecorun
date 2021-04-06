@@ -1,5 +1,5 @@
 @props(['playlist'])
-<div wire:ignore x-data="{
+<div wire:key="{{ $playlist->first()->id }}" wire:ignore x-data="{
     playlist: ({{ $playlist->toJson() }}),
     currentlyPlaying: null,
     cover_art: '',
@@ -16,7 +16,7 @@
             this.audioPlayer.pause();
             this.isPlaying = false;
         } else {
-            this.stopAllTracks();
+            window.MediaHelpers.stopAllMedia();
             this.audioPlayer.play();
             this.isPlaying = true;
         }
@@ -58,47 +58,43 @@
         this.audioPlayer.onpause = (event) => {
             this.isPlaying = false;
         }
+        this.audioPlayer.onplay = (event) => {
+            this.isPlaying = true;
+        }
         this.audioPlayer.onended = (event) => {
             this.isPlaying = false;
         }
         this.audioPlayer.ontimeupdate = (event) => {
             this.calculateDurationAndPlayed();
         }
-        },
-        calculateDurationAndPlayed: function() {
+    },
+    calculateDurationAndPlayed: function() {
         let seekPosition = 0;
-
         // Check if the current track duration is a legible number
         if (!isNaN(this.audioPlayer.duration)) {
-        seekPosition = this.audioPlayer.currentTime * (100 / this.audioPlayer.duration);
-        this.$refs.seek_slider.value = seekPosition;
-        let currentMinutes = Math.floor(this.audioPlayer.currentTime / 60);
-        let currentSeconds = Math.floor(this.audioPlayer.currentTime - currentMinutes * 60);
-        let durationMinutes = Math.floor(this.audioPlayer.duration / 60);
-        let durationSeconds = Math.floor(this.audioPlayer.duration - durationMinutes * 60);
+            seekPosition = this.audioPlayer.currentTime * (100 / this.audioPlayer.duration);
+            this.$refs.seek_slider.value = seekPosition;
+            let currentMinutes = Math.floor(this.audioPlayer.currentTime / 60);
+            let currentSeconds = Math.floor(this.audioPlayer.currentTime - currentMinutes * 60);
+            let durationMinutes = Math.floor(this.audioPlayer.duration / 60);
+            let durationSeconds = Math.floor(this.audioPlayer.duration - durationMinutes * 60);
 
-        // Add a zero to the single digit time values
-        if (currentSeconds < 10) { currentSeconds = '0' + currentSeconds; }
-        if (durationSeconds < 10) { durationSeconds = '0' + durationSeconds; }
-        if (currentMinutes < 10) { currentMinutes = '0' + currentMinutes; }
-        if (durationMinutes < 10) { durationMinutes = '0' + durationMinutes; }
+            // Add a zero to the single digit time values
+            if (currentSeconds < 10) { currentSeconds = '0' + currentSeconds; }
+            if (durationSeconds < 10) { durationSeconds = '0' + durationSeconds; }
+            if (currentMinutes < 10) { currentMinutes = '0' + currentMinutes; }
+            if (durationMinutes < 10) { durationMinutes = '0' + durationMinutes; }
 
-        // Display the updated duration
-        this.$refs.played.textContent = currentMinutes + ':' + currentSeconds;
-        this.$refs.duration.textContent = durationMinutes + ':' + durationSeconds;
+            // Display the updated duration
+            this.$refs.played.textContent = currentMinutes + ':' + currentSeconds;
+            this.$refs.duration.textContent = durationMinutes + ':' + durationSeconds;
         }
     },
 
-    stopAllTracks: function() {
-        let audio_elements = document.querySelectorAll('audio');
-        audio_elements.forEach((audio) => {
-            audio.pause();
-        });
-    },
     revertAudio: function(position, time = this.revertTime) {
         let canRevertForward = (this.audioPlayer.duration >= this.audioPlayer.currentTime + time);
         let canRevertBackward = ((this.audioPlayer.currentTime - time) >= 0);
-        let moveForward = this.canRevertForward ? this.audioPlayer.currentTime + time : this.audioPlayer.currentTime + (this.audioPlayer.duration - this.audioPlayer.currentTime);
+        let moveForward = canRevertForward ? this.audioPlayer.currentTime + time : this.audioPlayer.currentTime + (this.audioPlayer.duration - this.audioPlayer.currentTime);
         let moveBackward = canRevertBackward ? this.audioPlayer.currentTime - time  : 0;
         if(position === 'forward') {
             this.audioPlayer.currentTime = moveForward;
@@ -108,11 +104,10 @@
         }
     },
     seekTo: function() {
-        console.log(this.audioPlayer.duration);
         let seekto = this.audioPlayer.duration * (this.$refs.seek_slider.value / 100);
         this.audioPlayer.currentTime = seekto;
     }
-}" x-init="initialize()">
+}" x-init="initialize()" class="music_player">
     <div>
         <div class="flex items-center justify-center p-4 bg-black">
             <div :class="{ 'fa-spin': isPlaying }"
@@ -145,7 +140,6 @@
             </div>
             <div class="mt-3" x-text="music_headline"></div>
         </div>
-
     </div>
     <audio x-ref="audioPlayer" hidden controls></audio>
 </div>

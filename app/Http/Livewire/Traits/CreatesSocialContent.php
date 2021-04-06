@@ -28,21 +28,25 @@ trait CreatesSocialContent
         'associated_acts' => []
     ];
 
-    public function done() {
+    public function done()
+    {
         $this->reset('photos', 'text_content', 'videos');
         $this->resetErrorBag();
         return;
     }
 
-    public function hintMentions($mention) {
+    public function hintMentions($mention)
+    {
         return \App\Models\Profile::search($mention)->get()->unique()->all();
     }
 
-    public function hintHashtags($hashtag) {
+    public function hintHashtags($hashtag)
+    {
         return \App\Models\Tag::search($hashtag)->get()->pluck('name')->unique()->all();
     }
 
-    public function broadcast($event, $model) {
+    public function broadcast($event, $model)
+    {
         try {
             broadcast(new $event($model))->toOthers();
         } catch (\Throwable $th) {
@@ -51,7 +55,8 @@ trait CreatesSocialContent
         return $this;
     }
 
-    public function uploadMusic(object $attachable) {
+    public function uploadMusic(object $attachable)
+    {
         if ($this->music['file'] !== null) {
             $music = (new Music())->forceFill([
                 'title' => $this->music['title'],
@@ -66,11 +71,13 @@ trait CreatesSocialContent
             $music->save();
             $this->audio = $this->music['file'];
             $this->uploadAudio($music);
+            $this->emit('musicUploaded');
         }
         return $this;
     }
 
-    public function uploadAudio($attachable) {
+    public function uploadAudio($attachable)
+    {
         if ($this->audio && $this->audio instanceof \Livewire\TemporaryUploadedFile) {
             (new Audio())->forceFill([
                 'url' => $this->audio->store('audio_files', 'public'),
@@ -122,11 +129,13 @@ trait CreatesSocialContent
         ])->merge($this->extra_validation())->toArray();
     }
 
-    public function activeMusicSelection() {
+    public function activeMusicSelection()
+    {
         return collect($this->music)->filter()->isNotEmpty();
     }
 
-    public function emptyContent() {
+    public function emptyContent()
+    {
         return (empty(trim($this->text_content)) && (($this->hasStoredImages) ? $this->gallery->count() < 1 : true) && (count($this->photos) < 1) && (is_null($this->music['file'])));
     }
 

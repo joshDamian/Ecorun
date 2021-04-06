@@ -206,6 +206,13 @@
                     document.getElementById('internet_wiper').classList.add('hidden');
                 }
             }, 1000);
+
+            Livewire.on('musicUploaded', (event) => {
+                let all_music_players = document.querySelectorAll('music_player');
+                all_music_players.forEach((player) => {
+                    player.removeAttribute('wire:ignore');
+                });
+            });
         });
 
         function page_transition_loader() {
