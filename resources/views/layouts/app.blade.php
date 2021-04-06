@@ -215,12 +215,15 @@
                         Echo.leave('commentChannel');
                         Echo.leave('App.Models.Profile');
                     });
-                    window.focus();
+                    //window.focus();
                     window.addEventListener('focus', (event) => {
                         setTimeout(() => {
                             this.hidden = true;
                         }, 400)
-                    })
+                    });
+window.onload = (event) => {
+this.hidden = true;
+}
                 }
             }
         }
