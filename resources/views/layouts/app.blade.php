@@ -221,9 +221,9 @@
                             this.hidden = true;
                         }, 400)
                     });
-window.onload = (event) => {
-this.hidden = true;
-}
+                    window.onload = (event) => {
+                        this.hidden = true;
+                    };
                 }
             }
         }
