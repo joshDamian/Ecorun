@@ -42,6 +42,7 @@ class Profile extends Model
     protected $appends = [
         'profile_photo_url',
         'url',
+        'brand'
         //'unread_messages_count',
     ];
     public $cacheFor = 2592000;
@@ -190,6 +191,11 @@ class Profile extends Model
     public function getFeedAttribute()
     {
         return (new FeedPresenter($this));
+    }
+
+    public function getBrandAttribute(): string
+    {
+        return $this->profileable->brand;
     }
 
     public function getUrlAttribute()

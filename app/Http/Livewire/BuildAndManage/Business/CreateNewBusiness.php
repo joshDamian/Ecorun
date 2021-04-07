@@ -15,8 +15,8 @@ class CreateNewBusiness extends Component
 
     public User $user;
     public $name;
-    public $type = 'store';
-    protected $validTypes = ['store', 'service'];
+    public $type = 'online store';
+    protected $validTypes = ['online store', 'service'];
 
     public function create()
     {
@@ -29,7 +29,8 @@ class CreateNewBusiness extends Component
             ['type' => $this->type]
         );
         if (!$manager_access) {
-            $manager_access = $this->user->is_business_owner = true;
+            $this->user->is_business_owner = true;
+            $this->user->brand = 'business owner';
             $this->user->save();
         }
         if ($business) {

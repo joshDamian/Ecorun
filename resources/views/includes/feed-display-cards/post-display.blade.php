@@ -24,17 +24,14 @@
                         class="w-10 h-10 border-t-2 border-b-2 border-blue-700 rounded-full">
                     </div>
                 </a>
-
                 <div>
                     <a href="{{ $profile_visit_url }}">
                         <span class="font-medium text-blue-700 text-md">{{ $profile->name }}</span>
                     </a>
-
                     <div class="flex items-center">
                         <a class="flex-1 mr-2 truncate" href="{{ $profile_visit_url }}">
                             <span class="text-sm font-normal text-blue-600 truncate">{{ $profile->full_tag() }}</span>
                         </a>
-
                         <div class="text-sm font-normal text-gray-500">
                             {{ $post->created_at->diffForHumans() }}
                         </div>
@@ -73,6 +70,7 @@
             @if($image_count > 0 && $image_count > 1)
             <div>
                 <x-connect.image.gallery view="list" height="h-48" :gallery="$gallery" />
+                {{-- <x-connect.image.carousel :gallery="$gallery" /> --}}
             </div>
             @elseif($image_count > 0 && $image_count === 1)
             <div class="bg-gray-100">

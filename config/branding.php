@@ -2,15 +2,17 @@
 
 return [
     'brands' => [
-        'user-profiles' => [
+        'users' => [
             'artist',
             'media personality',
             'social media influencer',
             'musician',
             'content creator',
-            'artisan'
+            'artisan',
+            'eco-newbie',
+            'business owner',
         ],
-        'business-profiles' => [
+        'businesses' => [
             'online store',
             'service',
         ],

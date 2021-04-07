@@ -17,6 +17,9 @@ class Business extends Model
     protected $fillable = [
         'type'
     ];
+    protected $appends = [
+        'brand'
+    ];
 
     public function owner()
     {
@@ -32,7 +35,12 @@ class Business extends Model
 
     public function isStore()
     {
-        return $this->type === "store";
+        return $this->type === "online store";
+    }
+
+    public function getBrandAttribute()
+    {
+        return $this->type;
     }
 
     public function isService()

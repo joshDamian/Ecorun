@@ -206,14 +206,29 @@
                     document.getElementById('internet_wiper').classList.add('hidden');
                 }
             }, 1000);
-
             Livewire.on('musicUploaded', (event) => {
-                let all_music_players = document.querySelectorAll('music_player');
-                all_music_players.forEach((player) => {
-                    player.removeAttribute('wire:ignore');
-                });
+                removeWireIgnore('.music_player');
+            });
+            Livewire.on('photosUploaded', (event) => {
+                removeWireIgnore('.gallery');
             });
         });
+
+        window.addEventListener('remove-wire:ignore', (event) => {
+            removeWireIgnore('.post_display');
+        })
+
+        function removeWireIgnore(selector = '') {
+            let elements = document.querySelectorAll(selector);
+            elements.forEach((element) => {
+                element.removeAttribute('wire:ignore');
+            });
+            Livewire.hook('component.updated', (event) => {
+                elements.forEach((element) => {
+                    element.setAttribute('wire:ignore', true);
+                });
+            });
+        }
 
         function page_transition_loader() {
             return {

@@ -1,5 +1,5 @@
 @props(['playlist'])
-<div wire:key="{{ $playlist->first()->id }}" wire:ignore x-data="{
+<div wire:key="music_player_{{ $playlist->first()->id }}" wire:ignore x-data="{
     playlist: ({{ $playlist->toJson() }}),
     currentlyPlaying: null,
     cover_art: '',

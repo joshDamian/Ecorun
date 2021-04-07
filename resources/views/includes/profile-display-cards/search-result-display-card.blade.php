@@ -30,10 +30,19 @@
                     'ff_counter' . $profile->id))
                 </div>
             </div>
-            <div class="flex items-center justify-between">
-                @livewire('connect.profile.follow-profile', ['profile' => $profile], key(microtime() .
-                str_shuffle($profile->tag) . $profile->id))
+            <div class="grid grid-cols-1 gap-2">
+                <div class="font-bold text-green-500">
+                    <i class="fas fa-check-circle"></i> {{ $profile->brand }}
+                </div>
+                <div class="flex items-center justify-between">
+                    @livewire('connect.profile.follow-profile', ['profile' => $profile], key(microtime() .
+                    str_shuffle($profile->tag) . $profile->id))
+                </div>
             </div>
         </div>
+    </div>
+
+    <div class="px-3 py-3 font-semibold text-gray-700 bg-gray-50">
+        {{ $profile->description }}
     </div>
 </div>

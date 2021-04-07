@@ -8,6 +8,8 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Business;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class EditProfile extends Component
@@ -19,6 +21,7 @@ class EditProfile extends Component
     public $name;
     public $photo;
     public $tag;
+    public $brand;
     public $description;
 
     public function mount()
@@ -26,8 +29,8 @@ class EditProfile extends Component
         $this->name = $this->profile->name;
         $this->description = $this->profile->description;
         $this->tag = $this->profile->tag;
+        $this->brand = $this->profile->brand;
     }
-
 
     public function update()
     {
@@ -41,19 +44,31 @@ class EditProfile extends Component
         $this->profile->name = $this->upperCaseWords($this->name);
         $this->profile->tag = $this->tag;
         $this->profile->description = $this->description;
-
+        $modify_brand = function () {
+            if ($this->brand !== $this->profile->brand) {
+                $modified = match ($this->profile->profileable_type) {
+                    User::class => function () {
+                        $this->profile->profileable->brand = $this->brand;
+                        $this->profile->profileable->save();
+                    },
+                    Business::class => function () {
+                        $this->profile->profileable->type = $this->brand;
+                        $this->profile->profileable->save();
+                    }
+                };
+                return $modified();
+            }
+            return false;
+        };
+        $modify_brand();
         $this->profile->save();
-
         if ($should_modify) {
             $this->modify_static_content($old_tag);
         }
-
         if ($this->photo) {
             $this->profile->updateProfilePhoto($this->photo);
         }
-
         $this->emitSelf('saved');
-
         return redirect($this->profile->url->edit);
     }
 
@@ -70,14 +85,12 @@ class EditProfile extends Component
                 'required',
                 'min:4',
                 'max:255',
-
                 Rule::unique('profiles', 'name')->where(
                     function ($query) {
                         return $query->where('profileable_type', 'App\Models\Business');
                     }
                 )->ignore($this->profile)
             ],
-
             'tag' => [
                 'required',
                 'min:4',
@@ -85,12 +98,11 @@ class EditProfile extends Component
                 Rule::unique('profiles')->ignore($this->profile),
                 'alpha_dash',
             ],
-
             'description' => [
                 'required',
                 'min:4'
             ],
-
+            'brand' => ['required', ($this->profile->isBusiness()) ? Rule::in(config('branding.brands.businesses')) : Rule::in(config('branding.brands.users'))],
             'photo' => [
                 'nullable',
                 'image',
@@ -107,7 +119,7 @@ class EditProfile extends Component
         }
     }
 
-    public function getProfileProperty()
+    public function getProfileProperty(): \App\Models\Profile
     {
         return Profile::findOrFail($this->profileId);
     }
