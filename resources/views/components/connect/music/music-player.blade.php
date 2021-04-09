@@ -110,8 +110,7 @@
     }" x-init="initialize()" class="music_player">
     <div>
         <div class="flex items-center justify-center p-4 bg-black">
-            <div
-                :style="'background-size: cover; background-position: center center; background-image: url(/storage/' + cover_art + ')'"
+            <div :style="'background-size: cover; background-position: center center; background-image: url(/storage/' + cover_art + ')'"
                 class="border border-white shadow-lg h-44 w-44">
             </div>
         </div>
@@ -127,21 +126,27 @@
                     <i x-on:click="revertAudio('forward')" class="cursor-pointer fas fa-redo"></i>
                     <span class="ml-1 text-xs">10s</span>
                 </div>
-
-                <div class="flex items-center justify-end">
-                    <i x-on:click="$wire.downloadMusic(currentlyPlaying)" class="fas fa-download"></i>
-                </div>
             </div>
             <canvas x-show="isPlaying" class="w-full h-15" x-ref="visualizer"></canvas>
             <div class="flex justify-between w-full mt-3">
                 <div x-ref="played" class="mr-2">
                 </div>
                 <input x-ref="seek_slider" type="range" min="1" max="100" value="0" class="w-10/12 mr-2"
-                x-on:change="seekTo()">
+                    x-on:change="seekTo()">
                 <div x-ref="duration">
                 </div>
             </div>
-            <div class="mt-3" x-text="music_headline"></div>
+            <div class="flex mt-3">
+                <div class="items-center flex-1 mr-3" x-text="music_headline"></div>
+                <div class="flex items-center justify-end">
+                    <x-jet-secondary-button x-on:click="$wire.downloadMusic(currentlyPlaying)"
+                        class="bg-gray-900 text-md">
+                        <span class="text-white">
+                            download <i class="fas fa-download"></i>
+                        </span>
+                    </x-jet-secondary-button>
+                </div>
+            </div>
         </div>
     </div>
     <audio x-ref="audioPlayer" hidden controls></audio>
