@@ -21,7 +21,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
 
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
@@ -89,7 +89,7 @@
             opacity: 1;
         }
 
-        @-moz-document url-prefix() {
+@-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
@@ -202,16 +202,19 @@
         document.addEventListener('livewire:load', (event) => {
             setTimeout(() => {
                 let wiper = document.getElementById('internet_wiper');
-                if(wiper) {
+                if (wiper) {
                     document.getElementById('internet_wiper').classList.add('hidden');
                 }
-            }, 1000);
-            Livewire.on('musicUploaded', (event) => {
-                removeWireIgnore('.music_player');
-            });
-            Livewire.on('photosUploaded', (event) => {
-                removeWireIgnore('.gallery');
-            });
+            },
+                1000);
+            Livewire.on('musicUploaded',
+                (event) => {
+                    removeWireIgnore('.music_player');
+                });
+            Livewire.on('photosUploaded',
+                (event) => {
+                    removeWireIgnore('.gallery');
+                });
         });
 
         window.addEventListener('remove-wire:ignore', (event) => {
@@ -223,7 +226,7 @@
             elements.forEach((element) => {
                 element.removeAttribute('wire:ignore');
             });
-            Livewire.hook('component.updated', (event) => {
+            Livewire.hook('message.processed', (event) => {
                 elements.forEach((element) => {
                     element.setAttribute('wire:ignore', true);
                 });
@@ -244,7 +247,8 @@
                     window.addEventListener('focus', (event) => {
                         setTimeout(() => {
                             this.hidden = true;
-                        }, 400)
+                        },
+                            400)
                     })
                 }
             }

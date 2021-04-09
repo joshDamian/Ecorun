@@ -61,7 +61,8 @@ self.addEventListener('push', function (e) {
             body: msg.body,
             icon: msg.icon,
             actions: msg.actions,
-            tag: msg.tag,
+            //tag: msg.tag,
+            topic: msg.data.topic,
             badge: msg.badge,
             vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500]
             //images: msg.images

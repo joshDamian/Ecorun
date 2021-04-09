@@ -34,7 +34,7 @@
                 <div class="font-bold text-green-500">
                     <i class="fas fa-check-circle"></i> {{ $profile->brand }}
                 </div>
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-end">
                     @livewire('connect.profile.follow-profile', ['profile' => $profile], key(microtime() .
                     str_shuffle($profile->tag) . $profile->id))
                 </div>
