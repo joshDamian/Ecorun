@@ -120,6 +120,11 @@ class User extends Authenticatable
                     ]
                 );
                 $user->switchProfile($user->profile);
+                $badge = Badge::firstWhere(function ($query) {
+                    $query->where('label', 'eco-regular')->where('canuse', 'user');
+                });
+                $user->badges()->attach($badge?->id);
+                $user->setPrimaryBadge($badge);
             }
         );
     }

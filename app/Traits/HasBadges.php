@@ -20,8 +20,10 @@ trait HasBadges
 
     public function setPrimaryBadge(Badge $badge)
     {
-        $this->primary_badge_id = $badge->id;
-        $this->save();
+        if ($badge) {
+            $this->primary_badge_id = $badge->id;
+            $this->save();
+        }
     }
 
     abstract public function getDefaultBadge();
