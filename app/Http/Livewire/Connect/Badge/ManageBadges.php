@@ -10,11 +10,16 @@ use Livewire\Component;
 class ManageBadges extends Component
 {
     public $badgable;
-    public $badge = ['for' => 'user', 'description' => '', 'label' => ''];
+    public $badge = ['for' => '', 'description' => '', 'label' => ''];
     public Profile $credit;
     protected $listeners = [
         'refresh' => '$refresh'
     ];
+
+    public function mount()
+    {
+        $this->badge['for'] = $this->badgable->getBadgeCanUse();
+    }
 
     public function toggle(Badge $badge)
     {
