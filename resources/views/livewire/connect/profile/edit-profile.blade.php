@@ -80,7 +80,8 @@
                     <x-jet-input-error for="description" class="mt-2" />
                 </div>
 
-                <x-connect.profile.branding :profile="$this->profile" />
+                @livewire('connect.badge.manage-badges', ['badgable' => $this->profile->profileable, 'credit' =>
+                $this->profile])
             </div>
         </div>
         <div class="flex items-center justify-end px-4 py-3 text-right md:rounded-b-lg bg-gray-50 sm:px-6">

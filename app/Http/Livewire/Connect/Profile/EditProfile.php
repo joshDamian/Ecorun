@@ -21,7 +21,6 @@ class EditProfile extends Component
     public $name;
     public $photo;
     public $tag;
-    public $brand;
     public $description;
 
     public function mount()
@@ -29,7 +28,6 @@ class EditProfile extends Component
         $this->name = $this->profile->name;
         $this->description = $this->profile->description;
         $this->tag = $this->profile->tag;
-        $this->brand = $this->profile->brand;
     }
 
     public function update()
@@ -44,23 +42,6 @@ class EditProfile extends Component
         $this->profile->name = $this->upperCaseWords($this->name);
         $this->profile->tag = $this->tag;
         $this->profile->description = $this->description;
-        $modify_brand = function () {
-            if ($this->brand !== $this->profile->brand) {
-                $modified = match ($this->profile->profileable_type) {
-                    User::class => function () {
-                        $this->profile->profileable->brand = $this->brand;
-                        $this->profile->profileable->save();
-                    },
-                    Business::class => function () {
-                        $this->profile->profileable->type = $this->brand;
-                        $this->profile->profileable->save();
-                    }
-                };
-                return $modified();
-            }
-            return false;
-        };
-        $modify_brand();
         $this->profile->save();
         if ($should_modify) {
             $this->modify_static_content($old_tag);
@@ -102,7 +83,6 @@ class EditProfile extends Component
                 'required',
                 'min:4'
             ],
-            'brand' => ['required', ($this->profile->isBusiness()) ? Rule::in(config('branding.brands.businesses')) : Rule::in(config('branding.brands.users'))],
             'photo' => [
                 'nullable',
                 'image',

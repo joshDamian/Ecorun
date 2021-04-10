@@ -39,7 +39,10 @@
                         </div>
 
                         <div class="py-2 font-bold text-green-500">
-                            <i class="fas fa-check-circle"></i> {{ $profile->brand }}
+                            @php
+                            $badge = $profile->profileable?->primaryBadge;
+                            @endphp
+                            <i class="{{ $badge->icon }}"></i> {{ $badge->label }}
                         </div>
                     </div>
 

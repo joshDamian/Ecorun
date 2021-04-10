@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Presenters\User\AssociatedProfilesPresenter;
 use App\Presenters\User\NotificationsPresenter;
 use App\Presenters\User\UrlPresenter;
+use App\Traits\HasBadges;
 use App\Traits\HasProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -25,6 +26,7 @@ class User extends Authenticatable
         Notifiable,
         TwoFactorAuthenticatable,
         HasPushSubscriptions,
+        HasBadges,
         QueryCacheable;
 
     /**
@@ -149,5 +151,17 @@ class User extends Authenticatable
         return $this->belongsTo(Profile::class, 'current_profile_id')->withDefault([
             'name' => 'Guest',
         ]);
+    }
+
+    public function getDefaultBadge()
+    {
+        return Badge::firstWhere(function ($query) {
+            $query->where('label', 'eco-regular')->where('canuse', 'user');
+        });
+    }
+
+    public function getBadgeCanUse()
+    {
+        return 'user';
     }
 }

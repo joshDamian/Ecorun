@@ -1,4 +1,10 @@
 @props(['photos', 'type', 'profilePhotoUrl'])
+@php
+$canUploadVideo = config('eco-features.connect.media.video.upload');
+$canUploadAudio = config('eco-features.connect.media.audio.upload');
+$canUploadMusic = config('eco-features.connect.media.music.upload');
+$canUploadPhoto = config('eco-features.connect.media.photo.upload')
+@endphp
 <div x-data="content_data()" x-init="initialize()" x-cloak>
     <div :class="ready ? '' : 'flex items-center'">
         <div x-show="!ready" style="background-image: url('{{ $profilePhotoUrl }}'); background-size: cover; background-position: center
@@ -8,13 +14,6 @@
         <div class="flex-1">
             <form wire:submit.prevent="create">
                 @csrf
-                <div>
-                    @foreach($this->getErrorBag()->all() as $key => $value)
-                    <div>
-                        {{ $value }}
-                    </div>
-                    @endforeach
-                </div>
                 <div>
                     <div class="flex justify-center w-full mt-2 mb-2 text-blue-600"
                         wire:target="photos, create, videos, audio" wire:loading>
@@ -75,32 +74,41 @@
                     <div x-show="ready" :class="ready ? 'mt-2' : ''" class="grid grid-cols-1 gap-2">
                         <div>
                             <div class="flex">
+                                @if($canUploadPhoto)
                                 <div :class="view_status['photos'] ? 'bg-gray-200' : ''"
                                     x-on:click="set_view_status('photos')"
                                     class="px-2 py-1 font-semibold text-blue-800 cursor-pointer select-none">
                                     <i class="fas fa-images"></i> &nbsp;Photos
                                 </div>
+                                @endif
 
+                                @if($canUploadVideo)
                                 <div :class="view_status['videos'] ? 'bg-gray-200' : ''"
                                     x-on:click="set_view_status('videos')"
                                     class="px-2 py-1 font-semibold text-blue-800 cursor-pointer select-none">
                                     <i class="fas fa-video"></i> &nbsp;Videos
                                 </div>
+                                @endif
 
+                                @if($canUploadAudio)
                                 <div :class="view_status['audio'] ? 'bg-gray-200' : ''"
                                     x-on:click="set_view_status('audio')"
                                     class="px-2 py-1 font-semibold text-blue-800 cursor-pointer select-none">
                                     <i class="fas fa-microphone"></i> &nbsp;Audio
                                 </div>
+                                @endif
 
+                                @if($canUploadMusic)
                                 <div :class="view_status['music'] ? 'bg-gray-200' : ''"
                                     x-on:click="set_view_status('music')"
                                     class="px-2 py-1 font-semibold text-blue-800 cursor-pointer select-none">
                                     <i class="fas fa-music"></i> &nbsp;Music
                                 </div>
+                                @endif
                             </div>
 
                             <div>
+                                @if($canUploadPhoto)
                                 <!-- Photo upload -->
                                 <div x-show="view_status['photos']">
                                     @if(empty($photos))
@@ -122,7 +130,9 @@
                                     </div>
                                     @endif
                                 </div>
+                                @endif
 
+                                @if($canUploadVideo)
                                 <!-- Video upload -->
                                 <div wire:ignore x-show="view_status['videos']">
                                     <template x-if="!preview_ready['videos']">
@@ -141,7 +151,9 @@
                                         class="grid grid-cols-2 gap-2 px-3 pb-3 bg-gray-200 sm:grid-cols-3">
                                     </div>
                                 </div>
+                                @endif
 
+                                @if($canUploadAudio)
                                 <!-- audio upload -->
                                 <div x-show="view_status['audio']">
                                     <template x-if="!preview_ready['audio']">
@@ -161,7 +173,9 @@
                                         class="px-3 pb-3 bg-gray-200">
                                     </div>
                                 </div>
+                                @endif
 
+                                @if($canUploadMusic)
                                 <!-- music upload -->
                                 <div wire:ignore x-show="view_status['music']">
                                     <div class="py-2 bg-gray-100">
@@ -206,6 +220,8 @@
                                                     <div x-show="preview_ready['cover_art']" x-ref="preview_cover_art">
                                                     </div>
                                                 </div>
+
+                                                @if(config('eco-features.connect.media.music.associated acts'))
                                                 <!-- Associated acts -->
                                                 <div>
                                                     <x-jet-label for="associated_acts"
@@ -214,6 +230,9 @@
                                                         class="w-full mt-1 form-input" placeholder="Associated acts"
                                                         wire:model.defer="music.associated_acts" />
                                                 </div>
+                                                @endif
+
+                                                @if(config('eco-features.connect.media.music.lyrics'))
                                                 <!-- Music lyrics -->
                                                 <div>
                                                     <x-jet-label for="music_lyrics" value="Lyrics (optional)" />
@@ -221,6 +240,7 @@
                                                         class="w-full mt-1 form-input" placeholder="Lyrics"
                                                         wire:model.defer="music.lyrics"></textarea>
                                                 </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -239,6 +259,7 @@
                                         class="px-3 pb-3 bg-gray-200 music_preview">
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
 

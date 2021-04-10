@@ -32,7 +32,7 @@
             </div>
             <div class="grid grid-cols-1 gap-2">
                 <div class="font-bold text-green-500">
-                    <i class="fas fa-check-circle"></i> {{ $profile->brand }}
+                    <i class="fas fa-check-circle"></i> {{ $profile->profileable?->primaryBadge->label }}
                 </div>
                 <div class="flex items-center justify-end">
                     @livewire('connect.profile.follow-profile', ['profile' => $profile], key(microtime() .

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBrandToUsersTable extends Migration
+class AddIconToBadgesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddBrandToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('brand')->default('eco-newbie');
+        Schema::table('badges', function (Blueprint $table) {
+            $table->string('icon')->default('fas fa-check-circle');
         });
     }
 
@@ -25,8 +25,8 @@ class AddBrandToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('brand');
+        Schema::table('badges', function (Blueprint $table) {
+            $table->dropColumn('icon');
         });
     }
 }

@@ -8,10 +8,12 @@ use App\Models\Business;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\View\Component;
+use App\Models\Badge;
+use Illuminate\Support\Collection;
 
 class Branding extends Component
 {
-    public array $brands;
+    public Collection $brands;
     public Profile $profile;
     /**
      * Create a new component instance.
@@ -20,12 +22,14 @@ class Branding extends Component
      */
     public function __construct(Profile $profile)
     {
+        $badges = Badge::all()->groupBy('canuse');
+        /* dd($badges); */
         $this->profile = $profile;
-        $this->brands = collect((match ($this->profile?->profileable_type) {
-            User::class => config('branding.brands.users'),
-            Business::class => config('branding.brands.businesses'),
-            null => []
-        }))->sort()->toArray();
+        $this->brands = (match ($this->profile?->profileable_type) {
+            User::class => $badges['user'],
+            Business::class => $badges['business'],
+            null => collect([])
+        })->sort();
     }
 
     /**
