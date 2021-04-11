@@ -8,7 +8,8 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Music extends Model
 {
-    use HasFactory, QueryCacheable;
+    use HasFactory,
+    QueryCacheable;
 
     protected $casts = [
         'associated_acts' => 'collection'
@@ -25,23 +26,19 @@ class Music extends Model
         'cover_art_url'
     ];
 
-    public function audio()
-    {
+    public function audio() {
         return $this->morphOne(Audio::class, 'attachable');
     }
 
-    public function video()
-    {
+    public function video() {
         return $this->morphOne(Video::class, 'attachable');
     }
 
-    public function attachable()
-    {
+    public function attachable() {
         return $this->morphTo();
     }
 
-    public function getCoverArtUrlAttribute()
-    {
-        return $this->cover_art ?? 'app-images/music_player.jpg';
+    public function getCoverArtUrlAttribute() {
+        return '/storage/' . $this->cover_art ?? '/app-images/music_player.jpg';
     }
 }
