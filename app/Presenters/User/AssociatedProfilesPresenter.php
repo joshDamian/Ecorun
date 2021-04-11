@@ -4,9 +4,12 @@ namespace App\Presenters\User;
 
 use App\DataBanks\User\AssociatedProfilesDataBank;
 use App\Models\User;
+use App\Presenters\Presenter;
 
 class AssociatedProfilesPresenter
 {
+    use Presenter;
+
     protected User $user;
     protected $associatedProfiles;
 
@@ -14,14 +17,6 @@ class AssociatedProfilesPresenter
     {
         $this->user = $user;
         $this->associatedProfiles =  (new AssociatedProfilesDataBank($this->user))->fetch();
-    }
-
-    public function __get($key)
-    {
-        if (method_exists($this, $key)) {
-            return $this->$key();
-        }
-        return $this->$key;
     }
 
     public function owned_business_profiles()

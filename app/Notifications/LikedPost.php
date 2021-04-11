@@ -8,6 +8,8 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushMessage;
+use NotificationChannels\WebPush\WebPushChannel;
 
 class LikedPost extends Notification implements ShouldBroadcastNow
 {
@@ -32,7 +34,44 @@ class LikedPost extends Notification implements ShouldBroadcastNow
      */
     public function via($notifiable)
     {
-        return ['mail', 'database', 'broadcast'];
+        return [
+            'mail',
+            'database',
+            'broadcast',
+            WebPushChannel::class
+        ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        $like = $this->like;
+        $likeable = $like->likeable;
+        $like_name = strtolower(last(explode('\\', $likeable->getMorphClass())));
+        $liketypes = [
+            'post' => [
+                'message' => ($likeable->profile_id === $notifiable->id) ? 'your post' : ($likeable->profile_id === $like->profile_id ? 'a post' : "{$likeable->profile->name}'s post"),
+                'display_text' => $likeable->content
+            ],
+            'product' => [
+                'message' => ($likeable->business->profile->id === $notifiable->id) ? 'your product' : ($likeable->business->profile_id === $like->profile_id ? 'a product' : "{$likeable->business->profile->name}'s product"),
+                'display_text' => $likeable->name,
+            ]
+        ];
+        $refrence_phrase = $liketypes[$like_name]['message'];
+        $title = "{$like->profile->name} liked {$refrence_phrase}:";
+        $message = (new WebPushMessage)
+            ->title($title)
+            ->icon($like->profile->profile_photo_url)
+            ->body($liketypes[$like_name]['display_text'])
+            ->action("view {$like_name}", "view_{$like_name}")
+            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id, 'action_url' => ["view_{$like_name}" => $likeable?->url?->show]])
+            ->badge(asset('/icon/logo.png'))
+            ->image($likeable->gallery?->first()?->image_url)
+            ->renotify(true)
+            ->requireInteraction(true)
+            ->tag('likes')
+            ->vibrate(config('notifications.push-vibrate-pattern'));
+        return $message;
     }
 
     /**

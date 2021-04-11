@@ -10,6 +10,7 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+import jDataView from 'jdataview';
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -30,4 +31,8 @@ window.Echo = new Echo({
      wssPort: 6001,
      disableStats: true
 });
+
+require('jdataview');
+
+window.jDataView = jDataView;
 

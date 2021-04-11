@@ -46,7 +46,7 @@
             <div class="p-1 border border-gray-300">
                 <div wire:ignore.self id="file_selected_image_{{$key}}"
                     style="background-image: url('{{ $photo->temporaryUrl() }}'); background-size: cover; background-position: center center;"
-                    class="w-full h-20 sm:h-28">
+                    class="w-full h-24 sm:h-28">
                 </div>
             </div>
             <x-jet-input-error for="photos.{{$key}}" />

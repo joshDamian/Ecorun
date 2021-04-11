@@ -9,8 +9,8 @@
                     <input type="file" accept="image/*" class="hidden" wire:model="photo" x-ref="photo" x-on:change="
                     photoName = $refs.photo.files[0].name;
                     const reader = new FileReader();
-                    reader.onload = (e) => {
-                    photoPreview = e.target.result;
+                    reader.onload = (event) => {
+                    photoPreview = event.target.result;
                     };
                     reader.readAsDataURL($refs.photo.files[0]);
                     " />
@@ -79,8 +79,10 @@
                         placeholder="enter description" wire:model="description" autocomplete="description"></textarea>
                     <x-jet-input-error for="description" class="mt-2" />
                 </div>
-            </div>
 
+                @livewire('connect.badge.manage-badges', ['badgable' => $this->profile->profileable, 'credit' =>
+                $this->profile])
+            </div>
         </div>
         <div class="flex items-center justify-end px-4 py-3 text-right md:rounded-b-lg bg-gray-50 sm:px-6">
             <x-jet-action-message class="mr-3" on="saved">

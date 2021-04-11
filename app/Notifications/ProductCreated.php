@@ -9,6 +9,8 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushMessage;
+use NotificationChannels\WebPush\WebPushChannel;
 
 class ProductCreated extends Notification implements ShouldBroadcastNow
 {
@@ -32,7 +34,32 @@ class ProductCreated extends Notification implements ShouldBroadcastNow
      */
     public function via($notifiable)
     {
-        return ['mail', 'database', 'broadcast'];
+        return [
+            'mail',
+            'database',
+            'broadcast',
+            WebPushChannel::class
+        ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        $product = $this->product;
+
+        $title = "{$product->business->profile->name} added a new product:";
+        $message = (new WebPushMessage)
+            ->title($title)
+            ->icon($product->business->profile->profile_photo_url)
+            ->body($product->name)
+            ->action("view product", 'view_product')
+            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id, 'action_url' => ['view_product' => $product->url->show]])
+            ->badge(asset('/icon/logo.png'))
+            ->image($product->gallery?->first()?->image_url)
+            ->renotify(true)
+            ->requireInteraction(true)
+            ->tag('products')
+            ->vibrate(config('notifications.push-vibrate-pattern'));
+        return $message;
     }
 
     /**

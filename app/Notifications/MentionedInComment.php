@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notification;
 use App\Models\Feedback;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use NotificationChannels\WebPush\WebPushMessage;
+use NotificationChannels\WebPush\WebPushChannel;
 
 class MentionedInComment extends Notification implements ShouldBroadcastNow
 {
@@ -37,8 +39,28 @@ class MentionedInComment extends Notification implements ShouldBroadcastNow
         return [
             'mail',
             'database',
-            'broadcast'
+            'broadcast',
+            WebPushChannel::class
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        $comment = $this->comment;
+        $title = "{$comment->profile->name} mentioned you in a comment:";
+        $message = (new WebPushMessage)
+            ->title($title)
+            ->icon($comment->profile->profile_photo_url)
+            ->body($comment->content)
+            ->action("view comment", 'view_comment')
+            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id, 'action_url' => ['view_comment' => $comment?->feedbackable?->url?->show]])
+            ->badge(asset('/icon/logo.png'))
+            ->image($comment->gallery?->first()?->image_url)
+            ->renotify(true)
+            ->requireInteraction(true)
+            ->tag('mentions')
+            ->vibrate(config('notifications.push-vibrate-pattern'));
+        return $message;
     }
 
     /**

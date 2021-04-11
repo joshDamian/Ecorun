@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class EditPost extends Component
 {
     use CreatesSocialContent,
-    AuthorizesRequests;
+        AuthorizesRequests;
 
     public $post;
     public $gallery;
@@ -19,7 +19,8 @@ class EditPost extends Component
         'refreshMe' => '$refresh'
     ];
 
-    public function mount() {
+    public function mount()
+    {
         $this->authorize('update', [$this->post, auth()->user()->currentProfile]);
         $this->text_content = (string) $this->post->content;
         if ($this->post->gallery->count() > 0) {
@@ -28,29 +29,33 @@ class EditPost extends Component
         }
     }
 
-    public function confirmDeletePost() {
+    public function confirmDeletePost()
+    {
         $this->confirm = true;
     }
 
-    public function create() {
+    public function create()
+    {
         $this->validate($this->validationRules());
         $this->post->content = $this->text_content;
         $this->post->save();
         if (count($this->photos) > 0) {
-            $this->uploadPhotos('post-photos', $this->post, 'post_photo');
+            $this->uploadPhotos(photos: $this->photos, folder: 'post-photos', imageable: $this->post, label: 'post_photo', sizes: null);
             $this->photos = [];
             return $this->redirect($this->post->url->edit);
         }
         return $this->emitSelf('saved');
     }
 
-    public function deletePost() {
+    public function deletePost()
+    {
         $this->authorize('update', [$this->post, auth()->user()->currentProfile]);
         $this->post->delete();
         return $this->redirect(route('home'));
     }
 
-    public function removeFromStoredPhotos($image) {
+    public function removeFromStoredPhotos($image)
+    {
         $image = $this->gallery->find($image);
         if ($this->post->gallery->count() > 1 || $this->post->content !== '') {
             $image_url = $image->image_url;
@@ -68,7 +73,8 @@ class EditPost extends Component
     }
 
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.post.edit-post');
     }
 }

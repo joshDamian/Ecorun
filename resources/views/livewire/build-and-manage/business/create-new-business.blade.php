@@ -28,8 +28,7 @@
                     <select wire:model="type"
                         class="block w-full px-4 py-3 pr-8 leading-tight text-white bg-blue-800 border border-blue-800 rounded appearance-none focus:outline-none focus:bg-green-900 focus:border-green-900"
                         id="grid-state">
-                        <option value="">Select an option</option>
-                        <option value="store">An Online Store</option>
+                        <option value="online store">An Online Store</option>
                         <option value="service">A Service Provider</option>
                     </select>
                     <div class="absolute inset-y-0 right-0 flex items-center px-2 text-white pointer-events-none">

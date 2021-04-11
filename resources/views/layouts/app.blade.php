@@ -119,9 +119,11 @@
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
-    <div id="internet_wiper" class="fixed bg-white top-0 flex items-center justify-center z-50 w-full h-screen">
+    @env('production')
+    <div id="internet_wiper" class="fixed top-0 z-50 flex items-center justify-center w-full h-screen bg-white">
         <img style="w-full" src="/icon/internet_wiper.gif" />
     </div>
+    @endenv
 
     @livewire('buy.cart.add-to-cart', key(md5('add_a_product_to_cart')))
     {{$slot}}
@@ -198,12 +200,39 @@
     @endauth
 
     <script>
-
         document.addEventListener('livewire:load', (event) => {
             setTimeout(() => {
-                document.getElementById('internet_wiper').classList.add('hidden');
-            }, 1000);
+                let wiper = document.getElementById('internet_wiper');
+                if (wiper) {
+                    document.getElementById('internet_wiper').classList.add('hidden');
+                }
+            },
+                1000);
+            Livewire.on('musicUploaded',
+                (event) => {
+                    removeWireIgnore('.music_player');
+                });
+            Livewire.on('photosUploaded',
+                (event) => {
+                    removeWireIgnore('.gallery');
+                });
         });
+
+        window.addEventListener('remove-wire:ignore', (event) => {
+            removeWireIgnore('.post_display');
+        })
+
+        function removeWireIgnore(selector = '') {
+            let elements = document.querySelectorAll(selector);
+            elements.forEach((element) => {
+                element.removeAttribute('wire:ignore');
+            });
+            Livewire.hook('message.processed', (event) => {
+                elements.forEach((element) => {
+                    element.setAttribute('wire:ignore', true);
+                });
+            });
+        }
 
         function page_transition_loader() {
             return {

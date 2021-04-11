@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasBadges;
 use App\Traits\HasProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,12 +11,16 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Business extends Model
 {
-    use SoftDeletes, HasProfile, HasFactory, QueryCacheable;
+    use SoftDeletes, HasProfile, HasFactory, QueryCacheable, HasBadges;
 
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
     protected $fillable = [
-        'type'
+        'type',
+        'primary_badge_id'
+    ];
+    protected $appends = [
+        'brand'
     ];
 
     public function owner()
@@ -32,7 +37,12 @@ class Business extends Model
 
     public function isStore()
     {
-        return $this->type === "store";
+        return $this->type === "online store";
+    }
+
+    public function getBrandAttribute()
+    {
+        return $this->type;
     }
 
     public function isService()
@@ -63,5 +73,17 @@ class Business extends Model
     public function locations()
     {
         return $this->morphMany('App\Models\Location', 'locateable');
+    }
+
+    public function getDefaultBadge()
+    {
+        return Badge::firstWhere(function ($query) {
+            $query->where('label', $this->type)->where('canuse', 'business');
+        });
+    }
+
+    public function getBadgeCanUse()
+    {
+        return 'business';
     }
 }

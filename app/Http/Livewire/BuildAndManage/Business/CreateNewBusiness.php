@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\BuildAndManage\Business;
 
+use App\Models\Badge;
 use Livewire\Component;
 use App\Models\Business;
 use App\Models\Profile;
@@ -15,8 +16,8 @@ class CreateNewBusiness extends Component
 
     public User $user;
     public $name;
-    public $type = 'store';
-    protected $validTypes = ['store', 'service'];
+    public $type = 'online store';
+    protected $validTypes = ['online store', 'service'];
 
     public function create()
     {
@@ -25,13 +26,29 @@ class CreateNewBusiness extends Component
         $manager_access = $this->user->is_business_owner;
 
         $this->name = ucwords($this->name);
+        $badge = Badge::firstWhere(function ($query) {
+            $query->where('label', $this->type)->where('canuse', 'business');
+        });
         $business = $this->user->businesses()->create(
-            ['type' => $this->type]
+            [
+                'type' => $this->type,
+                'primary_badge_id' => $badge->id
+            ]
         );
+        $business->badges()->attach($badge->id);
         if (!$manager_access) {
-            $manager_access = $this->user->is_business_owner = true;
-            $this->user->save();
+            $this->user->is_business_owner = true;
         }
+        $business_owner_badge = Badge::firstWhere(function ($query) {
+            $query->where('label', 'business owner')->where('canuse', 'user');
+        });
+        if ($this->user->badges()->where('label', 'business owner')->where('canuse', 'user')->exists()) {
+            $this->user->primary_badge_id = $business_owner_badge->id;
+        } else {
+            $this->user->badges()->attach($business_owner_badge->id);
+            $this->user->primary_badge_id = $business_owner_badge->id;
+        }
+        $this->user->save();
         if ($business) {
             $team = $this->createTeam();
             $this->create_profile($business);

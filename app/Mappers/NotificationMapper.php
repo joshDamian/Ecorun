@@ -9,7 +9,7 @@ trait NotificationMapper
         if (method_exists($this, $key)) {
             return $this->$key();
         }
-        return $this->$key;
+        return (property_exists($this, $key)) ? $this->$key : null;
     }
 
     public function all()

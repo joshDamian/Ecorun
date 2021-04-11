@@ -14,7 +14,6 @@ use App\Presenters\Profile\FeedPresenter;
 use App\Presenters\Profile\UrlPresenter;
 use Laravel\Scout\Searchable;
 use Rennokki\QueryCache\Traits\QueryCacheable;
-use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class Profile extends Model
 {
@@ -23,7 +22,6 @@ class Profile extends Model
         HasProfilePhoto,
         QueryCacheable,
         Searchable,
-        HasPushSubscriptions,
         StringManipulations;
 
     protected $fillable = [
@@ -42,7 +40,6 @@ class Profile extends Model
     protected $appends = [
         'profile_photo_url',
         'url',
-        //'unread_messages_count',
     ];
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
@@ -97,6 +94,35 @@ class Profile extends Model
         ];
     }
 
+    /**
+     *  Get all of the subscriptions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function getPushSubscriptionsAttribute()
+    {
+        if ($this->isUser()) {
+            return $this->profileable->pushSubscriptions;
+        }
+        if ($this->isBusiness()) {
+            $business = $this->profileable;
+            $user_ids = $business->team->allUsers()->pluck('id');
+            return app(config('webpush.model'))->whereIn('subscribable_id', $user_ids)->where('subscribable_type', User::class)->get();
+        }
+        return;
+    }
+
+    /**
+     * Get all of the subscriptions.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function routeNotificationForWebPush()
+    {
+        return $this->pushSubscriptions;
+    }
+
+
     protected static function boot()
     {
         parent::boot();
@@ -120,7 +146,7 @@ class Profile extends Model
 
     public function isOnline()
     {
-        return $this->profileable->isOnline();
+        return $this->profileable?->isOnline();
     }
 
     public function getConversationsAttribute()

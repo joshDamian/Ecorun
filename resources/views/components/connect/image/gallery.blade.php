@@ -1,13 +1,13 @@
 @props(['gallery', 'height' => 'h-28', 'view' => 'single', 'curve' => ''])
 <div>
-    <div wire:key="{{ random_int(50000, 654433561776) }}" x-data="{ activeImage: false, display_limit: 3, gallery: {{ json_encode($gallery) }}, view: '{{ $view }}', curve: ('{{ $curve }}' !== '') ? true : false, makeActive: (image) => {
+    <div x-data="{ activeImage: false, display_limit: 3, gallery: {{ json_encode($gallery) }}, view: '{{ $view }}', curve: ('{{ $curve }}' !== '') ? true : false, makeActive: (image) => {
         return new Promise(function(resolve, reject) {
         if(image !== '') {
         resolve(image);
         } else {
         reject('couldn\'t set active image');
         }
-        }) }, }">
+        }) }, }" wire:key="gallery_{{ $gallery->first()->id }}" wire:ignore class="gallery">
         <div class="grid gap-1"
             :class="{ 'grid-cols-1': gallery.length === 1, 'grid-cols-2': gallery.length >= 2, 'grid-cols-2 sm:grid-cols-4': gallery.length >= 3 && (view === 'single')}">
             <template x-for="i in display_limit" :key="i">

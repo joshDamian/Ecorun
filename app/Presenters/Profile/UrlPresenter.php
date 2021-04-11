@@ -3,22 +3,17 @@
 namespace App\Presenters\Profile;
 
 use App\Models\Profile;
+use App\Presenters\Presenter;
 
 class UrlPresenter
 {
+    use Presenter;
+
     protected Profile $profile;
 
     public function __construct(Profile $profile)
     {
         $this->profile = $profile;
-    }
-
-    public function __get($key)
-    {
-        if (method_exists($this, $key)) {
-            return $this->$key();
-        }
-        return (property_exists($this, $key)) ? $this->$key : null;
     }
 
     public function following()

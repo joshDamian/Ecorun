@@ -1,4 +1,11 @@
 <x-app-layout>
+    @php
+    if(file_exists(base_path('/storage/framework/maintenance.php'))) {
+    $maintainanceMode = true;
+    } else {
+    $maintainanceMode = false;
+    }
+    @endphp
     <nav class="sticky top-0 z-50 bg-white border-b-4 border-blue-800">
         <div>
             <ul class="flex items-center px-3 py-2">
@@ -6,16 +13,16 @@
                 <li class="text-right">
                     <div class="flex items-center overflow-x-auto">
                         <a href="{{ route('search.index') }}" class="mr-4 text-blue-700">
-                            <i class="fas text-xl fa-search"></i>
+                            <i class="text-xl fas fa-search"></i>
                         </a>
 
-                        <a class="mr-4" href="/login">
+                        <a class="mr-4" href="{{ ($maintainanceMode) ? __('#') : __('/login') }}">
                             <x-jet-button class="bg-blue-600">
                                 Login
                             </x-jet-button>
                         </a>
 
-                        <a href="/register">
+                        <a href="{{ ($maintainanceMode) ? __('#') : __('/register') }}">
                             <x-jet-button class="bg-blue-800">
                                 Signup
                             </x-jet-button>
@@ -43,8 +50,20 @@
                         Ecorun
                     </h4>
                 </div>
+
+                @if($maintainanceMode)
+                <div class="text-2xl font-extrabold text-center text-blue-700 animate-pulse sm:text-3xl">
+                    #Maintainance
+                </div>
+                @endif
             </div>
         </div>
+
+        @if($maintainanceMode)
+        <div class="flex justify-center">
+            <img src="/icon/maintainance_mode.gif" class="sm:w-6/12" />
+        </div>
+        @endif
 
         <div class="grid grid-cols-1 gap-3 bg-gray-100 sm:grid-cols-2 md:grid-cols-3 sm:p-3 sm:gap-3 md:gap-9 md:p-9">
             <div class="bg-white sm:bg-transparent">
@@ -88,7 +107,7 @@
                     </div>
 
                     <div>
-                        <a href="/register">
+                        <a href="{{ ($maintainanceMode) ? __('#') : __('/register') }}">
                             <x-jet-button class="mt-2 bg-blue-800 w-100">
                                 <i class="fas fa-plus"></i> &nbsp; join the community
                             </x-jet-button>
@@ -133,7 +152,7 @@
                     </div>
 
                     <div>
-                        <a href="/shop">
+                        <a href="{{ ($maintainanceMode) ? __('#') : __('/shop') }}">
                             <x-jet-button class="mt-2 bg-blue-600 w-100">
                                 <i class="fas fa-shopping-bag"></i> &nbsp; shop
                             </x-jet-button>
@@ -189,7 +208,7 @@
                     </div>
 
                     <div>
-                        <a href="{{ route('manager.dashboard') }}">
+                        <a href="{{ ($maintainanceMode) ? __('#') : route('manager.dashboard') }}">
                             <x-jet-button class="mt-2 bg-blue-800 w-100">
                                 <i class="fas fa-business-time"></i> &nbsp; build a business
                             </x-jet-button>
