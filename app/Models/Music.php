@@ -39,6 +39,6 @@ class Music extends Model
     }
 
     public function getCoverArtUrlAttribute() {
-        return '/storage/' . $this->cover_art ?? '/app-images/music_player.jpg';
+        return ($this->cover_art) ? '/storage/' . $this->cover_art : '/app-images/music_player.jpg';
     }
 }
