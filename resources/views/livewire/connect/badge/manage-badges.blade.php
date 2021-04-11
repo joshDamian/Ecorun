@@ -1,19 +1,22 @@
 <div x-data="{ show_create_form: false }" x-init="() => {
-        if($refs.other_badges.innerText === '') {
-            $refs.other_badges_label.classList.add('hidden');
-        }
-        @this.on('refresh', (event) => {
-            show_create_form = false;
-        })
+    if($refs.other_badges.innerText === '') {
+    $refs.other_badges_label.classList.add('hidden');
+    }
+    @this.on('refresh', (event) => {
+    show_create_form = false;
+    })
     }">
     <h3 class="mb-1 text-gray-600 text-md">Badges</h3>
     <div class="px-4 py-3 border border-gray-200">
-        <div class="px-3 py-2 mb-2 text-lg font-semibold text-gray-700 uppercase bg-gray-200">Manage badges</div>
-        <div class="w-5/12">
+        <div class="px-3 py-2 mb-2 text-md font-semibold text-gray-700 uppercase bg-gray-200">
+            Manage badges
+        </div>
+        <div class="w-6/12">
             <x-connect.badge.badge-card :badge="$primaryBadge" :isDisplayBadge="true" />
         </div>
-        <div x-show="$refs.other_badges.innerText !== ''" x-ref="other_badges_label" class="mt-2 text-gray-600">Other
-            badges</div>
+        <div x-show="$refs.other_badges.innerText !== ''" x-ref="other_badges_label" class="mt-4 text-gray-600">
+            Other badges
+        </div>
         <div x-ref="other_badges" class="flex flex-wrap items-center">
             @foreach($attachedBadges as $key => $badge)
             @if($badge->id === $primaryBadge->id)
@@ -27,7 +30,9 @@
 
         @if($detachedBadges->count() > 0)
         <div>
-            <div class="text-gray-600">Add new badge</div>
+            <div class="text-gray-600">
+                Add new badge
+            </div>
             <div class="flex items-center">
                 <div>
                     <select class="form-select" x-ref="new_badge">
@@ -52,7 +57,7 @@
         @endif
 
         <div x-on:click="show_create_form = ! show_create_form"
-            class="flex @if($detachedBadges->count() > 0) mt-4 @endif justify-between px-3 py-2 text-lg font-semibold text-gray-700 uppercase bg-gray-200 cursor-pointer">
+            class="flex @if($detachedBadges->count() > 0) mt-6 @else mt-2 @endif justify-between px-3 py-2 text-md font-semibold text-gray-700 uppercase bg-gray-200 cursor-pointer">
             <span class="flex-1">Create a badge</span>
             <span><i :class="(show_create_form) ? 'fa-chevron-up' : 'fa-chevron-down' " class="fas"></i></span>
         </div>

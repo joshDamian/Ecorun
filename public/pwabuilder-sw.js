@@ -62,7 +62,7 @@ self.addEventListener('push', function (e) {
             icon: msg.icon,
             actions: msg.actions,
             //tag: msg.tag,
-            topic: msg.data.topic,
+            //topic: msg.options.topic,
             badge: msg.badge,
             vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500]
             //images: msg.images
@@ -71,13 +71,13 @@ self.addEventListener('push', function (e) {
 });
 
 self.addEventListener("notificationclick", function(event) {
-    event.notification.close();
-    if (event.action === "comment_on_post") {
+    if (event.action === "view_post") {
+        event.notification.close();
         event.waitUntil(self.clients.matchAll().then(function(activeClients) {
             if (activeClients.length > 0) {
-                activeClients[0].navigate(window.location.hostname + "/post/" + event.notification.data.post_id);
+                activeClients[0].navigate("localhost:8000/post/" + event.notification.data.model_key);
             } else {
-                self.clients.openWindow(window.location.hostname + "/post/" + event.notification.data.post_id);
+                self.clients.openWindow("localhost:8000/post/" + event.notification.data.model_key);
             }
         }));
     }

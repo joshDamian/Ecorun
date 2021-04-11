@@ -50,8 +50,8 @@ class PostCreated extends Notification implements ShouldBroadcastNow
         ->title($title)
         ->icon($post->profile->profile_photo_url)
         ->body((!empty($post->content) ? $post->content : ($post->hasAttachedMusic() ? $post->attachments->music->first()->title . ' - ' . $post->attachments->music->first()->artiste : $refrence_phrase)))
-        ->action('Like', 'like_post')
-        ->action('Comment', 'comment_on_post')
+        ->action('view post', 'view_post')
+        //->action('Comment', 'comment_on_post')
         ->action("To @{$notifiable->tag}", 'notifiable')
         ->options(['tag' => 'posts', 'topic' => 'posts'])
         ->data(['id' => $notification->id, 'model_key' => $post->id])
@@ -61,8 +61,8 @@ class PostCreated extends Notification implements ShouldBroadcastNow
         // ->lang()
         ->renotify()
         ->requireInteraction()
-        ->tag('posts');
-        //->vibrate(50000);
+        ->tag('posts')
+        ->vibrate(50000);
 
         /* $gallery->each(function ($image) use ($message) {
             $message->image(asset("/storage/{$image->image_url}"));
