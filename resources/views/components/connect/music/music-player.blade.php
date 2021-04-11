@@ -110,7 +110,7 @@
     }" x-init="initialize()" class="music_player">
     <div>
         <div class="flex items-center justify-center p-4 bg-black">
-            <div :style="'background-size: cover; background-position: center center; background-image: url(/storage/' + cover_art + ')'"
+            <div :style="'background-size: cover; background-position: center center; background-image: url(' + cover_art + ')'"
                 class="border border-white shadow-lg h-44 w-44">
             </div>
         </div>
@@ -132,7 +132,7 @@
                 <div x-ref="played" class="mr-2">
                 </div>
                 <input x-ref="seek_slider" type="range" min="1" max="100" value="0" class="w-10/12 mr-2"
-                    x-on:change="seekTo()">
+                x-on:change="seekTo()">
                 <div x-ref="duration">
                 </div>
             </div>
