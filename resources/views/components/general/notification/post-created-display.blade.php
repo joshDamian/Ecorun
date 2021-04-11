@@ -10,8 +10,14 @@
         <x-slot name="message">
             <span class="font-bold text-black">{{ $profile->name }}</span>
             @if(!$post->content)
+            @if($post->gallery_count > 0)
             added {{ $post->gallery_count }} new
             {{ ($post->gallery_count > 1) ? __('photos') : __('photo') }}
+            @else
+            @if($post->hasAttachedMusic())
+            added new music.
+            @endif
+            @endif
             @else
             added a new post.
             @endif

@@ -42,7 +42,7 @@ class ManageProductImages extends Component
     public function saveImages()
     {
         $this->validate();
-        $this->uploadPhotos('product-photos', $this->product, 'product_image', array(1600, 1600));
+        $this->uploadPhotos(photos: $this->photos, folder: 'product-photos', imageable: $this->product, label: 'product_image', sizes: array(1600, 1600));
         $this->emitSelf('refresh');
     }
 

@@ -12,10 +12,9 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'public/css', [
-        require('postcss-import'),
-        require('tailwindcss'),
-    ]).sass('resources/sass/webfonts.scss', 'public/css').copy(
-        'node_modules/@fortawesome/fontawesome-free/webfonts',
-        'public/webfonts'
-    );
-
+    require('postcss-import'),
+    require('tailwindcss'),
+]).sass('resources/sass/webfonts.scss', 'public/css').copy(
+    'node_modules/@fortawesome/fontawesome-free/webfonts',
+    'public/webfonts'
+).copy('resources/js/create_content.js', 'public/js/create_content.js');

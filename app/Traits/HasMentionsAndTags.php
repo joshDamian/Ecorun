@@ -6,7 +6,7 @@ use Spatie\Tags\HasTags;
 use App\Models\Tag;
 use App\Queues\MentionQueue;
 use App\Queues\TagQueue;
-use App\Actions\Ecorun\Post\ExtractMentionsAndTags;
+use App\Actions\Ecorun\TextContent\ParseText;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\App;
 use League\CommonMark\CommonMarkConverter;
@@ -23,7 +23,7 @@ trait HasMentionsAndTags
             return new MentionQueue;
         });
         $model->content = htmlentities($model->content);
-        $model->html = (new ExtractMentionsAndTags($model->content))->act();
+        $model->html = (new ParseText($model->content))->act();
         $model->mentions = app('mentionqueue')->getMentions();
     }
 

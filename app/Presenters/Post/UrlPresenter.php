@@ -3,22 +3,17 @@
 namespace App\Presenters\Post;
 
 use App\Models\Post;
+use App\Presenters\Presenter;
 
 class UrlPresenter
 {
+    use Presenter;
+
     protected Post $post;
 
     public function __construct(Post $post)
     {
         $this->post = $post;
-    }
-
-    public function __get($key)
-    {
-        if (method_exists($this, $key)) {
-            return $this->$key();
-        }
-        return $this->$key;
     }
 
     public function show()

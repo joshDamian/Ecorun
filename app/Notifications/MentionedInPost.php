@@ -8,6 +8,8 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Post;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use NotificationChannels\WebPush\WebPushMessage;
+use NotificationChannels\WebPush\WebPushChannel;
 
 class MentionedInPost extends Notification implements ShouldBroadcastNow
 {
@@ -33,7 +35,12 @@ class MentionedInPost extends Notification implements ShouldBroadcastNow
      */
     public function via($notifiable)
     {
-        return ['mail', 'database', 'broadcast'];
+        return [
+            'mail',
+            'database',
+            'broadcast',
+            WebPushChannel::class
+        ];
     }
 
     /**
@@ -48,6 +55,25 @@ class MentionedInPost extends Notification implements ShouldBroadcastNow
             ->line('The introduction to the notification.')
             ->action('Notification Action', url('/'))
             ->line('Thank you for using our application!');
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        $post = $this->post;
+        $title = "{$post->profile->name} mentioned you in their post:";
+        $message = (new WebPushMessage)
+            ->title($title)
+            ->icon($post->profile->profile_photo_url)
+            ->body($post->content)
+            ->action("View post", 'view_post')
+            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id, 'action_url' => ['view_post' => $post->url->show]])
+            ->badge(asset('/icon/logo.png'))
+            ->image($post->gallery?->first()?->image_url)
+            ->renotify(true)
+            ->requireInteraction(true)
+            ->tag('mentions')
+            ->vibrate(config('notifications.push-vibrate-pattern'));
+        return $message;
     }
 
     /**

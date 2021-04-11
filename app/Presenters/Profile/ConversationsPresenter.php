@@ -6,9 +6,12 @@ use App\DataBanks\Profile\ConversationsDataBank;
 use App\Models\DirectConversation;
 use App\Models\GroupConversation;
 use App\Models\Profile;
+use App\Presenters\Presenter;
 
 class ConversationsPresenter
 {
+    use Presenter;
+
     protected Profile $profile;
     protected $conversations;
 
@@ -21,14 +24,6 @@ class ConversationsPresenter
     public function all()
     {
         return $this->conversations->flatten();
-    }
-
-    public function __get($key)
-    {
-        if (method_exists($this, $key)) {
-            return $this->$key();
-        }
-        return $this->$key;
     }
 
     public function groups()

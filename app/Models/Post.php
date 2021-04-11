@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\Events\PostCreated;
+use App\Presenters\Post\AttachmentsPresenter;
 use App\Presenters\Post\FollowersPresenter;
 use App\Presenters\Post\UrlPresenter;
+use App\Traits\HasMediaAttachments;
 use App\Traits\HasMentionsAndTags;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,7 @@ class Post extends Model
     use HasFactory,
     QueryCacheable,
     HasMentionsAndTags,
+    HasMediaAttachments,
     Searchable;
 
     /**
@@ -46,6 +48,7 @@ class Post extends Model
     protected static $flushCacheOnUpdate = true;
 
     public function comments() {
+        $hello = 'my name';
         return $this->morphMany(Feedback::class, 'feedbackable');
     }
 
@@ -57,25 +60,21 @@ class Post extends Model
         self::saved(function ($model) {
             self::syncWithTags($model);
         });
-        self::created(function($model) {
-            try {
-                broadcast(new PostCreated($model))->toOthers();
-            } catch (\Throwable $th) {
-                report($th);
-            }
+        self::created(function ($model) {
+            //
         });
 
         self::deleting(function ($model) {
-            Storage::disk('public')->delete($model->gallery->pluck('image_url')->toArray());
-            $model->comments()->delete();
-            $model->likes()->delete();
-            $model->gallery()->delete();
-            $model->shares()->delete();
+            $model->trash();
         });
     }
 
     public function gallery() {
         return $this->morphMany('App\Models\Image', 'imageable');
+    }
+
+    public function getAttachmentsAttribute() {
+        return (new AttachmentsPresenter($this));
     }
 
     public function likes() {
@@ -86,15 +85,16 @@ class Post extends Model
         return $this->belongsTo(Profile::class);
     }
 
-    public function trash(): bool
+    public function trash(): void
     {
         Storage::disk('public')->delete($this->gallery->pluck('image_url')->toArray());
         $this->comments()->delete();
         $this->likes()->delete();
         $this->gallery()->delete();
         $this->shares()->delete();
-        $this->delete();
-        return true;
+        $this->attachments->all->each(function ($attachment) {
+            $attachment->delete();
+        });
     }
 
     public function shares() {

@@ -7,53 +7,57 @@ use App\Models\Post;
 use App\Models\Product;
 use App\Models\Profile;
 use App\Models\Share;
+use App\Presenters\Presenter;
 
 class FeedPresenter
 {
+    use Presenter;
+
     protected Profile $profile;
     protected $feed;
 
-    public function __construct(Profile $profile) {
+    public function __construct(Profile $profile)
+    {
         $this->profile = $profile;
         $this->feed = (new FeedDataBank($this->profile))->fetch();
     }
 
-    public function __get($key) {
-        if (method_exists($this, $key)) {
-            return $this->$key();
-        }
-        return $this->$key;
-    }
-
-    public function all() {
+    public function all()
+    {
         return $this->feed->flatten();
     }
 
-    public function products() {
+    public function products()
+    {
         return $this->feed[Product::class];
     }
 
-    public function posts() {
+    public function posts()
+    {
         return $this->feed[Post::class];
     }
 
-    public function photos() {
+    public function photos()
+    {
         return $this->feed[Post::class]->filter(function ($post) {
             return $post->gallery->count() > 0;
         });
     }
 
-    public function mentions() {
+    public function mentions()
+    {
         return $this->feed[Post::class]->filter(function ($post) {
             return $post->mentions->contains($this->profile->id);
         });
     }
 
-    public function profile_suggestions() {
+    public function profile_suggestions()
+    {
         return $this->feed[Profile::class];
     }
 
-    public function shares() {
+    public function shares()
+    {
         return $this->feed[Share::class];
     }
 }

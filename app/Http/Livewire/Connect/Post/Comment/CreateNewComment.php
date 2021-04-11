@@ -13,7 +13,8 @@ class CreateNewComment extends Component
 
     public $post;
 
-    public function create() {
+    public function create()
+    {
         $this->validate($this->validationRules());
         $comment = Feedback::forceCreate([
             'content' => trim($this->text_content) ?? '',
@@ -23,7 +24,7 @@ class CreateNewComment extends Component
         ]);
 
         if (count($this->photos) > 0) {
-            $this->uploadPhotos('comment-photos', $comment, 'comment_photo');
+            $this->uploadPhotos(photos: $this->photos, folder: 'comment-photos', imageable: $comment, label: 'comment_photo', sizes: null);
         }
 
         $this->post->forceFill([
@@ -39,7 +40,8 @@ class CreateNewComment extends Component
         return [];
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.post.comment.create-new-comment');
     }
 }

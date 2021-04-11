@@ -13,7 +13,8 @@ class CreateNewReply extends Component
 
     public $comment;
 
-    public function create() {
+    public function create()
+    {
         $this->validate($this->validationRules());
         $reply = Feedback::forceCreate([
             'content' => trim($this->text_content) ?? '',
@@ -23,7 +24,7 @@ class CreateNewReply extends Component
         ]);
 
         if (count($this->photos) > 0) {
-            $this->uploadPhotos('reply-photos', $reply, 'reply_photo');
+            $this->uploadPhotos(photos: $this->photos, folder: 'reply-photos', imageable: $reply, label: 'reply_photo', sizes: null);
         }
 
         $this->done();
@@ -36,7 +37,8 @@ class CreateNewReply extends Component
         return [];
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.post.comment.reply.create-new-reply');
     }
 }

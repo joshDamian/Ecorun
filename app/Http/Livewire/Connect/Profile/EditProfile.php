@@ -8,6 +8,8 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Business;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class EditProfile extends Component
@@ -28,7 +30,6 @@ class EditProfile extends Component
         $this->tag = $this->profile->tag;
     }
 
-
     public function update()
     {
         $this->authorize('access', $this->profile);
@@ -41,19 +42,14 @@ class EditProfile extends Component
         $this->profile->name = $this->upperCaseWords($this->name);
         $this->profile->tag = $this->tag;
         $this->profile->description = $this->description;
-
         $this->profile->save();
-
         if ($should_modify) {
             $this->modify_static_content($old_tag);
         }
-
         if ($this->photo) {
             $this->profile->updateProfilePhoto($this->photo);
         }
-
         $this->emitSelf('saved');
-
         return redirect($this->profile->url->edit);
     }
 
@@ -70,14 +66,12 @@ class EditProfile extends Component
                 'required',
                 'min:4',
                 'max:255',
-
                 Rule::unique('profiles', 'name')->where(
                     function ($query) {
                         return $query->where('profileable_type', 'App\Models\Business');
                     }
                 )->ignore($this->profile)
             ],
-
             'tag' => [
                 'required',
                 'min:4',
@@ -85,12 +79,10 @@ class EditProfile extends Component
                 Rule::unique('profiles')->ignore($this->profile),
                 'alpha_dash',
             ],
-
             'description' => [
                 'required',
                 'min:4'
             ],
-
             'photo' => [
                 'nullable',
                 'image',
@@ -107,7 +99,7 @@ class EditProfile extends Component
         }
     }
 
-    public function getProfileProperty()
+    public function getProfileProperty(): \App\Models\Profile
     {
         return Profile::findOrFail($this->profileId);
     }

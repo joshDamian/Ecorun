@@ -3,22 +3,17 @@
 namespace App\Presenters\User;
 
 use App\Models\User;
+use App\Presenters\Presenter;
 
 class UrlPresenter
 {
+    use Presenter;
+
     protected User $user;
 
     public function __construct(User $user)
     {
         $this->user = $user;
-    }
-
-    public function __get($key)
-    {
-        if (method_exists($this, $key)) {
-            return $this->$key();
-        }
-        return $this->$key;
     }
 
     public function cart()

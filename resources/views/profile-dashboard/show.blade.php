@@ -34,9 +34,15 @@
                             {{ $profile->name }} @if($profile->isOnline()) &nbsp; <i
                                 class="text-sm text-green-400 fas fa-circle"></i> @endif
                         </div>
-
                         <div class="text-sm text-gray-600 dont-break-out">
                             {{ $profile->full_tag() }}
+                        </div>
+
+                        <div class="py-2 font-bold text-green-500">
+                            @php
+                            $badge = $profile->profileable?->primaryBadge;
+                            @endphp
+                            <i class="{{ $badge->icon }}"></i> {{ $badge->label }}
                         </div>
                     </div>
 

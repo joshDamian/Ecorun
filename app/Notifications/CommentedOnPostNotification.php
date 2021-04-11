@@ -74,20 +74,21 @@ class CommentedOnPostNotification extends Notification implements ShouldBroadcas
 
     public function toWebPush($notifiable, $notification)
     {
+        $comment = $this->comment;
+        $post = $comment->feedbackable;
+        $refrence_phrase = $post->profile->id === $notifiable->id ? 'your post' : (($post->profile_id === $comment->profile_id) ? 'their post' : 'a post you\'re following');
+        $title = "{$comment->profile->name} commented on {$refrence_phrase}:";
         return (new WebPushMessage)
-            ->title('Approved!')
-            ->icon('/icon/logo.png')
-            ->body('Your account was approved!')
-            ->action('View account', 'view_account')
-            ->options(['TTL' => 1000])
-            ->data(['id' => $notification->id])
-            // ->badge()
-            // ->dir()
-            // ->image()
-            // ->lang()
-            // ->renotify()
-            // ->requireInteraction()
-            // ->tag()
-            ->vibrate(2000);
+            ->title($title)
+            ->icon($comment->profile->profile_photo_url)
+            ->body($comment->content)
+            ->action('View comment', 'view_comment')
+            ->data(['id' => $notification->id, 'action_url' => ['view_comment' => $post->url->show . "?active_comment={$comment->id}"], 'notifiable' => $notifiable->id])
+            ->badge(asset('/icon/logo.png'))
+            ->image($comment->gallery->first()?->image_url)
+            ->renotify(true)
+            ->requireInteraction(true)
+            ->tag('comments')
+            ->vibrate(config('notifications.push-vibrate-pattern'));
     }
 }

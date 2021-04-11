@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Ecorun\Post;
+namespace App\Actions\Ecorun\TextContent;
 
 use App\Parsers\HashTagParser;
 use App\Parsers\MentionParser;
@@ -8,15 +8,17 @@ use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use League\CommonMark\HtmlRenderer;
 
-class ExtractMentionsAndTags
+class ParseText
 {
     protected string $content;
 
-    public function __construct(string $content) {
+    public function __construct(string $content)
+    {
         $this->content = $content;
     }
 
-    public function act() {
+    public function act()
+    {
         $environment = Environment::createCommonMarkEnvironment();
         $environment->addInlineParser(new HashTagParser());
         $environment->addInlineParser(new MentionParser());

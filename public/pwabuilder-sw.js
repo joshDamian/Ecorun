@@ -5,7 +5,7 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox
 const CACHE = "pwabuilder-page";
 
 //TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
-const offlineFallbackPage = "/offline.html";
+const offlineFallbackPage = "./offline.html";
 
 self.addEventListener("message", (event) => {
     if (event.data && event.data.type === "SKIP_WAITING") {
@@ -47,101 +47,44 @@ self.addEventListener('fetch', (event) => {
 });
 
 
-(() => {
-    'use strict'
-
-    const WebPush = {
-      init () {
-        self.addEventListener('push', this.notificationPush.bind(this))
-        self.addEventListener('notificationclick', this.notificationClick.bind(this))
-        self.addEventListener('notificationclose', this.notificationClose.bind(this))
-      },
-
-      /**
-       * Handle notification push event.
-       *
-       * https://developer.mozilla.org/en-US/docs/Web/Events/push
-       *
-       * @param {NotificationEvent} event
-       */
-      notificationPush (event) {
-        if (!(self.Notification && self.Notification.permission === 'granted')) {
-          return
-        }
-
-        // https://developer.mozilla.org/en-US/docs/Web/API/PushMessageData
-        if (event.data) {
-          event.waitUntil(
-            this.sendNotification(event.data.json())
-          )
-        }
-      },
-
-      /**
-       * Handle notification click event.
-       *
-       * https://developer.mozilla.org/en-US/docs/Web/Events/notificationclick
-       *
-       * @param {NotificationEvent} event
-       */
-      notificationClick (event) {
-        // console.log(event.notification)
-
-        if (event.action === 'some_action') {
-          // Do something...
-        } else {
-          self.clients.openWindow('/')
-        }
-      },
-
-      /**
-       * Handle notification close event (Chrome 50+, Firefox 55+).
-       *
-       * https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/onnotificationclose
-       *
-       * @param {NotificationEvent} event
-       */
-      notificationClose (event) {
-        self.registration.pushManager.getSubscription().then(subscription => {
-          if (subscription) {
-            this.dismissNotification(event, subscription)
-          }
-        })
-      },
-
-      /**
-       * Send notification to the user.
-       *
-       * https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification
-       *
-       * @param {PushMessageData|Object} data
-       */
-      sendNotification (data) {
-        return self.registration.showNotification(data.title, data)
-      },
-
-      /**
-       * Send request to server to dismiss a notification.
-       *
-       * @param  {NotificationEvent} event
-       * @param  {String} subscription.endpoint
-       * @return {Response}
-       */
-      dismissNotification ({ notification }, { endpoint }) {
-        if (!notification.data || !notification.data.id) {
-          return
-        }
-
-        const data = new FormData()
-        data.append('endpoint', endpoint)
-
-        // Send a request to the server to mark the notification as read.
-        fetch(`/notifications/${notification.data.id}/dismiss`, {
-          method: 'POST',
-          body: data
-        })
-      }
+self.addEventListener('push', function (e) {
+    if (!(self.Notification && self.Notification.permission === 'granted')) {
+        console.log('notification permissions not granted');
+        //notifications aren't supported or permission not granted!
+        return;
     }
 
-    WebPush.init()
-  })()
+    /*clients.matchAll().then(function(clients) {
+        if(clients.length === 0) { */
+            if (e.data) {
+                var msg = e.data.json();
+                console.log(msg)
+                e.waitUntil(self.registration.showNotification(msg.title, {
+                    body: msg.body,
+                    icon: msg.icon,
+                    actions: msg.actions,
+                    tag: msg.tag,
+                    badge: msg.badge,
+                    vibrate: msg.vibrate,
+                    data: msg.data,
+                    renotify: msg.data.renotify,
+                    requireInteraction: msg.requireInteraction,
+                    image: msg.image
+                }));
+            }
+       /* }
+    }); */
+});
+
+self.addEventListener("notificationclick", function(event) {
+    event.notification.close();
+    event.waitUntil(self.clients.matchAll().then(function(activeClients) {
+        let action = event.action !== '' ? event.action : Object.keys(event.notification.data.action_url)[0];
+        let action_url = event.notification.data.action_url[action] ?? '/';
+        if (activeClients.length > 0) {
+            activeClients[0].navigate(action_url);
+        } else {
+            self.clients.openWindow(action_url);
+        }
+    }));
+});

@@ -8,6 +8,8 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushMessage;
+use NotificationChannels\WebPush\WebPushChannel;
 
 class PostCreated extends Notification implements ShouldBroadcastNow
 {
@@ -31,7 +33,34 @@ class PostCreated extends Notification implements ShouldBroadcastNow
      */
     public function via($notifiable)
     {
-        return ['mail', 'database', 'broadcast'];
+        return [
+            'mail',
+            'database',
+            'broadcast',
+            WebPushChannel::class
+        ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        $post = $this->post;
+        $gallery = $post->gallery;
+        $gallery_count = $gallery->count();
+        $refrence_phrase = $gallery_count > 0 ? ($gallery_count > 1 ? "{$gallery_count} new photos" : "{$gallery_count} new photo") : ($post->hasAttachedMusic() ? 'new music' : 'a new post');
+        $title = "{$post->profile->name} added {$refrence_phrase}:";
+        $message = (new WebPushMessage)
+            ->title($title)
+            ->icon($post->profile->profile_photo_url)
+            ->body((!empty($post->content) ? $post->content : ($post->hasAttachedMusic() ? $post->attachments->music->first()->title . ' - ' . $post->attachments->music->first()->artiste : $refrence_phrase)))
+            ->action('view post', 'view_post')
+            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id, 'action_url' => ['view_post' => $post->url->show]])
+            ->badge(asset('/icon/logo.png'))
+            ->renotify(true)
+            ->requireInteraction(true)
+            ->tag('posts')
+            ->image(asset("/storage/{$gallery->first()?->image_url}"))
+            ->vibrate(config('notifications.push-vibrate-pattern'));
+        return $message;
     }
 
     /**
