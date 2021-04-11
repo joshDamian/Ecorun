@@ -36,7 +36,7 @@
     analyser.connect(context.destination);
     frameLooper();
     function frameLooper() {
-    window.webkitRequestAnimationFrame(frameLooper);
+    window.requestAnimationFrame(frameLooper);
     let fbc_array = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(fbc_array);
     // Clear the canvas

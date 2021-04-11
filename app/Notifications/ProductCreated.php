@@ -51,18 +51,14 @@ class ProductCreated extends Notification implements ShouldBroadcastNow
             ->title($title)
             ->icon($product->business->profile->profile_photo_url)
             ->body($product->name)
-            ->action("To @{$notifiable->tag}", 'notifiable')
-            //->action('Reply', 'reply')
-            ->options(['tag' => 'products', 'topic' => 'products'])
-            ->data(['id' => $notification->id])
+            ->action("view product", 'view_product')
+            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id, 'action_url' => ['view_product' => $product->url->show]])
             ->badge(asset('/icon/logo.png'))
-            // ->dir()
-            //->image()
-            // ->lang()
-            ->renotify()
-            ->requireInteraction()
+            ->image($product->gallery?->first()?->image_url)
+            ->renotify(true)
+            ->requireInteraction(true)
             ->tag('products')
-            ->vibrate(50000);
+            ->vibrate(config('notifications.push-vibrate-pattern'));
         return $message;
     }
 

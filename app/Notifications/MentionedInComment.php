@@ -52,18 +52,14 @@ class MentionedInComment extends Notification implements ShouldBroadcastNow
             ->title($title)
             ->icon($comment->profile->profile_photo_url)
             ->body($comment->content)
-            ->action("To @{$notifiable->tag}", 'notifiable')
-            //->action('Reply', 'reply')
-            ->options(['tag' => 'mentions', 'topic' => 'mentions'])
-            ->data(['id' => $notification->id])
+            ->action("view comment", 'view_comment')
+            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id, 'action_url' => ['view_comment' => $comment?->feedbackable?->url?->show]])
             ->badge(asset('/icon/logo.png'))
-            // ->dir()
-            //->image()
-            // ->lang()
-            ->renotify()
-            ->requireInteraction()
+            ->image($comment->gallery?->first()?->image_url)
+            ->renotify(true)
+            ->requireInteraction(true)
             ->tag('mentions')
-            ->vibrate(50000);
+            ->vibrate(config('notifications.push-vibrate-pattern'));
         return $message;
     }
 

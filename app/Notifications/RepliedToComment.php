@@ -63,7 +63,7 @@ class RepliedToComment extends Notification implements ShouldBroadcastNow
         $reply = $this->reply;
         $replyable = $reply->feedbackable;
 
-        $refrence_phrase = match ($replyable->profile_id === $reply->profile_id) {
+        $refrence_phrase = match ($replyable->profile_id === $notifiable->id) {
             true => "your comment",
             false => "a comment"
         };
@@ -73,18 +73,14 @@ class RepliedToComment extends Notification implements ShouldBroadcastNow
             ->title($title)
             ->icon($reply->profile->profile_photo_url)
             ->body($reply->content)
-            ->action("To @{$notifiable->tag}", 'notifiable')
-            //->action('Reply', 'reply')
-            ->options(['tag' => 'replies', 'topic' => 'replies'])
-            ->data(['id' => $notification->id])
+            ->action("view reply", 'view_reply')
+            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id, 'action_url' => ['view_reply' => $replyable?->url?->show . "?active_comment={$reply->id}"]])
             ->badge(asset('/icon/logo.png'))
-            // ->dir()
-            //->image()
-            // ->lang()
-            ->renotify()
-            ->requireInteraction()
+            ->image($reply->gallery?->first()?->image_url)
+            ->renotify(true)
+            ->requireInteraction(true)
             ->tag('replies')
-            ->vibrate(50000);
+            ->vibrate(config('notifications.push-vibrate-pattern'));
         return $message;
     }
 

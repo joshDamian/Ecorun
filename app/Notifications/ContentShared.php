@@ -72,18 +72,14 @@ class ContentShared extends Notification implements ShouldBroadcastNow
             ->title($title)
             ->icon($share->profile->profile_photo_url)
             ->body($sharetypes[$share_name]['display_text'])
-            ->action("To @{$notifiable->tag}", 'notifiable')
-            //->action('Reply', 'reply')
-            ->options(['tag' => 'feed content', 'topic' => 'feed content'])
-            ->data(['id' => $notification->id])
+            ->action("view {$share_name}", "view_{$share_name}")
+            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id, 'action_url' => ["view_{$share_name}" => $shareable?->url?->show]])
             ->badge(asset('/icon/logo.png'))
-            // ->dir()
-            //->image()
-            // ->lang()
-            ->renotify()
-            ->requireInteraction()
+            ->image($shareable->gallery?->first()?->image_url)
+            ->renotify(true)
+            ->requireInteraction(true)
             ->tag('feed content')
-            ->vibrate(50000);
+            ->vibrate(config('notifications.push-vibrate-pattern'));
         return $message;
     }
 

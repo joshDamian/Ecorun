@@ -5,7 +5,7 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox
 const CACHE = "pwabuilder-page";
 
 //TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
-const offlineFallbackPage = "/offline.html";
+const offlineFallbackPage = "./offline.html";
 
 self.addEventListener("message", (event) => {
     if (event.data && event.data.type === "SKIP_WAITING") {
@@ -54,31 +54,37 @@ self.addEventListener('push', function (e) {
         return;
     }
 
-    if (e.data) {
-        var msg = e.data.json();
-        console.log(msg)
-        e.waitUntil(self.registration.showNotification(msg.title, {
-            body: msg.body,
-            icon: msg.icon,
-            actions: msg.actions,
-            //tag: msg.tag,
-            //topic: msg.options.topic,
-            badge: msg.badge,
-            vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500]
-            //images: msg.images
-        }));
-    }
+    /*clients.matchAll().then(function(clients) {
+        if(clients.length === 0) { */
+            if (e.data) {
+                var msg = e.data.json();
+                console.log(msg)
+                e.waitUntil(self.registration.showNotification(msg.title, {
+                    body: msg.body,
+                    icon: msg.icon,
+                    actions: msg.actions,
+                    tag: msg.tag,
+                    badge: msg.badge,
+                    vibrate: msg.vibrate,
+                    data: msg.data,
+                    renotify: msg.data.renotify,
+                    requireInteraction: msg.requireInteraction,
+                    image: msg.image
+                }));
+            }
+       /* }
+    }); */
 });
 
 self.addEventListener("notificationclick", function(event) {
-    if (event.action === "view_post") {
-        event.notification.close();
-        event.waitUntil(self.clients.matchAll().then(function(activeClients) {
-            if (activeClients.length > 0) {
-                activeClients[0].navigate("localhost:8000/post/" + event.notification.data.model_key);
-            } else {
-                self.clients.openWindow("localhost:8000/post/" + event.notification.data.model_key);
-            }
-        }));
-    }
+    event.notification.close();
+    event.waitUntil(self.clients.matchAll().then(function(activeClients) {
+        let action = event.action !== '' ? event.action : Object.keys(event.notification.data.action_url)[0];
+        let action_url = event.notification.data.action_url[action] ?? '/';
+        if (activeClients.length > 0) {
+            activeClients[0].navigate(action_url);
+        } else {
+            self.clients.openWindow(action_url);
+        }
+    }));
 });

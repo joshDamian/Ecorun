@@ -65,17 +65,14 @@ class MentionedInPost extends Notification implements ShouldBroadcastNow
             ->title($title)
             ->icon($post->profile->profile_photo_url)
             ->body($post->content)
-            ->action("To @{$notifiable->tag}", 'notifiable')
-            ->options(['tag' => 'mentions', 'topic' => 'mentions'])
-            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id])
+            ->action("View post", 'view_post')
+            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id, 'action_url' => ['view_post' => $post->url->show]])
             ->badge(asset('/icon/logo.png'))
-            // ->dir()
-            //->image()
-            // ->lang()
-            ->renotify()
-            ->requireInteraction()
+            ->image($post->gallery?->first()?->image_url)
+            ->renotify(true)
+            ->requireInteraction(true)
             ->tag('mentions')
-            ->vibrate(50000);
+            ->vibrate(config('notifications.push-vibrate-pattern'));
         return $message;
     }
 

@@ -46,7 +46,7 @@ class LikedPost extends Notification implements ShouldBroadcastNow
     {
         $like = $this->like;
         $likeable = $like->likeable;
-        $like_name = strtolower(last(explode('\\', $shareable->getMorphClass())));
+        $like_name = strtolower(last(explode('\\', $likeable->getMorphClass())));
         $liketypes = [
             'post' => [
                 'message' => ($likeable->profile_id === $notifiable->id) ? 'your post' : ($likeable->profile_id === $like->profile_id ? 'a post' : "{$likeable->profile->name}'s post"),
@@ -63,17 +63,14 @@ class LikedPost extends Notification implements ShouldBroadcastNow
             ->title($title)
             ->icon($like->profile->profile_photo_url)
             ->body($liketypes[$like_name]['display_text'])
-            ->action("To @{$notifiable->tag}", 'notifiable')
-            ->options(['tag' => 'likes', 'topic' => 'likes'])
-            ->data(['id' => $notification->id])
+            ->action("view {$like_name}", "view_{$like_name}")
+            ->data(['id' => $notification->id, 'notifiable' => $notifiable->id, 'action_url' => ["view_{$like_name}" => $likeable?->url?->show]])
             ->badge(asset('/icon/logo.png'))
-            // ->dir()
-            //->image()
-            // ->lang()
-            ->renotify()
-            ->requireInteraction()
+            ->image($likeable->gallery?->first()?->image_url)
+            ->renotify(true)
+            ->requireInteraction(true)
             ->tag('likes')
-            ->vibrate(50000);
+            ->vibrate(config('notifications.push-vibrate-pattern'));
         return $message;
     }
 
