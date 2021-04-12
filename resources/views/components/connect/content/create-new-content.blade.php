@@ -98,7 +98,7 @@ $canUploadPhoto = config('eco-features.connect.media.photo.upload')
                                 </div>
                                 @endif
 
-                                @if($canUploadMusic)
+                                @if($canUploadMusic && $type === 'post')
                                 <div :class="view_status['music'] ? 'bg-gray-200' : ''"
                                     x-on:click="set_view_status('music')"
                                     class="px-2 py-1 font-semibold text-blue-800 cursor-pointer select-none">
