@@ -115,7 +115,7 @@
 
     </script>
     @endenv
-<script data-ad-client="ca-pub-2236521299425394" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script data-ad-client="ca-pub-2236521299425394" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
@@ -134,7 +134,7 @@
     </div>
 
     <div x-data="page_transition_loader()" x-init="init_page_transition_loader()" x-show="!hidden" x-cloak
-        class="fixed top-0 z-50 w-full h-screen">
+        class="fixed top-0 z-50 w-full">
         <x-loader_2 />
     </div>
 
@@ -248,7 +248,8 @@
                     window.addEventListener('focus', (event) => {
                         setTimeout(() => {
                             this.hidden = true;
-                        }, 400)
+                        },
+                            400)
                     });
                     window.onload = (event) => {
                         this.hidden = true;
