@@ -62,11 +62,11 @@ class Feedback extends Model
         });
         self::created(function ($model) {
             if ($model->feedbackable_type === Post::class) {
-                try {
+                /*try { */
                     broadcast(new CommentedOnPost($model))->toOthers();
-                } catch (\Throwable $th) {
+                /*} catch (\Throwable $th) {
                     report($th);
-                }
+                }*/
             } elseif ($model->feedbackable_type === Feedback::class) {
                 try {
                     broadcast(new RepliedToComment($model))->toOthers();
