@@ -7,6 +7,7 @@ use App\Parsers\LinkParser;
 use App\Parsers\MentionParser;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
+use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use League\CommonMark\HtmlRenderer;
 
 class ParseText
@@ -23,7 +24,7 @@ class ParseText
         $environment = Environment::createCommonMarkEnvironment();
         $environment->addInlineParser(new HashTagParser());
         $environment->addInlineParser(new MentionParser());
-        $environment->addInlineParser(new LinkParser());
+        $environment->addExtension(new ExternalLinkExtension());
         $parser = new DocParser($environment);
         $htmlRender = new HtmlRenderer($environment);
         $text = $parser->parse($this->content);
