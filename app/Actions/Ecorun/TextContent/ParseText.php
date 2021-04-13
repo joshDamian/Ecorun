@@ -3,6 +3,7 @@
 namespace App\Actions\Ecorun\TextContent;
 
 use App\Parsers\HashTagParser;
+use App\Parsers\LinkParser;
 use App\Parsers\MentionParser;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
@@ -22,6 +23,7 @@ class ParseText
         $environment = Environment::createCommonMarkEnvironment();
         $environment->addInlineParser(new HashTagParser());
         $environment->addInlineParser(new MentionParser());
+        $environment->addInlineParser(new LinkParser());
         $parser = new DocParser($environment);
         $htmlRender = new HtmlRenderer($environment);
         $text = $parser->parse($this->content);
