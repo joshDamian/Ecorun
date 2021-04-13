@@ -24,7 +24,6 @@ class ParseText
         $environment = Environment::createCommonMarkEnvironment();
         $environment->addInlineParser(new HashTagParser());
         $environment->addInlineParser(new MentionParser());
-        $environment->addExtension(new ExternalLinkExtension());
         $parser = new DocParser($environment);
         $htmlRender = new HtmlRenderer($environment);
         $text = $parser->parse($this->content);
