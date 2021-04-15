@@ -8,6 +8,7 @@ use App\Queues\MentionQueue;
 use App\Queues\TagQueue;
 use App\Actions\Ecorun\TextContent\ParseText;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use League\CommonMark\Environment;
 use Illuminate\Support\Facades\App;
 use League\CommonMark\CommonMarkConverter;
 
@@ -34,7 +35,11 @@ trait HasMentionsAndTags
 
     public function getSafeHtmlAttribute()
     {
-        $converter = new CommonMarkConverter(['allow_unsafe_links' => false]);
+        $environment = Environment::createCommonMarkEnvironment();
+        $config = [
+            'allow_unsafe_links' => false,
+        ];
+        $converter = new CommonMarkConverter($config, $environment);
         return $converter->convertToHtml($this->html);
     }
 

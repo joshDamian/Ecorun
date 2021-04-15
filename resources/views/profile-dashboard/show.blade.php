@@ -1,5 +1,5 @@
 <x-social-layout>
-    <div x-data="{ zoomedImage: false }">
+    <div x-data="{ zoomedImage: false, show_copy: false }">
         <div>
             @if($profile->isUser())
             <div class="flex justify-center p-4 bg-gray-200">
@@ -84,12 +84,25 @@
                         @livewire('connect.profile.following-followers-counter',
                         ['profile'=> $profile], key(md5("following_followers_for_{$profile->id}")))
                     </span>
-                    <span class="mt-2 text-gray-900">
-                        Joined {{ $profile->created_at->diffForHumans() }}
-                    </span>
+                    <div class="grid grid-cols-2">
+                        <div class="flex justify-start">
+                            <span class="mt-2 text-gray-900">
+                                Joined {{ $profile->created_at->diffForHumans() }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <div class="text-right">
+                                <x-jet-secondary-button x-on:click="show_copy = !show_copy" class="text-blue-700">
+                                    copy profile link
+                                </x-jet-secondary-button>
+                                <x-jet-input class="w-full mt-2" x-show="show_copy"
+                                    value="{{ $profile->url->visit }}" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
 
         <div :class="{ 'hidden': zoomedImage }" class="mt-1">

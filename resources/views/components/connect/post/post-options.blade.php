@@ -1,6 +1,6 @@
 @props(['post'])
-<div x-data="{ show_profiles: false, bookmarked: ('{{$this->bookmarked}}' === '1') ? true : false, follows: ('{{$this->follows}}' === '1') ? true : false }"
-    class="grid grid-cols-1 text-xs bg-gray-200 border-b border-gray-300">
+<div x-data="{ show_profiles: false, bookmarked: ('{{$this->bookmarked}}' === '1') ? true : false, follows: ('{{$this->follows}}' === '1') ? true : false, show_copy: false,
+}" class="grid grid-cols-1 text-xs bg-gray-200 border-b border-gray-300">
     <div>
         <div x-on:click="show_profiles = !show_profiles"
             class="flex justify-between px-3 py-3 font-semibold text-gray-600 bg-gray-100 cursor-pointer hover:bg-blue-200 focus:bg-blue-200 sm:px-5">
@@ -45,4 +45,10 @@
         <i class="text-red-800 fas fa-trash"></i>&nbsp; Delete
     </a>
     @endcan
+
+    <a x-on:click="show_copy = !show_copy"
+        class="px-3 py-3 font-semibold text-gray-600 bg-gray-100 cursor-pointer select-none focus:bg-blue-200 hover:bg-blue-200 sm:px-5">
+        <i class="fas fa-copy"></i> copy post link
+    </a>
+    <x-jet-input x-show="show_copy" class="w-full rounded-none" value="{{ $post->url->show }}" />
 </div>
