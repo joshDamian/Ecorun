@@ -9,7 +9,6 @@ use App\Queues\TagQueue;
 use App\Actions\Ecorun\TextContent\ParseText;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use League\CommonMark\Environment;
-use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use Illuminate\Support\Facades\App;
 use League\CommonMark\CommonMarkConverter;
 
@@ -37,18 +36,7 @@ trait HasMentionsAndTags
     public function getSafeHtmlAttribute()
     {
         $environment = Environment::createCommonMarkEnvironment();
-        // Add this extension
-        $environment->addExtension(new ExternalLinkExtension());
-        // Set your configuration
         $config = [
-            'external_link' => [
-                'internal_hosts' => env('APP_URL'), // TODO: Don't forget to set this!
-                'open_in_new_window' => true,
-                'html_class' => 'text-blue-700',
-                'nofollow' => '',
-                'noopener' => 'external',
-                'noreferrer' => 'external',
-            ],
             'allow_unsafe_links' => false,
         ];
         $converter = new CommonMarkConverter($config, $environment);
