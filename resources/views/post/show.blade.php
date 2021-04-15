@@ -1,4 +1,6 @@
 <x-social-layout>
+    @section('title', "Ecorun | {$post->profile->name}'s post: {$post->content}")
+    @section('description', "{$post->profile->name}'s post: {$post->content}")
     @php
     $gallery = $post->gallery;
     $profile = $post->profile;

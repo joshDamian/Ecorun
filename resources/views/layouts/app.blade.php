@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Ecorun naturally blends social interaction with doing business.">
+    <meta name="description"
+        content="@yield('page_description', 'Ecorun naturally blends social interaction with doing business.')">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#1E40AF">
@@ -11,7 +12,7 @@
     <meta name="apple-mobile-web-app-title" content="Ecorun" />
     <meta name="apple-mobile-web-app-status-bar-style" content="#0000ff" />
 
-    <title>{{ config('app.name', 'Ecorun') }}</title>
+    <title>@yield('title', 'Ecorun')</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="manifest" href="/manifest.json">
@@ -21,7 +22,7 @@
 
     <!-- Fonts -->
     <link preload rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
 
     <!-- Styles -->
     <link preload rel="stylesheet" href="/css/app.css" defer>
@@ -89,7 +90,7 @@
             opacity: 1;
         }
 
-@-moz-document url-prefix() {
+        @-moz-document url-prefix() {
             .form-textarea {
                 margin-bottom: -0.1rem;
             }
@@ -115,7 +116,8 @@
 
     </script>
     @endenv
-    <script data-ad-client="ca-pub-2236521299425394" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script data-ad-client="ca-pub-2236521299425394" async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 <body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
