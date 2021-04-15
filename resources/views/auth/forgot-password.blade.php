@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'Ecorun | Forgot password')
+    @section('description', "forgot password")
     <x-jet-authentication-card>
         <x-slot name="logo">
             <x-logo />

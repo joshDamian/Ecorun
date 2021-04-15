@@ -1,4 +1,6 @@
 <x-social-layout>
+    @section('title', "Ecorun | {$profile->name} (@{$profile->tag})'s profile")
+    @section('description', "{$profile->name} (@{$profile->tag})'s profile")
     <div x-data="{ zoomedImage: false, show_copy: false }">
         <div>
             @if($profile->isUser())
