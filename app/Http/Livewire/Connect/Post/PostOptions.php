@@ -11,27 +11,30 @@ use Illuminate\Support\Facades\Auth;
 class PostOptions extends Component
 {
     use HasBookmarks,
-    HasFollowing;
+        HasFollowing;
 
     public Post $post;
 
-    public function mount() {
+    public function mount()
+    {
         $this->bookmarkable = $this->post;
+        $this->followable = $this->post->profile;
         if (Auth::check()) {
             $this->profile = Auth::user()->currentProfile;
             $this->bookmarked = $this->bookmarked();
-            $this->followable = $this->post->profile;
             $this->follows = $this->follows();
         }
     }
 
-    public function getListeners() {
+    public function getListeners()
+    {
         return [
             'options_refresh.' . $this->post->id . 'App.Models.Post' => '$refresh'
         ];
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.post.post-options');
     }
 }

@@ -2,20 +2,27 @@
 
 namespace App\Http\Livewire\Traits;
 
-trait HasFollowing {
+use App\Http\Controllers\FollowController;
+use App\Models\Profile;
+use Illuminate\Support\Facades\Auth;
+
+trait HasFollowing
+{
     public $followable;
     public bool $follows = false;
 
-    public function follow() {
-        if (!auth()->user()->can('update', $this->followable)) {
-            $this->profile->following()->toggle($this->followable);
+    public function follow()
+    {
+        if (Auth::check()) {
+            (new FollowController())->store($this->followable ?? (new Profile()), request());
             $this->follows = $this->follows();
-            $this->profile->flushQueryCache();
             return $this->emit('modifiedFollowers');
         }
+        return redirect(route('guest.follow-profile', ['tag' => $this->followable->tag]));
     }
 
-    public function follows() {
+    public function follows()
+    {
         return $this->profile->following()->where('follower_id', $this->followable->id)->exists();
     }
 }

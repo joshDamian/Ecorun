@@ -17,8 +17,11 @@ trait HasFeedback
 
     public function feedbacks()
     {
-        $feedback_name = $this->feedback_names[get_class($this->feedbackable)];
-        return $this->feedbackable->loadMissing($feedback_name)->{$feedback_name}->count();
+        if (is_object($this->feedbackable)) {
+            $feedback_name = $this->feedback_names[$this->feedbackable::class];
+            return $this->feedbackable->loadMissing($feedback_name)->{$feedback_name}->count();
+        }
+        return;
     }
 
     public function toogleFeedback()

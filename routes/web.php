@@ -44,16 +44,14 @@ Route::get(
         return (Auth::check()) ? view('auth-landing-page', ['profile' => Auth::user()->currentProfile]) : view('guest-landing-page');
     }
 )->name('home');
-
-
 Route::get('/@{profile:tag}/{action_route?}', [ProfileController::class, 'show'])->name('profile.visit');
-
+Route::get('/post/{post}', [PostController::class, 'show'])->name('post.show');
 Route::middleware(['auth:sanctum', 'verified'])->group(
     function () {
-        Route::put(
+        Route::any(
             '/guest/@{tag}/follow',
             function ($tag) {
-                return redirect("@/{$tag}/");
+                return redirect("/@{$tag}/");
             }
         )->name('guest.follow-profile');
 
@@ -87,7 +85,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(
             return view('chat.index', ['profile' => Auth::user()->profile, 'activeConversation' => (request()->input('active_conversation')) ? DirectConversation::firstWhere('secret_key', request()->input('active_conversation')) : null]);
         })->name('chat.index');
 
-        Route::get('/post/{post}', [PostController::class, 'show'])->name('post.show');
         Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
         Route::get('/post/{post}/delete', [PostController::class, 'destroy'])->name('post.delete');
 

@@ -100,11 +100,13 @@
                     key($feed_back_key))
                 </div>
 
+                @auth
                 <div class="box-content sticky bottom-0 px-3 py-2 bg-gray-100 border-t border-gray-300">
                     @livewire('connect.post.comment.create-new-comment', ['post' => $post, 'profile' =>
-                    Auth::user()->currentProfile],
+                    Auth::user()?->currentProfile],
                     key(time().$post->id.'_comment'))
                 </div>
+                @endauth
             </div>
         </div>
     </div>

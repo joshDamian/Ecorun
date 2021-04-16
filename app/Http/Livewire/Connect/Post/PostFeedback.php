@@ -18,7 +18,8 @@ class PostFeedback extends Component
     public Post $post;
     public string $view;
 
-    public function getListeners() {
+    public function getListeners()
+    {
         return [
             'newFeedback' => '$refresh',
             "newLike.{$this->feedback_id}." . str_replace('\\', '.', get_class($this->post)) => 'likes',
@@ -31,13 +32,14 @@ class PostFeedback extends Component
         if (Auth::check()) {
             $this->profile = Auth::user()->currentProfile;
         }
+        $this->feedbackReady = ($this->view === 'post.show') ? true : null;
         $this->feedback_id = random_int(1, 918000982092) . $this->post->id;
         $this->shareable = $this->likeable = $this->feedbackable = $this->post;
-        $this->feedbackReady = ($this->view === 'post.show') ? true : null;
         return;
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.post.post-feedback');
     }
 }
