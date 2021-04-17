@@ -64,7 +64,7 @@ class Post extends Model
             //
         });
 
-        self::deleting(function ($model) {
+        self::deleted(function ($model) {
             $model->trash();
         });
     }

@@ -63,9 +63,30 @@
                                 <p class="mr-5 text-2xl font-bold text-blue-700">
                                     {!! $product->price() !!}
                                 </p>
-                                <div>
+                                {{--  <div>
                                     @livewire('buy.cart.cart-trigger', ['product' => $product],
                                     key(md5('add_to_cart'.$product->id)))
+                                </div>
+                                --}}
+
+                                <div class="">
+                                    <x-jet-button x-on:click="show_buy_options = !show_buy_options" class="bg-blue-700" type="button">
+                                        <span class="text-md font-bold">&#8358; Buy</span>
+                                    </x-jet-button>
+                                </div>
+                            </div>
+
+                            <div x-show="show_buy_options" class="flex justify-between">
+                                <div>
+                                    <x-jet-button type="button" class="bg-purple-500 text-md">
+                                        direct purchase
+                                    </x-jet-button>
+                                </div>
+
+                                <div>
+                                    <x-jet-button type="button" class="bg-green-500 text-md">
+                                        eco transact
+                                    </x-jet-button>
                                 </div>
                             </div>
                         </div>
@@ -144,6 +165,7 @@
             return {
                 activeImage: null,
                 show_description: null,
+                show_buy_options: false,
                 show_specs: null,
                 init_product() {
                     this.activeImage = '{{ $product->gallery->first()->image_url }}';

@@ -11,9 +11,11 @@
         <div class="px-3 py-2 mb-2 text-md font-semibold text-gray-700 uppercase bg-gray-200">
             Manage badges
         </div>
+        @if($primaryBadge)
         <div class="w-6/12">
             <x-connect.badge.badge-card :badge="$primaryBadge" :isDisplayBadge="true" />
         </div>
+        @endif
         <div x-show="$refs.other_badges.innerText !== ''" x-ref="other_badges_label" class="mt-4 text-gray-600">
             Other badges
         </div>
@@ -30,7 +32,7 @@
 
         @if($detachedBadges->count() > 0)
         <div>
-            <div class="text-gray-600">
+            <div class="text-gray-600 mt-4">
                 Add new badge
             </div>
             <div class="flex items-center">
