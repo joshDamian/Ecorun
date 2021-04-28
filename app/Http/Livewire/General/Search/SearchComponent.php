@@ -4,9 +4,9 @@ namespace App\Http\Livewire\General\Search;
 
 use App\Engines\SearchEngine;
 use Illuminate\Support\Facades\App;
-use App\Models\Post;
-use App\Models\Product;
-use App\Models\Profile;
+use App\Models\Connect\Content\Post;
+use App\Models\Build\Sellable\Product\Product;
+use App\Models\Connect\Profile\Profile;
 use Livewire\Component;
 
 class SearchComponent extends Component

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\BuildAndManage\ProductSpecification;
 
-use App\Models\ProductSpecification;
+use App\Models\Build\Sellable\Product\ProductSpecification;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
 

@@ -2,7 +2,7 @@
 
 namespace App\Presenters\Product;
 
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 use App\Presenters\Presenter;
 
 class UrlPresenter

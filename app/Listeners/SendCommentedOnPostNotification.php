@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Notifications\CommentedOnPostNotification;
 use App\Notifications\MentionedInComment;
 use Illuminate\Support\Facades\Notification;
-use App\Models\Profile;
+use App\Models\Connect\Profile\Profile;
 
 class SendCommentedOnPostNotification
 {

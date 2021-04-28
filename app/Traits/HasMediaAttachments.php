@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
-use App\Models\Video;
-use App\Models\Audio;
-use App\Models\Music;
+use App\Models\Core\Media\Video;
+use App\Models\Core\Media\Audio;
+use App\Models\Core\Media\Music;
 
 trait HasMediaAttachments
 {

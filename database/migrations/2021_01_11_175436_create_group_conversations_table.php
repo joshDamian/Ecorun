@@ -7,14 +7,15 @@ use Illuminate\Support\Facades\Schema;
 class CreateGroupConversationsTable extends Migration
 {
     /**
-    * Run the migrations.
-    *
-    * @return void
-    */
-    public function up() {
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
         Schema::create('group_conversations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Profile::class, 'creator_id');
+            $table->foreignIdFor(\App\Models\Connect\Profile\Profile::class, 'creator_id');
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('profile_photo_path');
@@ -23,11 +24,12 @@ class CreateGroupConversationsTable extends Migration
     }
 
     /**
-    * Reverse the migrations.
-    *
-    * @return void
-    */
-    public function down() {
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
         Schema::dropIfExists('group_conversations');
     }
 }

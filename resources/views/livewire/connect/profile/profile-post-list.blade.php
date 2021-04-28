@@ -15,7 +15,7 @@
 
     <div class="grid grid-cols-1 gap-3 bg-gray-300">
         @forelse($posts as $post)
-        @if(get_class($post) === 'App\Models\Share')
+        @if(get_class($post) === 'App\Models\Connect\Content\Share')
         <div>
             @include('includes.feed-display-cards.share-display', ['model' => $post])
         </div>

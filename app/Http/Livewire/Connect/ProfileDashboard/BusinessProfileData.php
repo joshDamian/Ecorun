@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Connect\ProfileDashboard;
 
-use App\Models\Profile;
+use App\Models\Connect\Profile\Profile;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -42,14 +42,16 @@ class BusinessProfileData extends Component
         return;
     }
 
-    public function switchView(string $view_key) {
+    public function switchView(string $view_key)
+    {
         $this->action_route = $view_key;
         $this->active_view = $this->views[$view_key];
         return;
     }
 
 
-    public function render() {
+    public function render()
+    {
         return view(
             'livewire.connect.profile-dashboard.business-profile-data'
         );

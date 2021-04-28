@@ -15,7 +15,7 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Profile::class)
+            $table->foreignIdFor(\App\Models\Connect\Profile\Profile::class)
                 ->index()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

@@ -4,23 +4,18 @@ namespace App\Http\Livewire\BuildAndManage\Product;
 
 use App\Http\Livewire\Traits\MultipleImageSelector;
 use App\Http\Livewire\Traits\UploadPhotos;
-use App\Models\Category;
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 use Livewire\Component;
 
 class CreateNewProduct extends Component
 {
-    use UploadPhotos,
-        MultipleImageSelector;
+    use UploadPhotos, MultipleImageSelector;
 
     public $business;
     public $photos = [];
     public $product_created = false;
     public $product = [
-        '_name',
-        '_description',
-        '_price',
-        '_available stock'
+        '_available stock' => 1
     ];
     public $business_is_store;
 

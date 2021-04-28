@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\BuildAndManage\Business;
 
-use App\Models\Business;
-use App\Models\Product;
+use App\Models\Build\Business\Business;
+use App\Models\Build\Sellable\Product\Product;
 use App\Scopes\ProductAccessibleScope;
 use App\Scopes\ProductViewableScope;
 use Illuminate\Support\Facades\Auth;

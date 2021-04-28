@@ -14,7 +14,7 @@
         $last_message = $conversation->messages->last();
         $unread_count = $conversation->getUnreadFor($profile);
         @endphp
-        @if($conversation instanceof \App\Models\DirectConversation)
+        @if($conversation instanceof \App\Models\Connect\Conversation\DirectConversation)
         @php $partner = $conversation->pair->firstWhere('id', '!==', $profile->id); @endphp
         <div onclick="window.location = '{{ route('chatEngine.talk', ['conversation' => $conversation->secret_key, 'me' => $profile->id]) }}'"
             class="flex items-center px-3 py-2 bg-gray-100 @if(!$loop->last) border-b-2 border-gray-300 @endif cursor-pointer select-none">

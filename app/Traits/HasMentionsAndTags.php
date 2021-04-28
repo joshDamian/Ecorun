@@ -3,10 +3,10 @@
 namespace App\Traits;
 
 use Spatie\Tags\HasTags;
-use App\Models\Tag;
+use App\Models\Core\DataSorting\Tag;
 use App\Queues\MentionQueue;
 use App\Queues\TagQueue;
-use App\Actions\Ecorun\TextContent\ParseText;
+use App\Actions\TextContent\ParseText;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use League\CommonMark\Environment;
 use Illuminate\Support\Facades\App;

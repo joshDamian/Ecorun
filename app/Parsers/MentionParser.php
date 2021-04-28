@@ -5,7 +5,7 @@ namespace App\Parsers;
 use League\CommonMark\Inline\Element\Link;
 use League\CommonMark\Inline\Parser\InlineParserInterface;
 use League\CommonMark\InlineParserContext;
-use App\Models\Profile;
+use App\Models\Connect\Profile\Profile;
 
 class MentionParser implements InlineParserInterface
 {

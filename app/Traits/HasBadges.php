@@ -2,18 +2,18 @@
 
 namespace App\Traits;
 
-use App\Models\Badge;
+use App\Models\Connect\Profile\Badge;
 
 trait HasBadges
 {
     public function badges()
     {
-        return $this->morphToMany('App\Models\Badge', 'badgable');
+        return $this->morphToMany('App\Models\Connect\Profile\Badge', 'badgable');
     }
 
     public function primaryBadge()
     {
-        return $this->belongsTo('App\Models\Badge', 'primary_badge_id')?->withDefault($this->getDefaultBadge()?->toArray());
+        return $this->belongsTo('App\Models\Connect\Profile\Badge', 'primary_badge_id')?->withDefault($this->getDefaultBadge()?->toArray());
     }
 
     public abstract function getBadgeCanUse();

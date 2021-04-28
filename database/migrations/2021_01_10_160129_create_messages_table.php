@@ -15,7 +15,7 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Profile::class, 'sender_id');
+            $table->foreignIdFor(\App\Models\Connect\Profile\Profile::class, 'sender_id');
             $table->string('messageable_type');
             $table->integer('messageable_id');
             $table->string('privacy_level')->default('all_members');

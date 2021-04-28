@@ -15,7 +15,7 @@ class CreateWorkingDaysTable extends Migration
     {
         Schema::create('working_days', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Business::class)
+            $table->foreignIdFor(\App\Models\Build\Business\Business::class)
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->string('day');

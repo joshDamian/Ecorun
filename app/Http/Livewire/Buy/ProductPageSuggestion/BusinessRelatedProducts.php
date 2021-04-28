@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Buy\ProductPageSuggestion;
 
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 use Livewire\Component;
 
 class BusinessRelatedProducts extends Component

@@ -15,10 +15,10 @@ class GroupConversationMemberPivotTable extends Migration
     {
         Schema::create('group_conversation_member', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Profile::class, 'member_id')
+            $table->foreignIdFor(\App\Models\Connect\Profile\Profile::class, 'member_id')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreignIdFor(App\Models\GroupConversation::class, 'group_id')
+            $table->foreignIdFor(App\Models\Connect\Conversation\GroupConversation::class, 'group_id')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->timestamps();

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 
 use App\Events\PostCreated;
 use App\Events\PlacedOrder;
-use App\Events\ProductCreated;
+use App\Events\ProductEvents\ProductCreated;
 use App\Events\SentMessage;
 use App\Events\LikedPost;
 use App\Events\ContentShared;

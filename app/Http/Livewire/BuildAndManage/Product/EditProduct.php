@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\BuildAndManage\Product;
 
 use Livewire\Component;
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 
 class EditProduct extends Component
 {
@@ -30,7 +30,8 @@ class EditProduct extends Component
         ]
     ];
 
-    public function save() {
+    public function save()
+    {
         $this->validate([
             'product.name' => [
                 'required',
@@ -57,7 +58,8 @@ class EditProduct extends Component
         $this->emitSelf('saved');
     }
 
-    public function updated($propertyName) {
+    public function updated($propertyName)
+    {
         $this->validateOnly($propertyName, [
             'product.name' => [
                 'required',
@@ -81,7 +83,8 @@ class EditProduct extends Component
         ]);
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.build-and-manage.product.edit-product');
     }
 }

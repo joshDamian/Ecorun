@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Connect\Post;
 use App\Http\Livewire\Traits\CreatesSocialContent;
 use Livewire\Component;
 use App\Events\PostCreated;
-use App\Models\Post;
+use App\Models\Connect\Content\Post;
 
 class CreateNewPost extends Component
 {

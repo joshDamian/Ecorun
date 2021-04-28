@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Buy\ProductPageSuggestion;
 
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 use Illuminate\Session\SessionManager;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;

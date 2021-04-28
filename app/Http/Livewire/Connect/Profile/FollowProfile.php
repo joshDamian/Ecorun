@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Connect\Profile;
 
-use App\Http\Controllers\FollowController;
-use App\Models\Profile;
+use App\Http\Controllers\Connect\Profile\FollowController;
+use App\Models\Connect\Profile\Profile;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -14,12 +14,14 @@ class FollowProfile extends Component
         'modifiedFollowers' => '$refresh'
     ];
 
-    public function follow() {
+    public function follow()
+    {
         (new FollowController())->store($this->profile, request());
         return $this->emit('modifiedFollowers');
     }
 
-    public function isFollowing() {
+    public function isFollowing()
+    {
         if (Auth::check()) {
             return Auth::user()->currentProfile->loadMissing('following')->following->contains($this->profile);
         } else {
@@ -27,7 +29,8 @@ class FollowProfile extends Component
         }
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.profile.follow-profile');
     }
 }

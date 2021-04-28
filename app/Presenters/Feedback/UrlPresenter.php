@@ -28,7 +28,7 @@ class UrlPresenter
     private function generate_url_prefix()
     {
         switch ($this->feedback->feedbackable_type) {
-            case ('App\Models\Post'):
+            case ('App\Models\Connect\Content\Post'):
                 return '/post/' . $this->feedback->feedbackable_id . '/comment/' . $this->feedback->id;
                 break;
             case ('App\Models\Feedback'):

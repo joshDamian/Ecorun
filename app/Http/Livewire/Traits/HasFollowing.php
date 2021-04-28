@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Traits;
 
-use App\Http\Controllers\FollowController;
-use App\Models\Profile;
+use App\Http\Controllers\Connect\Profile\FollowController;
+use App\Models\Connect\Profile\Profile;
 use Illuminate\Support\Facades\Auth;
 
 trait HasFollowing

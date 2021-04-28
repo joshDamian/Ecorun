@@ -41,10 +41,10 @@
 
     <div>
         @switch($share->shareable_type)
-        @case('App\Models\Post')
+        @case('App\Models\Connect\Content\Post')
         @include('includes.feed-display-cards.post-display', ['model' => $share->shareable])
         @break
-        @case('App\Models\Product')
+        @case('App\Models\Build\Sellable\Product\Product')
         @include('includes.feed-display-cards.product-display', ['model' => $share->shareable])
         @break
         @default

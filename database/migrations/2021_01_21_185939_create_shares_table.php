@@ -15,7 +15,7 @@ class CreateSharesTable extends Migration
     {
         Schema::create('shares', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Profile::class)->index()
+            $table->foreignIdFor(\App\Models\Connect\Profile\Profile::class)->index()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('shareable_type');

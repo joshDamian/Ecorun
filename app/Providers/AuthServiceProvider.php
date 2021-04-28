@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Business;
-use App\Models\DirectConversation;
-use App\Models\Product;
-use App\Models\Profile;
+use App\Models\Build\Business\Business;
+use App\Models\Connect\Conversation\DirectConversation;
+use App\Models\Build\Sellable\Product\Product;
+use App\Models\Connect\Profile\Profile;
 use App\Models\Team;
 use App\Policies\DirectConversationPolicy;
 use App\Policies\ProductPolicy;

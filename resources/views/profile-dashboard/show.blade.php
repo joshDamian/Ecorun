@@ -60,7 +60,7 @@
                         $current_profile = $user->currentProfile;
                         @endphp
                         <div class="flex-1 flex-shrink-0 ml-3">
-                            @if($user->can('create', [\App\Models\DirectConversation::class,
+                            @if($user->can('create', [\App\Models\Connect\Conversation\DirectConversation::class,
                             $current_profile,
                             $profile]))
                             @livewire('connect.direct-conversation.initiate-conversation', ['initiator' =>

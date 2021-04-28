@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\BuildAndManage\Business;
 
-use App\Models\Business;
-use App\Models\Profile;
+use App\Models\Build\Business\Business;
+use App\Models\Connect\Profile\Profile;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +42,8 @@ class BusinessDashboard extends Component
         'setupDone' => '$refresh'
     ];
 
-    public function mount(?string $action_route = 'products', $action_route_resource = null) {
+    public function mount(?string $action_route = 'products', $action_route_resource = null)
+    {
         $this->user = Auth::user()->loadMissing('profile');
         $this->business = $this->profile->loadMissing('profileable')->profileable;
         $this->action_route = (array_key_exists($action_route, $this->actions)) ? $action_route : 'products';
@@ -51,12 +52,14 @@ class BusinessDashboard extends Component
         return;
     }
 
-    public function switchView(string $key) {
+    public function switchView(string $key)
+    {
         $this->action_route = $key;
         $this->active_action = $this->actions[$key];
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.build-and-manage.business.business-dashboard')->layout('layouts.business', ['user' => $this->user]);
     }
 }

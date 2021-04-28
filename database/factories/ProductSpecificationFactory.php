@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\ProductSpecification;
+use App\Models\Build\Sellable\Product\ProductSpecification;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductSpecificationFactory extends Factory

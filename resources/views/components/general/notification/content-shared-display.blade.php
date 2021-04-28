@@ -10,7 +10,7 @@
         <x-slot name="message">
             <span class="font-bold text-black">{{ $profile->name }}</span>
             shared @switch($share->shareable_type)
-            @case('App\Models\Post')
+            @case('App\Models\Connect\Content\Post')
             a post.
             @if($share->shareable->content)
             <div class="flex items-center">
@@ -21,7 +21,7 @@
             </div>
             @endif
             @break
-            @case('App\Models\Product')
+            @case('App\Models\Build\Sellable\Product\Product')
             a product.
             <div class="flex items-center">
                 <i class="mr-2 text-sm text-blue-800 fas fa-arrow-alt-circle-right"></i>

@@ -3,10 +3,10 @@
 namespace App\Presenters\Profile;
 
 use App\DataBanks\Profile\FeedDataBank;
-use App\Models\Post;
-use App\Models\Product;
-use App\Models\Profile;
-use App\Models\Share;
+use App\Models\Connect\Content\Post;
+use App\Models\Build\Sellable\Product\Product;
+use App\Models\Connect\Profile\Profile;
+use App\Models\Connect\Content\Share;
 use App\Presenters\Presenter;
 
 class FeedPresenter

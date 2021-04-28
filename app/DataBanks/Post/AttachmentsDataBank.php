@@ -3,7 +3,7 @@
 namespace App\DataBanks\Post;
 
 use App\DataBanks\DataBank;
-use App\Models\Post;
+use App\Models\Connect\Content\Post;
 
 class AttachmentsDataBank implements DataBank
 {

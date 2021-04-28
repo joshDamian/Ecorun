@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\View\Components\Connect\Profile;
 
-use App\Models\Business;
-use App\Models\Profile;
+use App\Models\Build\Business\Business;
+use App\Models\Connect\Profile\Profile;
 use App\Models\User;
 use Illuminate\View\Component;
-use App\Models\Badge;
+use App\Models\Connect\Profile\Badge;
 use Illuminate\Support\Collection;
 
 class Branding extends Component

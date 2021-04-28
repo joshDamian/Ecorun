@@ -15,8 +15,8 @@ class CreateDirectConversationsTable extends Migration
     {
         Schema::create('direct_conversations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Profile::class, 'initiator_id');
-            $table->foreignIdFor(\App\Models\Profile::class, 'joined_id');
+            $table->foreignIdFor(\App\Models\Connect\Profile\Profile::class, 'initiator_id');
+            $table->foreignIdFor(\App\Models\Connect\Profile\Profile::class, 'joined_id');
             $table->uuid('secret_key')->unique();
             $table->timestamps();
         });

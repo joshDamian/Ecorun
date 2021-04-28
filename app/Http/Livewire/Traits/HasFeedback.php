@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Traits;
 
-use App\Models\Post;
+use App\Models\Connect\Content\Post;
 use App\Models\Feedback;
 
 trait HasFeedback

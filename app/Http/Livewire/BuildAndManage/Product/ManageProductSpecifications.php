@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\BuildAndManage\Product;
 
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 use Livewire\Component;
 
 class ManageProductSpecifications extends Component

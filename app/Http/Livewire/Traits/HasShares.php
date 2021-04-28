@@ -3,8 +3,8 @@
 namespace App\Http\Livewire\Traits;
 
 use App\Events\ContentShared;
-use App\Models\Share;
-use App\Models\Profile;
+use App\Models\Connect\Content\Share;
+use App\Models\Connect\Profile\Profile;
 
 trait HasShares
 {

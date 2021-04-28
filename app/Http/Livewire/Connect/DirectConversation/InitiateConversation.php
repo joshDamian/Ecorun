@@ -3,9 +3,9 @@
 namespace App\Http\Livewire\Connect\DirectConversation;
 
 use Livewire\Component;
-use App\Models\Profile;
-use App\Models\DirectConversation;
-use App\Models\Message;
+use App\Models\Connect\Profile\Profile;
+use App\Models\Connect\Conversation\DirectConversation;
+use App\Models\Connect\Conversation\Message;
 use App\Events\SentMessage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\App;
@@ -29,22 +29,26 @@ class InitiateConversation extends Component
         'newConvo'
     ];
 
-    public function done() {
+    public function done()
+    {
         $this->reset('message');
         $this->resetValidation();
     }
 
-    public function close() {
+    public function close()
+    {
         $this->should_display = false;
         return $this->done();
     }
 
-    public function newConvo() {
+    public function newConvo()
+    {
         $this->display_sent = true;
         return $this->done();
     }
 
-    public function initiate() {
+    public function initiate()
+    {
         $this->authorize('create', [DirectConversation::class, $this->initiator, $this->joined]);
         $this->validate();
         $conversation = DirectConversation::forceCreate([
@@ -67,7 +71,8 @@ class InitiateConversation extends Component
         return;
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.direct-conversation.initiate-conversation');
     }
 }

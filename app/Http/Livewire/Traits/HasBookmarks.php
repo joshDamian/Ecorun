@@ -2,16 +2,18 @@
 
 namespace App\Http\Livewire\Traits;
 
-use App\Models\Profile;
+use App\Models\Connect\Profile\Profile;
 use App\Models\Bookmark;
 
-trait HasBookmarks {
+trait HasBookmarks
+{
     public Profile $profile;
     public $bookmarkable;
     public $bookmarked;
     public string $title = '';
 
-    public function bookmark() {
+    public function bookmark()
+    {
         if ($this->bookmarked()) {
             $this->profile->bookmarks()->where('bookmarkable_id', $this->bookmarkable->id)->where('bookmarkable_type', get_class($this->bookmarkable))->delete();
             $this->profile->flushQueryCache();
@@ -30,7 +32,8 @@ trait HasBookmarks {
         return $this->emit('modifiedBookmarks');
     }
 
-    public function bookmarked() {
+    public function bookmarked()
+    {
         return $this->profile->bookmarks()->where('bookmarkable_id', $this->bookmarkable->id)->where('bookmarkable_type', get_class($this->bookmarkable))->exists();
     }
 }

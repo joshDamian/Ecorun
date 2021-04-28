@@ -11,13 +11,12 @@
                             @foreach($product->gallery as $image)
                             <div x-on:click="activeImage = '{{ $image->image_url }}'"
                                 style="height: 70px; width: 70px; background-image: url('/storage/{{ $image->image_url }}'); background-size: cover; background-position: center center;"
-                                class="@if(!$loop->last) md:mb-2 @endif mr-3 md:mr-0 md:shadow-lg flex-shrink-0"
+                                class="@if(!$loop->last) md:mb-2 @endif mr-3 md:mr-0 md:shadow-lg flex-shrink-0 cursor-pointer"
                                 :class="('{{ $image->image_url }}' === activeImage) ? 'border-2 border-blue-800' : ''">
                             </div>
                             @endforeach
                         </div>
                     </div>
-
                     <!-- Active Image -->
                     <div class="flex-1 order-1 md:order-2">
                         <div class="flex items-center justify-center justify-items-center">
@@ -25,80 +24,56 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Product Data -->
                 <div class="order-3 sm:py-1 md:py-0 sm:pr-1 sm:order-3">
                     <div class="grid grid-cols-1 gap-2 p-3 bg-white sm:p-3 md:mx-2 md:shadow-lg md:rounded-md md:p-3">
                         <div>
                             <!-- Name -->
-                            <p class="mb-2 text-2xl font-semibold text-blue-800 md:mb-6 md:mt-0">
+                            <p class="mb-2 text-2xl font-extrabold text-blue-800 md:mb-4 md:mt-0">
                                 {{ $product->name }}
                             </p>
-
-                            @auth
-                            <!-- Rating and link to reviews -->
                             <div class="flex flex-wrap items-baseline justify-between">
-                                {{--    <div class="mr-3 sm:mr-5">
-                                    <i class="text-blue-800 fa fa-star"></i>
-                                    <i class="text-blue-800 fa fa-star"></i>
-                                    <i class="text-blue-800 fa fa-star"></i>
-                                    <i class="text-blue-800 fa fa-star"></i>
-                                </div>
-
-                                <div class="mr-3 sm:mr-5">
-                                    <a class="font-medium text-blue-800" href="#">
-                                        reviews (10)
-                                    </a>
-                                </div>
-                                --}}
-
-                                @livewire('connect.product.bookmark-product', ['product' => $product],
-                                key("product_bookmark_{$product->id}"))
-                            </div>
-                            @endauth
-
-
-                            <div class="flex flex-wrap items-baseline justify-between py-3 md:py-6">
                                 <!-- Price -->
-                                <p class="mr-5 text-2xl font-bold text-blue-700">
+                                <p class="mr-5 text-2xl font-extrabold text-blue-700">
                                     {!! $product->price() !!}
                                 </p>
-                                {{--  <div>
-                                    @livewire('buy.cart.cart-trigger', ['product' => $product],
-                                    key(md5('add_to_cart'.$product->id)))
-                                </div>
-                                --}}
-
-                                <div class="">
-                                    <x-jet-button x-on:click="show_buy_options = !show_buy_options" class="bg-blue-700" type="button">
-                                        <span class="text-md font-bold">&#8358; Buy</span>
-                                    </x-jet-button>
-                                </div>
                             </div>
-
-                            <div x-show="show_buy_options" class="flex justify-between">
-                                <div>
-                                    <x-jet-button type="button" class="bg-purple-500 text-md">
-                                        direct purchase
-                                    </x-jet-button>
+                            <div class="py-3 md:py-6">
+                                @auth
+                                <div class="mb-4">
+                                    @livewire('connect.product.bookmark-product', ['product' => $product],
+                                    key("product_bookmark_{$product->id}"))
                                 </div>
-
-                                <div>
-                                    <x-jet-button type="button" class="bg-green-500 text-md">
-                                        eco transact
-                                    </x-jet-button>
+                                @endauth
+                                <div
+                                    class="flex justify-between px-3 py-2 mt-3 text-lg font-extrabold text-blue-700 uppercase bg-gray-100 md:text-xl">
+                                    <span>&#8358; Buy</span>
+                                    <span>
+                                        <i class="fas fa-angle-double-down"></i>
+                                    </span>
+                                </div>
+                                <div x-show="show_buy_options" class="flex justify-between mt-4">
+                                    <div class="mr-4">
+                                        <x-jet-button type="button" class="bg-blue-600 rounded-md text-md">
+                                            direct purchase
+                                        </x-jet-button>
+                                    </div>
+                                    <div>
+                                        <x-jet-button type="button" class="bg-green-500 rounded-md text-md">
+                                            <i class="fas fa-exchange-alt"></i> &nbsp; eco-transact
+                                        </x-jet-button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- expansible description  & specifications -->
             <div class="grid grid-cols-1 gap-0 bg-gray-100 md:mb-3 md:mt-3">
                 <div>
                     <div id="description"
-                        @click=" show_description = ! show_description; (show_description) ? window.location = '#description' : true "
+                        x-on:click=" show_description = ! show_description; (show_description) ? window.location = '#description' : true "
                         class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl md:px-3">
                         <span>
                             description
@@ -115,10 +90,9 @@
                         </div>
                     </div>
                 </div>
-
                 <div>
                     <div id="specs"
-                        @click=" show_specs = ! show_specs; (show_specs) ? window.location = '#specs' : true "
+                        x-on:click=" show_specs = ! show_specs; (show_specs) ? window.location = '#specs' : true "
                         class="grid grid-cols-2 px-3 py-3 text-lg font-semibold tracking-wide text-gray-700 uppercase border-t-2 border-gray-200 cursor-pointer select-none md:text-xl">
                         <span>
                             specifications
@@ -137,7 +111,6 @@
                                         class="px-3 py-2 text-xl font-semibold text-blue-700 border border-gray-200 rounded-t-sm">
                                         {{ $specification->name }}
                                     </h3>
-
                                     <table class="table border-collapse rounded-b-sm">
                                         <tr>
                                             @foreach($specification->value as $key => $value)
@@ -158,21 +131,19 @@
         </div>
         @endcan
     </div>
-
     @push('scripts')
     <script>
         function product_data() {
             return {
                 activeImage: null,
                 show_description: null,
-                show_buy_options: false,
+                show_buy_options: true,
                 show_specs: null,
                 init_product() {
                     this.activeImage = '{{ $product->gallery->first()->image_url }}';
                 }
             }
         }
-
     </script>
     @endpush
 </x-business-layout>

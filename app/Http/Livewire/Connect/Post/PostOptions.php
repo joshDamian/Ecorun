@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Connect\Post;
 
 use Livewire\Component;
-use App\Models\Post;
+use App\Models\Connect\Content\Post;
 use App\Http\Livewire\Traits\HasBookmarks;
 use App\Http\Livewire\Traits\HasFollowing;
 use Illuminate\Support\Facades\Auth;

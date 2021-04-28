@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Image;
+use App\Models\Core\Media;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ImageFactory extends Factory

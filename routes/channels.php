@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Profile;
+use App\Models\Connect\Profile\Profile;
 use Illuminate\Support\Facades\Broadcast;
-use App\Models\DirectConversation;
+use App\Models\Connect\Conversation\DirectConversation;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,13 +30,15 @@ Broadcast::channel(
 );
 
 Broadcast::channel('private_conversation.{conversationId}', function ($user, DirectConversation $conversationId) {
-    $concernedProfile = $user->associated_profiles->all->filter(function($profile) use($user, $conversationId) {
+    $concernedProfile = $user->associated_profiles->all->filter(function ($profile) use ($user, $conversationId) {
         return $user->can('view', [$conversationId, $profile]);
     })->first();
 
     if ($concernedProfile) {
-        return ['id' => $concernedProfile->id,
-            'name' => $concernedProfile->name];
+        return [
+            'id' => $concernedProfile->id,
+            'name' => $concernedProfile->name
+        ];
     }
     return false;
 });

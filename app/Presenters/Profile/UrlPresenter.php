@@ -2,7 +2,7 @@
 
 namespace App\Presenters\Profile;
 
-use App\Models\Profile;
+use App\Models\Connect\Profile\Profile;
 use App\Presenters\Presenter;
 
 class UrlPresenter

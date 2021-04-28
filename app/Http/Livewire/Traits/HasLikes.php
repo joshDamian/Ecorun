@@ -3,9 +3,9 @@
 namespace App\Http\Livewire\Traits;
 
 use App\Events\LikedPost;
-use App\Models\Like;
-use App\Models\Post;
-use App\Models\Profile;
+use App\Models\Connect\ContentFeedback\Like;
+use App\Models\Connect\Content\Post;
+use App\Models\Connect\Profile\Profile;
 
 trait HasLikes
 {

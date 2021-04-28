@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\General\User;
 
 use Livewire\Component;
-use App\Models\Profile;
+use App\Models\Connect\Profile\Profile;
 
 class Notifications extends Component
 {

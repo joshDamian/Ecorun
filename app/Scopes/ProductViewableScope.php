@@ -20,7 +20,7 @@ class ProductViewableScope implements Scope
         $builder->whereExists(function ($query) {
             $query->select('*')
                 ->from('images')
-                ->where('images.imageable_type', 'App\Models\Product')
+                ->where('images.imageable_type', 'App\Models\Build\Sellable\Product\Product')
                 ->whereRaw('images.imageable_id = products.id');
         });
     }

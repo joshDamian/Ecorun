@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\Like;
+use App\Models\Connect\ContentFeedback\Like;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Queue\ShouldQueue;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Buy\LandingPage;
 
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 use App\Models\Service;
 use Livewire\Component;
 

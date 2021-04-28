@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\BuildAndManage\Business;
 
-use App\Models\Business;
+use App\Models\Build\Business\Business;
 use Livewire\Component;
 
 class SetupBusiness extends Component

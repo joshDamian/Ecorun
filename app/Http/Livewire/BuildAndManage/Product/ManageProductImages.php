@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\BuildAndManage\Product;
 
 use Livewire\Component;
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Traits\UploadPhotos;
 

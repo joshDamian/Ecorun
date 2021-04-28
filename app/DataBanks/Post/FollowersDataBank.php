@@ -4,8 +4,8 @@ namespace App\DataBanks\Post;
 
 use App\DataBanks\DataBank;
 use App\Models\Feedback;
-use App\Models\Post;
-use App\Models\Profile;
+use App\Models\Connect\Content\Post;
+use App\Models\Connect\Profile\Profile;
 
 class FollowersDataBank implements DataBank
 {

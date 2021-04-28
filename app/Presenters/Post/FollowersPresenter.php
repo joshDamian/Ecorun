@@ -3,7 +3,7 @@
 namespace App\Presenters\Post;
 
 use App\DataBanks\Post\FollowersDataBank;
-use App\Models\Post;
+use App\Models\Connect\Content\Post;
 use App\Presenters\Presenter;
 
 class FollowersPresenter

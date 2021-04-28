@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Buy\Cart;
 
 use App\Models\Cart;
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Video;
+use App\Models\Core\Media\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VideoFactory extends Factory

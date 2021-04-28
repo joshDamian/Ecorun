@@ -1,13 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Livewire\Traits;
 
-use App\Models\Music;
+use App\Models\Core\Media\Music;
 
-trait MediaDownload {
-    public function downloadMusic(Music $music) {
+trait MediaDownload
+{
+    public function downloadMusic(Music $music)
+    {
         $resources_path = $music->audio->url;
         $extension = pathinfo($resources_path, PATHINFO_EXTENSION);
         $filename = "{$music->artiste} - $music->title.{$extension}";

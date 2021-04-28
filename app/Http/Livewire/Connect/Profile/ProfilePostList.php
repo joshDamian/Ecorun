@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Connect\Profile;
 
 use Livewire\Component;
-use App\Models\Profile;
+use App\Models\Connect\Profile\Profile;
 
 class ProfilePostList extends Component
 {

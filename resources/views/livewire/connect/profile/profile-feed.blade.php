@@ -1,3 +1,4 @@
+@section('title', "Ecorun | " . $profile->name . "'s feed")
 <div x-data="{
     show_button: false,
     loadMore: function() {

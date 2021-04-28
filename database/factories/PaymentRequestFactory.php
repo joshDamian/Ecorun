@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\PaymentRequest;
+use App\Models\Buy\Core\PaymentRequest;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PaymentRequestFactory extends Factory

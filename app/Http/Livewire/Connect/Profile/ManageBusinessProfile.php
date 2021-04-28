@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Connect\Profile;
 
-use App\Models\Profile;
+use App\Models\Connect\Profile\Profile;
 use Livewire\Component;
 
 class ManageBusinessProfile extends Component

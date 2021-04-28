@@ -20,7 +20,7 @@
                 $table->string('buyer_type');
                 $table->integer('buyer_id');
                 $table->string('status')->default('pending');
-                $table->foreignIdFor(\App\Models\PaymentRequest::class)->nullable();
+                $table->foreignIdFor(\App\Models\Buy\Core\PaymentRequest::class)->nullable();
                 $table->integer('purchaseable_id');
                 $table->string('purchaseable_type');
                 $table->timestamps();

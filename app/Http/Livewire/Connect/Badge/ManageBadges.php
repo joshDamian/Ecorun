@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Connect\Badge;
 
-use App\Models\Badge;
-use App\Models\Profile;
+use App\Models\Connect\Profile\Badge;
+use App\Models\Connect\Profile\Profile;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 

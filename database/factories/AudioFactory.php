@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Audio;
+use App\Models\Core\Media\Audio;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AudioFactory extends Factory

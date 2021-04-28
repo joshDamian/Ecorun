@@ -6,7 +6,7 @@ use App\Http\Livewire\Traits\HasFeedback;
 use App\Http\Livewire\Traits\HasLikes;
 use App\Http\Livewire\Traits\HasShares;
 use Livewire\Component;
-use App\Models\Post;
+use App\Models\Connect\Content\Post;
 use Illuminate\Support\Facades\Auth;
 
 class PostFeedback extends Component

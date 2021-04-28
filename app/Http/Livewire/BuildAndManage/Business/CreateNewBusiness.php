@@ -2,10 +2,10 @@
 
 namespace App\Http\Livewire\BuildAndManage\Business;
 
-use App\Models\Badge;
+use App\Models\Connect\Profile\Badge;
 use Livewire\Component;
-use App\Models\Business;
-use App\Models\Profile;
+use App\Models\Build\Business\Business;
+use App\Models\Connect\Profile\Profile;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use App\Traits\StringManipulations;
@@ -16,8 +16,7 @@ class CreateNewBusiness extends Component
 
     public User $user;
     public $name;
-    public $type = 'online store';
-    protected $validTypes = ['online store', 'service'];
+    public Badge $primaryBadge;
 
     public function create()
     {
@@ -26,16 +25,12 @@ class CreateNewBusiness extends Component
         $manager_access = $this->user->is_business_owner;
 
         $this->name = ucwords($this->name);
-        $badge = Badge::firstWhere(function ($query) {
-            $query->where('label', $this->type)->where('canuse', 'business');
-        });
         $business = $this->user->businesses()->create(
             [
-                'type' => $this->type,
-                'primary_badge_id' => $badge->id
+                'primary_badge_id' => $this->primaryBadge->id
             ]
         );
-        $business->badges()->attach($badge->id);
+        $business->badges()->attach($this->primaryBadge->id);
         if (!$manager_access) {
             $this->user->is_business_owner = true;
         }
@@ -65,9 +60,7 @@ class CreateNewBusiness extends Component
         $business->profile()->create([
             'name' => $this->name,
             'tag' => (Profile::where('tag', $name_slug)->exists()) ? null : $name_slug,
-            'description' => ($business->isStore()) ?
-                "{$this->name} sells quality products, we look forward to satisfying your purchase needs." :
-                "{$this->name} offers quality services, we look forward to making you happy."
+            'description' => "{$this->name} sells quality products and services, and looks forward to satisfying your purchase needs."
         ]);
     }
 
@@ -89,8 +82,9 @@ class CreateNewBusiness extends Component
                 'min:4',
                 'max:255',
             ],
-
-            'type' => ['required', Rule::in($this->validTypes)]
+            'primaryBadge.label' => ['required', Rule::exists('badges', 'label')->where(function ($query) {
+                $query->where('canuse', 'business');
+            })]
         ];
     }
 
@@ -103,10 +97,12 @@ class CreateNewBusiness extends Component
 
     public function updated($propertyName)
     {
-        $this->validateOnly(
-            $propertyName,
-            $this->rules()
-        );
+        $this->validateOnly($propertyName, $this->rules());
+    }
+
+    public function mount()
+    {
+        $this->primaryBadge = (new Business())->getDefaultBadge();
     }
 
     public function render()

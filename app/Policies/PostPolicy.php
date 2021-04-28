@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Post;
-use App\Models\Profile;
+use App\Models\Connect\Content\Post;
+use App\Models\Connect\Profile\Profile;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -26,7 +26,7 @@ class PostPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Connect\Content\Post  $post
      * @return mixed
      */
     public function view(User $user, Post $post)
@@ -49,7 +49,7 @@ class PostPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Connect\Content\Post  $post
      * @return mixed
      */
     public function update(User $user, Post $post, Profile $profile)
@@ -61,7 +61,7 @@ class PostPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Connect\Content\Post  $post
      * @return mixed
      */
     public function delete(User $user, Post $post, Profile $profile)
@@ -73,7 +73,7 @@ class PostPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Connect\Content\Post  $post
      * @return mixed
      */
     public function restore(User $user, Post $post)
@@ -85,7 +85,7 @@ class PostPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Connect\Content\Post  $post
      * @return mixed
      */
     public function forceDelete(User $user, Post $post)

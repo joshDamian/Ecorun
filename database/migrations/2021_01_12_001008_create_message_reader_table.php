@@ -15,8 +15,8 @@ class CreateMessageReaderTable extends Migration
     {
         Schema::create('message_reader', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Profile::class, 'reader_id');
-            $table->foreignIdFor(\App\Models\Message::class, 'message_id');
+            $table->foreignIdFor(\App\Models\Connect\Profile\Profile::class, 'reader_id');
+            $table->foreignIdFor(\App\Models\Connect\Conversation\Message::class, 'message_id');
             $table->timestamps();
         });
     }

@@ -3,21 +3,23 @@
 namespace App\DataBanks\Profile;
 
 use App\DataBanks\DataBank;
-use App\Models\Post;
-use App\Models\Product;
-use App\Models\Profile;
-use App\Models\Business;
-use App\Models\Share;
+use App\Models\Connect\Content\Post;
+use App\Models\Build\Sellable\Product\Product;
+use App\Models\Connect\Profile\Profile;
+use App\Models\Build\Business\Business;
+use App\Models\Connect\Content\Share;
 
 class FeedDataBank implements DataBank
 {
     protected Profile $profile;
 
-    public function __construct(Profile $profile) {
+    public function __construct(Profile $profile)
+    {
         $this->profile = $profile->loadMissing('following');
     }
 
-    public function fetch() {
+    public function fetch()
+    {
         $profile_sources = $this->profile->following->concat([$this->profile]);
         $business_sources = $profile_sources->filter(
             function ($profile) {

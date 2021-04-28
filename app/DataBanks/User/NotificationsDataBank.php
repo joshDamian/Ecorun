@@ -3,7 +3,7 @@
 namespace App\DataBanks\User;
 
 use App\DataBanks\DataBank;
-use App\Models\DatabaseNotification;
+use App\Models\ReachingOut\DatabaseNotification;
 use App\Models\User;
 
 class NotificationsDataBank implements DataBank

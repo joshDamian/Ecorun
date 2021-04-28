@@ -3,9 +3,9 @@
 namespace App\Http\Livewire\Traits;
 
 use App\Http\Livewire\Traits\UploadPhotos;
-use App\Models\Profile;
-use App\Models\Music;
-use App\Models\Audio;
+use App\Models\Connect\Profile\Profile;
+use App\Models\Core\Media\Music;
+use App\Models\Core\Media\Audio;
 use Illuminate\Validation\Rule;
 
 trait CreatesSocialContent
@@ -37,12 +37,12 @@ trait CreatesSocialContent
 
     public function hintMentions($mention)
     {
-        return \App\Models\Profile::search($mention)->get()->unique()->all();
+        return \App\Models\Connect\Profile\Profile::search($mention)->get()->unique()->all();
     }
 
     public function hintHashtags($hashtag)
     {
-        return \App\Models\Tag::search($hashtag)->get()->pluck('name')->unique()->all();
+        return \App\Models\Core\DataSorting\Tag::search($hashtag)->get()->pluck('name')->unique()->all();
     }
 
     public function broadcast($event, $model)

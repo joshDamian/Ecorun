@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\Share;
+use App\Models\Connect\Content\Share;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;

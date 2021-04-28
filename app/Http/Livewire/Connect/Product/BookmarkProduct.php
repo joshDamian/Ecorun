@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Connect\Product;
 
 use Livewire\Component;
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 use App\Http\Livewire\Traits\HasBookmarks;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +13,8 @@ class BookmarkProduct extends Component
 
     public Product $product;
 
-    public function mount() {
+    public function mount()
+    {
         $this->bookmarkable = $this->product;
         if (Auth::check()) {
             $this->profile = Auth::user()->currentProfile;
@@ -21,7 +22,8 @@ class BookmarkProduct extends Component
         }
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.connect.product.bookmark-product');
     }
 }

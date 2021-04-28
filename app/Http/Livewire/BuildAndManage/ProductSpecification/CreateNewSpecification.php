@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\BuildAndManage\ProductSpecification;
 
 use Livewire\Component;
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 use Illuminate\Validation\Rule;
 
 class CreateNewSpecification extends Component

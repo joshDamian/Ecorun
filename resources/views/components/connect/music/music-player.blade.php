@@ -24,7 +24,7 @@
     setPlayer: function() {
     this.audioPlayer = this.$refs.audioPlayer;
     this.audioPlayer.src = '/storage/' + this.currentlyPlaying.audio.url;
-    this.cover_art = this.currentlyPlaying.cover_art_url;
+    this.cover_art = this.currentlyPlaying.cover_art ?? '';
     this.music_headline = this.currentlyPlaying.artiste + ' - ' + this.currentlyPlaying.title;
     let context = this.context = new (window.AudioContext || window.webkitAudioContext)();
     let analyser = context.createAnalyser();
@@ -110,11 +110,14 @@
     }" x-init="initialize()" class="music_player">
     <div>
         <div class="flex items-center justify-center p-4 bg-black">
-            <div :style="'background-size: cover; background-position: center center; background-image: url(' + cover_art + ')'"
+            <div x-show="cover_art.length !== 0"
+                :style="'background-size: cover; background-position: center center; background-image: url(' + cover_art + ')'"
                 class="border border-white shadow-lg h-44 w-44">
             </div>
+            <div class="text-gray-300" x-show="cover_art.length === 0">
+                <i style="font-size: 7rem;" class="fas fa-music"></i>
+            </div>
         </div>
-
         <div class="p-3 text-lg font-bold text-white bg-black border-t border-white">
             <div class="grid grid-cols-3">
                 <div></div>
@@ -132,7 +135,7 @@
                 <div x-ref="played" class="mr-2">
                 </div>
                 <input x-ref="seek_slider" type="range" min="1" max="100" value="0" class="w-10/12 mr-2"
-                x-on:change="seekTo()">
+                    x-on:change="seekTo()">
                 <div x-ref="duration">
                 </div>
             </div>

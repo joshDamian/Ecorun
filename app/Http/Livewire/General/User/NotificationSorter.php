@@ -3,9 +3,9 @@
 namespace App\Http\Livewire\General\User;
 
 use App\Mappers\NotificationMapper;
-use App\Models\Profile;
+use App\Models\Connect\Profile\Profile;
 use Livewire\Component;
-use App\Models\DatabaseNotification;
+use App\Models\ReachingOut\DatabaseNotification;
 
 class NotificationSorter extends Component
 {

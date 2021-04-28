@@ -3,8 +3,8 @@
 namespace App\View\Components;
 
 use App\Mappers\NotificationMapper;
-use App\Models\Post;
-use App\Models\Product;
+use App\Models\Connect\Content\Post;
+use App\Models\Build\Sellable\Product\Product;
 use App\Notifications\PostCreated;
 use App\Notifications\ProductCreated;
 use Illuminate\View\Component;

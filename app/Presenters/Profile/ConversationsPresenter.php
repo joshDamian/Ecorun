@@ -3,9 +3,9 @@
 namespace App\Presenters\Profile;
 
 use App\DataBanks\Profile\ConversationsDataBank;
-use App\Models\DirectConversation;
-use App\Models\GroupConversation;
-use App\Models\Profile;
+use App\Models\Connect\Conversation\DirectConversation;
+use App\Models\Connect\Conversation\GroupConversation;
+use App\Models\Connect\Profile\Profile;
 use App\Presenters\Presenter;
 
 class ConversationsPresenter

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Buy\Cart;
 
-use App\Models\Product;
+use App\Models\Build\Sellable\Product\Product;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 

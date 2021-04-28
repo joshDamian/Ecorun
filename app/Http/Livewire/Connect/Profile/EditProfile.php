@@ -2,14 +2,11 @@
 
 namespace App\Http\Livewire\Connect\Profile;
 
-use App\Models\Profile;
+use App\Models\Connect\Profile\Profile;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Http\Request;
-use App\Models\Post;
-use App\Models\User;
-use App\Models\Business;
+use App\Models\Connect\Content\Post;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class EditProfile extends Component
@@ -68,7 +65,7 @@ class EditProfile extends Component
                 'max:255',
                 Rule::unique('profiles', 'name')->where(
                     function ($query) {
-                        return $query->where('profileable_type', 'App\Models\Business');
+                        return $query->where('profileable_type', 'App\Models\Build\Business\Business');
                     }
                 )->ignore($this->profile)
             ],
@@ -99,7 +96,7 @@ class EditProfile extends Component
         }
     }
 
-    public function getProfileProperty(): \App\Models\Profile
+    public function getProfileProperty(): \App\Models\Connect\Profile\Profile
     {
         return Profile::findOrFail($this->profileId);
     }
