@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Traits;
 
 use App\Models\Connect\Profile\Profile;
-use App\Models\Bookmark;
+use App\Models\Connect\Content\Bookmark;
 
 trait HasBookmarks
 {

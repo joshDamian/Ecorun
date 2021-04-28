@@ -18,7 +18,10 @@ class ManageBadges extends Component
 
     public function mount()
     {
-        $this->badge['for'] = $this->badgable->getBadgeCanUse();
+        if (!$this->badgable) {
+            throw new \Exception("No badgable object");
+        }
+        $this->badge['for'] = $this->badgable?->getBadgeCanUse();
     }
 
     public function toggle(Badge $badge)
@@ -81,9 +84,9 @@ class ManageBadges extends Component
     public function render()
     {
         return view('livewire.connect.badge.manage-badges', [
-            'attachedBadges' => $this->badgable->badges->sortBy('label'),
-            'primaryBadge' => $this->badgable->primaryBadge,
-            'detachedBadges' => Badge::whereNotIn('id', $this->badgable->badges->pluck('id'))->where('canuse', $this->badgable->getBadgeCanUse())->get()
+            'attachedBadges' => $this->badgable?->badges?->sortBy('label'),
+            'primaryBadge' => $this->badgable?->primaryBadge,
+            'detachedBadges' => Badge::whereNotIn('id', $this->badgable?->badges?->pluck('id'))->where('canuse', $this->badgable?->getBadgeCanUse())->get()
         ]);
     }
 }

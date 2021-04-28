@@ -5,7 +5,226 @@ $canUploadAudio = config('eco-features.connect.media.audio.upload');
 $canUploadMusic = config('eco-features.connect.media.music.upload');
 $canUploadPhoto = config('eco-features.connect.media.photo.upload')
 @endphp
-<div x-data="content_data()" x-init="initialize()" x-cloak>
+<div x-data="{
+    ready: false,
+    edit_case: false,
+    optional_music_data: false,
+    preview_ready: {
+        videos: false,
+        audio: false,
+        cover_art: false
+    },
+    message: '',
+    view_status: {
+        videos: false,
+        photos: false,
+        audio: false,
+        music: false,
+    },
+    set_view_status: function(view) {
+        for (index in this.view_status) {
+            if (index === view) {
+                this.view_status[index] = true;
+                continue;
+            }
+            this.view_status[index] = false;
+        }
+        return;
+    },
+    file_display_elements: {
+        videos: 'video',
+        audio: 'audio',
+        music: 'audio',
+        cover_art: 'img'
+    },
+    current_mention: '',
+    canNowDisplayTrackData: false,
+    current_hashtag: '',
+    large_content: false,
+    mentions: [],
+    hashtags: [],
+    hashtag_match: /(^|\s)#([A-Za-z0-9_-]{1,100}(?!\w))$/,
+    mentions_match: /(^|\s)@([A-Za-z0-9_-]{1,30}(?!\w))$/,
+    mention_matches: [],
+    hashtag_matches: [],
+    match: function() {
+        this.mention_matches = this.message.match(this.mentions_match);
+        this.hashtag_matches = this.message.match(this.hashtag_match);
+    },
+    resetHeight: function() {
+        this.message = '';
+        this.large_content = false;
+        this.$refs.content.style.cssText = 'height:auto;';
+        this.$refs.content.rows = '1';
+    },
+    replaceText: function(initial, replacement) {
+        let setMessage = new Promise((resolve, reject) => {
+            if (this.message !== '') {
+                this.message = this.message.replace(new RegExp(initial + '$'), replacement + ' ');
+                this.$refs.content.focus();
+                resolve(this.message);
+            } else {
+                reject('couldn\'t update message property');
+            }
+        });
+        setMessage.then(result => {
+            setTimeout(() => {
+                document.getElementById('text_content_').dispatchEvent(new Event('input'))
+            }, 50);
+        }).catch(x => console.error(x))
+    },
+    initialize: function() {
+        var type = '{{$type}}';
+        this.edit_case = (type.match('edit'));
+        if (this.edit_case) {
+            this.ready = true;
+            this.message = this.$wire.text_content;
+            window.addEventListener('DOMContentLoaded', () => {
+                this.$refs.content.style.cssText = 'height:' + this.$refs.content.scrollHeight + 'px;';
+            })
+        }
+        Livewire.on('addedContent',
+            () => {
+                this.ready = false;
+                this.resetHeight();
+            }
+        );
+        this.$watch('ready',
+            value => {
+                Livewire.emit('toggled', this.ready);
+                if (!value) {
+                    this.mentions = [];
+                    this.hashtags = []
+                }
+            }
+        );
+        /** autosuggest mentions **/
+        this.$watch('mention_matches',
+            value => {
+                if (value && value.length > 0) {
+                    this.current_mention = value[2];
+                    this.$wire.hintMentions(this.current_mention).then(result => {
+                        this.mentions = result
+                    });
+                } else {
+                    this.current_mention = '';
+                    this.mentions = [];
+                }
+            }
+        );
+        /** autosuggest hashtags **/
+        this.$watch('hashtag_matches',
+            value => {
+                if (value && value.length > 0) {
+                    this.current_hashtag = value[2];
+                    this.$wire.hintHashtags(this.current_hashtag).then(result => {
+                        this.hashtags = result
+                    });
+                } else {
+                    this.current_hashtag = '';
+                    this.hashtags = [];
+                }
+            }
+        );
+        /** watch message **/
+        this.$watch('message',
+            value => {
+                window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
+                if (value !== '') {
+                    this.ready = true;
+                    this.match();
+                }
+                if (this.$refs.content.scrollHeight > 140) {
+                    this.large_content = true;
+                } else {
+                    this.large_content = false;
+                }
+            }
+        );
+    },
+    clearDisplay: function(display) {
+        return display.innerHTML = '';
+    },
+    selectReadDisplay: function(type, files, append_to, const_element = null) {
+        append_to.innerHTML = '';
+        this.preview_ready[type] = false;
+        if (files.length > 0) {
+            this.preview_ready[type] = true;
+            for (const index in files) {
+                if (Object.hasOwnProperty.call(files, index)) {
+                    let file = files[index];
+                    let reader = new FileReader();
+                    //create elements
+                    let display_element = document.createElement(this.file_display_elements[type]);
+                    let div_element = document.createElement('div');
+                    let name_card = document.createElement('div');
+                    let progress_bar = document.createElement('progress');
+                    name_card.innerText = file.name;
+                    name_card.classList.add('px-2', 'py-1', 'bg-white', 'mt-2', 'truncate', 'dont-break-out');
+                    div_element.classList.add('p-2', 'bg-gray-100');
+                    div_element.setAttribute('wire:ignore', true);
+                    display_element.classList.add('w-full');
+                    progress_bar.classList.add('pt-2');
+
+                    // append elements to DOM
+                    div_element.appendChild(display_element);
+                    div_element.appendChild(progress_bar);
+                    div_element.appendChild(name_card);
+                    append_to.appendChild(div_element);
+
+                    //read file
+                    let readFile = new Promise((resolve, reject) => {
+                        reader.onload = (event) => {
+                            let src = event.target.result;
+                            if (src !== '') {
+                                resolve(src);
+                                progress_bar.classList.add('hidden');
+                                progress_bar.value = 0;
+                            } else {
+                                reject('couldn\'t read file properly');
+                            }
+                        };
+                        reader.onprogress = (event) => {
+                            if (event.total && event.loaded) {
+                                progress_bar.value = Math.round((event.loaded / event.total) * 100)
+                            }
+                        }
+                        reader.readAsDataURL(file);
+                    });
+                    readFile.then(result => {
+                        display_element.setAttribute('src', result);
+                        display_element.setAttribute('controls', true);
+                        if (type === 'music' || type === 'audio' || type === 'video') {
+                            display_element.setAttribute('onplay', 'window.MediaHelpers.stopAllMedia(event.target)')
+                        }
+                        if (type === 'music') {
+                            //var audioCtx = new (window.AudioContext || window.webkitAudioContext);
+                            if (this.canNowDisplayTrackData) {
+                                let readAsBuffer = new Promise((resolve, reject) => {
+                                    reader.onload = (event) => {
+                                        let buffer = event.target.result;
+                                        if (buffer !== '') {
+                                            resolve(buffer);
+                                        } else {
+                                            reject('couldn\'t read file properly');
+                                        }
+                                    }
+                                    reader.readAsArrayBuffer(file);
+                                });
+                                readAsBuffer.then(result => {
+                                    var dataView = new window.jDataView(result)
+                                    console.log(dataView.getString(4, dataView.tell()));
+                                }).catch(error => console.log(error));
+                            }
+                            // this.$refs.music_title.value = file.name;
+                        }
+                    }).catch(error => console.error(error));
+                }
+            }
+        }
+        return;
+    },
+}" x-init="initialize()" x-cloak>
     <div :class="ready ? '' : 'flex items-center'">
         <div x-show="!ready" style="background-image: url('{{ $profilePhotoUrl }}'); background-size: cover; background-position: center
             center;" class="w-10 h-10 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
@@ -118,7 +337,7 @@ $canUploadPhoto = config('eco-features.connect.media.photo.upload')
                                             select photos &nbsp; <i class="fas fa-images"></i>
                                         </x-jet-button>
                                         <input name="photos" hidden x-ref="photos" accept="image/*" type="file"
-                                        wire:model="photos" multiple />
+                                            wire:model="photos" multiple />
                                     </div>
                                     @else
                                     <div class="p-3 bg-gray-200">
@@ -142,9 +361,9 @@ $canUploadPhoto = config('eco-features.connect.media.photo.upload')
                                                 select videos &nbsp; <i class="fas fa-video"></i>
                                             </x-jet-button>
                                             <input name="videos"
-                                            x-on:change="selectReadDisplay('videos', event.target.files, $refs.videos_preview)"
-                                            class="hidden" x-ref="videos" accept="video/*" type="file"
-                                            wire:model="videos" multiple />
+                                                x-on:change="selectReadDisplay('videos', event.target.files, $refs.videos_preview)"
+                                                class="hidden" x-ref="videos" accept="video/*" type="file"
+                                                wire:model="videos" multiple />
                                         </div>
                                     </template>
                                     <div wire:ignore x-show="preview_ready['videos']" x-ref="videos_preview"
@@ -164,9 +383,9 @@ $canUploadPhoto = config('eco-features.connect.media.photo.upload')
                                                 <i class="text-white fa-stack-1x fas fa-microphone"></i>
                                             </span>
                                             <input name="recorder"
-                                            x-on:change="selectReadDisplay('audio', event.target.files, $refs.audio_preview)"
-                                            hidden x-ref="recorder" accept="audio/*" type="file" wire:model=""
-                                            capture />
+                                                x-on:change="selectReadDisplay('audio', event.target.files, $refs.audio_preview)"
+                                                hidden x-ref="recorder" accept="audio/*" type="file" wire:model=""
+                                                capture />
                                         </div>
                                     </template>
                                     <div wire:ignore x-show="preview_ready['audio']" x-ref="audio_preview"
@@ -184,15 +403,15 @@ $canUploadPhoto = config('eco-features.connect.media.photo.upload')
                                             <div>
                                                 <x-jet-label for="music_title" value="Music title" />
                                                 <input x-ref="music_title" id="music_title" name="music_title"
-                                                class="w-full mt-1 form-input" placeholder="Music title"
-                                                wire:model="music.title" />
+                                                    class="w-full mt-1 form-input" placeholder="Music title"
+                                                    wire:model="music.title" />
                                             </div>
                                             <!-- Artiste -->
                                             <div>
                                                 <x-jet-label for="music_artiste" value="Artiste" />
                                                 <input id="music_artiste" name="music_artiste"
-                                                class="w-full mt-1 form-input" placeholder="Artiste"
-                                                wire:model="music.artiste" />
+                                                    class="w-full mt-1 form-input" placeholder="Artiste"
+                                                    wire:model="music.artiste" />
                                             </div>
                                         </div>
 
@@ -214,11 +433,11 @@ $canUploadPhoto = config('eco-features.connect.media.photo.upload')
                                                 <div>
                                                     <x-jet-label for="music_cover_art" value="Cover art (optional)" />
                                                     <input id="music_cover_art"
-                                                    x-on:click="clearDisplay($refs.preview_cover_art)"
-                                                    x-on:change="selectReadDisplay('cover_art', event.target.files, $refs.preview_cover_art)"
-                                                    accept="image/*" type="file" name="cover_art"
-                                                    class="w-full mt-1 form-input" placeholder="Artiste"
-                                                    wire:model.defer="music.cover_art" />
+                                                        x-on:click="clearDisplay($refs.preview_cover_art)"
+                                                        x-on:change="selectReadDisplay('cover_art', event.target.files, $refs.preview_cover_art)"
+                                                        accept="image/*" type="file" name="cover_art"
+                                                        class="w-full mt-1 form-input" placeholder="Artiste"
+                                                        wire:model.defer="music.cover_art" />
                                                     <div x-show="preview_ready['cover_art']" x-ref="preview_cover_art">
                                                     </div>
                                                 </div>
@@ -229,8 +448,8 @@ $canUploadPhoto = config('eco-features.connect.media.photo.upload')
                                                     <x-jet-label for="associated_acts"
                                                         value="Associated acts (optional)" />
                                                     <input id="associated_acts" name="associated_acts"
-                                                    class="w-full mt-1 form-input" placeholder="Associated acts"
-                                                    wire:model.defer="music.associated_acts" />
+                                                        class="w-full mt-1 form-input" placeholder="Associated acts"
+                                                        wire:model.defer="music.associated_acts" />
                                                 </div>
                                                 @endif
 
@@ -253,9 +472,8 @@ $canUploadPhoto = config('eco-features.connect.media.photo.upload')
                                             select music file &nbsp; <i class="fas fa-music"></i>
                                         </x-jet-button>
                                         <input x-on:click="clearDisplay($refs.music_preview)" name="music"
-                                        x-on:change="selectReadDisplay('music', event.target.files, $refs.music_preview)"
-                                        hidden x-ref="music" accept="audio/*" type="file"
-                                        wire:model="music.file" />
+                                            x-on:change="selectReadDisplay('music', event.target.files, $refs.music_preview)"
+                                            hidden x-ref="music" accept="audio/*" type="file" wire:model="music.file" />
                                     </div>
                                     <div wire:ignore x-show="preview_ready['music']" x-ref="music_preview"
                                         class="px-3 pb-3 bg-gray-200 music_preview">
@@ -287,229 +505,4 @@ $canUploadPhoto = config('eco-features.connect.media.photo.upload')
             </form>
         </div>
     </div>
-
-    <script>
-        function content_data() {
-            return {
-                ready: false,
-                edit_case: false,
-                optional_music_data: false,
-                preview_ready: {
-                    videos: false,
-                    audio: false,
-                    cover_art: false
-                },
-                message: '',
-                view_status: {
-                    videos: false,
-                    photos: false,
-                    audio: false,
-                    music: false,
-                },
-                set_view_status: function(view) {
-                    for (index in this.view_status) {
-                        if (index === view) {
-                            this.view_status[index] = true;
-                            continue;
-                        }
-                        this.view_status[index] = false;
-                    }
-                    return;
-                },
-                file_display_elements: {
-                    videos: 'video',
-                    audio: 'audio',
-                    music: 'audio',
-                    cover_art: 'img'
-                },
-                current_mention: '',
-                canNowDisplayTrackData: false,
-                current_hashtag: '',
-                large_content: false,
-                mentions: [],
-                hashtags: [],
-                hashtag_match: /(^|\s)#([A-Za-z0-9_-]{1,100}(?!\w))$/,
-                mentions_match: /(^|\s)@([A-Za-z0-9_-]{1,30}(?!\w))$/,
-                mention_matches: [],
-                hashtag_matches: [],
-                match: function() {
-                    this.mention_matches = this.message.match(this.mentions_match);
-                    this.hashtag_matches = this.message.match(this.hashtag_match);
-                },
-                resetHeight: function() {
-                    this.message = '';
-                    this.large_content = false;
-                    this.$refs.content.style.cssText = 'height:auto;';
-                    this.$refs.content.rows = '1';
-                },
-                replaceText: function(initial, replacement) {
-                    let setMessage = new Promise((resolve, reject) => {
-                        if (this.message !== '') {
-                            this.message = this.message.replace(new RegExp(initial + '$'), replacement + ' ');
-                            this.$refs.content.focus();
-                            resolve(this.message);
-                        } else {
-                            reject('couldn\'t update message property');
-                        }
-                    });
-                    setMessage.then(result => {
-                        setTimeout(() => {
-                            document.getElementById('text_content_').dispatchEvent(new Event('input'))
-                        }, 50);
-                    }).catch(x => console.error(x))
-                },
-                initialize: function() {
-                    var type = '{{$type}}';
-                    this.edit_case = (type.match('edit'));
-                    if (this.edit_case) {
-                        this.ready = true;
-                        this.message = this.$wire.text_content;
-                        window.addEventListener('DOMContentLoaded', () => {
-                            this.$refs.content.style.cssText = 'height:' + this.$refs.content.scrollHeight + 'px;';
-                        })
-                    }
-                    Livewire.on('addedContent',
-                        () => {
-                            this.ready = false;
-                            this.resetHeight();
-                        }
-                    );
-                    this.$watch('ready',
-                        value => {
-                            Livewire.emit('toggled', this.ready);
-                            if (!value) {
-                                this.mentions = [];
-                                this.hashtags = []
-                            }
-                        }
-                    );
-                    /** autosuggest mentions **/
-                    this.$watch('mention_matches',
-                        value => {
-                            if (value && value.length > 0) {
-                                this.current_mention = value[2];
-                                this.$wire.hintMentions(this.current_mention).then(result => {
-                                    this.mentions = result
-                                });
-                            } else {
-                                this.current_mention = '';
-                                this.mentions = [];
-                            }
-                        }
-                    );
-                    /** autosuggest hashtags **/
-                    this.$watch('hashtag_matches',
-                        value => {
-                            if (value && value.length > 0) {
-                                this.current_hashtag = value[2];
-                                this.$wire.hintHashtags(this.current_hashtag).then(result => {
-                                    this.hashtags = result
-                                });
-                            } else {
-                                this.current_hashtag = '';
-                                this.hashtags = [];
-                            }
-                        }
-                    );
-                    /** watch message **/
-                    this.$watch('message',
-                        value => {
-                            window.UiHelpers.autosizeTextarea(this.$refs.content, 140)
-                            if (value !== '') {
-                                this.ready = true;
-                                this.match();
-                            }
-                            if (this.$refs.content.scrollHeight > 140) {
-                                this.large_content = true;
-                            } else {
-                                this.large_content = false;
-                            }
-                        }
-                    );
-                },
-                clearDisplay: function(display) {
-                    return display.innerHTML = '';
-                },
-                selectReadDisplay: function(type, files, append_to, const_element = null) {
-                    append_to.innerHTML = '';
-                    this.preview_ready[type] = false;
-                    if (files.length > 0) {
-                        this.preview_ready[type] = true;
-                        for (const index in files) {
-                            if (Object.hasOwnProperty.call(files, index)) {
-                                let file = files[index];
-                                let reader = new FileReader();
-                                //create elements
-                                let display_element = document.createElement(this.file_display_elements[type]);
-                                let div_element = document.createElement('div');
-                                let name_card = document.createElement('div');
-                                let progress_bar = document.createElement('progress');
-                                name_card.innerText = file.name;
-                                name_card.classList.add('px-2', 'py-1', 'bg-white', 'mt-2', 'truncate', 'dont-break-out');
-                                div_element.classList.add('p-2', 'bg-gray-100');
-                                div_element.setAttribute('wire:ignore', true);
-                                display_element.classList.add('w-full');
-                                progress_bar.classList.add('pt-2');
-
-                                // append elements to DOM
-                                div_element.appendChild(display_element);
-                                div_element.appendChild(progress_bar);
-                                div_element.appendChild(name_card);
-                                append_to.appendChild(div_element);
-
-                                //read file
-                                let readFile = new Promise((resolve, reject) => {
-                                    reader.onload = (event) => {
-                                        let src = event.target.result;
-                                        if (src !== '') {
-                                            resolve(src);
-                                            progress_bar.classList.add('hidden');
-                                            progress_bar.value = 0;
-                                        } else {
-                                            reject('couldn\'t read file properly');
-                                        }
-                                    };
-                                    reader.onprogress = (event) => {
-                                        if (event.total && event.loaded) {
-                                            progress_bar.value = Math.round((event.loaded / event.total) * 100)
-                                        }
-                                    }
-                                    reader.readAsDataURL(file);
-                                });
-                                readFile.then(result => {
-                                    display_element.setAttribute('src', result);
-                                    display_element.setAttribute('controls', true);
-                                    if (type === 'music' || type === 'audio' || type === 'video') {
-                                        display_element.setAttribute('onplay', 'window.MediaHelpers.stopAllMedia(event.target)')
-                                    }
-                                    if (type === 'music') {
-                                        //var audioCtx = new (window.AudioContext || window.webkitAudioContext);
-                                        if (this.canNowDisplayTrackData) {
-                                            let readAsBuffer = new Promise((resolve, reject) => {
-                                                reader.onload = (event) => {
-                                                    let buffer = event.target.result;
-                                                    if (buffer !== '') {
-                                                        resolve(buffer);
-                                                    } else {
-                                                        reject('couldn\'t read file properly');
-                                                    }
-                                                }
-                                                reader.readAsArrayBuffer(file);
-                                            });
-                                            readAsBuffer.then(result => {
-                                                var dataView = new window.jDataView(result)
-                                                console.log(dataView.getString(4, dataView.tell()));
-                                            }).catch(error => console.log(error));
-                                        }
-                                        // this.$refs.music_title.value = file.name;
-                                    }
-                                }).catch(error => console.error(error));
-                            }
-                        }
-                    }
-                    return;
-                },
-            }
-        }
-    </script>
 </div>

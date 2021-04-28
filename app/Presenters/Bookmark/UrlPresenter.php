@@ -2,7 +2,7 @@
 
 namespace App\Presenters\Bookmark;
 
-use App\Models\Bookmark;
+use App\Models\Connect\Content\Bookmark;
 use App\Presenters\Presenter;
 
 class UrlPresenter

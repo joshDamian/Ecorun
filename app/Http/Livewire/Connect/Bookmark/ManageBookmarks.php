@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Connect\Bookmark;
 
 use Livewire\Component;
-use App\Models\Bookmark;
+use App\Models\Connect\Content\Bookmark;
 use Livewire\WithPagination;
 
 class ManageBookmarks extends Component

@@ -46,8 +46,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/@{profile:tag}/actions/edit', UpdateProfile::class)->middleware('can:access,profile')->name('profile.edit');
     Route::put('/current-profile/update', [ProfileController::class, 'updateCurrentProfile'])->name('current-profile.update');
     Route::get('/biz/dashboard/', ManagerDashboard::class)->name('manager.dashboard');
+
+    /** Business routes */
     Route::middleware(['can:reference-businesses'])->group(function () {
         Route::get('/biz/@{profile:tag}/{action_route?}/{action_route_resource?}', BusinessDashboard::class)->middleware(['can:sellWith,profile'])->name('business.dashboard');
+        Route::get('/biz/@{profile:tag}/warehouse/{active_item}', []);
         Route::get('/biz/@{profile:tag}/products/{active_product?}/', function (Profile $profile, $active_product) {
             return redirect(route('business.dashboard', ['profile' => $profile->tag, 'action_route' => 'products', 'action_route_resource' => $active_product]));
         })->middleware(['can:sellWith,profile'])->name('business.products');

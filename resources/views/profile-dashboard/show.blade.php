@@ -111,7 +111,7 @@
             @if($profile->isBusiness())
             <div>
                 @livewire('connect.profile-dashboard.business-profile-data', ['profile' => $profile, 'action_route'
-                => $action_route ?? 'products'], key(md5("business_profile_data_for_{$profile->id}")))
+                => $action_route ?? 'warehouse'], key(md5("business_profile_data_for_{$profile->id}")))
             </div>
             @else
             <div>

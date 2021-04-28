@@ -71,7 +71,6 @@
                 <!-- Price -->
                 <div x-data class="col-span-6 sm:col-span-4 md:col-span-3">
                     <x-jet-label for="price" value="{{ __('Product Price') }}" />
-
                     <x-jet-input id="price" type="number" class="relative block w-full mt-1" placeholder="product price"
                         wire:model.defer="product._price" autocomplete="price" />
                     <x-jet-input-error for="product._price" class="mt-2" />
@@ -81,11 +80,6 @@
                 <div class="col-span-6 sm:col-span-4 md:col-span-3">
                     <x-jet-label for="available_stock">
                         {{__('Available Stock')}}
-                        @if (!$business_is_store)
-                        <span class="text-green-400">
-                            {{__(' (optional) ')}}
-                        </span>
-                        @endif
                     </x-jet-label>
                     <x-jet-input id="available_stock" placeholder="available stock" type="number"
                         class="block w-full mt-1" wire:model.defer="product._available stock"
@@ -107,7 +101,7 @@
                     {{ __('Added.') }}
                 </x-jet-action-message>
 
-                <x-jet-button @click=" window.scrollTo(0, 0); " wire:loading.attr="disabled">
+                <x-jet-button x-on:click=" window.scrollTo(0, 0); " wire:loading.attr="disabled">
                     {{ __('Add') }}
                 </x-jet-button>
             </x-slot>

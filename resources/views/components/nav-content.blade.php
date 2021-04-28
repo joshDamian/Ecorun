@@ -80,28 +80,28 @@
         </a>
 
         @if($currentProfileIsBiz)
-        <a href="{{ $currentProfile->url->products }}">
+        <a href="{{ $currentProfile->profileable->url->warehouse }}">
             <div
                 class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
-                <i class="fa fa-shopping-bag"></i> &nbsp;Products
+                <i class="fas fa-warehouse"></i> &nbsp;Warehouse
             </div>
         </a>
 
-        <a href="{{ $currentProfile->url->add_product }}">
+        <a href="{{ $currentProfile->profileable->url->sell }}">
             <div
                 class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
-                <i class="fa fa-plus-circle"></i> &nbsp;Add product
+                <i class="fa fa-plus-circle"></i> &nbsp; Sell
             </div>
         </a>
 
-        <a href="{{ $currentProfile->url->team }}">
+        <a href="{{ $currentProfile->profileable->url->team }}">
             <div
                 class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fas fa-users"></i> &nbsp;Team
             </div>
         </a>
 
-        <a href="{{ $currentProfile->url->orders }}">
+        <a href="{{ $currentProfile->profileable->url->orders }}">
             <div
                 class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 hover:border-blue-700 text-md md:cursor-pointer">
                 <i class="fas fa-clipboard-check"></i> &nbsp;Orders
@@ -114,17 +114,6 @@
         <div class="px-4 py-3 my-1 font-semibold tracking-wider text-left text-blue-700 bg-white text-md">
             <i class="far fa-user"></i> &nbsp;{{ $personalProfile->name ?? __('Guest') }}
         </div>
-
-
-        {{-- <a href="{{ route('cart.index') }}">
-        <div
-            class="px-4 py-3 font-medium tracking-wider text-left text-blue-800 bg-gray-100 border-b-2 border-gray-200 text-md hover:border-blue-700 md:cursor-pointer">
-            <i class="fas fa-shopping-cart"></i> &nbsp;Cart <span
-                class="font-extrabold text-red-500">@livewire('buy.cart.cart-items-counter', key("cart_counter_1" .
-                microtime()))</span>
-        </div>
-        </a> --}}
-
 
         @guest
         <a href="/login">

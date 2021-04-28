@@ -47,7 +47,7 @@ class BookmarkController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Bookmark  $bookmark
+     * @param  \App\Models\Connect\Content\Bookmark  $bookmark
      * @return \Illuminate\Http\Response
      */
     public function show(Bookmark $bookmark)
@@ -57,7 +57,7 @@ class BookmarkController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Bookmark  $bookmark
+     * @param  \App\Models\Connect\Content\Bookmark  $bookmark
      * @return \Illuminate\Http\Response
      */
     public function edit(Profile $profile, Bookmark $bookmark)
@@ -70,7 +70,7 @@ class BookmarkController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Bookmark  $bookmark
+     * @param  \App\Models\Connect\Content\Bookmark  $bookmark
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Bookmark $bookmark)
@@ -81,7 +81,7 @@ class BookmarkController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Bookmark  $bookmark
+     * @param  \App\Models\Connect\Content\Bookmark  $bookmark
      * @return \Illuminate\Http\Response
      */
     public function destroy(Profile $profile, Bookmark $bookmark)

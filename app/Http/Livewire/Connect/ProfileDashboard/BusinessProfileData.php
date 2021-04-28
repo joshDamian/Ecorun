@@ -14,9 +14,9 @@ class BusinessProfileData extends Component
     public array $active_view;
     public string $action_route = 'products';
     public array $views = [
-        'products' => [
-            'title' => 'products',
-            'icon' => 'fas fa-shopping-bag',
+        'warehouse' => [
+            'title' => 'warehouse',
+            'icon' => 'fas fa-warehouse',
         ],
         'posts' => [
             'title' => 'posts',
@@ -32,11 +32,11 @@ class BusinessProfileData extends Component
         ],
     ];
 
-    public function mount(string $action_route = 'products'): void
+    public function mount(string $action_route = 'warehouse'): void
     {
         $this->action_route = $action_route;
         if (!array_key_exists($this->action_route, $this->views)) {
-            $this->action_route = 'products';
+            $this->action_route = 'warehouse';
         }
         $this->switchView($this->action_route);
         return;

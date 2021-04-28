@@ -6,9 +6,8 @@
     show_create_form = false;
     })
     }">
-    <h3 class="mb-1 text-gray-600 text-md">Badges</h3>
-    <div class="px-4 py-3 border border-gray-200">
-        <div class="px-3 py-2 mb-2 text-md font-semibold text-gray-700 uppercase bg-gray-200">
+    <div class="px-4 py-3 border border-gray-200 md:py-6 md:px-6">
+        <div class="px-3 py-2 mb-2 font-semibold text-gray-700 uppercase bg-gray-200 text-md">
             Manage badges
         </div>
         @if($primaryBadge)
@@ -32,7 +31,7 @@
 
         @if($detachedBadges->count() > 0)
         <div>
-            <div class="text-gray-600 mt-4">
+            <div class="mt-4 text-gray-600">
                 Add new badge
             </div>
             <div class="flex items-center">

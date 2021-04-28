@@ -1,3 +1,10 @@
+@push('styles')
+<style>
+    .g-icon {
+        font-size: 50px;
+    }
+</style>
+@endpush
 <div>
     <div class="sticky mb-2 overflow-y-auto bg-gray-200 border-b border-gray-300 top-11">
         <h3 class="sticky left-0 flex-shrink-0 p-2 font-bold text-blue-700 truncate text-md md:text-lg">
@@ -25,19 +32,18 @@
 
     <div class="py-4 md:py-0 md:px-4 md:pb-4">
         @switch($active_action['title'])
-        @case('add product')
-        <div>
-            @livewire('build-and-manage.product.create-new-product', ['business' => $business],
-            key(time().$business->id))
+        @case('sell')
+        <div class="md:mt-4">
+            @livewire('build-and-manage.business.sell.sell', ['business' => $business])
         </div>
         @break
 
-        @case('products')
-        <div>
+        @case('warehouse')
+        {{-- <div>
             @livewire('build-and-manage.business.business-product-list', ['business' =>
             $business->loadCount('products'), 'active_product' => $action_route_resource],
             key(md5("business_product_list_for_{$business->id}")))
-        </div>
+        </div> --}}
         @break
 
         @case('orders')

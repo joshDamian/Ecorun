@@ -23,5 +23,20 @@
                 @endif
             </div>
         </div>
+
+        <x-jet-section-border />
+        <div class="grid grid-cols-1 mt-6 sm:mt-4 sm:grid-cols-6">
+            <div class="mx-4 mb-4 sm:col-span-2 sm:mb-0 sm:mx-0">
+                <h3 class="text-lg font-medium text-gray-900">
+                    Badges
+                </h3>
+                <p class="text-gray-600">
+                    Create, Add Badges (Badges boost identity recognition).
+                </p>
+            </div>
+            <div class="bg-white shadow md:rounded-lg sm:col-span-4">
+                @livewire('connect.badge.manage-badges', ['badgable' => $profile->profileable])
+            </div>
+        </div>
     </div>
 </div>

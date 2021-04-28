@@ -6,6 +6,7 @@ use App\Models\Build\Sellable\Sellable;
 use App\Models\Connect\Profile\Badge;
 use App\Traits\HasBadges;
 use App\Models\Team;
+use App\Presenters\Business\UrlPresenter;
 use App\Traits\HasProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +26,19 @@ class Business extends Model
     protected $fillable = [
         'primary_badge_id'
     ];
+    protected $appends = [
+        'url'
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleted(function ($model) {
+            $model->profile->delete();
+            $model->warehouse->delete();
+            $model->team->delete();
+        });
+    }
 
     public function owner()
     {
@@ -38,7 +52,7 @@ class Business extends Model
         })->count() > 0;
     }
 
-    public function merhandise()
+    public function warehouse()
     {
         return $this->hasMany(Sellable::class)->latest('updated_at');
     }
@@ -61,6 +75,11 @@ class Business extends Model
     public function locations()
     {
         return $this->morphMany('App\Models\Location', 'locateable');
+    }
+
+    public function getUrlAttribute()
+    {
+        return (new UrlPresenter($this));
     }
 
     public function getDefaultBadge()

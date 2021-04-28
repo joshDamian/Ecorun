@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Laravel\Jetstream\Events\TeamCreated;
+use App\Models\Build\Business\Business;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;

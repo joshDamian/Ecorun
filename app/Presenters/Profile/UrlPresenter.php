@@ -51,40 +51,4 @@ class UrlPresenter
         }
         return route('business.dashboard', $this->profile);
     }
-
-    public function products()
-    {
-        $business_url = $this->business_url;
-        if ($business_url) {
-            return $business_url . '/products';
-        }
-        return null;
-    }
-
-    public function add_product()
-    {
-        $business_url = $this->business_url;
-        if ($business_url) {
-            return $business_url . '/add-product';
-        }
-        return null;
-    }
-
-    public function team()
-    {
-        $business_url = $this->business_url;
-        if ($business_url) {
-            return $business_url . '/team';
-        }
-        return null;
-    }
-
-    public function orders()
-    {
-        $business_url = $this->business_url;
-        if ($business_url) {
-            return $business_url . '/orders';
-        }
-        return null;
-    }
 }
