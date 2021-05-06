@@ -7,7 +7,7 @@
         What's for sale?
     </h3>
     <div class="grid grid-cols-1 gap-6 px-6 sm:grid-cols-2 sm:gap-6">
-        <div wire:click="select('product/consumable')" class="cursor-pointer">
+        <div wire:click="select('product')" class="cursor-pointer">
             <div class="px-4 py-4 bg-gray-100 shadow rounded-t-xl">
                 <div class="flex justify-center py-4 overflow-x-auto">
                     <div class="flex justify-center p-5 border-r-2 border-gray-300">
@@ -23,11 +23,11 @@
             </div>
             <div
                 class="px-4 py-3 text-xl font-extrabold text-center text-blue-700 uppercase bg-gray-200 shadow rounded-b-xl">
-                consumable / product
+                product
             </div>
         </div>
 
-        <div class="cursor-pointer">
+        <div wire:click="select('service')" class="cursor-pointer">
             <div class="px-4 py-4 bg-gray-100 rounded-lg shadow">
                 <div class="flex justify-center py-4 overflow-x-auto">
                     <div class="flex justify-center p-5 border-r-2 border-gray-300">
@@ -43,7 +43,7 @@
             </div>
             <div
                 class="px-4 py-3 text-xl font-extrabold text-center text-blue-700 uppercase bg-gray-200 shadow rounded-b-xl">
-                service / skill
+                service
             </div>
         </div>
     </div>
@@ -57,5 +57,22 @@
         @livewire($components[$sellType], ['business' => $business],
         key(time().$business->id))
     </div>
+    @endif
+
+    @if($sellType)
+    <script>
+        setTimeout(() => {
+            window.UiHelpers.modifyUrl("/biz/{{$business->profile->full_tag()}}/sell/{{$sellType}}")
+        }, 100);
+
+    </script>
+
+    @else
+    <script>
+        setTimeout(() => {
+            window.UiHelpers.modifyUrl("/biz/{{$business->profile->full_tag()}}/sell")
+        }, 100);
+
+    </script>
     @endif
 </div>

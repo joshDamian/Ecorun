@@ -35,7 +35,7 @@
                 </p>
             </div>
             <div class="bg-white shadow md:rounded-lg sm:col-span-4">
-                @livewire('connect.badge.manage-badges', ['badgable' => $profile->profileable])
+                @livewire('connect.badge.manage-badges', ['badgable' => $profile->profileable, 'credit' => $profile])
             </div>
         </div>
     </div>

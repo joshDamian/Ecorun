@@ -14,26 +14,11 @@ class BusinessDashboard extends Component
     public Business $business;
     public User $user;
     public array $actions = [
-        'sell' => [
-            'title' => 'sell',
-            'icon' => 'fas fa-plus-circle',
-        ],
-        'warehouse' => [
-            'title' => 'warehouse',
-            'icon' => 'fas fa-warehouse',
-        ],
-        'edit' => [
-            'title' => 'edit',
-            'icon' => 'far fa-edit',
-        ],
-        'orders' => [
-            'title' => 'orders',
-            'icon' => 'fas fa-clipboard-check',
-        ],
-        'team' => [
-            'title' => 'team',
-            'icon' => 'fas fa-users',
-        ],
+        'sell' => ['title' => 'sell', 'icon' => 'fas fa-plus-circle'],
+        'warehouse' => ['title' => 'warehouse', 'icon' => 'fas fa-warehouse'],
+        'edit' => ['title' => 'edit', 'icon' => 'far fa-edit'],
+        'orders' => ['title' => 'orders', 'icon' => 'fas fa-clipboard-check'],
+        'team' => ['title' => 'team', 'icon' => 'fas fa-users']
     ];
     public string $action_route;
     public array $active_action;
@@ -47,7 +32,7 @@ class BusinessDashboard extends Component
         $this->user = Auth::user()?->loadMissing('profile');
         $this->business = $this->profile->loadMissing('profileable')->profileable;
         $this->action_route = (array_key_exists($action_route, $this->actions)) ? $action_route : 'warehouse';
-        $this->action_route_resource = ($this->action_route === 'warehouse') ? $action_route_resource : null;
+        $this->action_route_resource = (($this->action_route === 'warehouse') || ($this->action_route === 'sell')) ? $action_route_resource : null;
         $this->switchView($this->action_route);
         return;
     }

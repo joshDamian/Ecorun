@@ -6,6 +6,7 @@ use App\Traits\HasMentionsAndTags;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Presenters\Feedback\UrlPresenter;
+use App\Models\Connect\Profile\Profile;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Illuminate\Support\Facades\Storage;
 use App\Events\CommentedOnPost;

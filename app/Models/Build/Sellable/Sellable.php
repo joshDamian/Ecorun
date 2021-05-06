@@ -14,8 +14,16 @@ class Sellable extends Model
         return $this->morphTo();
     }
 
-    public function business()
+    public static function boot()
     {
-        return $this->belongsTo(Business::class);
+        parent::boot();
+        self::deleted(function ($model) {
+            $model->item()->delete();
+        });
+    }
+
+    public function vendor()
+    {
+        return $this->morphTo();
     }
 }

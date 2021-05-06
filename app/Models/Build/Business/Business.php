@@ -54,12 +54,12 @@ class Business extends Model
 
     public function warehouse()
     {
-        return $this->hasMany(Sellable::class)->latest('updated_at');
+        return $this->morphMany(Sellable::class, 'vendor')->latest('updated_at');
     }
 
     public function transactions()
     {
-        return $this->morphMany(Transaction::class, 'vendor');
+        return $this->morphMany(Transaction::class, 'vendor')->latest('updated_at');
     }
 
     public function orders()
@@ -86,7 +86,14 @@ class Business extends Model
     {
         return Badge::firstWhere(function ($query) {
             $query->where('label', 'business')->where('canuse', 'business');
-        });
+        }) ?? Badge::forceCreate([
+            'label' => 'business',
+            'description' => 'a business on ecorun',
+            'canuse' => 'business',
+            'credit' => 1,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 
     public function contacts()

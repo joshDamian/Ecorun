@@ -43,13 +43,14 @@ class CreateNewBusiness extends Component
             $this->user->badges()->attach($business_owner_badge->id);
             $this->user->primary_badge_id = $business_owner_badge->id;
         }
-        $this->user->save();
         if ($business) {
             $team = $this->createTeam();
             $this->create_profile($business);
         }
         $this->emitSelf('created');
         $this->emit('newBusiness');
+        $this->user->save();
+        $this->user->flushQueryCache();
         return $business->team()->save($team);
     }
 

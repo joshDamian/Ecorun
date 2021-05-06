@@ -3,26 +3,28 @@
         <x-loader_2 />
     </div>
     <div>
-        @if($active_product)
+        @if($active_sellable)
         <div class="mb-4 ml-4 sm:ml-0">
             <x-jet-button wire:click="viewAll">
-                <i class="fas fa-arrow-circle-left"></i> &nbsp; {{ __('All products') }}
+                <i class="fas fa-arrow-circle-left"></i> &nbsp; {{ __('All items') }}
             </x-jet-button>
         </div>
-
         <div>
-            @livewire('build-and-manage.product.product-dashboard', ['product' => $active_product],
-            key(md5("product_dashboard_for_{$active_product->id}")))
+            @php
+            $model_name = $components[$active_sellable->item::class]['model_name'];
+            $component = $components[$active_sellable->item::class]['component'];
+            @endphp
+            @livewire($component, ["{$model_name}" => $active_sellable->item],
+            key(md5("item_dashboard_for_{$active_sellable->id}")))
         </div>
-
         @else
         <div x-data x-init="() => { window.scrollTo(0, 0); }"
-            class="@if($business->products->count() > 0) grid gap-2 sm:gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-6 @endif px-2 sm:px-0">
-            @forelse ($products as $product)
-            <div wire:click="switchActiveProduct('{{ $product->id }}')" class="px-3 py-3 bg-gray-100 cursor-pointer">
+            class="@if($business->warehouse->count() > 0) grid gap-2 sm:gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-6 @endif px-2 sm:px-0">
+            @forelse ($warehouse as $sellable)
+            <div wire:click="switchActiveProduct('{{ $sellable->id }}')" class="px-3 py-3 bg-gray-100 cursor-pointer">
                 <div class="flex items-center justify-center">
-                    @if($product->gallery->first()->image_url ?? false)
-                    <img src="/storage/{{ $product->gallery->first()->image_url }}" width="150" height="150" />
+                    @if($sellable->item?->gallery?->first()?->image_url)
+                    <img src="/storage/{{ $sellable->item->gallery->first()->image_url }}" width="150" height="150" />
                     @else
                     <div class="text-blue-700">
                         <div class="flex justify-center">
@@ -37,15 +39,15 @@
 
                 <div class="pt-2 text-center">
                     <div class="truncate">
-                        {{ $product->name }}
+                        {{ $sellable->item->name }}
                     </div>
 
                     <div class="truncate">
-                        {!! $product->price() !!}
+                        {!! $sellable->item->price() !!}
                     </div>
                 </div>
 
-                @if ($product->is_published)
+                @if ($sellable->item->is_published)
                 <div class="px-1 py-1 text-center text-green-700">
                     <i class="fa fa-check-circle"></i> published
                 </div>
@@ -65,7 +67,7 @@
 
                 <div class="px-3 py-3 text-lg font-bold text-center text-blue-700">
                     <span class="block mb-3">
-                        your product store is empty.
+                        your warehouse is empty.
                     </span>
                 </div>
             </div>
@@ -73,15 +75,15 @@
         </div>
 
         <div class="mx-2 md:mx-0">
-            <x-paginator :data="$products" />
+            <x-paginator :data="$warehouse" />
         </div>
     </div>
     @endif
 
-    @if($active_product)
+    @if($active_sellable)
     <script>
         setTimeout(() => {
-            window.UiHelpers.modifyUrl("/biz/{{$business->profile->full_tag()}}/products/{{$active_product->id}}")
+            window.UiHelpers.modifyUrl("/biz/{{$business->profile->full_tag()}}/warehouse/{{$active_sellable->id}}")
         }, 100);
 
     </script>
@@ -89,7 +91,7 @@
     @else
     <script>
         setTimeout(() => {
-            window.UiHelpers.modifyUrl("/biz/{{$business->profile->full_tag()}}/products")
+            window.UiHelpers.modifyUrl("/biz/{{$business->profile->full_tag()}}/warehouse")
         }, 100);
 
     </script>

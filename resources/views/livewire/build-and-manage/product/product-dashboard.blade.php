@@ -1,7 +1,7 @@
 <div x-data x-init="() => { window.scrollTo(0, 0); }">
     <div class="grid grid-cols-1 gap-4">
         <div>
-            @livewire('build-and-manage.product.manage-product-images', ['product' => $product],
+            @livewire('build-and-manage.sellable.manage-sellable-images', ['sellable' => $product->sellable],
             key(md5("manage_product_images_for_{$product->id}")))
         </div>
         <div>

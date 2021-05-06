@@ -34,16 +34,17 @@
         @switch($active_action['title'])
         @case('sell')
         <div class="md:mt-4">
-            @livewire('build-and-manage.business.sell.sell', ['business' => $business])
+            @livewire('build-and-manage.business.sell.sell', ['business' => $business, 'sellType' =>
+            $action_route_resource])
         </div>
         @break
 
         @case('warehouse')
-        {{-- <div>
-            @livewire('build-and-manage.business.business-product-list', ['business' =>
-            $business->loadCount('products'), 'active_product' => $action_route_resource],
-            key(md5("business_product_list_for_{$business->id}")))
-        </div> --}}
+        <div>
+            @livewire('build-and-manage.business.business-warehouse', ['business' =>
+            $business->loadCount('warehouse'), 'active_item' => $action_route_resource],
+            key(md5("business_warehouse_{$business->id}")))
+        </div>
         @break
 
         @case('orders')

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Buy\LandingPage;
 
 use App\Models\Build\Sellable\Product\Product;
-use App\Models\Service;
+use App\Models\Buy\Service\Service;
 use Livewire\Component;
 
 class FeaturedServiceProducts extends Component

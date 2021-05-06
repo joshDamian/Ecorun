@@ -114,8 +114,8 @@
                 :style="'background-size: cover; background-position: center center; background-image: url(' + cover_art + ')'"
                 class="border border-white shadow-lg h-44 w-44">
             </div>
-            <div class="text-gray-300" x-show="cover_art.length === 0">
-                <i style="font-size: 7rem;" class="fas fa-music"></i>
+            <div class="text-gray-100" x-show="cover_art.length === 0">
+                <i style="font-size: 5rem;" class="fas fa-music"></i>
             </div>
         </div>
         <div class="p-3 text-lg font-bold text-white bg-black border-t border-white">

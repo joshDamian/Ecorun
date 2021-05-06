@@ -29,11 +29,6 @@
             <div class="col-span-6 sm:col-span-4 md:col-span-3">
                 <x-jet-label for="category">
                     {{__('Available Stock')}}
-                    @if ($product->business->isService())
-                    <span class="text-green-400">
-                        {{__(' (optional) ')}}
-                    </span>
-                    @endif
                 </x-jet-label>
                 <x-jet-input id="available_stock" placeholder="available stock" type="number" class="block w-full mt-1"
                     wire:model="product.available_stock" autocomplete="available_stock" />

@@ -39,9 +39,7 @@ Route::get('/', function () {
 Route::get('/@{profile:tag}/{action_route?}', [ProfileController::class, 'show'])->name('profile.visit');
 Route::get('/post/{post}', [PostController::class, 'show'])->name('post.show');
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::any('/guest/@{tag}/follow', function ($tag) {
-        return redirect("/@{$tag}/");
-    })->name('guest.follow-profile');
+    Route::any('/guest/@{tag}/follow', fn ($tag) => redirect("/@{$tag}/"))->name('guest.follow-profile');
     Route::post('/push', [PushController::class, 'store']);
     Route::get('/@{profile:tag}/actions/edit', UpdateProfile::class)->middleware('can:access,profile')->name('profile.edit');
     Route::put('/current-profile/update', [ProfileController::class, 'updateCurrentProfile'])->name('current-profile.update');
@@ -50,14 +48,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     /** Business routes */
     Route::middleware(['can:reference-businesses'])->group(function () {
         Route::get('/biz/@{profile:tag}/{action_route?}/{action_route_resource?}', BusinessDashboard::class)->middleware(['can:sellWith,profile'])->name('business.dashboard');
-        Route::get('/biz/@{profile:tag}/warehouse/{active_item}', []);
-        Route::get('/biz/@{profile:tag}/products/{active_product?}/', function (Profile $profile, $active_product) {
+        Route::get('/biz/@{profile:tag}/warehouse/{active_item?}/', function (Profile $profile, $active_product) {
             return redirect(route('business.dashboard', ['profile' => $profile->tag, 'action_route' => 'products', 'action_route_resource' => $active_product]));
         })->middleware(['can:sellWith,profile'])->name('business.products');
     });
-    Route::get('/chat', function () {
-        return view('chat.index', ['profile' => Auth::user()->profile, 'activeConversation' => (request()->input('active_conversation')) ? DirectConversation::firstWhere('secret_key', request()->input('active_conversation')) : null]);
-    })->name('chat.index');
+    Route::get('/chat', fn () => view('chat.index', [
+        'profile' => Auth::user()->profile,
+        'activeConversation' => (request()->input('active_conversation')) ? DirectConversation::firstWhere('secret_key', request()->input('active_conversation')) : null
+    ]))->name('chat.index');
     Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::get('/post/{post}/delete', [PostController::class, 'destroy'])->name('post.delete');
     Route::get('/post/{post}/comment/{comment}/edit', [CommentController::class, 'edit'])->name('comment.edit');
@@ -70,11 +68,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/@{profile:tag}/view/bookmarks', [BookmarkController::class, 'index'])->name('bookmark.index');
     Route::get('/me/preview_order/', [OrderController::class, 'preview_order'])->name('order.preview_order');
     Route::get('/me/place_order', [OrderController::class, 'place_order'])->name('order.place_order');
-    Route::get('/order_success', function () {
-        return view('order.success_page', [
-            'order' => auth()->user()->orders->first()
-        ]);
-    });
+    Route::get('/order_success', fn () => view('order.success_page', [
+        'order' => auth()->user()->orders->first()
+    ]));
     Route::get('@{profile:tag}/view/followers', [ProfileController::class, 'followers'])->name('profile.followers');
     Route::get('@{profile:tag}/view/following', [ProfileController::class, 'following'])->name('profile.following');
 });

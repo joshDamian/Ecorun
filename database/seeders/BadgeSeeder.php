@@ -46,6 +46,14 @@ class BadgeSeeder extends Seeder
                 'credit' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
+            ],
+            [
+                'label' => 'business',
+                'description' => 'a business on ecorun',
+                'canuse' => 'business',
+                'credit' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
             ]
         ];
         foreach ($data as $key => $value) {

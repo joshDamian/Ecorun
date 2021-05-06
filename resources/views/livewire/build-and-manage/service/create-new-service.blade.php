@@ -2,8 +2,7 @@
     <div style="width: 100%;" wire:target="photos,create,resetData" wire:loading>
         <x-loader_2 />
     </div>
-
-    @if($product_created)
+    @if($service_created)
     <div class="flex justify-end px-4 pb-4 text-right md:px-0">
         <x-jet-secondary-button class="mr-3" wire:click="resetData">
             {{ __('Add Another') }}
@@ -15,18 +14,18 @@
             </x-jet-button>
         </a>
     </div>
-    @livewire('build-and-manage.product.product-dashboard', ['product' => $product],
-    key(md5("product_dashboard__for_{$product->id}")))
+    @livewire('build-and-manage.service.service-dashboard', ['service' => $service],
+    key(md5("service_dashboard__for_{$service->id}")))
 
     @else
     <div x-data x-init="() => { window.scrollTo(0, 0); }">
         <x-jet-form-section submit="create">
             <x-slot name="title">
-                {{ __('Add Product') }}
+                {{ __('Add Service') }}
             </x-slot>
 
             <x-slot name="description">
-                {{ __('Add a new product to your warehouse') }}
+                {{ __('Add a new service to your warehouse') }}
             </x-slot>
 
             <x-slot name="form">
@@ -39,7 +38,7 @@
                     <!-- Product Photos File Input -->
                     <input type="file" class="hidden" accept="image/*" wire:model="photos" multiple x-ref="photos" />
 
-                    <x-jet-label for="photos" value="{{ __('Product Photos') }}" />
+                    <x-jet-label for="photos" value="{{ __('Add photos that describe your service') }}" />
 
                     <!-- Product Photos Preview -->
                     @if(count($photos) > 0)
@@ -51,7 +50,7 @@
                     </div>
                     @else
                     <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photos.click();">
-                        {{ __('Select Product Photos') }}
+                        {{ __('Select Service Photos') }}
                     </x-jet-secondary-button>
                     @endif
                     <div class="mt-2">
@@ -61,37 +60,48 @@
 
                 <!-- Name -->
                 <div class="col-span-12 md:col-span-6 sm:col-span-4">
-                    <x-jet-label for="name" value="{{ __('Product Name') }}" />
-                    <x-jet-input id="name" type="text" class="block w-full mt-1" wire:model="product._name"
-                        placeholder="product name" autocomplete="name" />
-                    <x-jet-input-error for="product._name" class="mt-2" />
+                    <x-jet-label for="name" value="{{ __('What service are you offering?') }}" />
+                    <x-jet-input id="name" name="name" type="text" class="block w-full mt-1" wire:model="service.name"
+                        placeholder="service name" autocomplete="name" />
+                    <x-jet-input-error for="service.name" class="mt-2" />
                 </div>
 
                 <!-- Price -->
-                <div x-data class="col-span-6 sm:col-span-4 md:col-span-3">
-                    <x-jet-label for="price" value="{{ __('Product Price') }}" />
-                    <x-jet-input id="price" type="number" class="relative block w-full mt-1" placeholder="product price"
-                        wire:model.defer="product._price" autocomplete="price" />
-                    <x-jet-input-error for="product._price" class="mt-2" />
-                </div>
-
-                <!-- Available Stock -->
-                <div class="col-span-6 sm:col-span-4 md:col-span-3">
-                    <x-jet-label for="available_stock">
-                        {{__('Available Stock')}}
-                    </x-jet-label>
-                    <x-jet-input id="available_stock" placeholder="available stock" type="number"
-                        class="block w-full mt-1" wire:model.defer="product._available stock"
-                        autocomplete="available stock" />
-                    <x-jet-input-error for="product._available stock" class="mt-2" />
+                <div x-data="{ pricing_options: { fixed: true, quotation: false } }"
+                    class="col-span-6 sm:col-span-4 md:col-span-3">
+                    <x-jet-label value="Pricing" />
+                    <select wire:model="service.pricing" x-on:change="
+                        for(let i in pricing_options) {
+                            if(i === event.target.value) {
+                                pricing_options[i] = true;
+                                continue;
+                            }
+                            pricing_options[i] = false;
+                        }
+                        " class="form-select">
+                        <option value="fixed">
+                            fixed pricing
+                        </option>
+                        <option value="quotation">
+                            based on quotation.
+                        </option>
+                    </select>
+                    <div x-show="pricing_options['fixed']" class="mt-4">
+                        <x-jet-label for="price" value="{{ __('How much does your service cost?') }}" />
+                        <x-jet-input id="price" type="number" class="relative block w-full mt-1"
+                            placeholder="service price" wire:model.defer="service.price" autocomplete="price" />
+                        <x-jet-input-error for="service.price" class="mt-2" />
+                    </div>
+                    <div x-show="pricing_options['quotation']" class="mt-4">
+                    </div>
                 </div>
 
                 <!-- Description -->
                 <div class="col-span-12 md:col-span-6 sm:col-span-4">
-                    <x-jet-label for="description" value="{{ __('Product Description') }}" />
-                    <textarea placeholder="product description" rows="3" class="block w-full mt-1 form-input"
-                        wire:model.defer="product._description" autocomplete="description"></textarea>
-                    <x-jet-input-error for="product._description" class="mt-2" />
+                    <x-jet-label for="description" value="{{ __('Add a short description about your service') }}" />
+                    <textarea placeholder="service description" rows="3" class="block w-full mt-1 form-input"
+                        wire:model.defer="service.description" autocomplete="description"></textarea>
+                    <x-jet-input-error for="service.description" class="mt-2" />
                 </div>
             </x-slot>
 

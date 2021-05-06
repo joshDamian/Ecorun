@@ -7,11 +7,11 @@
     </div>
     <x-jet-form-section submit="saveImages">
         <x-slot name="title">
-            {{ __('Product Gallery') }}
+            {{ __("{$sellable_name->title()} Gallery") }}
         </x-slot>
 
         <x-slot name="description">
-            {{ __('Add and remove photos from Product\'s gallery') }}
+            {{ __("Add and remove photos from {$sellable_name->title()}'s gallery") }}
         </x-slot>
 
         <x-slot name="form">
@@ -21,15 +21,14 @@
                         class="bg-blue-900 border border-blue-900">
                         {{ __('add photos') }}
                     </x-jet-secondary-button>
-                    <!-- Profile Photo File Input -->
-                    <input type="file" accept="image/*" class="hidden" wire:model="photos" multiple x-ref="photos" x-on:change="
+                    <!-- Photos Input -->
+                    <input type="file" accept="image/*" class="hidden" wire:model="photos" multiple x-ref="photos"
+                        x-on:change="
                     const files = $refs.photos.files;
                     photos = [];
                     for(var i = 0; i < files.length; i++) {
                     photos[i] = {'url': URL.createObjectURL(files[i])}
                     }
-
-                    console.log(files.length);
                     " />
 
                     <!-- Photos Preview -->
@@ -52,12 +51,12 @@
                     <x-jet-input-error for="photos.*" class="mt-2" />
                 </div>
 
-                @php $gallery_count = $product->gallery->count() @endphp
+                @php $gallery_count = $item->gallery->count() @endphp
 
                 <div x-show.transtion="photos.length < 1">
                     <div
                         class="grid col-span-12 @if($gallery_count < 2) grid-cols-1 @else grid-cols-3 @endif sm:grid-cols-4 sm:gap-2 gap-2">
-                        @foreach($product->gallery as $image)
+                        @foreach($item->gallery as $image)
                         <div class="">
                             <img class="w-100 h-100" src="/storage/{{$image->image_url}}" />
                             <div class="px-1 py-1 text-right bg-black">
@@ -65,7 +64,7 @@
                                     class="bg-red-700 border border-red-700"
                                     wire:click="deleteImage('{{ $image->id }}')">
                                     <i class="fa fa-trash"></i>
-                                </x-secondary-jet-button>
+                                    </x-secondary-jet-button>
                             </div>
                         </div>
                         @endforeach

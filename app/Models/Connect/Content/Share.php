@@ -5,6 +5,9 @@ namespace App\Models\Connect\Content;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Rennokki\QueryCache\Traits\QueryCacheable;
+use App\Models\Connect\Profile\Profile;
+use App\Models\Build\Sellable\Product\Product;
+use App\Models\Build\Sellable\Sellable;
 
 class Share extends Model
 {
@@ -20,6 +23,11 @@ class Share extends Model
     public function isPost()
     {
         return $this->shareable_type === Post::class;
+    }
+
+    public function isSellable()
+    {
+        return $this->shareable_type === Sellable::class;
     }
 
     public function isProduct()

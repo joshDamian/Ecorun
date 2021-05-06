@@ -35,16 +35,16 @@
                 <i class="far fa-edit"></i>
             </a>
             @if($profile->isBusiness())
-            <a class="mr-2 text-blue-600" href="{{ $profile->url->products }}">
+            <a class="mr-2 text-blue-600" href="{{ $profile->profileable->url->warehouse }}">
                 <i class="fas fa-shopping-bag"></i>
             </a>
-            <a class="mr-2 text-blue-600" href="{{ $profile->url->add_product }}">
+            <a class="mr-2 text-blue-600" href="{{ $profile->profileable->url->sell }}">
                 <i class="fas fa-plus-circle"></i>
             </a>
-            <a class="mr-2 text-blue-600" href="{{ $profile->url->team }}">
+            <a class="mr-2 text-blue-600" href="{{ $profile->profileable->url->team }}">
                 <i class="fas fa-users"></i>
             </a>
-            <a class="text-blue-600" href="{{ $profile->url->orders }}">
+            <a class="text-blue-600" href="{{ $profile->profileable->url->orders }}">
                 <i class="fas fa-clipboard-check"></i>
             </a>
             @endif

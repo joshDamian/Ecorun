@@ -27,29 +27,17 @@ class Product extends Model
         HasFactory,
         HasTags;
 
-    protected $casts = [
-        'is_published' => 'boolean'
-    ];
-
+    protected $casts = ['is_published' => 'boolean'];
     protected $fillable = [
-        'name',
-        'description',
-        'price',
-        'available_stock'
+        'name', 'description', 'price', 'available_stock'
     ];
-
-    protected $with = [
-        'gallery'
-    ];
-
+    protected $with = ['gallery'];
     /**
      * The accessors to ap   use HasFactory;pend to the model's array form.
      *
      * @var array
      */
-    protected $appends = [
-        'url'
-    ];
+    protected $appends = ['url'];
     public $cacheFor = 2592000;
     protected static $flushCacheOnUpdate = true;
 
