@@ -24,7 +24,7 @@
     setPlayer: function() {
     this.audioPlayer = this.$refs.audioPlayer;
     this.audioPlayer.src = '/storage/' + this.currentlyPlaying.audio.url;
-    this.cover_art = this.currentlyPlaying.cover_art_url;
+    this.cover_art = this.currentlyPlaying.cover_art;
     this.music_headline = this.currentlyPlaying.artiste + ' - ' + this.currentlyPlaying.title;
     let context = this.context = new (window.AudioContext || window.webkitAudioContext)();
     let analyser = context.createAnalyser();
@@ -110,8 +110,11 @@
     }" x-init="initialize()" class="music_player">
     <div>
         <div class="flex items-center justify-center p-4 bg-black">
-            <div :style="'background-size: cover; background-position: center center; background-image: url(' + cover_art + ')'"
+            <div x-show="cover_art" :style="'background-size: cover; background-position: center center; background-image: url(' + cover_art + ')'"
                 class="border border-white shadow-lg h-44 w-44">
+            </div>
+            <div x-show="!cover_art">
+                <i style="font-size: 3rem;" class="fas fa-music text-white"></i>
             </div>
         </div>
 
