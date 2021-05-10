@@ -114,7 +114,7 @@
                 class="border border-white shadow-lg h-44 w-44">
             </div>
             <div x-show="!cover_art">
-                <i style="font-size: 3rem;" class="fas fa-music text-white"></i>
+                <i style="font-size: 4.3rem;" class="fas fa-music text-white"></i>
             </div>
         </div>
 
