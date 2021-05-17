@@ -1,6 +1,6 @@
 <div>
     <div class="float-right pr-4 sm:pr-0">
-        @if($product->is_published)
+        @if($item->is_published)
         <x-jet-button wire:click="unpublish">
             {{ __('Unpublish') }}
         </x-jet-button>

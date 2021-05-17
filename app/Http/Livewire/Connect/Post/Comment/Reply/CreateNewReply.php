@@ -4,8 +4,8 @@ namespace App\Http\Livewire\Connect\Post\Comment\Reply;
 
 use Livewire\Component;
 use App\Http\Livewire\Traits\CreatesSocialContent;
-use App\Events\RepliedToComment;
-use App\Models\Feedback;
+use App\Events\FeedbackEvents\RepliedToComment;
+use App\Models\Connect\ContentFeedback\Feedback;
 
 class CreateNewReply extends Component
 {

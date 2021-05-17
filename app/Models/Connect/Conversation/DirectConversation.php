@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Illuminate\Support\Str;
+use App\Models\Connect\Profile\Profile;
+use App\Models\Connect\Conversation\Message;
 
 class DirectConversation extends Model
 {

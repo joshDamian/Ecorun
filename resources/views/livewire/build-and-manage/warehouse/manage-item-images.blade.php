@@ -51,12 +51,12 @@
                     <x-jet-input-error for="photos.*" class="mt-2" />
                 </div>
 
-                @php $gallery_count = $item->gallery->count() @endphp
+                @php $gallery_count = $sellable->gallery->count() @endphp
 
                 <div x-show.transtion="photos.length < 1">
                     <div
                         class="grid col-span-12 @if($gallery_count < 2) grid-cols-1 @else grid-cols-3 @endif sm:grid-cols-4 sm:gap-2 gap-2">
-                        @foreach($item->gallery as $image)
+                        @foreach($sellable->gallery as $image)
                         <div class="">
                             <img class="w-100 h-100" src="/storage/{{$image->image_url}}" />
                             <div class="px-1 py-1 text-right bg-black">

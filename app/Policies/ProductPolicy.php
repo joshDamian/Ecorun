@@ -30,7 +30,7 @@ class ProductPolicy
      */
     public function view(?User $user, Product $product)
     {
-        return $product->is_published !== false;
+        return true;
     }
 
     /**

@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Livewire\Connect\Product;
+namespace App\Http\Livewire\Connect\Sellable;
 
 use Livewire\Component;
-use App\Models\Build\Sellable\Product\Product;
 use App\Http\Livewire\Traits\HasBookmarks;
+use App\Models\Build\Sellable\Product\Product;
+use App\Models\Buy\Service\Service;
 use Illuminate\Support\Facades\Auth;
 
-class BookmarkProduct extends Component
+class BookmarkSellable extends Component
 {
     use HasBookmarks;
 
-    public Product $product;
+    public Product|Service $sellable;
 
     public function mount()
     {
-        $this->bookmarkable = $this->product;
+        $this->bookmarkable = $this->sellable;
         if (Auth::check()) {
             $this->profile = Auth::user()->currentProfile;
             $this->bookmarked = $this->bookmarked();
@@ -24,6 +25,6 @@ class BookmarkProduct extends Component
 
     public function render()
     {
-        return view('livewire.connect.product.bookmark-product');
+        return view('livewire.connect.sellable.bookmark-sellable');
     }
 }

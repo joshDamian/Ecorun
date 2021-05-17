@@ -15,6 +15,7 @@ class CreateNewService extends Component
 
     public $business;
     public $photos = [];
+    public Sellable $sellable_item;
     public $service_created;
     public $service = ['name' => '', 'description' => '', 'price' => 100, 'pricing' => 'fixed'];
 
@@ -36,13 +37,13 @@ class CreateNewService extends Component
         $this->service = Service::create([
             'name' => $this->service['name'],
             'description' => $this->service['description'],
-            'price' => $this->service['price']
+            'price' => ($this->service['pricing'] === 'fixed') ? $this->service['price'] : null
         ]);
-        Sellable::forceCreate([
+        $this->sellable_item = Sellable::forceCreate([
             'vendor_id' => $this->business->id,
             'vendor_type' => $this->business::class,
-            'item_id' => $this->service->id,
-            'item_type' => $this->service::class
+            'sellable_id' => $this->service->id,
+            'sellable_type' => $this->service::class
         ]);
         $this->uploadPhotos(photos: $this->photos, folder: 'service-photos', imageable: $this->service, label: 'service_image', sizes: array(1600, 1600));
         $this->service_created = true;

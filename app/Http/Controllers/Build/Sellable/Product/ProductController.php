@@ -42,14 +42,17 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param $slug
      * @param  \App\Models\Build\Sellable\Product\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function show($slug, Product $product, Request $request)
+    public function show($slug, Product $product)
     {
         if ($slug === $product->data_slug('name')) {
-            $product->bootstrap();
-            return view('products.show', compact('product'));
+            //$product->bootstrap();
+            $vendor = $product->vendor;
+            $vendor_profile = $vendor->profile;
+            return view('products.show', compact('product', 'vendor', 'vendor_profile'));
         }
         return redirect($product->url->show);
     }

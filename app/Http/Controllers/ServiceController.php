@@ -44,9 +44,12 @@ class ServiceController extends Controller
      * @param  \App\Models\Buy\Service\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function show(Service $service)
+    public function show($slug, Service $service)
     {
-        //
+        if ($slug === $service->data_slug('name')) {
+            return view('service.show', compact('service'));
+        }
+        return redirect($service->url->show);
     }
 
     /**

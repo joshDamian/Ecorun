@@ -11,6 +11,7 @@ use App\Traits\HasProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Information\Basic\Contact;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Business extends Model

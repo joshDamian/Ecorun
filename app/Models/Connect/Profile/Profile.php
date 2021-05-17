@@ -59,14 +59,8 @@ class Profile extends Model
 
     public function direct_conversationWith(Profile $profile)
     {
-        $pair = [
-            $this->id,
-            $profile->id
-        ];
-        $pair_reverse = [
-            $profile->id,
-            $this->id
-        ];
+        $pair = [$this->id, $profile->id];
+        $pair_reverse = [$profile->id, $this->id];
         $conversations = $profile->conversations->directConversations;
         $pair_exists = $conversations->firstWhere('pair_ids', $pair) ?? $conversations->firstWhere('pair_ids', $pair_reverse);
         return $pair_exists;
@@ -90,13 +84,6 @@ class Profile extends Model
     public function following()
     {
         return $this->belongsToMany(Profile::class, 'profile_follower', 'profile_id', 'follower_id')->withTimestamps();
-    }
-
-    public function slugData()
-    {
-        return [
-            'name' => $this->name,
-        ];
     }
 
     /**
@@ -127,21 +114,27 @@ class Profile extends Model
         return $this->pushSubscriptions;
     }
 
-
     protected static function boot()
     {
         parent::boot();
-        static::creating(
-            function ($profile) {
-                $profile->auto_tag = (string) Str::uuid();
-                $profile->tag = $profile->tag ?? GeneratorTool::generateID(Profile::class, 'tag', [], "auto-tag-");
-            }
-        );
+        static::creating(function ($profile) {
+            $profile->auto_tag = (string) Str::uuid();
+            $profile->tag = $profile->tag ?? GeneratorTool::generateID(Profile::class, 'tag', [], "auto-tag-");
+        });
         static::created(function ($profile) {
             if (Profile::where('tag', 'ecorun')->exists()) {
                 $profile->following()->save(Profile::firstWhere('tag', 'ecorun'));
             }
         });
+        static::deleted(function ($profile) {
+            $profile->trash();
+        });
+    }
+
+    private function trash()
+    {
+        $this->posts()->delete();
+        $this->notifications()->delete();
     }
 
     public function profileable()
@@ -183,10 +176,7 @@ class Profile extends Model
 
     public function messages()
     {
-        return $this->hasMany(
-            Message::class,
-            'sender_id'
-        );
+        return $this->hasMany(Message::class, 'sender_id');
     }
 
     public function getFeedAttribute()
@@ -203,7 +193,6 @@ class Profile extends Model
     {
         return $this->profileable_type === User::class;
     }
-
 
     public function getGalleryAttribute()
     {

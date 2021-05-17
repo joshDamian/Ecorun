@@ -8,13 +8,14 @@ use App\Http\Controllers\Build\Sellable\Product\ProductController;
 use App\Http\Livewire\BuildAndManage\Business\BusinessDashboard;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Connect\Profile\ProfileController;
-use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Connect\ContentFeedback\CommentController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\Information\Search\SearchEngineController;
 use App\Http\Controllers\Buy\Core\ShopController;
 use App\Http\Controllers\PushController;
 use App\Http\Controllers\Connect\Content\BookmarkController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Connect\Profile\UpdateProfile;
 use App\Http\Livewire\BuildAndManage\Manager\ManagerDashboard;
@@ -48,8 +49,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     /** Business routes */
     Route::middleware(['can:reference-businesses'])->group(function () {
         Route::get('/biz/@{profile:tag}/{action_route?}/{action_route_resource?}', BusinessDashboard::class)->middleware(['can:sellWith,profile'])->name('business.dashboard');
-        Route::get('/biz/@{profile:tag}/warehouse/{active_item?}/', function (Profile $profile, $active_product) {
-            return redirect(route('business.dashboard', ['profile' => $profile->tag, 'action_route' => 'products', 'action_route_resource' => $active_product]));
+        Route::get('/biz/@{profile:tag}/warehouse/{active_item?}/', function (Profile $profile, $active_item) {
+            return redirect(route('business.dashboard', ['profile' => $profile->tag, 'action_route' => 'products', 'action_route_resource' => $active_item]));
         })->middleware(['can:sellWith,profile'])->name('business.products');
     });
     Route::get('/chat', fn () => view('chat.index', [
@@ -74,9 +75,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('@{profile:tag}/view/followers', [ProfileController::class, 'followers'])->name('profile.followers');
     Route::get('@{profile:tag}/view/following', [ProfileController::class, 'following'])->name('profile.following');
 });
-Route::get('/shop/{slug}/{product}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
 Route::get('category/{slug}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/shop/products', [ShopController::class, 'products'])->name('shop.products');
+Route::get('/shop/services', [ShopController::class, 'services'])->name('shop.services');
+Route::get('/shop/products/{slug}.{product}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/shop/services/{slug}.{service}', [ServiceController::class, 'show'])->name('service.show');
 Route::get('/search/{data?}', [SearchEngineController::class, 'index'])->name('search.index');

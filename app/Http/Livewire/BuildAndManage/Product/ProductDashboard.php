@@ -2,18 +2,19 @@
 
 namespace App\Http\Livewire\BuildAndManage\Product;
 
-use App\Models\Build\Sellable\Product\Product;
 use Livewire\Component;
 
 class ProductDashboard extends Component
 {
-    public Product $product;
+    public $item;
     protected $listeners = [
         'unpublishedMe' => '$refresh'
     ];
 
     public function render()
     {
-        return view('livewire.build-and-manage.product.product-dashboard');
+        return view('livewire.build-and-manage.product.product-dashboard', [
+            'product' => $this->item->sellable
+        ]);
     }
 }

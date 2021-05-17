@@ -6,34 +6,35 @@ use Illuminate\Support\Str;
 
 trait StringManipulations
 {
-    public function data_slug(string $key = null): string
+    public function data_slug(string $key = null): string|null|array
     {
-        if ($key) {
-            $result = Str::of($this->slugData()[$key])->slug('-')->__toString();
+        if ($key && is_string($this->{$key})) {
+            $result = Str::slug($this->{$key});
         } else {
             $result = [];
-
-            foreach ($this->slugData() as $array_key => $value) {
-                $result[$array_key] = Str::of($value)->slug('-')->__toString();
+            foreach (get_object_vars($this) as $key => $value) {
+                if (is_string($value)) {
+                    $result[$key] = Str::slug($value);
+                    continue;
+                }
             }
         }
-
-        return $result;
+        return $result ?? null;
     }
 
-    public function singular(string $key = null): string
+    public function singular(string $key = null): string|null|array
     {
-        if ($key) {
-            $result =
-            Str::of($this->canBeSingular()[$key])->singular()->__toString();
+        if ($key && is_string($this->{$key})) {
+            $result = Str::singular($this->{$key});
         } else {
             $result = [];
-
-            foreach ($this->canBeSingular() as $array_key => $value) {
-                $result[$array_key] = Str::of($value)->singular()->__toString();
+            foreach (get_object_vars($this) as $key => $value) {
+                if (is_string($value)) {
+                    $result[$key] = Str::singular($value);
+                    continue;
+                }
             }
         }
-
-        return $result;
+        return $result ?? null;
     }
 }

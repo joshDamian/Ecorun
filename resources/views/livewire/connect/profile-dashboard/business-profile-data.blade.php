@@ -16,26 +16,26 @@
         <x-loader_2 />
     </div>
 
-    <div wire:loading.remove class="mt-2 pb-11 md:pb-0 md:mt-0 md:my-3">
+    <div wire:loading.remove class="mt-2 pb-11 md:pb-0 md:my-3">
         @switch($active_view['title'])
-        @case('products')
+        @case('warehouse')
         @php
-        $products = $profile->loadMissing('profileable.products')->profileable->products()->paginate(12);
+        $warehouse = $profile->profileable->warehouse()->paginate(12);
         @endphp
         <div class="mb-2">
-            <x-product.user-product-list :products="$products" />
+            <x-buy.shopping.wares-listing :wares="$warehouse" />
             <div class="mx-2 md:mx-0">
-                <x-paginator :data="$products" />
+                <x-paginator :data="$warehouse" />
             </div>
         </div>
 
-        @if($products->isEmpty())
+        @if($warehouse->isEmpty())
         <div class="p-4 text-blue-700 bg-white">
             <div class="flex items-center justify-center justify-items-center">
-                <i style="font-size: 6rem;" class="fas fa-shopping-bag"></i>
+                <i style="font-size: 4rem;" class="fas fa-warehouse"></i>
             </div>
             <div class="px-3 pt-3 text-center">
-                {{ $profile->name }}'s product store is empty <i class="far fa-smile"></i>
+                {{ $profile->name }}'s warehouse is empty <i class="far fa-smile"></i>
             </div>
         </div>
         @endif

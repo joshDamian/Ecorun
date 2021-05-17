@@ -9,11 +9,11 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use App\Events\PostCreated;
 use App\Events\PlacedOrder;
 use App\Events\ProductEvents\ProductCreated;
-use App\Events\SentMessage;
+use App\Events\ConversationEvents\SentMessage;
 use App\Events\LikedPost;
 use App\Events\ContentShared;
-use App\Events\CommentedOnPost;
-use App\Events\RepliedToComment;
+use App\Events\FeedbackEvents\CommentedOnPost;
+use App\Events\FeedbackEvents\RepliedToComment;
 use App\Events\NewFeedContentForProfile;
 use App\Listeners\SendContentSharedNotification;
 use App\Listeners\SendPlacedOrderNotification;

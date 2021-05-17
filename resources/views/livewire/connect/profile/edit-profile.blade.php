@@ -14,9 +14,7 @@
                     };
                     reader.readAsDataURL($refs.photo.files[0]);
                     " />
-
                     <x-jet-label for="photo" value="{{ __('Photo') }}" />
-
                     <!-- Current Profile Photo -->
                     <div class="mt-2 mb-1" x-show="! photoPreview">
                         @if($this->profile->isUser())
@@ -71,7 +69,6 @@
                     </div>
                     <x-jet-input-error for="tag" class="mt-2" />
                 </div>
-
                 <div>
                     <x-jet-label for="description"
                         value="{{ __('About ') . (($errors->has('name')) ? $this->profile->name : $name) }}" />

@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\RepliedToComment;
+use App\Events\FeedbackEvents\RepliedToComment;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Notifications\RepliedToComment as RepliedToCommentNotification;

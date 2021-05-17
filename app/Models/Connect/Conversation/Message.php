@@ -5,7 +5,9 @@ namespace App\Models\Connect\Conversation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Rennokki\QueryCache\Traits\QueryCacheable;
-use App\Events\SentMessage;
+use App\Events\ConversationEvents\SentMessage;
+use App\Models\Connect\Conversation\GroupConversation;
+use App\Models\Connect\Profile\Profile;
 
 class Message extends Model
 {

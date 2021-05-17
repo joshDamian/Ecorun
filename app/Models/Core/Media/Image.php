@@ -4,6 +4,7 @@ namespace App\Models\Core\Media;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
 class Image extends Model
@@ -20,5 +21,13 @@ class Image extends Model
     public function imageable()
     {
         return $this->morphTo();
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::deleted(function ($model) {
+            Storage::disk('public')->delete($model->image_url);
+        });
     }
 }

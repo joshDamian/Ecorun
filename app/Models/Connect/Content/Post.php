@@ -95,7 +95,6 @@ class Post extends Model
 
     public function trash(): void
     {
-        Storage::disk('public')->delete($this->gallery->pluck('image_url')->toArray());
         $this->comments()->delete();
         $this->likes()->delete();
         $this->gallery()->delete();

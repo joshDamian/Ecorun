@@ -1,13 +1,14 @@
-<div x-data="chat_box_data()" class="bg-gradient-to-tl from-gray-300 h-screen to-gray-100" x-init="initialize_chat_box()">
+<div x-data="chat_box_data()" class="h-screen bg-gradient-to-tl from-gray-300 to-gray-100"
+    x-init="initialize_chat_box()">
     <div class="fixed top-0 z-40 w-full px-3 py-2 bg-gray-100 md:sticky md:top-12">
         <div class="flex items-center">
             <div class="mr-3">
                 <i x-on:click="chatBox.close();" class="text-lg text-blue-700 cursor-pointer fas fa-arrow-left"></i>
             </div>
             <div style="background-image: url('{{ $this->partner->profile_photo_url }}'); background-size: cover; background-position: center center;"
-                class="flex-shrink-0 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full w-8 h-8">
+                class="flex-shrink-0 w-8 h-8 mr-3 border-t-2 border-b-2 border-blue-700 rounded-full">
             </div>
-            <div class="grid flex-shrink line-clamp-1 grid-cols-1 text-lg font-bold text-blue-700">
+            <div class="grid flex-shrink grid-cols-1 text-lg font-bold text-blue-700 line-clamp-1">
                 {{ $this->partner->full_tag() }}
                 <div id="status_for_chat_box" class="text-xs font-bold text-blue-600 text-muted" x-ref="status"></div>
             </div>
@@ -15,13 +16,14 @@
                 <i x-on:click="chatBox.goToTop()" title="jump to top"
                     class="mr-4 text-lg text-gray-600 cursor-pointer fas fa-arrow-up"></i>
                 <i x-on:click="chatBox.goToBottom()" title="jump to bottom"
-                    class="text-lg text-gray-600 cursor-pointer fas mr-10 fa-arrow-down"></i>
-                <i x-on:click="show_options = !show_options" class="text-lg text-blue-700 cursor-pointer fas fa-ellipsis-v"></i>
+                    class="mr-10 text-lg text-gray-600 cursor-pointer fas fa-arrow-down"></i>
+                <i x-on:click="show_options = !show_options"
+                    class="text-lg text-blue-700 cursor-pointer fas fa-ellipsis-v"></i>
             </div>
         </div>
 
         <template x-if="show_options">
-            <div class="mt-2 grid grid-cols-1 text-blue-700 bg-gray-200">
+            <div class="grid grid-cols-1 mt-2 text-blue-700 bg-gray-200">
                 <a class="px-4 py-2 font-semibold text-md" href="{{ $this->partner->url->visit }}">
                     <i class="far fa-user"></i> &nbsp; View profile
                 </a>
@@ -30,10 +32,10 @@
     </div>
 
     <div id="messages_cont" x-ref="messages"
-        class="px-3 h-11/12 overflow-y-auto pt-3 pb-5 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
+        class="px-3 pt-3 pb-5 overflow-y-auto h-11/12 sm:pb-5 sm:px-5 sm:gap-5 md:pt-6 bg-gradient-to-tl from-gray-300 to-gray-100">
         <div>
             @if($messages_count > $messages->count())
-            <div class="flex mb-2 justify-center">
+            <div class="flex justify-center mb-2">
                 <x-jet-button wire:click="loadOlderMessages" class="bg-blue-700 rounded-xl">
                     load older messages
                 </x-jet-button>
@@ -50,7 +52,7 @@
                 >
                 $messages->get($key -
                 1)->created_at->day))
-                <div class="p-3 font-black text-center mb-2 text-blue-700 uppercase bg-gray-300 text-md">
+                <div class="p-3 mb-2 font-black text-center text-blue-700 uppercase bg-gray-300 text-md">
                     @if($message->created_at->day === now()->day)
                     {{ __('Today') }}
                     @elseif($message->created_at->day === now()->subDay(1)->day)
@@ -75,10 +77,10 @@
         </div>
         @empty
         <div class="p-4 text-blue-700">
-            <div class="flex justify-center items-center">
+            <div class="flex items-center justify-center">
                 <i style="font-size: 6rem;" class="far fa-comment-alt"></i>
             </div>
-            <div class="text-center mt-4 font-bold">
+            <div class="mt-4 font-bold text-center">
                 it's quiet in here.
             </div>
         </div>
@@ -86,7 +88,7 @@
     </div>
 
     <div id="text_box_container" :class="{ 'sticky': isSticky }"
-        class="z-40 bottom-0 p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
+        class="bottom-0 z-40 p-2 bg-gradient-to-tl from-gray-100 to-gray-300 sm:p-3">
         @if(count(config('chatbox.errors.media_messages')) === 0)
         <div wire:loading class="w-full" wire:target="photos, uploadPhotos">
             <x-loader_2 />
@@ -97,7 +99,7 @@
             @if(count(config('chatbox.errors.media_messages')) === 0)
             @php $photos_count = count($photos); @endphp
             <input x-on:change="if(event.target.files.length > 0) { large_content = true; show_images = true; }"
-            name="photos" class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple />
+                name="photos" class="hidden" x-ref="photos" accept="image/*" type="file" wire:model="photos" multiple />
             @if($photos_count === 0)
             <div class="flex items-center mr-3 text-2xl text-blue-700">
                 <i x-on:click="$refs.photos.click()" class="cursor-pointer far fa-images"></i>
@@ -106,7 +108,7 @@
             @endif
 
             <div class="flex-1 flex-shrink-0">
-                <textarea wire:ignore name="content" x-model="message" wire:model="message_to_send"
+                <textarea wire:ignore name="content" x-model="message" wire:model.lazy="message_to_send"
                     id="textarea_for_chat_box"
                     x-on:focus="if(chatBox.atBottom() && ($refs.messages.clientHeight < $refs.messages.scrollHeight)) { setTimeout(() => { chatBox.goToBottom() }, 300) }"
                     x-ref="content" x-on:focusout="chatBox.whisper('doneTyping')"
@@ -127,7 +129,7 @@
                 <button
                     class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-600 border border-transparent hover:bg-gray-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 rounded-2xl focus:shadow-outline-gray disabled:opacity-25"
                     x-on:click="resetHeight(); $refs.content.focus(); $wire.sendMessage().then(result => { if($refs.messages.clientHeight < $refs.messages.scrollHeight) { chatBox.goToBottom() } });">
-                    <i class="fas fa-paper-plane text-xl"></i>
+                    <i class="text-xl fas fa-paper-plane"></i>
                 </button>
             </div>
         </div>

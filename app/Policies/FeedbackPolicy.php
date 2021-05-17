@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Feedback;
+use App\Models\Connect\ContentFeedback\Feedback;
 use App\Models\User;
 use App\Models\Connect\Profile\Profile;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -26,7 +26,7 @@ class FeedbackPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Feedback  $feedback
+     * @param  \App\Models\Connect\ContentFeedback\Feedback  $feedback
      * @return mixed
      */
     public function view(User $user, Feedback $feedback)
@@ -49,7 +49,7 @@ class FeedbackPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Feedback  $feedback
+     * @param  \App\Models\Connect\ContentFeedback\Feedback  $feedback
      * @return mixed
      */
     public function update(User $user, Feedback $feedback, Profile $profile)
@@ -61,7 +61,7 @@ class FeedbackPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Feedback  $feedback
+     * @param  \App\Models\Connect\ContentFeedback\Feedback  $feedback
      * @return mixed
      */
     public function delete(User $user, Feedback $feedback)
@@ -73,7 +73,7 @@ class FeedbackPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Feedback  $feedback
+     * @param  \App\Models\Connect\ContentFeedback\Feedback  $feedback
      * @return mixed
      */
     public function restore(User $user, Feedback $feedback)
@@ -85,7 +85,7 @@ class FeedbackPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Feedback  $feedback
+     * @param  \App\Models\Connect\ContentFeedback\Feedback  $feedback
      * @return mixed
      */
     public function forceDelete(User $user, Feedback $feedback)

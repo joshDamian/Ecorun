@@ -60,31 +60,17 @@ class EditProfile extends Component
     {
         return  [
             'name' => [
-                'required',
-                'min:4',
-                'max:255',
-                Rule::unique('profiles', 'name')->where(
-                    function ($query) {
-                        return $query->where('profileable_type', 'App\Models\Build\Business\Business');
-                    }
-                )->ignore($this->profile)
+                'required', 'min:4', 'max:255',
+                Rule::unique('profiles', 'name')->where(function ($query) {
+                    return $query->where('profileable_type', 'App\Models\Build\Business\Business');
+                })->ignore($this->profile)
             ],
             'tag' => [
-                'required',
-                'min:4',
-                'max:30',
-                Rule::unique('profiles')->ignore($this->profile),
-                'alpha_dash',
+                'required', 'min:4', 'max:30',
+                Rule::unique('profiles')->ignore($this->profile), 'alpha_dash',
             ],
-            'description' => [
-                'required',
-                'min:4'
-            ],
-            'photo' => [
-                'nullable',
-                'image',
-                'max:6144'
-            ],
+            'description' => ['required', 'min:4'],
+            'photo' => ['nullable', 'image', 'max:6144'],
         ];
     }
 

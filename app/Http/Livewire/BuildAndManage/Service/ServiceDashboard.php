@@ -2,14 +2,15 @@
 
 namespace App\Http\Livewire\BuildAndManage\Service;
 
-use App\Models\Buy\Service\Service;
 use Livewire\Component;
 
 class ServiceDashboard extends Component
 {
-    public Service $service;
+    public $item;
     public function render()
     {
-        return view('livewire.build-and-manage.service.service-dashboard');
+        return view('livewire.build-and-manage.service.service-dashboard', [
+            'service' => $this->item->sellable
+        ]);
     }
 }

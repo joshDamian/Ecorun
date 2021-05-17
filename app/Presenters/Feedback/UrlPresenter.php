@@ -2,7 +2,7 @@
 
 namespace App\Presenters\Feedback;
 
-use App\Models\Feedback;
+use App\Models\Connect\ContentFeedback\Feedback;
 use App\Presenters\Presenter;
 
 class UrlPresenter
@@ -31,7 +31,7 @@ class UrlPresenter
             case ('App\Models\Connect\Content\Post'):
                 return '/post/' . $this->feedback->feedbackable_id . '/comment/' . $this->feedback->id;
                 break;
-            case ('App\Models\Feedback'):
+            case ('App\Models\Connect\ContentFeedback\Feedback'):
                 if ($this->feedback->parentIsFeedback())
                     return '/post/' . $this->feedback->feedbackable->feedbackable_id . '/comment/' . $this->feedback->feedbackable_id . '/replies/' . $this->feedback->id;
                 break;

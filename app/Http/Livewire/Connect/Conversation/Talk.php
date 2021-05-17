@@ -7,7 +7,7 @@ use App\Models\Connect\Conversation\Message;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Illuminate\Support\Facades\Cache;
-use App\Events\SentMessage;
+use App\Events\ConversationEvents\SentMessage;
 use Illuminate\Validation\Rule;
 use App\Http\Livewire\Traits\MultipleImageSelector;
 use App\Http\Livewire\Traits\UploadPhotos;

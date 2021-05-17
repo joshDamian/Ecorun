@@ -5,12 +5,13 @@ namespace App\Models\Connect\ContentFeedback;
 use App\Traits\HasMentionsAndTags;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Connect\Content\Post;
 use App\Presenters\Feedback\UrlPresenter;
 use App\Models\Connect\Profile\Profile;
 use Rennokki\QueryCache\Traits\QueryCacheable;
-use Illuminate\Support\Facades\Storage;
-use App\Events\CommentedOnPost;
-use App\Events\RepliedToComment;
+use App\Events\FeedbackEvents\CommentedOnPost;
+use App\Events\FeedbackEvents\RepliedToComment;
+use App\Models\Core\Media\Image;
 
 class Feedback extends Model
 {
@@ -76,23 +77,16 @@ class Feedback extends Model
                 }
             }
         });
-
-        self::deleting(function ($model) {
-            Storage::disk('public')->delete($model->gallery->pluck('image_url')->toArray());
-            $model->replies()->delete();
-            $model->likes()->delete();
-            $model->gallery()->delete();
+        self::deleted(function ($model) {
+            $model->trash();
         });
     }
 
-    public function trash(): bool
+    public function trash(): void
     {
-        Storage::disk('public')->delete($this->gallery->pluck('image_url')->toArray());
-        $this->comments()->delete();
+        $this->replies()->delete();
         $this->likes()->delete();
         $this->gallery()->delete();
-        $this->delete();
-        return true;
     }
 
     public function feedbackable()
@@ -102,25 +96,16 @@ class Feedback extends Model
 
     public function replies()
     {
-        return $this->morphMany(
-            Feedback::class,
-            'feedbackable'
-        );
+        return $this->morphMany(Feedback::class, 'feedbackable');
     }
 
     public function likes()
     {
-        return $this->morphMany(
-            'App\Models\Connect\ContentFeedback\Like',
-            'likeable'
-        );
+        return $this->morphMany(Like::class, 'likeable');
     }
 
     public function gallery()
     {
-        return $this->morphMany(
-            'App\Models\Core\Media\Image',
-            'imageable'
-        );
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

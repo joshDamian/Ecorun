@@ -16,6 +16,7 @@ class CreateNewProduct extends Component
     public $photos = [];
     public $product_created = false;
     public $product = ['_available stock' => 1];
+    public Sellable $sellable_item;
 
     public function create()
     {
@@ -26,11 +27,11 @@ class CreateNewProduct extends Component
             'price' => $this->product['_price'],
             'available_stock' => $this->product['_available stock'],
         ]);
-        Sellable::forceCreate([
+        $this->sellable_item = Sellable::forceCreate([
             'vendor_id' => $this->business->id,
             'vendor_type' => $this->business::class,
-            'item_id' => $this->product->id,
-            'item_type' => $this->product::class
+            'sellable_id' => $this->product->id,
+            'sellable_type' => $this->product::class
         ]);
         $this->uploadPhotos(photos: $this->photos, folder: 'product-photos', imageable: $this->product, label: 'product_image', sizes: array(1600, 1600));
         $this->product_created = true;

@@ -15,10 +15,11 @@ class CreateSellablesTable extends Migration
     {
         Schema::create('sellables', function (Blueprint $table) {
             $table->id();
-            $table->string('item_type');
-            $table->integer('item_id');
+            $table->string('sellable_type');
+            $table->integer('sellable_id');
             $table->string('vendor_type');
             $table->integer('vendor_id');
+            $table->boolean('is_published')->default(true);
             $table->timestamps();
         });
     }

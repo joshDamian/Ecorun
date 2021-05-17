@@ -5,7 +5,7 @@
         </x-slot>
 
         <x-slot name="description">
-            {{ __('Modify product\'s name, description, price & available quantity') }}
+            {{ __('Modify product\'s name, description, price and available quantity') }}
         </x-slot>
 
         <x-slot name="form">

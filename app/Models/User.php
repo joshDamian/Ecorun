@@ -10,6 +10,7 @@ use App\Traits\HasBadges;
 use App\Traits\HasProfile;
 use App\Models\Connect\Profile\Badge;
 use App\Models\Build\Business\Business;
+use App\Models\Information\Basic\Contact;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -111,26 +112,26 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-        static::created(
-            function ($user) {
-                $name = explode("@", $user->email)[0];
-                $user->profile()->create(
-                    [
-                        'name' => $name,
-                        'tag' => (Profile::where('tag', "auto-tag-" . $user->id)->exists()) ? null : "auto-tag-" . $user->id,
-                        'description' => "Hi, I am {$name}, I'm new here and I hope to make new friends.",
-                    ]
-                );
-                $user->switchProfile($user->profile);
-                $badge = Badge::firstWhere(function ($query) {
-                    $query->where('label', 'eco-regular')->where('canuse', 'user');
-                });
-                if (is_object($badge)) {
-                    $user->badges()->attach($badge?->id);
-                    $user->setPrimaryBadge($badge);
-                }
+        static::created(function ($user) {
+            $name = explode("@", $user->email)[0];
+            $user->profile()->create([
+                'name' => $name,
+                'tag' => (Profile::where('tag', "auto-tag-" . $user->id)->exists()) ? null : "auto-tag-" . $user->id,
+                'description' => "Hi, I am {$name}, I'm new here and I hope to make new friends.",
+            ]);
+            $user->switchProfile($user->profile);
+            $badge = Badge::firstWhere(function ($query) {
+                $query->where('label', 'eco-regular')->where('canuse', 'user');
+            });
+            if (is_object($badge)) {
+                $user->badges()->attach($badge?->id);
+                $user->setPrimaryBadge($badge);
             }
-        );
+        });
+        static::deleted(function ($model) {
+            $model->profile->delete();
+            $model->businesses()->delete();
+        });
     }
 
     public function getUrlAttribute()
@@ -146,6 +147,11 @@ class User extends Authenticatable
         $this->forceFill(['current_profile_id' => $profile->id])->save();
         $this->setRelation('currentProfile', $profile);
         return $profile->save();
+    }
+
+    public function contacts()
+    {
+        return $this->morphMany(Contact::class, 'contactable');
     }
 
     public function getUnreadMessagesCountAttribute()

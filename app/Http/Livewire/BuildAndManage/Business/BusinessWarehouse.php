@@ -3,11 +3,6 @@
 namespace App\Http\Livewire\BuildAndManage\Business;
 
 use App\Models\Build\Business\Business;
-use App\Models\Build\Sellable\Product\Product;
-use App\Models\Build\Sellable\Sellable;
-use App\Models\Buy\Service\Service;
-use App\Scopes\ProductAccessibleScope;
-use App\Scopes\ProductViewableScope;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,36 +11,35 @@ class BusinessWarehouse extends Component
     use WithPagination;
 
     public Business $business;
-    public $active_sellable;
+    public $active_item;
     protected $listeners = [
         'viewAll'
     ];
 
-    public function mount($active_sellable = null)
+    public function mount($active_item = null)
     {
-        return ($active_sellable) ?  $this->switchActiveItem($active_sellable) : true;
+        return ($active_item) ?  $this->switchActiveItem($active_item) : true;
     }
 
-    public function switchActiveProduct(Sellable $sellable)
+    public function switchActiveItem($item)
     {
-        return $this->active_sellable = $sellable;
+        $item = $this->business->warehouse()->withoutGlobalScopes()->find($item);
+        return $this->active_item = $item;
     }
 
     public function viewAll()
     {
-        $this->active_sellable = null;
+        $this->active_item = null;
     }
 
     public function render()
     {
-        $warehouse = $this->business->warehouse()->latest()->paginate(12);
+        $warehouse = $this->business->warehouse()->withoutGlobalScopes()->latest()->paginate(12);
         $components = [
-            Product::class => [
-                'model_name' => 'product',
+            'product' => [
                 'component' => 'build-and-manage.product.product-dashboard'
             ],
-            Service::class => [
-                'model_name' => 'service',
+            'service' => [
                 'component' => 'build-and-manage.service.service-dashboard'
             ]
         ];

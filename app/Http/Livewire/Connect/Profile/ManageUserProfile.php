@@ -8,7 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ManageUserProfile extends Component
 {
-    public function render(Request $request) {
+    protected $listeners = [
+        'contactsModified' => '$refresh'
+    ];
+
+    public function render(Request $request)
+    {
         return view('livewire.connect.profile.manage-user-profile', [
             'request' => $request,
             'user' => Auth::user()

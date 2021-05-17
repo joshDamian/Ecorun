@@ -3,7 +3,7 @@
 namespace App\DataBanks\Post;
 
 use App\DataBanks\DataBank;
-use App\Models\Feedback;
+use App\Models\Connect\ContentFeedback\Feedback;
 use App\Models\Connect\Content\Post;
 use App\Models\Connect\Profile\Profile;
 

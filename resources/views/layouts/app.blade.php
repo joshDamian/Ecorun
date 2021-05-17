@@ -120,7 +120,7 @@
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
-<body class="font-sans leading-relaxed tracking-normal bg-gray-200 bg-opacity-75">
+<body class="font-sans leading-relaxed tracking-normal bg-gray-300">
     @env('production')
     <div id="internet_wiper" class="fixed top-0 z-50 flex items-center justify-center w-full h-screen bg-white">
         <img style="w-full" src="/icon/internet_wiper.gif" />

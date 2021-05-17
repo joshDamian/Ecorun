@@ -38,6 +38,19 @@
                 @livewire('connect.badge.manage-badges', ['badgable' => $user, 'credit' => $user->profile])
             </div>
         </div>
+        @if($user->fresh()->contacts->fresh()->count() > 0)
+        <x-jet-section-border />
+        <div class="mt-6 sm:mt-0">
+            @livewire('connect.contact.manage-contacts', ['contacts' => $user->fresh()->contacts()])
+        </div>
+        @endif
+
+        @can('create', [\App\Models\Information\Basic\Contact::class, $user])
+        <x-jet-section-border />
+        <div class="mt-6 sm:mt-0">
+            @livewire('connect.contact.add-contact', ['contactable' => $user])
+        </div>
+        @endcan
 
         <x-jet-section-border />
         <div class="mt-6 sm:mt-0">

@@ -18,6 +18,6 @@ class UrlPresenter
 
     public function show(): string
     {
-        return "";
+        return route('service.show', ['service' => $this->service, 'slug' => $this->service->data_slug('name')]);
     }
 }

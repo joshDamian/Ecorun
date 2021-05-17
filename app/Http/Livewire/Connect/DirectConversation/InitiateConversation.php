@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\Connect\Profile\Profile;
 use App\Models\Connect\Conversation\DirectConversation;
 use App\Models\Connect\Conversation\Message;
-use App\Events\SentMessage;
+use App\Events\ConversationEvents\SentMessage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\App;
 use App\Queues\UploadPhotos as UploadPhototsQueue;

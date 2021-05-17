@@ -1,21 +1,21 @@
 <div>
-    <div style="width: 100%;" wire:target="photos,create,resetData" wire:loading>
+    <div class="w-full mb-2" wire:target="photos,create,resetData" wire:loading>
         <x-loader_2 />
     </div>
 
     @if($product_created)
     <div class="flex justify-end px-4 pb-4 text-right md:px-0">
-        <x-jet-secondary-button class="mr-3" wire:click="resetData">
+        <x-jet-secondary-button class="mr-3 bg-white" wire:click="resetData">
             {{ __('Add Another') }}
         </x-jet-secondary-button>
 
         <a href="{{ $this->business->url->warehouse }}">
-            <x-jet-button class="bg-blue-800">
+            <x-jet-button>
                 done
             </x-jet-button>
         </a>
     </div>
-    @livewire('build-and-manage.product.product-dashboard', ['product' => $product],
+    @livewire('build-and-manage.product.product-dashboard', ['item' => $sellable_item],
     key(md5("product_dashboard__for_{$product->id}")))
 
     @else

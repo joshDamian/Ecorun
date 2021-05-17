@@ -14,7 +14,7 @@
             </x-jet-button>
         </a>
     </div>
-    @livewire('build-and-manage.service.service-dashboard', ['service' => $service],
+    @livewire('build-and-manage.service.service-dashboard', ['item' => $sellable_item],
     key(md5("service_dashboard__for_{$service->id}")))
 
     @else
@@ -35,7 +35,7 @@
                     x-on:livewire-upload-progress="progress = $event.detail.progress"
                     class="col-span-12 md:col-span-8 sm:col-span-6">
 
-                    <!-- Product Photos File Input -->
+                    <!-- Service Photos File Input -->
                     <input type="file" class="hidden" accept="image/*" wire:model="photos" multiple x-ref="photos" />
 
                     <x-jet-label for="photos" value="{{ __('Add photos that describe your service') }}" />
@@ -91,8 +91,6 @@
                         <x-jet-input id="price" type="number" class="relative block w-full mt-1"
                             placeholder="service price" wire:model.defer="service.price" autocomplete="price" />
                         <x-jet-input-error for="service.price" class="mt-2" />
-                    </div>
-                    <div x-show="pricing_options['quotation']" class="mt-4">
                     </div>
                 </div>
 

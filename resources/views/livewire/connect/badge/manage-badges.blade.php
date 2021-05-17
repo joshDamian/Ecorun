@@ -6,7 +6,7 @@
     show_create_form = false;
     })
     }">
-    <div class="px-4 py-3 border border-gray-200 md:py-6 md:px-6">
+    <div class="px-4 py-3 md:py-6 md:px-6">
         <div class="px-3 py-2 mb-2 font-semibold text-gray-700 uppercase bg-gray-200 text-md">
             Manage badges
         </div>

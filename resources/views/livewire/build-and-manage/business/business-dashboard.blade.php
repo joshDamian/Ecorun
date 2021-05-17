@@ -7,7 +7,7 @@
 @endpush
 <div>
     <div class="sticky mb-2 overflow-y-auto bg-gray-200 border-b border-gray-300 top-11">
-        <h3 class="sticky left-0 flex-shrink-0 p-2 font-bold text-blue-700 truncate text-md md:text-lg">
+        <h3 class="sticky left-0 flex-shrink-0 p-4 font-bold text-blue-700 truncate text-md md:text-lg">
             <a class="underline" href="{{ route('manager.dashboard') }}">
                 <i class="fas fa-store"></i>&nbsp; Businesses
             </a> &nbsp; <i class="fas fa-chevron-right"></i>&nbsp;
@@ -26,14 +26,14 @@
         </div>
     </div>
 
-    <div wire:loading class="w-full">
+    <div wire:loading class="w-full mb-2">
         <x-loader_2 />
     </div>
 
-    <div class="py-4 md:py-0 md:px-4 md:pb-4">
+    <div class="py-4 md:pt-2 md:px-4 md:pb-4">
         @switch($active_action['title'])
         @case('sell')
-        <div class="md:mt-4">
+        <div class="">
             @livewire('build-and-manage.business.sell.sell', ['business' => $business, 'sellType' =>
             $action_route_resource])
         </div>

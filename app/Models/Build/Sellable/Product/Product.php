@@ -3,20 +3,17 @@
 namespace App\Models\Build\Sellable\Product;
 
 use App\Traits\StringManipulations;
-use App\Models\Core\DataSorting\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 use App\Events\ProductEvents\ProductCreated;
-use App\Models\Build\Sellable\Sellable;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use App\Presenters\Product\UrlPresenter;
-use App\Scopes\ProductAccessibleScope;
-use App\Scopes\ProductViewableScope;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use App\Traits\IsSellable;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\Tags\HasTags;
+use App\Models\Core\DataSorting\Tag;
 
 class Product extends Model
 {
@@ -25,6 +22,7 @@ class Product extends Model
         StringManipulations,
         QueryCacheable,
         HasFactory,
+        IsSellable,
         HasTags;
 
     protected $casts = ['is_published' => 'boolean'];
@@ -51,43 +49,22 @@ class Product extends Model
                 report($th);
             }
         });
+        self::forceDeleted(function ($model) {
+            $model->trash();
+        });
     }
 
-    public function shouldBeSearchable()
+    public function trash()
     {
-        return $this->is_published === true;
-    }
-
-    public static function getTagClassName(): string
-    {
-        return Tag::class;
-    }
-
-    public function likes()
-    {
-        return $this->morphMany(Like::class, 'likeable');
-    }
-
-    public function shares()
-    {
-        return $this->morphMany(Share::class, 'shareable');
-    }
-
-    public function tags(): MorphToMany
-    {
-        return $this
-            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
-            ->orderBy('order_column');
+        $this->gallery()->delete();
+        $this->likes()->delete();
+        $this->shares()->delete();
+        $this->specifications()->delete();
     }
 
     public function category()
     {
         return $this->belongsTo(Category::class);
-    }
-
-    public function gallery()
-    {
-        return $this->morphMany('App\Models\Core\Media\Image', 'imageable');
     }
 
     public function specifications()
@@ -115,11 +92,6 @@ class Product extends Model
     public function displayImage()
     {
         return $this->gallery()->first()->image_url;
-    }
-
-    public function price($quantity = null)
-    {
-        return "<span>&#8358; </span>" . number_format(($quantity) ? $this->price * $quantity : $this->price, 2);
     }
 
     public function slugData()
@@ -161,24 +133,25 @@ class Product extends Model
         ];
     }
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
+    public function shouldBeSearchable()
     {
-        static::addGlobalScope(new ProductAccessibleScope);
-        static::addGlobalScope(new ProductViewableScope);
+        return $this->is_published === true;
+    }
+
+    public static function getTagClassName(): string
+    {
+        return Tag::class;
+    }
+
+    public function tags(): MorphToMany
+    {
+        return $this
+            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
+            ->orderBy('order_column');
     }
 
     public function getUrlAttribute()
     {
         return (new UrlPresenter($this));
-    }
-
-    public function sellable()
-    {
-        return $this->morphOne(Sellable::class, 'item');
     }
 }

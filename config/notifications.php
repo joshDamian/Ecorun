@@ -24,17 +24,17 @@ return [
             'display-card' => 'content-shared-display'
         ],
         App\Notifications\CommentedOnPostNotification::class => [
-            'model' => App\Models\Feedback::class,
+            'model' => App\Models\Connect\ContentFeedback\Feedback::class,
             'with' => ['profile', 'feedbackable.profile'],
             'display-card' => 'commented-on-post'
         ],
         App\Notifications\MentionedInComment::class => [
-            'model' => App\Models\Feedback::class,
+            'model' => App\Models\Connect\ContentFeedback\Feedback::class,
             'with' => ['profile', 'feedbackable.profile'],
             'display-card' => 'mentioned-in-comment'
         ],
         App\Notifications\RepliedToComment::class => [
-            'model' => App\Models\Feedback::class,
+            'model' => App\Models\Connect\ContentFeedback\Feedback::class,
             'with' => ['profile', 'feedbackable.profile'],
             'display-card' => 'replied-to-comment'
         ],

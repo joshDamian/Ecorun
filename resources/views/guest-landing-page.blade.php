@@ -34,7 +34,7 @@
     </nav>
 
     <main>
-        <div class="bg-gray-100">
+        <div class="bg-gray-200">
             <div class="grid grid-cols-1 sm:p-3 md:p-10 md:grid-cols-2">
                 <div class="">
                     <h3 class="px-3 py-2 text-xl font-semibold text-gray-800 sm:text-3xl sm:px-0 sm:pb-3 sm:py-0">
@@ -45,7 +45,7 @@
                         Ecorun naturally blends social interaction with doing business.
                     </h3>
                 </div>
-                <div class="flex items-center justify-center p-4 bg-gray-100 bg-opacity-75">
+                <div class="flex items-center justify-center p-4">
                     <h4 class="text-5xl font-bold text-blue-800 animate-pulse sm:text-5xl md:text-6xl">
                         Ecorun
                     </h4>
@@ -65,7 +65,7 @@
         </div>
         @endif
 
-        <div class="grid grid-cols-1 gap-3 bg-gray-100 sm:grid-cols-2 md:grid-cols-3 sm:p-3 sm:gap-3 md:gap-9 md:p-9">
+        <div class="grid grid-cols-1 gap-3 bg-gray-200 sm:grid-cols-2 md:grid-cols-3 sm:p-3 sm:gap-3 md:gap-9 md:p-9">
             <div class="bg-white sm:bg-transparent">
                 <div class="flex items-center justify-center p-2">
                     <span class="fa-stack fa-3x">

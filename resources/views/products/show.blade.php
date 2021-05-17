@@ -1,12 +1,18 @@
 <x-business-layout>
+    @section('shop_breadcrumb')
+    <i class="flex-shrink-0 mx-2 text-gray-600 fas fa-chevron-right"></i>
+    <a href="{{ route('shop.products') }}" class="flex-shrink-0 cursor-pointer hover:underline">Products</a>
+    <i class="flex-shrink-0 mx-2 text-gray-600 fas fa-chevron-right"></i>
+    <a href="{{ $product->url->show }}" class="flex-shrink-0 cursor-pointer hover:underline">{{ $product->name }}</a>
+    @endsection
     <div>
         @can('view', $product)
         <x-buy.market-place />
         <div x-data="product_data()" x-init="init_product()" class="md:mt-3">
             <div class="flex flex-col md:flex-row">
                 <div class="flex flex-col flex-1 md:flex-row">
-                    <!-- Product Image Gallery -->
-                    <div class="order-2 sm:order-2 md:order-1">
+                    <!-- Product Gallery -->
+                    <div class="flex-shrink-0 order-2 sm:order-2 md:order-1">
                         <div class="flex flex-row p-3 overflow-x-auto md:p-0 md:mr-2 md:flex-col">
                             @foreach($product->gallery as $image)
                             <div x-on:click="activeImage = '{{ $image->image_url }}'"
@@ -18,14 +24,14 @@
                         </div>
                     </div>
                     <!-- Active Image -->
-                    <div class="flex-1 order-1 md:order-2">
+                    <div class="flex-1 flex-shrink-0 order-1 md:order-2">
                         <div class="flex items-center justify-center justify-items-center">
                             <img class="w-full h-full md:rounded-md md:shadow-lg" :src="'/storage/' + activeImage" />
                         </div>
                     </div>
                 </div>
                 <!-- Product Data -->
-                <div class="order-3 sm:py-1 md:py-0 sm:pr-1 sm:order-3">
+                <div class="flex-shrink-0 order-3 sm:py-1 md:py-0 sm:pr-1 sm:order-3">
                     <div class="grid grid-cols-1 gap-2 p-3 bg-white sm:p-3 md:mx-2 md:shadow-lg md:rounded-md md:p-3">
                         <div>
                             <!-- Name -->
@@ -41,27 +47,37 @@
                             <div class="py-3 md:py-6">
                                 @auth
                                 <div class="mb-4">
-                                    @livewire('connect.product.bookmark-product', ['product' => $product],
-                                    key("product_bookmark_{$product->id}"))
+                                    @livewire('connect.sellable.bookmark-sellable', ['sellable' => $product],
+                                    key("sellable_bookmark_{$product->id}"))
                                 </div>
                                 @endauth
                                 <div
                                     class="flex justify-between px-3 py-2 mt-3 text-lg font-extrabold text-blue-700 uppercase bg-gray-100 md:text-xl">
-                                    <span>&#8358; Buy</span>
+                                    <span>Buy</span>
                                     <span>
                                         <i class="fas fa-angle-double-down"></i>
                                     </span>
                                 </div>
-                                <div x-show="show_buy_options" class="flex justify-between mt-4">
-                                    <div class="mr-4">
-                                        <x-jet-button type="button" class="bg-blue-600 rounded-md text-md">
-                                            direct purchase
+                                <div class="flex justify-between mt-4">
+                                    <div class="flex-shrink-0 mr-4">
+                                        <x-jet-button x-on:click="call_vendor = !call_vendor"
+                                            class="bg-blue-600 rounded-md text-md">
+                                            call <span class="ml-2 truncate">{{ $vendor_profile->name }}</span> <i
+                                                class="ml-2 fas fa-phone"></i>
                                         </x-jet-button>
+                                        <div x-show="call_vendor" class="grid grid-cols-1 gap-1 p-2 mt-3 bg-gray-200">
+                                            @forelse ($vendor->contacts as $contact)
+                                            <div class="text-lg font-semibold text-blue-700 underline">
+                                                <a href="tel:+234{{ $contact->phone }}">+234{{ $contact->phone }}</a>
+                                            </div>
+                                            @empty
+                                            <div class="">no contacts to display</div>
+                                            @endforelse
+                                        </div>
                                     </div>
                                     <div>
-                                        <x-jet-button type="button" class="bg-green-500 rounded-md text-md">
-                                            <i class="fas fa-exchange-alt"></i> &nbsp; eco-transact
-                                        </x-jet-button>
+                                        @livewire('buy.eco-transact.product.initiate-transaction', ['product' =>
+                                        $product, 'vendor' => $vendor])
                                     </div>
                                 </div>
                             </div>
@@ -137,8 +153,8 @@
             return {
                 activeImage: null,
                 show_description: null,
-                show_buy_options: true,
                 show_specs: null,
+                call_vendor: false,
                 init_product() {
                     this.activeImage = '{{ $product->gallery->first()->image_url }}';
                 }

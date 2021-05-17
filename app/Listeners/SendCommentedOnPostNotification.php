@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\CommentedOnPost;
+use App\Events\FeedbackEvents\CommentedOnPost;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Notifications\CommentedOnPostNotification;

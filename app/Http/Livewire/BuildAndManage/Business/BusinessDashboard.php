@@ -33,13 +33,13 @@ class BusinessDashboard extends Component
         $this->business = $this->profile->loadMissing('profileable')->profileable;
         $this->action_route = (array_key_exists($action_route, $this->actions)) ? $action_route : 'warehouse';
         $this->action_route_resource = (($this->action_route === 'warehouse') || ($this->action_route === 'sell')) ? $action_route_resource : null;
-        $this->switchView($this->action_route);
-        return;
+        $this->active_action = $this->actions[$this->action_route];
     }
 
     public function switchView(string $key)
     {
         $this->action_route = $key;
+        $this->action_route_resource = null;
         $this->active_action = $this->actions[$key];
     }
 
