@@ -126,8 +126,6 @@
         <img style="w-full" src="/icon/internet_wiper.gif" />
     </div>
     @endenv
-
-    @livewire('buy.cart.add-to-cart', key(md5('add_a_product_to_cart')))
     {{$slot}}
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"></script>
 
